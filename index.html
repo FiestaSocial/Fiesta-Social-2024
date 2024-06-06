@@ -145,7 +145,7 @@
                 <input type="text" id="lastName" name="lastName" required>
 
                 <label for="id">Cédula:</label>
-                <input type="text" id="id" name="id" placeholder="1.1111.1111-1" required>
+                <input type="number" id="id" name="id" required>
 
                 <label for="accompany">¿Va solo o con acompañante?</label>
                 <select id="accompany" name="accompany" required>
@@ -263,9 +263,8 @@
 
         function validateForm() {
             const idField = document.getElementById('id');
-            const idPattern = /^\d{1}\.\d{4}\.\d{4}-\d{1}$/;
-            if (!idPattern.test(idField.value)) {
-                alert('La Cédula de Identidad no tiene el formato correcto.');
+            if (isNaN(idField.value) || idField.value === "") {
+                alert('La Cédula de Identidad debe ser un número.');
                 idField.focus();
                 return false;
             }
