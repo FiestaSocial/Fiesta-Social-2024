@@ -100,7 +100,7 @@
         .seat.occupied {
             fill: #f44336;
         }
-        
+
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
@@ -296,7 +296,7 @@
 
         async function sendDataToServer(data) {
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbyBnFO8gl44nZKRyJTqy3cm_XrevWjfc2q1hkpbGTUHsjQ-vsOQNmM784I3Yef4muaA/exec', { // Reemplaza con tu URL
+                const response = await fetch('https://script.google.com/macros/s/AKfycbyBnFO8gl44nZKRyJTqy3cm_XrevWjfc2q1hkpbGTUHsjQ-vsOQNmM784I3Yef4muaA/exec', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -353,7 +353,7 @@
             } else if (currentScreen === 2) {
                 screen2.classList.add('hidden');
                 screen3.classList.remove('hidden');
-            }else if(currentScreen===0){
+            } else if (currentScreen === 0) {
                 screen0.classList.add('hidden');
                 screen1.classList.remove('hidden');
             }
@@ -407,4 +407,33 @@
             const totalSeats = numAccompanists + 1;
 
             const accompDetails = [];
-            for (let i = 
+            for (let i = 1; i <= numAccompanists; i++) {
+                const accompFirstName = document.getElementById(`accompFirstName${i}`).value;
+                const accompMenu = document.getElementById(`accompMenu${i}`).value;
+                accompDetails.push({
+                    firstName: accompFirstName,
+                    menu: accompMenu
+                });
+            }
+
+            const data = {
+                degree,
+                escalafon,
+                firstName,
+                lastName,
+                id,
+                accompany,
+                numAccompanists,
+                table,
+                menu,
+                accompDetails
+            };
+
+            sendDataToServer(data);
+        });
+
+        populateTableOptions();
+    </script>
+</body>
+
+</html>
