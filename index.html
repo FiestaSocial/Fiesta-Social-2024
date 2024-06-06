@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,14 @@
             margin: 0;
             padding: 20px;
         }
+
         header {
             text-align: center;
             padding: 15px;
             background-color: #0097a7;
             color: #fff;
         }
+
         form {
             background-color: #ffffff;
             padding: 20px;
@@ -27,20 +30,26 @@
             max-width: 600px;
             margin: auto;
         }
+
         h2 {
             color: #004d40;
         }
+
         label {
             display: block;
             margin: 10px 0 5px;
         }
-        input, select, textarea {
+
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             margin: 5px 0 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         button {
             background-color: #00796b;
             color: #fff;
@@ -48,18 +57,24 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
+            width: 48%;
             margin-top: 10px;
+            display: inline-block;
         }
+
         button:hover {
             background-color: #004d40;
         }
+
         .hidden {
             display: none;
         }
+
         .container {
             padding-bottom: 60px;
+            /* space for the footer */
         }
+
         .guest-list {
             background-color: #e0f7fa;
             padding: 10px;
@@ -68,36 +83,42 @@
             margin-top: 10px;
             display: none;
         }
+
         .svg-container {
             float: right;
             margin-top: 100px;
         }
+
         .svg-table {
             margin-top: 20px;
         }
+
         .seat {
             fill: #4caf50;
             cursor: pointer;
         }
+
         .seat.occupied {
             fill: #f44336;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Fiesta Social 2024</h1>
     </header>
     <div class="container">
-        <form id="fiestaForm">
+        <form id="fiestaForm" onsubmit="return validateForm()">
             <div id="screen0">
-                <h2>Bienvenidos al Asistente Virtual de la Fiesta Social 2024</h2>              
+                <h2>Bienvenidos al Asistente Virtual de la Fiesta Social 2024</h2>
                 <button type="button" onclick="goToNextScreen(0)">Iniciar</button>
             </div>
+            <!-- Pantalla 1: Datos del Invitado Principal -->
             <div id="screen1" class='hidden'>
                 <h2>Confirmar Asistencia</h2>
                 <label for="degree">Grado:</label>
-                <select id="grade" name="grade" required>
+                <select id="degree" name="degree" required>
                     <option value="" disabled selected>Seleccione Grado</option>
                     <option value="alf">Alférez</option>
                     <option value="tte2">Teniente 2°</option>
@@ -107,14 +128,14 @@
                     <option value="ttecnel">Teniente Coronel</option>
                     <option value="cnel">Coronel</option>
                 </select>
-                
-                <label for="degree">Escalafón:</label>
+
+                <label for="escalafon">Escalafón:</label>
                 <select id="escalafon" name="escalafon" required>
                     <option value="" disabled selected>Seleccione Escalafón</option>
-                    <option value="alf">Aviador</option>
-                    <option value="tte2">Navegante</option>
-                    <option value="tte1">Especialista</option>
-                    <option value="cap">Técnico Profesional</option>
+                    <option value="aviador">Aviador</option>
+                    <option value="navegante">Navegante</option>
+                    <option value="especialista">Especialista</option>
+                    <option value="tecprofesional">Técnico Profesional</option>
                 </select>
 
                 <label for="firstName">Nombre:</label>
@@ -124,7 +145,7 @@
                 <input type="text" id="lastName" name="lastName" required>
 
                 <label for="id">Cédula:</label>
-                <input type="text" id="id" name="id" pattern="\d{1}\.\d{4}\.\d{4}-\d{1}" placeholder="1.1111.1111-1" required>
+                <input type="text" id="id" name="id" placeholder="1.1111.1111-1" required>
 
                 <label for="accompany">¿Va solo o con acompañante?</label>
                 <select id="accompany" name="accompany" required>
@@ -135,7 +156,7 @@
 
                 <div id="accompaniedDetails" style="display: none;">
                     <label for="numAccompanists">Número de acompañantes:</label>
-                    <input type="number" id="numAccompanists" name="numAccompanists" min="1" max="9" required>
+                    <input type="number" id="numAccompanists" name="numAccompanists" min="1" max="9">
                 </div>
 
                 <label for="menu">Elegir Menú:</label>
@@ -147,22 +168,33 @@
                     <option value="Vegano">Vegano</option>
                 </select>
 
-                <button type="button" onclick="goToNextScreen(1)">Siguiente</button>
+                <div style="text-align: center;">
+                    <button type="button" onclick="goToPreviousScreen(1)">Anterior</button>
+                    <button type="button" onclick="goToNextScreen(1)">Siguiente</button>
+                </div>
             </div>
+
+            <!-- Pantalla 2: Datos de los Acompañantes -->
             <div id="screen2" class="hidden">
                 <h2>Datos de los Acompañantes</h2>
                 <div id="accompanistsDetailsContainer"></div>
-                <button type="button" onclick="goToPreviousScreen(2)">Anterior</button>
-                <button type="button" onclick="goToNextScreen(2)">Siguiente</button>
+                <div style="text-align: center;">
+                    <button type="button" onclick="goToPreviousScreen(2)">Anterior</button>
+                    <button type="button" onclick="goToNextScreen(2)">Siguiente</button>
+                </div>
             </div>
+
+            <!-- Pantalla 3: Selección de la Mesa -->
             <div id="screen3" class="hidden">
                 <h2>Elegir Mesa</h2>
                 <label for="table">Elegir Mesa:</label>
                 <select id="table" name="table" required>
                     <option value="">Selecciona tu mesa</option>
                 </select>
-                <button type="button" onclick="goToPreviousScreen(3)">Anterior</button>
-                <button type="submit">Enviar</button>
+                <div style="text-align: center;">
+                    <button type="button" onclick="goToPreviousScreen(3)">Anterior</button>
+                    <button type="submit">Enviar</button>
+                </div>
             </div>
         </form>
         <div class="svg-container">
@@ -209,53 +241,56 @@
                     });
                     guestList.appendChild(ul);
                 }
-                drawTable(selectedTable);
             } else {
                 guestList.style.display = 'none';
-                clearTable();
             }
         }
 
-        function drawTable(table) {
-            const svg = document.getElementById('tableSvg');
-            svg.innerHTML = '';
+        function goToNextScreen(currentScreen) {
+            document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+            document.getElementById(`screen${currentScreen + 1}`).classList.remove('hidden');
+        }
 
-            const centerX = svg.clientWidth / 2;
-            const centerY = svg.clientHeight / 2;
-            const radius = 80;
-            const seatRadius = 10;
-            const seats = 10;
-            const angleStep = (2 * Math.PI) / seats;
+        function goToPreviousScreen(currentScreen) {
+            document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+            document.getElementById(`screen${currentScreen - 1}`).classList.remove('hidden');
+        }
 
-            const tableCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            tableCircle.setAttribute('cx', centerX);
-            tableCircle.setAttribute('cy', centerY);
-            tableCircle.setAttribute('r', radius / 2);
-            tableCircle.setAttribute('fill', '#00796b');
-            svg.appendChild(tableCircle);
+        document.getElementById('accompany').addEventListener('change', function () {
+            const accompaniedDetails = document.getElementById('accompaniedDetails');
+            accompaniedDetails.style.display = this.value === 'accompanied' ? 'block' : 'none';
+        });
 
-            for (let i = 0; i < seats; i++) {
-                const angle = i * angleStep;
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
+        function validateForm() {
+            const idField = document.getElementById('id');
+            const idPattern = /^\d{1}\.\d{4}\.\d{4}-\d{1}$/;
+            if (!idPattern.test(idField.value)) {
+                alert('La Cédula de Identidad no tiene el formato correcto.');
+                idField.focus();
+                return false;
+            }
+            sendDataToServer(collectFormData());
+            return false;
+        }
 
-                const seat = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                seat.setAttribute('cx', x);
-                seat.setAttribute('cy', y);
-                seat.setAttribute('r', seatRadius);
-                seat.setAttribute('class', 'seat');
+        function collectFormData() {
+            const formData = new FormData(document.getElementById('fiestaForm'));
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-                if (tables[table][i]) {
-                    seat.classList.add('occupied');
+            const numAccompanists = parseInt(data.numAccompanists, 10) || 0;
+            if (numAccompanists > 0) {
+                data.accompDetails = [];
+                for (let i = 0; i < numAccompanists; i++) {
+                    data.accompDetails.push({
+                        firstName: formData.get(`accompFirstName${i + 1}`),
+                        lastName: formData.get(`accompLastName${i + 1}`)
+                    });
                 }
-
-                svg.appendChild(seat);
             }
-        }
-
-        function clearTable() {
-            const svg = document.getElementById('tableSvg');
-            svg.innerHTML = '';
+            return data;
         }
 
         async function sendDataToServer(data) {
@@ -280,116 +315,8 @@
             }
         }
 
-        function goToNextScreen(currentScreen) {
-            const screen0 = document.getElementById('screen0');
-            const screen1 = document.getElementById('screen1');
-            const screen2 = document.getElementById('screen2');
-            const screen3 = document.getElementById('screen3');
-
-            if (currentScreen === 1) {
-                const accompany = document.getElementById('accompany').value;
-                if (accompany === 'accompanied') {
-                    const numAccompanists = parseInt(document.getElementById('numAccompanists').value, 10);
-                    const container = document.getElementById('accompanistsDetailsContainer');
-                    container.innerHTML = '';
-                    for (let i = 1; i <= numAccompanists; i++) {
-                        const html = `
-                            <h3>Acompañante ${i}</h3>
-                            <label for="accompFirstName${i}">Nombre:</label>
-                            <input type="text" id="accompFirstName${i}" name="accompFirstName${i}" required>
-                            <label for="accompMenu${i}">Elegir Menú:</label>
-                            <select id="accompMenu${i}" name="accompMenu${i}" required>
-                                <option value="">Selecciona tu menú</option>
-                                <option value="Normal">Normal</option>
-                                <option value="Celiaco">Celíaco</option>
-                                <option value="Vegetariano">Vegetariano</option>
-                                <option value="Vegano">Vegano</option>
-                            </select>
-                        `;
-                        container.insertAdjacentHTML('beforeend', html);
-                    }
-                    screen1.classList.add('hidden');
-                    screen2.classList.remove('hidden');
-                } else {
-                    screen1.classList.add('hidden');
-                    screen3.classList.remove('hidden');
-                }
-            } else if (currentScreen === 2) {
-                screen2.classList.add('hidden');
-                screen3.classList.remove('hidden');
-            }else if(currentScreen===0){
-                screen0.classList.add('hidden');
-                screen1.classList.remove('hidden');
-            }
-        }
-
-        function goToPreviousScreen(currentScreen) {
-            const screen0 = document.getElementById('screen0');
-            const screen1 = document.getElementById('screen1');
-            const screen2 = document.getElementById('screen2');
-            const screen3 = document.getElementById('screen3');
-
-            if (currentScreen === 2) {
-                screen2.classList.add('hidden');
-                screen1.classList.remove('hidden');
-            } else if (currentScreen === 3) {
-                const accompany = document.getElementById('accompany').value;
-                if (accompany === 'accompanied') {
-                    screen3.classList.add('hidden');
-                    screen2.classList.remove('hidden');
-                } else {
-                    screen3.classList.add('hidden');
-                    screen1.classList.remove('hidden');
-                }
-            }
-        }
-
-        document.getElementById('accompany').addEventListener('change', function () {
-            const accompaniedDetails = document.getElementById('accompaniedDetails');
-            if (this.value === 'accompanied') {
-                accompaniedDetails.style.display = 'block';
-            } else {
-                accompaniedDetails.style.display = 'none';
-                document.getElementById('numAccompanists').value = '';
-            }
-        });
-
-        document.getElementById('fiestaForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const degree = document.getElementById('degree').value;
-            const escalafon = document.getElementById('escalafon').value;
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const id = document.getElementById('id').value;
-            const accompany = document.getElementById('accompany').value;
-            const numAccompanists = accompany === 'accompanied' ? parseInt(document.getElementById('numAccompanists').value, 10) : 0;
-            const table = document.getElementById('table').value;
-            const menu = document.getElementById('menu').value;
-
-            const totalSeats = numAccompanists + 1;
-
-            const accompDetails = [];
-            for (let i = 1; i <= numAccompanists; i++) {
-                const accompFirstName = document.getElementById(`accompFirstName${i}`).value;
-                const accompMenu = document.getElementById(`accompMenu${i}`).value;
-                accompDetails.push({ name: accompFirstName, menu: accompMenu });
-            }
-
-            if (tables[table].length + totalSeats <= 10) {
-                tables[table].push(`${firstName} ${lastName}`);
-                accompDetails.forEach(accomp => {
-                    tables[table].push(accomp.name);
-                });
-                sendDataToServer({ degree, escalafon, firstName, lastName, id, accompany, numAccompanists, table, menu, accompDetails });
-                updateGuestList();
-            } else {
-                alert('Esta mesa ya está llena. Por favor, elige otra mesa.');
-            }
-        });
-
-        document.getElementById('table').addEventListener('change', updateGuestList);
-
         populateTableOptions();
     </script>
 </body>
+
 </html>
