@@ -306,4 +306,105 @@
                 if (response.ok) {
                     alert('Datos enviados exitosamente.');
                 } else {
-                    const errorText
+                    const errorText = await response.text();
+                    console.error('Error:', errorText);
+                    alert('Hubo un problema al enviar los datos.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Hubo un problema al enviar los datos.');
+            }
+        }
+
+        function goToNextScreen(currentScreen) {
+            const screen0 = document.getElementById('screen0');
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            const screen3 = document.getElementById('screen3');
+
+            if (currentScreen === 1) {
+                const accompany = document.getElementById('accompany').value;
+                if (accompany === 'accompanied') {
+                    const numAccompanists = parseInt(document.getElementById('numAccompanists').value, 10);
+                    const container = document.getElementById('accompanistsDetailsContainer');
+                    container.innerHTML = '';
+                    for (let i = 1; i <= numAccompanists; i++) {
+                        const html = `
+                            <h3>Acompañante ${i}</h3>
+                            <label for="accompFirstName${i}">Nombre:</label>
+                            <input type="text" id="accompFirstName${i}" name="accompFirstName${i}" required>
+                            <label for="accompMenu${i}">Elegir Menú:</label>
+                            <select id="accompMenu${i}" name="accompMenu${i}" required>
+                                <option value="">Selecciona tu menú</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Celiaco">Celíaco</option>
+                                <option value="Vegetariano">Vegetariano</option>
+                                <option value="Vegano">Vegano</option>
+                            </select>
+                        `;
+                        container.insertAdjacentHTML('beforeend', html);
+                    }
+                    screen1.classList.add('hidden');
+                    screen2.classList.remove('hidden');
+                } else {
+                    screen1.classList.add('hidden');
+                    screen3.classList.remove('hidden');
+                }
+            } else if (currentScreen === 2) {
+                screen2.classList.add('hidden');
+                screen3.classList.remove('hidden');
+            }else if(currentScreen===0){
+                screen0.classList.add('hidden');
+                screen1.classList.remove('hidden');
+            }
+        }
+
+        function goToPreviousScreen(currentScreen) {
+            const screen0 = document.getElementById('screen0');
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            const screen3 = document.getElementById('screen3');
+
+            if (currentScreen === 2) {
+                screen2.classList.add('hidden');
+                screen1.classList.remove('hidden');
+            } else if (currentScreen === 3) {
+                const accompany = document.getElementById('accompany').value;
+                if (accompany === 'accompanied') {
+                    screen3.classList.add('hidden');
+                    screen2.classList.remove('hidden');
+                } else {
+                    screen3.classList.add('hidden');
+                    screen1.classList.remove('hidden');
+                }
+            }
+        }
+
+        document.getElementById('accompany').addEventListener('change', function () {
+            const accompaniedDetails = document.getElementById('accompaniedDetails');
+            if (this.value === 'accompanied') {
+                accompaniedDetails.style.display = 'block';
+                document.getElementById('numAccompanists').setAttribute('required', 'required');
+            } else {
+                accompaniedDetails.style.display = 'none';
+                document.getElementById('numAccompanists').removeAttribute('required');
+                document.getElementById('numAccompanists').value = '';
+            }
+        });
+
+        document.getElementById('fiestaForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const degree = document.getElementById('degree').value;
+            const escalafon = document.getElementById('escalafon').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const id = document.getElementById('id').value;
+            const accompany = document.getElementById('accompany').value;
+            const numAccompanists = accompany === 'accompanied' ? parseInt(document.getElementById('numAccompanists').value, 10) : 0;
+            const table = document.getElementById('table').value;
+            const menu = document.getElementById('menu').value;
+
+            const totalSeats = numAccompanists + 1;
+
+            const accompDetails = [];
+            for (let i = 
