@@ -96,7 +96,7 @@
             </div>
             <div id="screen1" class='hidden'>
                 <h2>Confirmar Asistencia</h2>
-                <label for="degree">Grado:</label>
+                <label for="grade">Grado:</label>
                 <select id="grade" name="grade" required>
                     <option value="" disabled selected>Seleccione Grado</option>
                     <option value="alf">Alférez</option>
@@ -108,13 +108,13 @@
                     <option value="cnel">Coronel</option>
                 </select>
                 
-                <label for="degree">Escalafón:</label>
+                <label for="escalafon">Escalafón:</label>
                 <select id="escalafon" name="escalafon" required>
                     <option value="" disabled selected>Seleccione Escalafón</option>
-                    <option value="alf">Aviador</option>
-                    <option value="tte2">Navegante</option>
-                    <option value="tte1">Especialista</option>
-                    <option value="cap">Técnico Profesional</option>
+                    <option value="aviador">Aviador</option>
+                    <option value="navegante">Navegante</option>
+                    <option value="especialista">Especialista</option>
+                    <option value="tecprof">Técnico Profesional</option>
                 </select>
 
                 <label for="firstName">Nombre:</label>
@@ -317,7 +317,7 @@
             } else if (currentScreen === 2) {
                 screen2.classList.add('hidden');
                 screen3.classList.remove('hidden');
-            }else if(currentScreen===0){
+            } else if(currentScreen===0){
                 screen0.classList.add('hidden');
                 screen1.classList.remove('hidden');
             }
@@ -356,7 +356,7 @@
 
         document.getElementById('fiestaForm').addEventListener('submit', function (event) {
             event.preventDefault();
-            const degree = document.getElementById('degree').value;
+            const grade = document.getElementById('grade').value;
             const escalafon = document.getElementById('escalafon').value;
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
@@ -380,7 +380,7 @@
                 accompDetails.forEach(accomp => {
                     tables[table].push(accomp.name);
                 });
-                sendDataToServer({ degree, escalafon, firstName, lastName, id, accompany, numAccompanists, table, menu, accompDetails });
+                sendDataToServer({ grade, escalafon, firstName, lastName, id, accompany, numAccompanists, table, menu, accompDetails });
                 updateGuestList();
             } else {
                 alert('Esta mesa ya está llena. Por favor, elige otra mesa.');
