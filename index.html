@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +13,12 @@
             margin: 0;
             padding: 20px;
         }
-
         header {
             text-align: center;
             padding: 15px;
             background-color: #0097a7;
             color: #fff;
         }
-
         form {
             background-color: #ffffff;
             padding: 20px;
@@ -30,26 +27,20 @@
             max-width: 600px;
             margin: auto;
         }
-
         h2 {
             color: #004d40;
         }
-
         label {
             display: block;
             margin: 10px 0 5px;
         }
-
-        input,
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
             padding: 10px;
             margin: 5px 0 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         button {
             background-color: #00796b;
             color: #fff;
@@ -60,20 +51,15 @@
             width: 100%;
             margin-top: 10px;
         }
-
         button:hover {
             background-color: #004d40;
         }
-
         .hidden {
             display: none;
         }
-
         .container {
             padding-bottom: 60px;
-            /* space for the footer */
         }
-
         .guest-list {
             background-color: #e0f7fa;
             padding: 10px;
@@ -82,27 +68,22 @@
             margin-top: 10px;
             display: none;
         }
-
         .svg-container {
             float: right;
             margin-top: 100px;
         }
-
         .svg-table {
             margin-top: 20px;
         }
-
         .seat {
             fill: #4caf50;
             cursor: pointer;
         }
-
         .seat.occupied {
             fill: #f44336;
         }
     </style>
 </head>
-
 <body>
     <header>
         <h1>Fiesta Social 2024</h1>
@@ -110,10 +91,9 @@
     <div class="container">
         <form id="fiestaForm">
             <div id="screen0">
-                <h2>Bienvenidos al Asistente Virtual de la Fiesta Social 2024</h2>
+                <h2>Bienvenidos al Asistente Virtual de la Fiesta Social 2024</h2>              
                 <button type="button" onclick="goToNextScreen(0)">Iniciar</button>
             </div>
-            <!-- Pantalla 1: Datos del Invitado Principal -->
             <div id="screen1" class='hidden'>
                 <h2>Confirmar Asistencia</h2>
                 <label for="degree">Grado:</label>
@@ -167,33 +147,22 @@
                     <option value="Vegano">Vegano</option>
                 </select>
 
-                <div style="display: flex; justify-content: space-between;">
-                    <button type="button" onclick="goToPreviousScreen(1)">Anterior</button>
-                    <button type="button" onclick="goToNextScreen(1)">Siguiente</button>
-                </div>
+                <button type="button" onclick="goToNextScreen(1)">Siguiente</button>
             </div>
-
-            <!-- Pantalla 2: Datos de los Acompañantes -->
             <div id="screen2" class="hidden">
                 <h2>Datos de los Acompañantes</h2>
                 <div id="accompanistsDetailsContainer"></div>
-                <div style="display: flex; justify-content: space-between;">
-                    <button type="button" onclick="goToPreviousScreen(2)">Anterior</button>
-                    <button type="button" onclick="goToNextScreen(2)">Siguiente</button>
-                </div>
+                <button type="button" onclick="goToPreviousScreen(2)">Anterior</button>
+                <button type="button" onclick="goToNextScreen(2)">Siguiente</button>
             </div>
-
-            <!-- Pantalla 3: Selección de la Mesa -->
             <div id="screen3" class="hidden">
                 <h2>Elegir Mesa</h2>
                 <label for="table">Elegir Mesa:</label>
                 <select id="table" name="table" required>
                     <option value="">Selecciona tu mesa</option>
                 </select>
-                <div style="display: flex; justify-content: space-between;">
-                    <button type="button" onclick="goToPreviousScreen(3)">Anterior</button>
-                    <button type="submit">Enviar</button>
-                </div>
+                <button type="button" onclick="goToPreviousScreen(3)">Anterior</button>
+                <button type="submit">Enviar</button>
             </div>
         </form>
         <div class="svg-container">
@@ -258,7 +227,6 @@
             const seats = 10;
             const angleStep = (2 * Math.PI) / seats;
 
-            // Draw table circle
             const tableCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             tableCircle.setAttribute('cx', centerX);
             tableCircle.setAttribute('cy', centerY);
@@ -389,6 +357,7 @@
         document.getElementById('fiestaForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const degree = document.getElementById('degree').value;
+            const escalafon = document.getElementById('escalafon').value;
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const id = document.getElementById('id').value;
@@ -411,7 +380,7 @@
                 accompDetails.forEach(accomp => {
                     tables[table].push(accomp.name);
                 });
-                sendDataToServer({ degree, firstName, lastName, id, accompany, numAccompanists, table, menu, accompDetails });
+                sendDataToServer({ degree, escalafon, firstName, lastName, id, accompany, numAccompanists, table, menu, accompDetails });
                 updateGuestList();
             } else {
                 alert('Esta mesa ya está llena. Por favor, elige otra mesa.');
@@ -420,10 +389,7 @@
 
         document.getElementById('table').addEventListener('change', updateGuestList);
 
-        // Llamar a la función para llenar las opciones de mesas al cargar la página
         populateTableOptions();
     </script>
 </body>
-
 </html>
-
