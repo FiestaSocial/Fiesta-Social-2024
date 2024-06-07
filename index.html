@@ -67,21 +67,24 @@
             display: none;
         }
         #salon {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-gap: 10px;
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             max-width: 1200px;
             margin: 20px auto;
+            background-color: #BDC3C7;
+            padding: 20px;
+            border-radius: 10px;
         }
         .mesa {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             background-color: #85C1E9;
             border: 2px solid #5499C7;
             border-radius: 50%;
             position: relative;
+            margin: 15px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -96,7 +99,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
         }
         .mesa .lugar {
@@ -217,9 +220,7 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div id="salon">
-            <!-- Aquí se generarán dinámicamente las mesas -->
-        </div>
+        <div id="salon"></div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -291,52 +292,41 @@
             salon.innerHTML = '';
 
             const mesaPositions = [
-                { gridColumn: "2 / span 2", gridRow: "1" },
-                { gridColumn: "4 / span 2", gridRow: "1" },
-                { gridColumn: "2 / span 2", gridRow: "2" },
-                { gridColumn: "4 / span 2", gridRow: "2" },
-                { gridColumn: "2 / span 2", gridRow: "3" },
-                { gridColumn: "4 / span 2", gridRow: "3" },
-                { gridColumn: "1 / span 2", gridRow: "4" },
-                { gridColumn: "3 / span 2", gridRow: "4" },
-                { gridColumn: "5 / span 2", gridRow: "4" },
-                { gridColumn: "1 / span 2", gridRow: "5" },
-                { gridColumn: "3 / span 2", gridRow: "5" },
-                { gridColumn: "5 / span 2", gridRow: "5" },
-                { gridColumn: "1 / span 2", gridRow: "6" },
-                { gridColumn: "3 / span 2", gridRow: "6" },
-                { gridColumn: "5 / span 2", gridRow: "6" },
-                { gridColumn: "2 / span 2", gridRow: "7" },
-                { gridColumn: "4 / span 2", gridRow: "7" },
-                { gridColumn: "2 / span 2", gridRow: "8" },
-                { gridColumn: "4 / span 2", gridRow: "8" },
-                { gridColumn: "1 / span 2", gridRow: "9" },
-                { gridColumn: "3 / span 2", gridRow: "9" },
-                { gridColumn: "5 / span 2", gridRow: "9" },
-                { gridColumn: "1 / span 2", gridRow: "10" },
-                { gridColumn: "3 / span 2", gridRow: "10" },
-                { gridColumn: "5 / span 2", gridRow: "10" },
-                { gridColumn: "2 / span 2", gridRow: "11" },
-                { gridColumn: "4 / span 2", gridRow: "11" },
-                { gridColumn: "2 / span 2", gridRow: "12" },
-                { gridColumn: "4 / span 2", gridRow: "12" },
-                { gridColumn: "2 / span 2", gridRow: "13" },
-                { gridColumn: "4 / span 2", gridRow: "13" },
-                { gridColumn: "1 / span 2", gridRow: "14" },
-                { gridColumn: "3 / span 2", gridRow: "14" },
-                { gridColumn: "5 / span 2", gridRow: "14" },
-                { gridColumn: "1 / span 2", gridRow: "15" },
-                { gridColumn: "3 / span 2", gridRow: "15" },
-                { gridColumn: "5 / span 2", gridRow: "15" },
-                { gridColumn: "1 / span 2", gridRow: "16" },
-                { gridColumn: "3 / span 2", gridRow: "16" },
-                { gridColumn: "5 / span 2", gridRow: "16" },
-                { gridColumn: "1 / span 2", gridRow: "17" },
-                { gridColumn: "3 / span 2", gridRow: "17" },
-                { gridColumn: "5 / span 2", gridRow: "17" },
-                { gridColumn: "1 / span 2", gridRow: "18" },
-                { gridColumn: "3 / span 2", gridRow: "18" },
-                { gridColumn: "5 / span 2", gridRow: "18" }
+                { top: "20px", left: "20px" },
+                { top: "20px", left: "160px" },
+                { top: "20px", left: "300px" },
+                { top: "20px", left: "440px" },
+                { top: "20px", left: "580px" },
+                { top: "160px", left: "20px" },
+                { top: "160px", left: "160px" },
+                { top: "160px", left: "300px" },
+                { top: "160px", left: "440px" },
+                { top: "160px", left: "580px" },
+                { top: "300px", left: "20px" },
+                { top: "300px", left: "160px" },
+                { top: "300px", left: "300px" },
+                { top: "300px", left: "440px" },
+                { top: "300px", left: "580px" },
+                { top: "440px", left: "20px" },
+                { top: "440px", left: "160px" },
+                { top: "440px", left: "300px" },
+                { top: "440px", left: "440px" },
+                { top: "440px", left: "580px" },
+                { top: "580px", left: "20px" },
+                { top: "580px", left: "160px" },
+                { top: "580px", left: "300px" },
+                { top: "580px", left: "440px" },
+                { top: "580px", left: "580px" },
+                { top: "720px", left: "20px" },
+                { top: "720px", left: "160px" },
+                { top: "720px", left: "300px" },
+                { top: "720px", left: "440px" },
+                { top: "720px", left: "580px" },
+                { top: "860px", left: "20px" },
+                { top: "860px", left: "160px" },
+                { top: "860px", left: "300px" },
+                { top: "860px", left: "440px" },
+                { top: "860px", left: "580px" },
             ];
 
             for (let i = 1; i <= 35; i++) {
@@ -346,8 +336,9 @@
                 mesa.setAttribute("onclick", `selectMesa(${i})`);
                 mesa.setAttribute("onmouseover", `showInfo(${i})`);
                 mesa.setAttribute("onmouseout", `hideInfo(${i})`);
-                mesa.style.gridColumn = mesaPositions[i-1].gridColumn;
-                mesa.style.gridRow = mesaPositions[i-1].gridRow;
+                mesa.style.position = "absolute";
+                mesa.style.top = mesaPositions[i-1].top;
+                mesa.style.left = mesaPositions[i-1].left;
 
                 let numero = document.createElement("div");
                 numero.classList.add("numero");
@@ -421,6 +412,117 @@
                 // Aquí puedes agregar el código para enviar los datos del formulario al servidor
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
+            }
+        }
+
+        // Posicionar los círculos alrededor de la mesa
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSalon();
+        });
+
+        function renderSalon() {
+            let salon = document.getElementById("salon");
+            salon.innerHTML = '';
+
+            const mesaPositions = [
+                { gridColumn: "2 / span 2", gridRow: "1" },
+                { gridColumn: "4 / span 2", gridRow: "1" },
+                { gridColumn: "2 / span 2", gridRow: "2" },
+                { gridColumn: "4 / span 2", gridRow: "2" },
+                { gridColumn: "2 / span 2", gridRow: "3" },
+                { gridColumn: "4 / span 2", gridRow: "3" },
+                { gridColumn: "1 / span 2", gridRow: "4" },
+                { gridColumn: "3 / span 2", gridRow: "4" },
+                { gridColumn: "5 / span 2", gridRow: "4" },
+                { gridColumn: "1 / span 2", gridRow: "5" },
+                { gridColumn: "3 / span 2", gridRow: "5" },
+                { gridColumn: "5 / span 2", gridRow: "5" },
+                { gridColumn: "1 / span 2", gridRow: "6" },
+                { gridColumn: "3 / span 2", gridRow: "6" },
+                { gridColumn: "5 / span 2", gridRow: "6" },
+                { gridColumn: "2 / span 2", gridRow: "7" },
+                { gridColumn: "4 / span 2", gridRow: "7" },
+                { gridColumn: "2 / span 2", gridRow: "8" },
+                { gridColumn: "4 / span 2", gridRow: "8" },
+                { gridColumn: "1 / span 2", gridRow: "9" },
+                { gridColumn: "3 / span 2", gridRow: "9" },
+                { gridColumn: "5 / span 2", gridRow: "9" },
+                { gridColumn: "1 / span 2", gridRow: "10" },
+                { gridColumn: "3 / span 2", gridRow: "10" },
+                { gridColumn: "5 / span 2", gridRow: "10" },
+                { gridColumn: "2 / span 2", gridRow: "11" },
+                { gridColumn: "4 / span 2", gridRow: "11" },
+                { gridColumn: "2 / span 2", gridRow: "12" },
+                { gridColumn: "4 / span 2", gridRow: "12" },
+                { gridColumn: "2 / span 2", gridRow: "13" },
+                { gridColumn: "4 / span 2", gridRow: "13" },
+                { gridColumn: "1 / span 2", gridRow: "14" },
+                { gridColumn: "3 / span 2", gridRow: "14" },
+                { gridColumn: "5 / span 2", gridRow: "14" },
+                { gridColumn: "1 / span 2", gridRow: "15" },
+                { gridColumn: "3 / span 2", gridRow: "15" },
+                { gridColumn: "5 / span 2", gridRow: "15" },
+                { gridColumn: "1 / span 2", gridRow: "16" },
+                { gridColumn: "3 / span 2", gridRow: "16" },
+                { gridColumn: "5 / span 2", gridRow: "16" },
+                { gridColumn: "1 / span 2", gridRow: "17" },
+                { gridColumn: "3 / span 2", gridRow: "17" },
+                { gridColumn: "5 / span 2", gridRow: "17" },
+                { gridColumn: "1 / span 2", gridRow: "18" },
+                { gridColumn: "3 / span 2", gridRow: "18" },
+                { gridColumn: "5 / span 2", gridRow: "18" }
+            ];
+
+            for (let i = 1; i <= 35; i++) {
+                let mesa = document.createElement("div");
+                mesa.classList.add("mesa");
+                mesa.id = `mesa${i}`;
+                mesa.setAttribute("onclick", `selectMesa(${i})`);
+                mesa.setAttribute("onmouseover", `showInfo(${i})`);
+                mesa.setAttribute("onmouseout", `hideInfo(${i})`);
+                mesa.style.gridColumn = mesaPositions[i-1].gridColumn;
+                mesa.style.gridRow = mesaPositions[i-1].gridRow;
+
+                let numero = document.createElement("div");
+                numero.classList.add("numero");
+                numero.textContent = i;
+                mesa.appendChild(numero);
+
+                const positions = [
+                    { top: "10%", left: "45%" },
+                    { top: "25%", left: "75%" },
+                    { top: "50%", left: "90%" },
+                    { top: "75%", left: "75%" },
+                    { top: "90%", left: "45%" },
+                    { top: "75%", left: "10%" },
+                    { top: "50%", left: "0%" },
+                    { top: "25%", left: "10%" },
+                    { top: "10%", left: "25%" },
+                    { top: "10%", left: "65%" },
+                ];
+
+                for (let j = 1; j <= 10; j++) {
+                    let lugar = document.createElement("div");
+                    lugar.classList.add("lugar");
+                    if (registeredGuests[`mesa${i}`] && registeredGuests[`mesa${i}`].length >= j) {
+                        lugar.classList.add("ocupado");
+                    }
+                    lugar.style.top = positions[j - 1].top;
+                    lugar.style.left = positions[j - 1].left;
+                    mesa.appendChild(lugar);
+                }
+
+                let info = document.createElement("div");
+                info.classList.add("info");
+                info.id = `info${i}`;
+                if (registeredGuests[`mesa${i}`]) {
+                    info.textContent = `Registrados: ${registeredGuests[`mesa${i}`].join(", ")}`;
+                } else {
+                    info.textContent = "Registrados: Ninguno";
+                }
+                mesa.appendChild(info);
+
+                salon.appendChild(mesa);
             }
         }
     </script>
