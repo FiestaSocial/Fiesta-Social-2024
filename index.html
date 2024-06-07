@@ -69,15 +69,16 @@
         }
         #salon {
             position: relative;
-            max-width: 1200px;
-            margin: 20px auto;
+            width: 1000px;
+            height: 600px;
             background-color: #BDC3C7;
-            padding: 20px;
+            margin: 20px auto;
             border-radius: 10px;
+            overflow: hidden;
         }
         .mesa {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background-color: #85C1E9;
             border: 2px solid #5499C7;
             border-radius: 50%;
@@ -232,7 +233,9 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div id="salon"></div>
+        <div id="salon">
+            <!-- Aquí se generarán dinámicamente las mesas -->
+        </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -304,18 +307,18 @@
             salon.innerHTML = '';
 
             const mesaPositions = [
-                { top: "30px", left: "50px" }, { top: "30px", left: "190px" }, { top: "30px", left: "330px" },
-                { top: "30px", left: "470px" }, { top: "30px", left: "610px" }, { top: "30px", left: "750px" },
-                { top: "160px", left: "50px" }, { top: "160px", left: "190px" }, { top: "160px", left: "330px" },
-                { top: "160px", left: "470px" }, { top: "160px", left: "610px" }, { top: "160px", left: "750px" },
-                { top: "290px", left: "50px" }, { top: "290px", left: "190px" }, { top: "290px", left: "330px" },
-                { top: "290px", left: "470px" }, { top: "290px", left: "610px" }, { top: "290px", left: "750px" },
-                { top: "420px", left: "50px" }, { top: "420px", left: "190px" }, { top: "420px", left: "330px" },
-                { top: "420px", left: "470px" }, { top: "420px", left: "610px" }, { top: "420px", left: "750px" },
-                { top: "550px", left: "50px" }, { top: "550px", left: "190px" }, { top: "550px", left: "330px" },
-                { top: "550px", left: "470px" }, { top: "550px", left: "610px" }, { top: "550px", left: "750px" },
-                { top: "680px", left: "50px" }, { top: "680px", left: "190px" }, { top: "680px", left: "330px" },
-                { top: "680px", left: "470px" }, { top: "680px", left: "610px" }
+                { top: "20px", left: "80px" }, { top: "20px", left: "180px" }, { top: "20px", left: "280px" },
+                { top: "20px", left: "380px" }, { top: "20px", left: "480px" }, { top: "20px", left: "580px" },
+                { top: "60px", left: "80px" }, { top: "60px", left: "180px" }, { top: "60px", left: "280px" },
+                { top: "60px", left: "380px" }, { top: "60px", left: "480px" }, { top: "60px", left: "580px" },
+                { top: "100px", left: "80px" }, { top: "100px", left: "180px" }, { top: "100px", left: "280px" },
+                { top: "100px", left: "380px" }, { top: "100px", left: "480px" }, { top: "100px", left: "580px" },
+                { top: "140px", left: "80px" }, { top: "140px", left: "180px" }, { top: "140px", left: "280px" },
+                { top: "140px", left: "380px" }, { top: "140px", left: "480px" }, { top: "140px", left: "580px" },
+                { top: "180px", left: "80px" }, { top: "180px", left: "180px" }, { top: "180px", left: "280px" },
+                { top: "180px", left: "380px" }, { top: "180px", left: "480px" }, { top: "180px", left: "580px" },
+                { top: "220px", left: "80px" }, { top: "220px", left: "180px" }, { top: "220px", left: "280px" },
+                { top: "220px", left: "380px" }, { top: "220px", left: "480px" }
             ];
 
             for (let i = 1; i <= 35; i++) {
