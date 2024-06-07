@@ -170,10 +170,12 @@
             const acompananteNumero = document.getElementById('acompanante-numero');
             if (acompanante === 'si') {
                 acompananteNumero.classList.remove('hidden');
+                document.getElementById('nextBtn2').setAttribute('onclick', 'nextPage(3)');
             } else {
                 acompananteNumero.classList.add('hidden');
                 document.getElementById('numeroAcompanantes').value = '';
                 document.getElementById('acompanantes-container').innerHTML = '';
+                document.getElementById('nextBtn2').setAttribute('onclick', 'nextPage(4)');
             }
         }
 
