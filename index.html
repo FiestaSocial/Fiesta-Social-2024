@@ -340,7 +340,7 @@
                     });
                     mesaInfo.innerHTML = `<p>Invitados en Mesa ${mesaSeleccionada}:</p><ul>${registeredGuests[mesaSeleccionada].map(invitado => `<li>${invitado}</li>`).join('')}</ul>`;
                 } else {
-                    mesaInfo.innerHTML = `<p>Invitados en Mesa ${mesaSeleccionada}:</p><ul><li>Ninguno</li></ul>`;
+                    mesaInfo.innerHTML = `<p>Invitados en Mesa ${mesaSeleccionada}:</p><ul><li>No hay invitados aún.</li></ul>`;
                 }
             }
         }
