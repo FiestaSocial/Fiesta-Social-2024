@@ -68,28 +68,39 @@
             display: none;
         }
         #salon {
-            position: relative;
-            width: 1200px;
-            height: 700px;
-            background-color: #BDC3C7;
-            margin: 20px auto;
-            border-radius: 10px;
-            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        .plan-image {
+            max-width: 50%;
+            margin-right: 20px;
+        }
+        .mesa-seleccion {
+            max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mesa-representacion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
         .mesa {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background-color: #85C1E9;
             border: 2px solid #5499C7;
             border-radius: 50%;
-            position: absolute;
-            cursor: pointer;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .mesa:hover {
-            background-color: #2980B9;
+            margin-bottom: 10px;
         }
         .mesa .numero {
             position: absolute;
@@ -111,57 +122,13 @@
         .mesa .lugar.ocupado {
             background-color: red;
         }
-        .mesa .info {
-            display: none;
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px;
+        .info {
+            border: 1px solid #5499C7;
             border-radius: 5px;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        .mesa:hover .info {
-            display: block;
-        }
-        .pista-baile {
-            position: absolute;
-            top: 200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 200px;
-            background-color: #F4D03F;
-            border: 2px solid #B7950B;
-            border-radius: 10px;
-        }
-        .acceso {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 20px;
-            color: #154360;
-        }
-        h2 {
-            margin-bottom: 20px;
-            color: #154360;
-        }
-        h1 {
-            color: #154360;
-            margin-bottom: 20px;
-        }
-        .img-container img {
-            border-radius: 10px;
-            max-width: 100%;
-            height: auto;
-        }
-        .plan-image {
-            max-width: 100%;
-            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #EBF5FB;
+            margin-top: 10px;
+            text-align: left;
         }
     </style>
 </head>
@@ -260,8 +227,38 @@
             <img src="file-dkwMfzyLc6f5ixBWWGsDocWG" alt="Plano del salón">
         </div>
         <div id="salon">
-            <div class="acceso">Acceso</div>
-            <div class="pista-baile"></div>
+            <div class="mesa-seleccion">
+                <label for="mesa">Seleccionar Mesa:</label>
+                <select id="mesa" name="mesa" onchange="mostrarMesa()">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">Mesa 1</option>
+                    <option value="2">Mesa 2</option>
+                    <option value="3">Mesa 3</option>
+                    <!-- Agrega más opciones según sea necesario -->
+                </select>
+            </div>
+            <div class="mesa-representacion">
+                <div class="mesa" id="mesaRepresentacion">
+                    <div class="numero">1</div>
+                    <div class="lugar" style="top: 10%; left: 50%;"></div>
+                    <div class="lugar" style="top: 30%; left: 70%;"></div>
+                    <div class="lugar" style="top: 50%; left: 90%;"></div>
+                    <div class="lugar" style="top: 70%; left: 70%;"></div>
+                    <div class="lugar" style="top: 90%; left: 50%;"></div>
+                    <div class="lugar" style="top: 70%; left: 30%;"></div>
+                    <div class="lugar" style="top: 50%; left: 10%;"></div>
+                    <div class="lugar" style="top: 30%; left: 30%;"></div>
+                    <div class="lugar" style="top: 10%; left: 10%;"></div>
+                    <div class="lugar" style="top: 50%; left: 50%;"></div>
+                </div>
+                <div class="info" id="mesaInfo">
+                    <p>Invitados en Mesa 1:</p>
+                    <ul>
+                        <li>Cristian Pesca</li>
+                        <!-- Agrega más invitados según sea necesario -->
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -272,7 +269,10 @@
 
     <script>
         let currentScreen = 1;
-        let registeredGuests = {};
+        let registeredGuests = {
+            "1": ["Cristian Pesca"]
+            // Agrega más invitados según sea necesario
+        };
 
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
@@ -307,10 +307,6 @@
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
-
-            if (currentScreen === 4) {
-                renderSalon();
-            }
         }
 
         function prevScreen(screen) {
@@ -329,108 +325,24 @@
             }
         }
 
-        function renderSalon() {
-            let salon = document.getElementById("salon");
+        function mostrarMesa() {
+            let mesaSeleccionada = document.getElementById("mesa").value;
+            let mesaInfo = document.getElementById("mesaInfo");
+            let mesaRepresentacion = document.getElementById("mesaRepresentacion");
 
-            // Clear existing mesas
-            document.querySelectorAll(".mesa").forEach(mesa => mesa.remove());
-
-            const mesaPositions = [
-                // Left side
-                { top: "50px", left: "50px" }, { top: "50px", left: "150px" }, { top: "50px", left: "250px" },
-                { top: "150px", left: "50px" }, { top: "150px", left: "150px" }, { top: "150px", left: "250px" },
-                { top: "250px", left: "50px" }, { top: "250px", left: "150px" }, { top: "250px", left: "250px" },
-                { top: "350px", left: "50px" }, { top: "350px", left: "150px" }, { top: "350px", left: "250px" },
-                { top: "450px", left: "50px" }, { top: "450px", left: "150px" }, { top: "450px", left: "250px" },
-                // Right side
-                { top: "50px", left: "650px" }, { top: "50px", left: "750px" }, { top: "50px", left: "850px" },
-                { top: "150px", left: "650px" }, { top: "150px", left: "750px" }, { top: "150px", left: "850px" },
-                { top: "250px", left: "650px" }, { top: "250px", left: "750px" }, { top: "250px", left: "850px" },
-                { top: "350px", left: "650px" }, { top: "350px", left: "750px" }, { top: "350px", left: "850px" },
-                { top: "450px", left: "650px" }, { top: "450px", left: "750px" }, { top: "450px", left: "850px" },
-                { top: "550px", left: "650px" }, { top: "550px", left: "750px" }, { top: "550px", left: "850px" }
-            ];
-
-            for (let i = 1; i <= 35; i++) {
-                let mesa = document.createElement("div");
-                mesa.classList.add("mesa");
-                mesa.id = `mesa${i}`;
-                mesa.setAttribute("onclick", `selectMesa(${i})`);
-                mesa.setAttribute("onmouseover", `showInfo(${i})`);
-                mesa.setAttribute("onmouseout", `hideInfo(${i})`);
-                mesa.style.top = mesaPositions[i-1].top;
-                mesa.style.left = mesaPositions[i-1].left;
-
-                let numero = document.createElement("div");
-                numero.classList.add("numero");
-                numero.textContent = i;
-                mesa.appendChild(numero);
-
-                const positions = [
-                    { top: "5%", left: "50%" }, { top: "15%", left: "70%" }, { top: "35%", left: "85%" },
-                    { top: "60%", left: "70%" }, { top: "75%", left: "50%" }, { top: "60%", left: "30%" },
-                    { top: "35%", left: "15%" }, { top: "15%", left: "30%" }, { top: "0%", left: "50%" },
-                    { top: "25%", left: "100%" }
-                ];
-
-                for (let j = 1; j <= 10; j++) {
-                    let lugar = document.createElement("div");
-                    lugar.classList.add("lugar");
-                    if (registeredGuests[`mesa${i}`] && registeredGuests[`mesa${i}`].length >= j) {
-                        lugar.classList.add("ocupado");
-                    }
-                    lugar.style.top = positions[j - 1].top;
-                    lugar.style.left = positions[j - 1].left;
-                    mesa.appendChild(lugar);
-                }
-
-                let info = document.createElement("div");
-                info.classList.add("info");
-                info.id = `info${i}`;
-                if (registeredGuests[`mesa${i}`]) {
-                    info.textContent = `Registrados: ${registeredGuests[`mesa${i}`].join(", ")}`;
+            if (mesaSeleccionada) {
+                mesaRepresentacion.querySelector(".numero").textContent = mesaSeleccionada;
+                let lugares = mesaRepresentacion.querySelectorAll(".lugar");
+                lugares.forEach(lugar => lugar.classList.remove("ocupado"));
+                if (registeredGuests[mesaSeleccionada]) {
+                    registeredGuests[mesaSeleccionada].forEach((invitado, index) => {
+                        lugares[index].classList.add("ocupado");
+                    });
+                    mesaInfo.innerHTML = `<p>Invitados en Mesa ${mesaSeleccionada}:</p><ul>${registeredGuests[mesaSeleccionada].map(invitado => `<li>${invitado}</li>`).join('')}</ul>`;
                 } else {
-                    info.textContent = "Registrados: Ninguno";
+                    mesaInfo.innerHTML = `<p>Invitados en Mesa ${mesaSeleccionada}:</p><ul><li>Ninguno</li></ul>`;
                 }
-                mesa.appendChild(info);
-
-                salon.appendChild(mesa);
             }
-        }
-
-        function selectMesa(mesa) {
-            if (!registeredGuests[`mesa${mesa}`] || registeredGuests[`mesa${mesa}`].length < 10) {
-                let guestForm = document.getElementById("guestForm");
-                let acompanantesForm = document.getElementById("acompanantesForm");
-                let nombre = guestForm.querySelector("#nombre").value;
-                let apellido = guestForm.querySelector("#apellido").value;
-                let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value || 0;
-
-                if (!registeredGuests[`mesa${mesa}`]) {
-                    registeredGuests[`mesa${mesa}`] = [];
-                }
-
-                registeredGuests[`mesa${mesa}`].push(`${nombre} ${apellido}`);
-                for (let i = 1; i <= cantidadAcompanantes; i++) {
-                    let nombreAcompanante = acompanantesForm.querySelector(`#nombreAcompanante${i}`).value;
-                    registeredGuests[`mesa${mesa}`].push(nombreAcompanante);
-                }
-
-                renderSalon();
-                alert(`Registrado en la Mesa ${mesa}`);
-            } else {
-                alert("La mesa está completa");
-            }
-        }
-
-        function showInfo(mesa) {
-            let info = document.getElementById(`info${mesa}`);
-            info.style.display = "block";
-        }
-
-        function hideInfo(mesa) {
-            let info = document.getElementById(`info${mesa}`);
-            info.style.display = "none";
         }
 
         function submitForm() {
@@ -446,7 +358,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderSalon();
+            mostrarMesa();
         });
     </script>
 </body>
