@@ -6,20 +6,32 @@
     <title>Fiesta Social 2024</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #E8F8F5;
-            color: #2E4053;
+            font-family: 'Arial', sans-serif;
+            background-color: #D6EAF8;
+            color: #154360;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
         .banner {
-            background-color: #48C9B0;
+            background-color: #85C1E9;
             height: 50px;
             width: 100%;
         }
         .container {
             display: none;
+            text-align: center;
             padding: 20px;
+            background-color: #EBF5FB;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
         }
         .active {
             display: block;
@@ -30,15 +42,26 @@
             margin-top: 20px;
         }
         button {
-            background-color: #48C9B0;
+            background-color: #5499C7;
             border: none;
             padding: 10px 20px;
             color: white;
             cursor: pointer;
             font-size: 16px;
+            border-radius: 5px;
         }
         button:hover {
-            background-color: #1ABC9C;
+            background-color: #2980B9;
+        }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -47,7 +70,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="file-EXadBDjBOmOFWh1qijFdwljs" alt="Imagen de bienvenida">
+        <img src="file-EXadBDjBOmOFWh1qijFdwljs" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Siguiente</button>
         </div>
