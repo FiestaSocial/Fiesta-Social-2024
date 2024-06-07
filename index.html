@@ -8,12 +8,12 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #e0f7fa;
-            color: #00695c;
+            color: #004d60;
             margin: 0;
             padding: 0;
         }
         .header, .footer {
-            background-color: #004d40;
+            background-color: #005a70;
             color: #ffffff;
             text-align: center;
             padding: 10px 0;
@@ -30,7 +30,7 @@
             display: block;
         }
         .btn {
-            background-color: #004d40;
+            background-color: #007a99;
             color: #ffffff;
             padding: 10px 20px;
             border: none;
@@ -38,7 +38,7 @@
             margin: 5px;
         }
         .btn:hover {
-            background-color: #00796b;
+            background-color: #0099cc;
         }
         .form-group {
             margin-bottom: 15px;
@@ -140,7 +140,6 @@
             <div class="form-group">
                 <label for="mesa">Mesa:</label>
                 <select id="mesa">
-                    <!-- Generar 35 opciones de mesa -->
                     ${Array.from({length: 35}, (_, i) => `<option value="Mesa ${i + 1}">Mesa ${i + 1}</option>`).join('')}
                 </select>
             </div>
