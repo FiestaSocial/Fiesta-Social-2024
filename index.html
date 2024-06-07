@@ -12,6 +12,11 @@
             margin: 0;
             padding: 0;
         }
+        .banner {
+            background-color: #48C9B0;
+            height: 50px;
+            width: 100%;
+        }
         .container {
             display: none;
             padding: 20px;
@@ -38,17 +43,18 @@
     </style>
 </head>
 <body>
+    <div class="banner"></div>
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <!-- Aquí puedes agregar la imagen cuando esté disponible -->
+        <img src="file-EXadBDjBOmOFWh1qijFdwljs" alt="Imagen de bienvenida">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Siguiente</button>
         </div>
     </div>
 
     <div id="screen2" class="container">
-        <h2>Información del Invitado</h2>
+        <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -127,6 +133,7 @@
             <button onclick="submitForm()">Enviar</button>
         </div>
     </div>
+    <div class="banner"></div>
 
     <script>
         let currentScreen = 1;
@@ -134,27 +141,34 @@
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
 
             if (currentScreen === 3) {
-                let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                let acompanantesForm = document.getElementById("acompanantesForm");
-                acompanantesForm.innerHTML = '';
+                let acompanante = document.getElementById("acompanante").value;
+                if (acompanante === "si") {
+                    document.getElementById(`screen${currentScreen}`).classList.add('active');
+                    let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                    let acompanantesForm = document.getElementById("acompanantesForm");
+                    acompanantesForm.innerHTML = '';
 
-                for (let i = 1; i <= cantidadAcompanantes; i++) {
-                    acompanantesForm.innerHTML += `
-                        <h3>Acompañante ${i}</h3>
-                        <label for="nombreAcompanante${i}">Nombre:</label>
-                        <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-                        <label for="menuAcompanante${i}">Menú:</label>
-                        <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                            <option value="normal">Normal</option>
-                            <option value="vegetariano">Vegetariano</option>
-                            <option value="vegano">Vegano</option>
-                            <option value="celiaco">Celíaco</option>
-                        </select><br><br>
-                    `;
+                    for (let i = 1; i <= cantidadAcompanantes; i++) {
+                        acompanantesForm.innerHTML += `
+                            <h3>Acompañante ${i}</h3>
+                            <label for="nombreAcompanante${i}">Nombre:</label>
+                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                            <label for="menuAcompanante${i}">Menú:</label>
+                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                                <option value="normal">Normal</option>
+                                <option value="vegetariano">Vegetariano</option>
+                                <option value="vegano">Vegano</option>
+                                <option value="celiaco">Celíaco</option>
+                            </select><br><br>
+                        `;
+                    }
+                } else {
+                    nextScreen(4);
                 }
+            } else {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
         }
 
