@@ -29,7 +29,7 @@
             background-color: #EBF5FB;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            max-width: 800px;
             width: 90%;
             margin: 20px auto;
         }
@@ -67,9 +67,11 @@
             display: none;
         }
         #salon {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 10px;
             justify-content: center;
+            align-items: center;
             max-width: 1200px;
             margin: 20px auto;
         }
@@ -79,17 +81,28 @@
             background-color: #85C1E9;
             border: 2px solid #5499C7;
             border-radius: 50%;
-            margin: 10px;
             position: relative;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .mesa:hover {
             background-color: #2980B9;
         }
+        .mesa .numero {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
         .mesa .lugar {
             width: 20px;
             height: 20px;
-            background-color: white;
+            background-color: green;
             border: 1px solid #154360;
             border-radius: 50%;
             position: absolute;
@@ -204,7 +217,9 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div id="salon"></div>
+        <div id="salon">
+            <!-- Aquí se generarán dinámicamente las mesas -->
+        </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -275,6 +290,55 @@
             let salon = document.getElementById("salon");
             salon.innerHTML = '';
 
+            const mesaPositions = [
+                { gridColumn: "2 / span 2", gridRow: "1" },
+                { gridColumn: "4 / span 2", gridRow: "1" },
+                { gridColumn: "2 / span 2", gridRow: "2" },
+                { gridColumn: "4 / span 2", gridRow: "2" },
+                { gridColumn: "2 / span 2", gridRow: "3" },
+                { gridColumn: "4 / span 2", gridRow: "3" },
+                { gridColumn: "1 / span 2", gridRow: "4" },
+                { gridColumn: "3 / span 2", gridRow: "4" },
+                { gridColumn: "5 / span 2", gridRow: "4" },
+                { gridColumn: "1 / span 2", gridRow: "5" },
+                { gridColumn: "3 / span 2", gridRow: "5" },
+                { gridColumn: "5 / span 2", gridRow: "5" },
+                { gridColumn: "1 / span 2", gridRow: "6" },
+                { gridColumn: "3 / span 2", gridRow: "6" },
+                { gridColumn: "5 / span 2", gridRow: "6" },
+                { gridColumn: "2 / span 2", gridRow: "7" },
+                { gridColumn: "4 / span 2", gridRow: "7" },
+                { gridColumn: "2 / span 2", gridRow: "8" },
+                { gridColumn: "4 / span 2", gridRow: "8" },
+                { gridColumn: "1 / span 2", gridRow: "9" },
+                { gridColumn: "3 / span 2", gridRow: "9" },
+                { gridColumn: "5 / span 2", gridRow: "9" },
+                { gridColumn: "1 / span 2", gridRow: "10" },
+                { gridColumn: "3 / span 2", gridRow: "10" },
+                { gridColumn: "5 / span 2", gridRow: "10" },
+                { gridColumn: "2 / span 2", gridRow: "11" },
+                { gridColumn: "4 / span 2", gridRow: "11" },
+                { gridColumn: "2 / span 2", gridRow: "12" },
+                { gridColumn: "4 / span 2", gridRow: "12" },
+                { gridColumn: "2 / span 2", gridRow: "13" },
+                { gridColumn: "4 / span 2", gridRow: "13" },
+                { gridColumn: "1 / span 2", gridRow: "14" },
+                { gridColumn: "3 / span 2", gridRow: "14" },
+                { gridColumn: "5 / span 2", gridRow: "14" },
+                { gridColumn: "1 / span 2", gridRow: "15" },
+                { gridColumn: "3 / span 2", gridRow: "15" },
+                { gridColumn: "5 / span 2", gridRow: "15" },
+                { gridColumn: "1 / span 2", gridRow: "16" },
+                { gridColumn: "3 / span 2", gridRow: "16" },
+                { gridColumn: "5 / span 2", gridRow: "16" },
+                { gridColumn: "1 / span 2", gridRow: "17" },
+                { gridColumn: "3 / span 2", gridRow: "17" },
+                { gridColumn: "5 / span 2", gridRow: "17" },
+                { gridColumn: "1 / span 2", gridRow: "18" },
+                { gridColumn: "3 / span 2", gridRow: "18" },
+                { gridColumn: "5 / span 2", gridRow: "18" }
+            ];
+
             for (let i = 1; i <= 35; i++) {
                 let mesa = document.createElement("div");
                 mesa.classList.add("mesa");
@@ -282,6 +346,13 @@
                 mesa.setAttribute("onclick", `selectMesa(${i})`);
                 mesa.setAttribute("onmouseover", `showInfo(${i})`);
                 mesa.setAttribute("onmouseout", `hideInfo(${i})`);
+                mesa.style.gridColumn = mesaPositions[i-1].gridColumn;
+                mesa.style.gridRow = mesaPositions[i-1].gridRow;
+
+                let numero = document.createElement("div");
+                numero.classList.add("numero");
+                numero.textContent = i;
+                mesa.appendChild(numero);
 
                 for (let j = 1; j <= 10; j++) {
                     let lugar = document.createElement("div");
