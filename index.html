@@ -66,6 +66,53 @@
         select option:first-child {
             display: none;
         }
+        #salon {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        .mesa {
+            width: 100px;
+            height: 100px;
+            background-color: #85C1E9;
+            border: 2px solid #5499C7;
+            border-radius: 50%;
+            margin: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        .mesa:hover {
+            background-color: #2980B9;
+        }
+        .mesa .lugar {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 1px solid #154360;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .mesa .lugar.ocupado {
+            background-color: red;
+        }
+        .mesa .info {
+            display: none;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .mesa:hover .info {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -157,15 +204,7 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <label for="mesa">Seleccione su mesa:</label>
-        <select id="mesa" name="mesa" required>
-            <option value="" selected>Seleccionar</option>
-            <script>
-                for (let i = 1; i <= 35; i++) {
-                    document.write('<option value="mesa' + i + '">Mesa ' + i + '</option>');
-                }
-            </script>
-        </select><br><br>
+        <div id="salon"></div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -175,6 +214,7 @@
 
     <script>
         let currentScreen = 1;
+        let registeredGuests = {};
 
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
@@ -209,6 +249,10 @@
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
+
+            if (currentScreen === 4) {
+                renderSalon();
+            }
         }
 
         function prevScreen(screen) {
@@ -225,6 +269,76 @@
             } else {
                 acompananteCantidad.style.display = "none";
             }
+        }
+
+        function renderSalon() {
+            let salon = document.getElementById("salon");
+            salon.innerHTML = '';
+
+            for (let i = 1; i <= 35; i++) {
+                let mesa = document.createElement("div");
+                mesa.classList.add("mesa");
+                mesa.id = `mesa${i}`;
+                mesa.setAttribute("onclick", `selectMesa(${i})`);
+                mesa.setAttribute("onmouseover", `showInfo(${i})`);
+                mesa.setAttribute("onmouseout", `hideInfo(${i})`);
+
+                for (let j = 1; j <= 10; j++) {
+                    let lugar = document.createElement("div");
+                    lugar.classList.add("lugar");
+                    if (registeredGuests[`mesa${i}`] && registeredGuests[`mesa${i}`].length >= j) {
+                        lugar.classList.add("ocupado");
+                    }
+                    mesa.appendChild(lugar);
+                }
+
+                let info = document.createElement("div");
+                info.classList.add("info");
+                info.id = `info${i}`;
+                if (registeredGuests[`mesa${i}`]) {
+                    info.textContent = `Registrados: ${registeredGuests[`mesa${i}`].join(", ")}`;
+                } else {
+                    info.textContent = "Registrados: Ninguno";
+                }
+                mesa.appendChild(info);
+
+                salon.appendChild(mesa);
+            }
+        }
+
+        function selectMesa(mesa) {
+            if (!registeredGuests[`mesa${mesa}`] || registeredGuests[`mesa${mesa}`].length < 10) {
+                let guestForm = document.getElementById("guestForm");
+                let acompanantesForm = document.getElementById("acompanantesForm");
+                let nombre = guestForm.querySelector("#nombre").value;
+                let apellido = guestForm.querySelector("#apellido").value;
+                let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value || 0;
+
+                if (!registeredGuests[`mesa${mesa}`]) {
+                    registeredGuests[`mesa${mesa}`] = [];
+                }
+
+                registeredGuests[`mesa${mesa}`].push(`${nombre} ${apellido}`);
+                for (let i = 1; i <= cantidadAcompanantes; i++) {
+                    let nombreAcompanante = acompanantesForm.querySelector(`#nombreAcompanante${i}`).value;
+                    registeredGuests[`mesa${mesa}`].push(nombreAcompanante);
+                }
+
+                renderSalon();
+                alert(`Registrado en la Mesa ${mesa}`);
+            } else {
+                alert("La mesa está completa");
+            }
+        }
+
+        function showInfo(mesa) {
+            let info = document.getElementById(`info${mesa}`);
+            info.style.display = "block";
+        }
+
+        function hideInfo(mesa) {
+            let info = document.getElementById(`info${mesa}`);
+            info.style.display = "none";
         }
 
         function submitForm() {
