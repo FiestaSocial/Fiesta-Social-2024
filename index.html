@@ -69,8 +69,8 @@
         }
         #salon {
             position: relative;
-            width: 1200px;
-            height: 700px;
+            width: 1000px;
+            height: 600px;
             background-color: #BDC3C7;
             margin: 20px auto;
             border-radius: 10px;
@@ -126,6 +126,25 @@
         }
         .mesa:hover .info {
             display: block;
+        }
+        .pista-baile {
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 200px;
+            background-color: #F4D03F;
+            border: 2px solid #B7950B;
+            border-radius: 10px;
+        }
+        .acceso {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #154360;
         }
         h2 {
             margin-bottom: 20px;
@@ -234,7 +253,8 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div id="salon">
-            <!-- Aquí se generarán dinámicamente las mesas -->
+            <div class="acceso">Acceso</div>
+            <div class="pista-baile"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -304,21 +324,24 @@
 
         function renderSalon() {
             let salon = document.getElementById("salon");
-            salon.innerHTML = '';
+
+            // Clear existing mesas
+            document.querySelectorAll(".mesa").forEach(mesa => mesa.remove());
 
             const mesaPositions = [
+                // Left side
                 { top: "50px", left: "50px" }, { top: "50px", left: "150px" }, { top: "50px", left: "250px" },
-                { top: "50px", left: "350px" }, { top: "50px", left: "450px" }, { top: "50px", left: "550px" },
                 { top: "150px", left: "50px" }, { top: "150px", left: "150px" }, { top: "150px", left: "250px" },
-                { top: "150px", left: "350px" }, { top: "150px", left: "450px" }, { top: "150px", left: "550px" },
                 { top: "250px", left: "50px" }, { top: "250px", left: "150px" }, { top: "250px", left: "250px" },
-                { top: "250px", left: "350px" }, { top: "250px", left: "450px" }, { top: "250px", left: "550px" },
                 { top: "350px", left: "50px" }, { top: "350px", left: "150px" }, { top: "350px", left: "250px" },
-                { top: "350px", left: "350px" }, { top: "350px", left: "450px" }, { top: "350px", left: "550px" },
                 { top: "450px", left: "50px" }, { top: "450px", left: "150px" }, { top: "450px", left: "250px" },
-                { top: "450px", left: "350px" }, { top: "450px", left: "450px" }, { top: "450px", left: "550px" },
-                { top: "550px", left: "50px" }, { top: "550px", left: "150px" }, { top: "550px", left: "250px" },
-                { top: "550px", left: "350px" }, { top: "550px", left: "450px" }
+                // Right side
+                { top: "50px", left: "550px" }, { top: "50px", left: "650px" }, { top: "50px", left: "750px" },
+                { top: "150px", left: "550px" }, { top: "150px", left: "650px" }, { top: "150px", left: "750px" },
+                { top: "250px", left: "550px" }, { top: "250px", left: "650px" }, { top: "250px", left: "750px" },
+                { top: "350px", left: "550px" }, { top: "350px", left: "650px" }, { top: "350px", left: "750px" },
+                { top: "450px", left: "550px" }, { top: "450px", left: "650px" }, { top: "450px", left: "750px" },
+                { top: "550px", left: "550px" }, { top: "550px", left: "650px" }, { top: "550px", left: "750px" }
             ];
 
             for (let i = 1; i <= 35; i++) {
