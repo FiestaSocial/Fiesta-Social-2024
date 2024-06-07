@@ -12,6 +12,12 @@
             margin: 0;
             padding: 0;
         }
+        .header, .footer {
+            background-color: #004d40;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -49,14 +55,18 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>Fiesta Social 2024</h1>
+    </div>
+
     <div class="container">
         <div id="page1" class="active">
-            <h1>Bienvenido al asistente web para la Fiesta Social 2024</h1>
-            <p><img src="" alt="Imagen de bienvenida" style="width: 100%; height: auto;"></p>
+            <h2>Bienvenido al asistente web para la Fiesta Social 2024</h2>
+            <p><img src="/mnt/data/image.png" alt="Imagen de bienvenida" style="width: 100%; height: auto;"></p>
             <button class="btn" onclick="nextPage(2)">Siguiente</button>
         </div>
         <div id="page2" class="hidden">
-            <h2>Registro de Invitado</h2>
+            <h2>Datos Personales</h2>
             <div class="form-group">
                 <label for="grado">Grado:</label>
                 <select id="grado">
@@ -99,7 +109,13 @@
             </div>
             <div class="form-group hidden" id="acompanante-numero">
                 <label for="numeroAcompanantes">¿Cuántos acompañantes?</label>
-                <input type="number" id="numeroAcompanantes" min="1" onchange="generateAcompanantesFields()">
+                <select id="numeroAcompanantes" onchange="generateAcompanantesFields()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="menu">Menú:</label>
@@ -114,7 +130,7 @@
             <button class="btn" onclick="nextPage(3)">Siguiente</button>
         </div>
         <div id="page3" class="hidden">
-            <h2>Datos de Acompañante(s)</h2>
+            <h2>Datos Acompañantes</h2>
             <div id="acompanantes-container"></div>
             <button class="btn" onclick="previousPage(2)">Anterior</button>
             <button class="btn" onclick="nextPage(4)">Siguiente</button>
@@ -131,6 +147,10 @@
             <button class="btn" onclick="previousPage(3)">Anterior</button>
             <button class="btn" onclick="submitForm()">Enviar</button>
         </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 Fiesta Social. Todos los derechos reservados.</p>
     </div>
 
     <script>
