@@ -38,7 +38,7 @@
         }
         .navigation-buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
         }
         button {
@@ -63,6 +63,9 @@
             border: 1px solid #AED6F1;
             border-radius: 5px;
         }
+        select option:first-child {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -70,9 +73,9 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="file-EXadBDjBOmOFWh1qijFdwljs" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="file-XTEUNcYIiQRKZ7OcDxJwZGmJ" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
-            <button onclick="nextScreen(2)">Siguiente</button>
+            <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
@@ -81,6 +84,7 @@
         <form id="guestForm">
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
                 <option value="Cnel.">Cnel.</option>
                 <option value="Tte. Cnel.">Tte. Cnel.</option>
                 <option value="May.">May.</option>
@@ -92,6 +96,7 @@
 
             <label for="escalafon">Escalafón:</label>
             <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
                 <option value="Av.">(Av.)</option>
                 <option value="Nav.">(Nav.)</option>
                 <option value="Esp.">(Esp.)</option>
@@ -109,17 +114,26 @@
 
             <label for="acompanante">¿Asiste con acompañante?</label>
             <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
                 <option value="no">No</option>
                 <option value="si">Sí</option>
             </select><br><br>
 
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                <input type="number" id="cantidadAcompanantes" name="cantidadAcompanantes" min="1"><br><br>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
             </div>
 
             <label for="menu">Menú:</label>
             <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
                 <option value="normal">Normal</option>
                 <option value="vegetariano">Vegetariano</option>
                 <option value="vegano">Vegano</option>
@@ -145,6 +159,7 @@
         <h2>Selección de Mesa</h2>
         <label for="mesa">Seleccione su mesa:</label>
         <select id="mesa" name="mesa" required>
+            <option value="" selected>Seleccionar</option>
             <script>
                 for (let i = 1; i <= 35; i++) {
                     document.write('<option value="mesa' + i + '">Mesa ' + i + '</option>');
@@ -180,6 +195,7 @@
                             <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
                             <label for="menuAcompanante${i}">Menú:</label>
                             <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                                <option value="" selected>Seleccionar</option>
                                 <option value="normal">Normal</option>
                                 <option value="vegetariano">Vegetariano</option>
                                 <option value="vegano">Vegano</option>
