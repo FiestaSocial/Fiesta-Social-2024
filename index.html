@@ -29,7 +29,7 @@
             background-color: #EBF5FB;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            max-width: 90%;
             width: 90%;
             margin: 20px auto;
         }
@@ -69,25 +69,29 @@
         #planoSala {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
         }
         .mesa {
-            display: flex;
-            flex-wrap: wrap;
+            position: relative;
             width: 100px;
             height: 100px;
+            margin: 10px;
             border: 2px solid #154360;
             border-radius: 50%;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
         }
         .lugar {
-            width: 20%;
-            height: 20%;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #EBF5FB;
             border: 1px solid #154360;
             border-radius: 50%;
-            margin: 5%;
         }
         .mesa.completa {
             pointer-events: none;
@@ -262,10 +266,14 @@
                 mesa.onmouseover = () => mostrarInvitados(i);
                 mesa.onclick = () => seleccionarMesa(i);
 
+                let angulo = 360 / lugaresPorMesa;
                 for (let j = 1; j <= lugaresPorMesa; j++) {
                     let lugar = document.createElement('div');
                     lugar.className = 'lugar';
                     lugar.id = `mesa${i}lugar${j}`;
+                    let theta = (angulo * j) * (Math.PI / 180);
+                    lugar.style.left = `${50 + 35 * Math.cos(theta)}%`;
+                    lugar.style.top = `${50 + 35 * Math.sin(theta)}%`;
                     mesa.appendChild(lugar);
                 }
 
@@ -337,3 +345,4 @@
     </script>
 </body>
 </html>
+
