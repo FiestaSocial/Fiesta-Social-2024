@@ -74,31 +74,17 @@
             align-items: center;
             width: 100%;
         }
-        .mesa, .buffet, .estadoMayor, .pistaBaile {
+        .mesa {
             position: relative;
+            width: 100px;
+            height: 100px;
             margin: 10px;
             border: 2px solid #154360;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border-radius: 10px;
-            padding: 20px;
-        }
-        .mesa {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-        }
-        .buffet, .estadoMayor, .pistaBaile {
-            width: 200px;
-            height: 100px;
-            text-align: center;
-            cursor: default;
-        }
-        .pistaBaile {
-            grid-column: span 3;
-            height: 200px;
         }
         .lugar {
             position: absolute;
@@ -111,6 +97,30 @@
         .mesa.completa {
             pointer-events: none;
             opacity: 0.5;
+        }
+        .buffet, .estadoMayor, .pistaBaile {
+            position: relative;
+            margin: 10px;
+            border: 2px solid #154360;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .buffet {
+            width: 200px;
+            height: 50px;
+        }
+        .estadoMayor {
+            width: 100px;
+            height: 200px;
+        }
+        .pistaBaile {
+            grid-column: span 3;
+            height: 200px;
         }
     </style>
 </head>
@@ -288,8 +298,8 @@
                     lugar.className = 'lugar';
                     lugar.id = `mesa${i}lugar${j}`;
                     let theta = (angulo * j) * (Math.PI / 180);
-                    lugar.style.left = `${50 + 35 * Math.cos(theta)}%`;
-                    lugar.style.top = `${50 + 35 * Math.sin(theta)}%`;
+                    lugar.style.left = `${50 + 45 * Math.cos(theta)}%`;
+                    lugar.style.top = `${50 + 45 * Math.sin(theta)}%`;
                     mesa.appendChild(lugar);
                 }
 
