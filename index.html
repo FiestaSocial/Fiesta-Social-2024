@@ -90,16 +90,15 @@
 
         .table-representation {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             justify-items: center;
             align-items: center;
         }
 
         .seat {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             background-color: #28A745;
             border-radius: 50%;
         }
@@ -112,8 +111,8 @@
             background-color: #155724;
             width: 40px;
             height: 40px;
-            grid-column: 2 / 3;
-            grid-row: 2 / 3;
+            grid-column: span 2;
+            grid-row: span 2;
         }
 
         .guest-list {
@@ -222,8 +221,8 @@
                 <div class="seat" id="seat2"></div>
                 <div class="seat" id="seat3"></div>
                 <div class="seat" id="seat4"></div>
-                <div class="seat center" id="seatCenter"></div>
                 <div class="seat" id="seat5"></div>
+                <div class="seat center" id="seatCenter"></div>
                 <div class="seat" id="seat6"></div>
                 <div class="seat" id="seat7"></div>
                 <div class="seat" id="seat8"></div>
@@ -335,3 +334,4 @@
 </body>
 
 </html>
+
