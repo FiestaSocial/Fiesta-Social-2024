@@ -96,6 +96,36 @@
             margin-top: 20px;
             text-align: left;
         }
+
+        .table-representation {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #154360;
+        }
+
+        .seat.occupied {
+            background-color: #FF0000;
+        }
+
+        .seat.center {
+            background-color: #85C1E9;
+            font-size: 20px;
+            color: #FF0000;
+        }
     </style>
 </head>
 
@@ -188,7 +218,19 @@
             </script>
         </select><br><br>
         <div class="table-container">
-            <img src="/mnt/data/image.png" id="tableImage" class="table-image" alt="Mesa">
+            <div class="table-representation" id="tableRepresentation">
+                <div class="seat" id="seat1">1</div>
+                <div class="seat" id="seat2">2</div>
+                <div class="seat" id="seat3">3</div>
+                <div class="seat" id="seat4">4</div>
+                <div class="seat center" id="seatCenter">20</div>
+                <div class="seat" id="seat5">5</div>
+                <div class="seat" id="seat6">6</div>
+                <div class="seat" id="seat7">7</div>
+                <div class="seat" id="seat8">8</div>
+                <div class="seat" id="seat9">9</div>
+                <div class="seat" id="seat10">10</div>
+            </div>
         </div>
         <div class="guest-list">
             <h3>Invitados en esta mesa:</h3>
@@ -254,7 +296,6 @@
 
         function updateTable() {
             const mesa = document.getElementById("mesa").value;
-            const tableImage = document.getElementById("tableImage");
             const guestList = document.getElementById("guestList");
 
             // Aquí se podría actualizar la imagen de la mesa y la lista de invitados
@@ -267,8 +308,16 @@
                 <li>Invitado 3</li>
             `;
 
-            // Ejemplo de actualización de imagen (esto debe ser reemplazado con la lógica real)
-            tableImage.src = "/mnt/data/image.png"; // actualizar con la imagen correcta según la mesa seleccionada
+            // Ejemplo de actualización de asientos (esto debe ser reemplazado con la lógica real)
+            let occupiedSeats = [2, 5, 7]; // ejemplo de asientos ocupados
+            for (let i = 1; i <= 10; i++) {
+                let seat = document.getElementById(`seat${i}`);
+                if (occupiedSeats.includes(i)) {
+                    seat.classList.add('occupied');
+                } else {
+                    seat.classList.remove('occupied');
+                }
+            }
         }
 
         function submitForm() {
