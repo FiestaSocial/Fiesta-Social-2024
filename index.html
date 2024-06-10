@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,11 +18,13 @@
             justify-content: center;
             min-height: 100vh;
         }
+
         .banner {
             background-color: #85C1E9;
             height: 50px;
             width: 100%;
         }
+
         .container {
             display: none;
             text-align: center;
@@ -29,18 +32,21 @@
             background-color: #EBF5FB;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 90%;
+            max-width: 600px;
             width: 90%;
             margin: 20px auto;
         }
+
         .active {
             display: block;
         }
+
         .navigation-buttons {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
+
         button {
             background-color: #5499C7;
             border: none;
@@ -50,80 +56,49 @@
             font-size: 16px;
             border-radius: 5px;
         }
+
         button:hover {
             background-color: #2980B9;
         }
-        label, input, select {
+
+        label,
+        input,
+        select {
             display: block;
             width: 100%;
             margin: 10px 0;
         }
-        input, select {
+
+        input,
+        select {
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
         }
+
         select option:first-child {
             display: none;
         }
-        #planoSala {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 20px;
-            justify-items: center;
-            align-items: center;
-            width: 100%;
-        }
-        .mesa {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 10px;
-            border: 2px solid #154360;
-            border-radius: 50%;
+
+        .table-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            margin-top: 20px;
         }
-        .lugar {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #EBF5FB;
-            border: 1px solid #154360;
-            border-radius: 50%;
-        }
-        .mesa.completa {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        .buffet, .estadoMayor, .pistaBaile {
-            position: relative;
-            margin: 10px;
-            border: 2px solid #154360;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: default;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-        }
-        .buffet {
+
+        .table-image {
             width: 200px;
-            height: 50px;
+            height: auto;
         }
-        .estadoMayor {
-            width: 100px;
-            height: 200px;
-        }
-        .pistaBaile {
-            grid-column: span 3;
-            height: 200px;
+
+        .guest-list {
+            margin-top: 20px;
+            text-align: left;
         }
     </style>
 </head>
+
 <body>
     <div class="banner"></div>
     <div id="screen1" class="container active">
@@ -134,7 +109,6 @@
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
-
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
@@ -149,32 +123,26 @@
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
             </select><br><br>
-
             <label for="escalafon">Escalafón:</label>
             <select id="escalafon" name="escalafon" required>
                 <option value="" selected>Seleccionar</option>
                 <option value="Av.">(Av.)</option>
                 <option value="Nav.">(Nav.)</option>
                 <option value="Esp.">(Esp.)</option>
-                <option value="T.P.">(T.P.)</option>
+                <option value="TP">(TP)</option>
             </select><br><br>
-
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br><br>
-
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" required><br><br>
-
             <label for="cedula">Cédula de Identidad:</label>
             <input type="text" id="cedula" name="cedula" required><br><br>
-
             <label for="acompanante">¿Asiste con acompañante?</label>
             <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
                 <option value="" selected>Seleccionar</option>
                 <option value="no">No</option>
                 <option value="si">Sí</option>
             </select><br><br>
-
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
                 <select id="cantidadAcompanantes" name="cantidadAcompanantes">
@@ -186,7 +154,6 @@
                     <option value="5">5</option>
                 </select><br><br>
             </div>
-
             <label for="menu">Menú:</label>
             <select id="menu" name="menu" required>
                 <option value="" selected>Seleccionar</option>
@@ -201,7 +168,6 @@
             <button onclick="nextScreen(3)">Siguiente</button>
         </div>
     </div>
-
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
         <form id="acompanantesForm"></form>
@@ -210,11 +176,23 @@
             <button onclick="nextScreen(4)">Siguiente</button>
         </div>
     </div>
-
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div id="planoSala">
-            <!-- Aquí se añadirá el plano de las mesas -->
+        <label for="mesa">Seleccione su mesa:</label>
+        <select id="mesa" name="mesa" required onchange="updateTable()">
+            <option value="" selected>Seleccionar</option>
+            <script>
+                for (let i = 1; i <= 35; i++) {
+                    document.write('<option value="mesa' + i + '">Mesa ' + i + '</option>');
+                }
+            </script>
+        </select><br><br>
+        <div class="table-container">
+            <img src="/mnt/data/image.png" id="tableImage" class="table-image" alt="Mesa">
+        </div>
+        <div class="guest-list">
+            <h3>Invitados en esta mesa:</h3>
+            <ul id="guestList"></ul>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -222,17 +200,12 @@
         </div>
     </div>
     <div class="banner"></div>
-
     <script>
         let currentScreen = 1;
-        const totalMesas = 35;
-        const lugaresPorMesa = 10;
-        let mesas = {};
 
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
-
             if (currentScreen === 3) {
                 let acompanante = document.getElementById("acompanante").value;
                 if (acompanante === "si") {
@@ -240,7 +213,6 @@
                     let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
                     let acompanantesForm = document.getElementById("acompanantesForm");
                     acompanantesForm.innerHTML = '';
-
                     for (let i = 1; i <= cantidadAcompanantes; i++) {
                         acompanantesForm.innerHTML += `
                             <h3>Acompañante ${i}</h3>
@@ -280,123 +252,36 @@
             }
         }
 
-        function crearPlano() {
-            const planoSala = document.getElementById('planoSala');
-            planoSala.innerHTML = ''; // Limpiar el contenido
+        function updateTable() {
+            const mesa = document.getElementById("mesa").value;
+            const tableImage = document.getElementById("tableImage");
+            const guestList = document.getElementById("guestList");
 
-            // Agregar las mesas
-            for (let i = 1; i <= totalMesas; i++) {
-                let mesa = document.createElement('div');
-                mesa.className = 'mesa';
-                mesa.id = `mesa${i}`;
-                mesa.onmouseover = () => mostrarInvitados(i);
-                mesa.onclick = () => seleccionarMesa(i);
+            // Aquí se podría actualizar la imagen de la mesa y la lista de invitados
+            // Este ejemplo asume que la imagen y la lista se obtienen de algún servicio o base de datos
 
-                let angulo = 360 / lugaresPorMesa;
-                for (let j = 1; j <= lugaresPorMesa; j++) {
-                    let lugar = document.createElement('div');
-                    lugar.className = 'lugar';
-                    lugar.id = `mesa${i}lugar${j}`;
-                    let theta = (angulo * j) * (Math.PI / 180);
-                    lugar.style.left = `${50 + 50 * Math.cos(theta)}%`;
-                    lugar.style.top = `${50 + 50 * Math.sin(theta)}%`;
-                    mesa.appendChild(lugar);
-                }
+            // Ejemplo de actualización de lista (esto debe ser reemplazado con datos reales)
+            guestList.innerHTML = `
+                <li>Invitado 1</li>
+                <li>Invitado 2</li>
+                <li>Invitado 3</li>
+            `;
 
-                planoSala.appendChild(mesa);
-                mesas[`mesa${i}`] = [];
-            }
-
-            // Agregar buffet, estado mayor y pista de baile
-            let buffet1 = document.createElement('div');
-            buffet1.className = 'buffet';
-            buffet1.innerHTML = 'BUFFET';
-            buffet1.style.gridRow = '1 / 2';
-            buffet1.style.gridColumn = '1 / 3';
-            planoSala.appendChild(buffet1);
-
-            let estadoMayor = document.createElement('div');
-            estadoMayor.className = 'estadoMayor';
-            estadoMayor.innerHTML = 'ESTADO MAYOR';
-            estadoMayor.style.gridRow = '1 / 5';
-            estadoMayor.style.gridColumn = '4 / 5';
-            planoSala.appendChild(estadoMayor);
-
-            let pistaBaile = document.createElement('div');
-            pistaBaile.className = 'pistaBaile';
-            pistaBaile.innerHTML = 'PISTA DE BAILE';
-            pistaBaile.style.gridRow = '1 / 5';
-            pistaBaile.style.gridColumn = '5 / 8';
-            planoSala.appendChild(pistaBaile);
-
-            let buffet2 = document.createElement('div');
-            buffet2.className = 'buffet';
-            buffet2.innerHTML = 'BUFFET';
-            buffet2.style.gridRow = '1 / 2';
-            buffet2.style.gridColumn = '6 / 8';
-            planoSala.appendChild(buffet2);
-        }
-
-        function mostrarInvitados(mesaId) {
-            const invitados = mesas[`mesa${mesaId}`];
-            let listaInvitados = `Mesa ${mesaId}:\n`;
-            invitados.forEach((invitado, index) => {
-                listaInvitados += `${index + 1}. ${invitado}\n`;
-            });
-            // Mostrar en un tooltip o modal
-            alert(listaInvitados);
-        }
-
-        function seleccionarMesa(mesaId) {
-            if (mesas[`mesa${mesaId}`].length >= lugaresPorMesa) {
-                alert('Mesa completa');
-                return;
-            }
-            // Lógica para seleccionar mesa
-            // Actualizar la interfaz
-        }
-
-        function registrarInvitado(mesaId, invitado) {
-            let mesa = mesas[`mesa${mesaId}`];
-            if (mesa.length + 1 <= lugaresPorMesa) {
-                mesa.push(invitado);
-                for (let i = 0; i < mesa.length; i++) {
-                    document.getElementById(`mesa${mesaId}lugar${i + 1}`).style.backgroundColor = 'red';
-                }
-            }
-            if (mesa.length === lugaresPorMesa) {
-                document.getElementById(`mesa${mesaId}`).classList.add('completa');
-            }
+            // Ejemplo de actualización de imagen (esto debe ser reemplazado con la lógica real)
+            tableImage.src = "/mnt/data/image.png"; // actualizar con la imagen correcta según la mesa seleccionada
         }
 
         function submitForm() {
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
-
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                // Recoger datos del formulario
-                let nombre = document.getElementById("nombre").value;
-                let apellido = document.getElementById("apellido").value;
-                let cedula = document.getElementById("cedula").value;
-                let mesaSeleccionada = document.querySelector(".mesa.selected");
-
-                if (mesaSeleccionada) {
-                    let mesaId = mesaSeleccionada.id.replace('mesa', '');
-                    registrarInvitado(mesaId, `${nombre} ${apellido} (${cedula})`);
-
-                    alert("Formulario enviado exitosamente!");
-                    // Aquí puedes agregar el código para enviar los datos del formulario al servidor
-                } else {
-                    alert("Por favor, seleccione una mesa.");
-                }
+                alert("Formulario enviado exitosamente!");
+                // Aquí puedes agregar el código para enviar los datos del formulario al servidor
             } else {
-                alert("Por favor, complete todos los campos requeridos.");
+                alert("Por favor, completa todos los campos requeridos.");
             }
         }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            crearPlano();
-        });
     </script>
 </body>
+
 </html>
