@@ -82,19 +82,10 @@
 
         .table-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             margin-top: 20px;
-        }
-
-        .table-image {
-            width: 200px;
-            height: auto;
-        }
-
-        .guest-list {
-            margin-top: 20px;
-            text-align: left;
         }
 
         .table-representation {
@@ -107,14 +98,10 @@
         }
 
         .seat {
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
+            width: 20px;
+            height: 20px;
+            background-color: #28A745;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #154360;
         }
 
         .seat.occupied {
@@ -122,9 +109,21 @@
         }
 
         .seat.center {
-            background-color: #85C1E9;
-            font-size: 20px;
-            color: #FF0000;
+            background-color: #155724;
+            width: 40px;
+            height: 40px;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+
+        .guest-list {
+            margin-top: 20px;
+            text-align: left;
+            border: 1px solid #154360;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #F1F1F1;
+            width: 100%;
         }
     </style>
 </head>
@@ -219,22 +218,24 @@
         </select><br><br>
         <div class="table-container">
             <div class="table-representation" id="tableRepresentation">
-                <div class="seat" id="seat1">1</div>
-                <div class="seat" id="seat2">2</div>
-                <div class="seat" id="seat3">3</div>
-                <div class="seat" id="seat4">4</div>
-                <div class="seat center" id="seatCenter">20</div>
-                <div class="seat" id="seat5">5</div>
-                <div class="seat" id="seat6">6</div>
-                <div class="seat" id="seat7">7</div>
-                <div class="seat" id="seat8">8</div>
-                <div class="seat" id="seat9">9</div>
-                <div class="seat" id="seat10">10</div>
+                <div class="seat" id="seat1"></div>
+                <div class="seat" id="seat2"></div>
+                <div class="seat" id="seat3"></div>
+                <div class="seat" id="seat4"></div>
+                <div class="seat center" id="seatCenter"></div>
+                <div class="seat" id="seat5"></div>
+                <div class="seat" id="seat6"></div>
+                <div class="seat" id="seat7"></div>
+                <div class="seat" id="seat8"></div>
+                <div class="seat" id="seat9"></div>
+                <div class="seat" id="seat10"></div>
             </div>
         </div>
         <div class="guest-list">
             <h3>Invitados en esta mesa:</h3>
-            <ul id="guestList"></ul>
+            <ul id="guestList">
+                <li>No hay invitados aún.</li>
+            </ul>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
