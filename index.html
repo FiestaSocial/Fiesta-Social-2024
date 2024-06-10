@@ -67,23 +67,38 @@
             display: none;
         }
         #planoSala {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 20px;
+            justify-items: center;
             align-items: center;
             width: 100%;
         }
-        .mesa {
+        .mesa, .buffet, .estadoMayor, .pistaBaile {
             position: relative;
-            width: 100px;
-            height: 100px;
             margin: 10px;
             border: 2px solid #154360;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .mesa {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        .buffet, .estadoMayor, .pistaBaile {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+            cursor: default;
+        }
+        .pistaBaile {
+            grid-column: span 3;
+            height: 200px;
         }
         .lugar {
             position: absolute;
@@ -259,6 +274,7 @@
             const planoSala = document.getElementById('planoSala');
             planoSala.innerHTML = ''; // Limpiar el contenido
 
+            // Agregar las mesas
             for (let i = 1; i <= totalMesas; i++) {
                 let mesa = document.createElement('div');
                 mesa.className = 'mesa';
@@ -280,6 +296,27 @@
                 planoSala.appendChild(mesa);
                 mesas[`mesa${i}`] = [];
             }
+
+            // Agregar buffet, estado mayor y pista de baile
+            let buffet1 = document.createElement('div');
+            buffet1.className = 'buffet';
+            buffet1.innerHTML = 'BUFFET';
+            planoSala.appendChild(buffet1);
+
+            let estadoMayor = document.createElement('div');
+            estadoMayor.className = 'estadoMayor';
+            estadoMayor.innerHTML = 'ESTADO MAYOR';
+            planoSala.appendChild(estadoMayor);
+
+            let pistaBaile = document.createElement('div');
+            pistaBaile.className = 'pistaBaile';
+            pistaBaile.innerHTML = 'PISTA DE BAILE';
+            planoSala.appendChild(pistaBaile);
+
+            let buffet2 = document.createElement('div');
+            buffet2.className = 'buffet';
+            buffet2.innerHTML = 'BUFFET';
+            planoSala.appendChild(buffet2);
         }
 
         function mostrarInvitados(mesaId) {
@@ -345,4 +382,3 @@
     </script>
 </body>
 </html>
-
