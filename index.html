@@ -298,8 +298,8 @@
                     lugar.className = 'lugar';
                     lugar.id = `mesa${i}lugar${j}`;
                     let theta = (angulo * j) * (Math.PI / 180);
-                    lugar.style.left = `${50 + 60 * Math.cos(theta)}%`;
-                    lugar.style.top = `${50 + 60 * Math.sin(theta)}%`;
+                    lugar.style.left = `${50 + 50 * Math.cos(theta)}%`;
+                    lugar.style.top = `${50 + 50 * Math.sin(theta)}%`;
                     mesa.appendChild(lugar);
                 }
 
@@ -311,21 +311,29 @@
             let buffet1 = document.createElement('div');
             buffet1.className = 'buffet';
             buffet1.innerHTML = 'BUFFET';
+            buffet1.style.gridRow = '1 / 2';
+            buffet1.style.gridColumn = '1 / 3';
             planoSala.appendChild(buffet1);
 
             let estadoMayor = document.createElement('div');
             estadoMayor.className = 'estadoMayor';
             estadoMayor.innerHTML = 'ESTADO MAYOR';
+            estadoMayor.style.gridRow = '1 / 5';
+            estadoMayor.style.gridColumn = '4 / 5';
             planoSala.appendChild(estadoMayor);
 
             let pistaBaile = document.createElement('div');
             pistaBaile.className = 'pistaBaile';
             pistaBaile.innerHTML = 'PISTA DE BAILE';
+            pistaBaile.style.gridRow = '1 / 5';
+            pistaBaile.style.gridColumn = '5 / 8';
             planoSala.appendChild(pistaBaile);
 
             let buffet2 = document.createElement('div');
             buffet2.className = 'buffet';
             buffet2.innerHTML = 'BUFFET';
+            buffet2.style.gridRow = '1 / 2';
+            buffet2.style.gridColumn = '6 / 8';
             planoSala.appendChild(buffet2);
         }
 
@@ -392,4 +400,3 @@
     </script>
 </body>
 </html>
-
