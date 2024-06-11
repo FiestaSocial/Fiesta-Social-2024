@@ -73,14 +73,20 @@
             margin: 30px auto;
         }
         .table {
-            width: 40%;
-            height: 40%;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             background-color: #5499C7;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
         }
         .seat {
             width: 50px;
@@ -200,7 +206,7 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <label for="mesa">Seleccione su mesa:</label>
-        <select id="mesa" name="mesa" required>
+        <select id="mesa" name="mesa" required onchange="updateMesaText()">
             <option value="" selected>Seleccionar</option>
             <script>
                 for (let i = 1; i <= 35; i++) {
@@ -209,7 +215,7 @@
             </script>
         </select><br><br>
         <div class="table-container">
-            <div class="table"></div>
+            <div class="table" id="mesaText">Mesa</div>
             <div class="seat" style="--i:0;"></div>
             <div class="seat" style="--i:1;"></div>
             <div class="seat" style="--i:2;"></div>
@@ -293,6 +299,12 @@
             } else {
                 acompananteCantidad.style.display = "none";
             }
+        }
+
+        function updateMesaText() {
+            const mesaSelect = document.getElementById("mesa");
+            const mesaText = document.getElementById("mesaText");
+            mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
         }
 
         function submitForm() {
