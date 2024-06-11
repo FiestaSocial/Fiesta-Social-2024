@@ -94,17 +94,19 @@
             color: white;
             font-weight: bold;
         }
-        /* Position seats uniformly around the table */
-        .seat:nth-child(1)  { top: 10%; left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(2)  { top: 20%; left: 80%; transform: translate(-50%, -50%); }
-        .seat:nth-child(3)  { top: 50%; left: 90%; transform: translate(-50%, -50%); }
-        .seat:nth-child(4)  { top: 80%; left: 80%; transform: translate(-50%, -50%); }
-        .seat:nth-child(5)  { top: 90%; left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(6)  { top: 80%; left: 20%; transform: translate(-50%, -50%); }
-        .seat:nth-child(7)  { top: 50%; left: 10%; transform: translate(-50%, -50%); }
-        .seat:nth-child(8)  { top: 20%; left: 20%; transform: translate(-50%, -50%); }
-        .seat:nth-child(9)  { top: calc(50% - 120px); left: calc(50% - 80px); transform: translate(-50%, -50%); }
-        .seat:nth-child(10) { top: calc(50% - 120px); left: calc(50% + 80px); transform: translate(-50%, -50%); }
+
+        /* Position seats uniformly around the table using trigonometry */
+        .seat:nth-child(1)  { top: calc(50% - 170px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(2)  { top: calc(50% - 120px); left: calc(50% + 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(3)  { top: 50%; left: calc(50% + 170px); transform: translate(-50%, -50%); }
+        .seat:nth-child(4)  { top: calc(50% + 120px); left: calc(50% + 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(5)  { top: calc(50% + 170px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(6)  { top: calc(50% + 120px); left: calc(50% - 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(7)  { top: 50%; left: calc(50% - 170px); transform: translate(-50%, -50%); }
+        .seat:nth-child(8)  { top: calc(50% - 120px); left: calc(50% - 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(9)  { top: calc(50% - 60px); left: calc(50% - 170px); transform: translate(-50%, -50%); }
+        .seat:nth-child(10) { top: calc(50% - 60px); left: calc(50% + 170px); transform: translate(-50%, -50%); }
+
     </style>
 </head>
 <body>
