@@ -95,17 +95,18 @@
             font-weight: bold;
         }
 
-        /* Corrected positions for 10 seats uniformly distributed around the table */
-        .seat:nth-child(1)  { top: calc(50% - 170px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(2)  { top: calc(50% - 120px); left: calc(50% + 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(3)  { top: 50%; left: calc(50% + 170px); transform: translate(-50%, -50%); }
-        .seat:nth-child(4)  { top: calc(50% + 120px); left: calc(50% + 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(5)  { top: calc(50% + 170px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(6)  { top: calc(50% + 120px); left: calc(50% - 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(7)  { top: 50%; left: calc(50% - 170px); transform: translate(-50%, -50%); }
-        .seat:nth-child(8)  { top: calc(50% - 120px); left: calc(50% - 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(9)  { top: calc(50% - 85px); left: calc(50% - 150px); transform: translate(-50%, -50%); }
-        .seat:nth-child(10) { top: calc(50% - 85px); left: calc(50% + 150px); transform: translate(-50%, -50%); }
+        .seat {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #85C1E9;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
 
     </style>
 </head>
@@ -209,16 +210,16 @@
         </select><br><br>
         <div class="table-container">
             <div class="table"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
+            <div class="seat" style="--i:0;"></div>
+            <div class="seat" style="--i:1;"></div>
+            <div class="seat" style="--i:2;"></div>
+            <div class="seat" style="--i:3;"></div>
+            <div class="seat" style="--i:4;"></div>
+            <div class="seat" style="--i:5;"></div>
+            <div class="seat" style="--i:6;"></div>
+            <div class="seat" style="--i:7;"></div>
+            <div class="seat" style="--i:8;"></div>
+            <div class="seat" style="--i:9;"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -228,6 +229,19 @@
     <div class="banner"></div>
 
     <script>
+        const seats = document.querySelectorAll('.seat');
+        const totalSeats = seats.length;
+        const radius = 150; // Radio del círculo en px
+
+        seats.forEach((seat, index) => {
+            const angle = (index / totalSeats) * (2 * Math.PI);
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+
+            seat.style.left = `calc(50% + ${x}px)`;
+            seat.style.top = `calc(50% - ${y}px)`;
+        });
+
         let currentScreen = 1;
 
         function nextScreen(screen) {
