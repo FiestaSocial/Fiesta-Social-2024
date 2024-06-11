@@ -29,7 +29,7 @@
             background-color: #EBF5FB;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 90%;
+            max-width: 600px;
             width: 90%;
             margin: 20px auto;
         }
@@ -66,81 +66,30 @@
         select option:first-child {
             display: none;
         }
-        #planoSala {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 20px;
-            justify-items: center;
-            align-items: center;
+        .table-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        .table {
             width: 100%;
-        }
-        .mesa {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 10px;
-            border: 2px solid #154360;
+            height: 100%;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .lugar {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #EBF5FB;
-            border: 1px solid #154360;
-            border-radius: 50%;
-        }
-        .mesa.completa {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        .buffet, .estadoMayor, .pistaBaile {
+            background-color: #5499C7;
             position: relative;
-            margin: 10px;
-            border: 2px solid #154360;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: default;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
         }
-        .buffet {
-            width: 200px;
+        .seat {
+            width: 50px;
             height: 50px;
-        }
-        .estadoMayor {
-            width: 100px;
-            height: 200px;
-        }
-        .pistaBaile {
-            grid-column: span 3;
-            height: 200px;
-        }
-        .mesa-representacion {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 20px;
-            border: 2px solid #154360;
             border-radius: 50%;
+            background-color: #85C1E9;
+            position: absolute;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #85C1E9;
-        }
-        .lugar-representacion {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #EBF5FB;
-            border: 2px solid #154360;
-            border-radius: 50%;
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -233,11 +182,28 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div id="planoSala">
-            <!-- Aquí se añadirá el plano de las mesas -->
-        </div>
-        <div class="mesa-representacion" id="mesaRepresentacion">
-            <!-- Aquí se añadirá la representación de la mesa -->
+        <label for="mesa">Seleccione su mesa:</label>
+        <select id="mesa" name="mesa" required>
+            <option value="" selected>Seleccionar</option>
+            <script>
+                for (let i = 1; i <= 35; i++) {
+                    document.write('<option value="mesa' + i + '">Mesa ' + i + '</option>');
+                }
+            </script>
+        </select><br><br>
+        <div class="table-container">
+            <div class="table">
+                <div class="seat" style="top: 0; left: 50%; transform: translate(-50%, -50%);">1</div>
+                <div class="seat" style="top: 15%; left: 85%; transform: translate(-50%, -50%);">2</div>
+                <div class="seat" style="top: 50%; left: 100%; transform: translate(-50%, -50%);">3</div>
+                <div class="seat" style="top: 85%; left: 85%; transform: translate(-50%, -50%);">4</div>
+                <div class="seat" style="top: 100%; left: 50%; transform: translate(-50%, -50%);">5</div>
+                <div class="seat" style="top: 85%; left: 15%; transform: translate(-50%, -50%);">6</div>
+                <div class="seat" style="top: 50%; left: 0; transform: translate(-50%, -50%);">7</div>
+                <div class="seat" style="top: 15%; left: 15%; transform: translate(-50%, -50%);">8</div>
+                <div class="seat" style="top: 0; left: 50%; transform: translate(-50%, -50%);">9</div>
+                <div class="seat" style="top: 15%; left: 85%; transform: translate(-50%, -50%);">10</div>
+            </div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -248,9 +214,6 @@
 
     <script>
         let currentScreen = 1;
-        const totalMesas = 35;
-        const lugaresPorMesa = 10;
-        let mesas = {};
 
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
@@ -303,145 +266,17 @@
             }
         }
 
-        function crearPlano() {
-            const planoSala = document.getElementById('planoSala');
-            planoSala.innerHTML = ''; // Limpiar el contenido
-
-            // Agregar las mesas
-            for (let i = 1; i <= totalMesas; i++) {
-                let mesa = document.createElement('div');
-                mesa.className = 'mesa';
-                mesa.id = `mesa${i}`;
-                mesa.onmouseover = () => mostrarInvitados(i);
-                mesa.onclick = () => seleccionarMesa(i);
-
-                let angulo = 360 / lugaresPorMesa;
-                for (let j = 1; j <= lugaresPorMesa; j++) {
-                    let lugar = document.createElement('div');
-                    lugar.className = 'lugar';
-                    lugar.id = `mesa${i}lugar${j}`;
-                    let theta = (angulo * j) * (Math.PI / 180);
-                    lugar.style.left = `${50 + 50 * Math.cos(theta)}%`;
-                    lugar.style.top = `${50 + 50 * Math.sin(theta)}%`;
-                    mesa.appendChild(lugar);
-                }
-
-                planoSala.appendChild(mesa);
-                mesas[`mesa${i}`] = [];
-            }
-
-            // Agregar buffet, estado mayor y pista de baile
-            let buffet1 = document.createElement('div');
-            buffet1.className = 'buffet';
-            buffet1.innerHTML = 'BUFFET';
-            buffet1.style.gridRow = '1 / 2';
-            buffet1.style.gridColumn = '1 / 3';
-            planoSala.appendChild(buffet1);
-
-            let estadoMayor = document.createElement('div');
-            estadoMayor.className = 'estadoMayor';
-            estadoMayor.innerHTML = 'ESTADO MAYOR';
-            estadoMayor.style.gridRow = '1 / 5';
-            estadoMayor.style.gridColumn = '4 / 5';
-            planoSala.appendChild(estadoMayor);
-
-            let pistaBaile = document.createElement('div');
-            pistaBaile.className = 'pistaBaile';
-            pistaBaile.innerHTML = 'PISTA DE BAILE';
-            pistaBaile.style.gridRow = '1 / 5';
-            pistaBaile.style.gridColumn = '5 / 8';
-            planoSala.appendChild(pistaBaile);
-
-            let buffet2 = document.createElement('div');
-            buffet2.className = 'buffet';
-            buffet2.innerHTML = 'BUFFET';
-            buffet2.style.gridRow = '1 / 2';
-            buffet2.style.gridColumn = '6 / 8';
-            planoSala.appendChild(buffet2);
-        }
-
-        function mostrarInvitados(mesaId) {
-            const invitados = mesas[`mesa${mesaId}`];
-            let listaInvitados = `Mesa ${mesaId}:\n`;
-            invitados.forEach((invitado, index) => {
-                listaInvitados += `${index + 1}. ${invitado}\n`;
-            });
-            // Mostrar en un tooltip o modal
-            alert(listaInvitados);
-        }
-
-        function seleccionarMesa(mesaId) {
-            if (mesas[`mesa${mesaId}`].length >= lugaresPorMesa) {
-                alert('Mesa completa');
-                return;
-            }
-            let selectedMesa = document.querySelector('.mesa.selected');
-            if (selectedMesa) {
-                selectedMesa.classList.remove('selected');
-            }
-            document.getElementById(`mesa${mesaId}`).classList.add('selected');
-
-            // Actualizar la representación de la mesa seleccionada
-            actualizarMesaRepresentacion(mesaId);
-        }
-
-        function actualizarMesaRepresentacion(mesaId) {
-            const mesaRepresentacion = document.getElementById('mesaRepresentacion');
-            mesaRepresentacion.innerHTML = ''; // Limpiar el contenido
-
-            let angulo = 360 / lugaresPorMesa;
-            for (let j = 1; j <= lugaresPorMesa; j++) {
-                let lugar = document.createElement('div');
-                lugar.className = 'lugar-representacion';
-                lugar.id = `mesaRep${mesaId}lugar${j}`;
-                let theta = (angulo * j) * (Math.PI / 180);
-                lugar.style.left = `${50 + 40 * Math.cos(theta)}%`;
-                lugar.style.top = `${50 + 40 * Math.sin(theta)}%`;
-                mesaRepresentacion.appendChild(lugar);
-            }
-        }
-
-        function registrarInvitado(mesaId, invitado) {
-            let mesa = mesas[`mesa${mesaId}`];
-            if (mesa.length + 1 <= lugaresPorMesa) {
-                mesa.push(invitado);
-                for (let i = 0; i < mesa.length; i++) {
-                    document.getElementById(`mesa${mesaId}lugar${i + 1}`).style.backgroundColor = 'red';
-                }
-            }
-            if (mesa.length === lugaresPorMesa) {
-                document.getElementById(`mesa${mesaId}`).classList.add('completa');
-            }
-        }
-
         function submitForm() {
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                // Recoger datos del formulario
-                let nombre = document.getElementById("nombre").value;
-                let apellido = document.getElementById("apellido").value;
-                let cedula = document.getElementById("cedula").value;
-                let mesaSeleccionada = document.querySelector(".mesa.selected");
-
-                if (mesaSeleccionada) {
-                    let mesaId = mesaSeleccionada.id.replace('mesa', '');
-                    registrarInvitado(mesaId, `${nombre} ${apellido} (${cedula})`);
-
-                    alert("Formulario enviado exitosamente!");
-                    // Aquí puedes agregar el código para enviar los datos del formulario al servidor
-                } else {
-                    alert("Por favor, seleccione una mesa.");
-                }
+                alert("Formulario enviado exitosamente!");
+                // Aquí puedes agregar el código para enviar los datos del formulario al servidor
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
         }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            crearPlano();
-        });
     </script>
 </body>
 </html>
