@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
+        /* Tus estilos CSS aquí */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F0F8FF;
+            background-color: #D6EAF8;
             color: #154360;
             margin: 0;
             padding: 0;
@@ -68,59 +69,39 @@
         }
         .table-container {
             position: relative;
-            width: 500px;
-            height: 500px;
+            width: 400px;
+            height: 400px;
             margin: 30px auto;
-            display: grid;
-            place-items: center;
         }
         .table {
-            width: 200px;
-            height: 200px;
+            width: 40%;
+            height: 40%;
             border-radius: 50%;
             background-color: #5499C7;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            grid-row: 1;
-            grid-column: 1;
+            font-size: 18px;
         }
         .seat {
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: #28a745;
+            background-color: green;
             position: absolute;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            cursor: pointer;
         }
-        .seat.occupied {
-            background-color: #dc3545;
-        }
-        #guestList {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-        .image-container {
-            margin-bottom: 20px;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
+        .occupied {
+            background-color: red;
         }
     </style>
 </head>
@@ -129,7 +110,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="imagen%20de%20bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="Imagen%20de%20bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -227,14 +208,14 @@
         </select><br><br>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
-            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
-            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
-            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
-            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
-            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
-            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
-            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -249,15 +230,7 @@
 
     <script>
         let currentScreen = 1;
-        const guestsData = {
-            // Estructura de ejemplo para invitados reales
-            // "mesa1": [
-            //     { seat: 1, name: "Juan Pérez" },
-            //     { seat: 3, name: "María López" },
-            //     { seat: 5, name: "Carlos Martínez" }
-            // ],
-            // Añadir datos reales de invitados aquí
-        };
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJw5dk0LToz7DZSTycOArvEqJjlmP2yoTcwfmuodfka0wPV9s6ThPKYmRm3BC6F4Qj/exec';
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -315,21 +288,22 @@
             }
         }
 
-        function updateMesaText() {
+        async function updateMesaText() {
             const mesaSelect = document.getElementById("mesa");
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
 
-            // Get selected table
+            const response = await fetch(SCRIPT_URL);
+            const guestsData = await response.json();
+
             const selectedTable = mesaSelect.value;
 
-            // Get guest data for selected table
-            const guests = guestsData[selectedTable] || [];
+            const guests = guestsData.filter(guest => guest['Mesa'] === selectedTable) || [];
 
             // Update seats
             document.querySelectorAll('.seat').forEach(seat => {
                 const seatNumber = parseInt(seat.getAttribute('data-seat'));
-                if (guests.find(guest => guest.seat === seatNumber)) {
+                if (guests.find(guest => parseInt(guest['Asiento']) === seatNumber)) {
                     seat.classList.add('occupied');
                 } else {
                     seat.classList.remove('occupied');
@@ -340,28 +314,40 @@
             const guestList = document.getElementById("guestList");
             guestList.innerHTML = "";
             guests.forEach(guest => {
-                guestList.innerHTML += `${guest.name}<br>`;
+                guestList.innerHTML += `${guest['Nombre']}<br>`;
             });
         }
 
-        function submitForm() {
+        async function submitForm() {
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                alert("Formulario enviado exitosamente!");
-                // Aquí puedes agregar el código para enviar los datos del formulario al servidor
+                const grado = document.getElementById("grado").value;
+                const escalafon = document.getElementById("escalafon").value;
+                const nombre = document.getElementById("nombre").value;
+                const apellido = document.getElementById("apellido").value;
+                const cedula = document.getElementById("cedula").value;
+                const acompanante = document.getElementById("acompanante").value;
+                const menu = document.getElementById("menu").value;
+
+                const values = [grado, escalafon, nombre, apellido, cedula, acompanante, menu];
+
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(values),
+                });
+
+                if (response.ok) {
+                    alert("Formulario enviado exitosamente!");
+                    updateMesaText();
+                } else {
+                    alert("Hubo un error al enviar el formulario.");
+                }
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
         }
-
-        // Example function to toggle seat occupation status
-        document.querySelectorAll('.seat').forEach(seat => {
-            seat.addEventListener('click', () => {
-                seat.classList.toggle('occupied');
-            });
-        });
     </script>
 </body>
 </html>
