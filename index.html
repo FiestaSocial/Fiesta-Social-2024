@@ -99,14 +99,14 @@
             color: white;
             font-weight: bold;
         }
-        .seat:nth-child(1)  { top: calc(50% - 120px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(2)  { top: calc(50% - 85px); left: calc(50% + 85px); transform: translate(-50%, -50%); }
-        .seat:nth-child(3)  { top: 50%; left: calc(50% + 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(4)  { top: calc(50% + 85px); left: calc(50% + 85px); transform: translate(-50%, -50%); }
-        .seat:nth-child(5)  { top: calc(50% + 120px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(6)  { top: calc(50% + 85px); left: calc(50% - 85px); transform: translate(-50%, -50%); }
-        .seat:nth-child(7)  { top: 50%; left: calc(50% - 120px); transform: translate(-50%, -50%); }
-        .seat:nth-child(8)  { top: calc(50% - 85px); left: calc(50% - 85px); transform: translate(-50%, -50%); }
+        .seat:nth-child(1)  { top: calc(50% - 60px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(2)  { top: calc(50% - 42.5px); left: calc(50% + 42.5px); transform: translate(-50%, -50%); }
+        .seat:nth-child(3)  { top: 50%; left: calc(50% + 60px); transform: translate(-50%, -50%); }
+        .seat:nth-child(4)  { top: calc(50% + 42.5px); left: calc(50% + 42.5px); transform: translate(-50%, -50%); }
+        .seat:nth-child(5)  { top: calc(50% + 60px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(6)  { top: calc(50% + 42.5px); left: calc(50% - 42.5px); transform: translate(-50%, -50%); }
+        .seat:nth-child(7)  { top: 50%; left: calc(50% - 60px); transform: translate(-50%, -50%); }
+        .seat:nth-child(8)  { top: calc(50% - 42.5px); left: calc(50% - 42.5px); transform: translate(-50%, -50%); }
         .occupied {
             background-color: red;
         }
@@ -241,8 +241,10 @@
 
     <script>
         const REPO = 'FiestaSocial/Fiesta-Social-2024'; // Reemplaza con tu usuario y repositorio
-        const TOKEN = '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'; // Reemplaza con tu nuevo token de GitHub
+        const TOKEN = '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'; // Reemplaza con tu nuevo token de GitHub
         const BRANCH = 'main'; // Reemplaza con la rama principal de tu repositorio
+
+        let currentScreen = 1;
 
         function nextScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
@@ -390,4 +392,3 @@
     </script>
 </body>
 </html>
- 
