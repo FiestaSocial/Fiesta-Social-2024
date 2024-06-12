@@ -230,7 +230,9 @@
 
     <script>
         let currentScreen = 1;
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJw5dk0LToz7DZSTycOArvEqJjlmP2yoTcwfmuodfka0wPV9s6ThPKYmRm3BC6F4Qj/exec';
+        const REPO = 'usuario/repositorio'; // Reemplaza con tu usuario y repositorio
+        const TOKEN = 'tu_token'; // Reemplaza con tu token de GitHub
+        const BRANCH = 'main'; // Reemplaza con la rama principal de tu repositorio
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -293,17 +295,22 @@
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
 
-            const response = await fetch(SCRIPT_URL);
-            const guestsData = await response.json();
+            const response = await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
+                headers: {
+                    'Authorization': `token ${TOKEN}`
+                }
+            });
+            const content = await response.json();
+            const data = JSON.parse(atob(content.content));
 
             const selectedTable = mesaSelect.value;
 
-            const guests = guestsData.filter(guest => guest['Mesa'] === selectedTable) || [];
+            const guests = data.invitados.filter(guest => guest.mesa === selectedTable) || [];
 
             // Update seats
             document.querySelectorAll('.seat').forEach(seat => {
                 const seatNumber = parseInt(seat.getAttribute('data-seat'));
-                if (guests.find(guest => parseInt(guest['Asiento']) === seatNumber)) {
+                if (guests.find(guest => parseInt(guest.asiento) === seatNumber)) {
                     seat.classList.add('occupied');
                 } else {
                     seat.classList.remove('occupied');
@@ -314,7 +321,7 @@
             const guestList = document.getElementById("guestList");
             guestList.innerHTML = "";
             guests.forEach(guest => {
-                guestList.innerHTML += `${guest['Nombre']}<br>`;
+                guestList.innerHTML += `${guest.nombre}<br>`;
             });
         }
 
@@ -330,20 +337,47 @@
                 const cedula = document.getElementById("cedula").value;
                 const acompanante = document.getElementById("acompanante").value;
                 const menu = document.getElementById("menu").value;
+                const mesa = document.getElementById("mesa").value;
 
-                const values = [grado, escalafon, nombre, apellido, cedula, acompanante, menu];
+                const values = {
+                    grado, 
+                    escalafon, 
+                    nombre, 
+                    apellido, 
+                    cedula, 
+                    acompanante, 
+                    menu, 
+                    mesa
+                };
 
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(values),
+                const response = await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
+                    headers: {
+                        'Authorization': `token ${TOKEN}`
+                    }
+                });
+                const content = await response.json();
+                const data = JSON.parse(atob(content.content));
+
+                data.invitados.push(values);
+
+                const updatedContent = btoa(JSON.stringify(data, null, 2));
+
+                await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Update data.json',
+                        content: updatedContent,
+                        sha: content.sha,
+                        branch: BRANCH
+                    })
                 });
 
-                if (response.ok) {
-                    alert("Formulario enviado exitosamente!");
-                    updateMesaText();
-                } else {
-                    alert("Hubo un error al enviar el formulario.");
-                }
+                alert("Formulario enviado exitosamente!");
+                updateMesaText();
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
