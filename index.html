@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
-        /* Tus estilos CSS aquí */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #D6EAF8;
@@ -74,8 +73,8 @@
             margin: 30px auto;
         }
         .table {
-            width: 40%;
-            height: 40%;
+            width: 50%;
+            height: 50%;
             border-radius: 50%;
             background-color: #5499C7;
             position: absolute;
@@ -89,8 +88,8 @@
             font-size: 18px;
         }
         .seat {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: green;
             position: absolute;
@@ -100,8 +99,22 @@
             color: white;
             font-weight: bold;
         }
+        .seat:nth-child(1)  { top: calc(50% - 120px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(2)  { top: calc(50% - 85px); left: calc(50% + 85px); transform: translate(-50%, -50%); }
+        .seat:nth-child(3)  { top: 50%; left: calc(50% + 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(4)  { top: calc(50% + 85px); left: calc(50% + 85px); transform: translate(-50%, -50%); }
+        .seat:nth-child(5)  { top: calc(50% + 120px); left: 50%; transform: translate(-50%, -50%); }
+        .seat:nth-child(6)  { top: calc(50% + 85px); left: calc(50% - 85px); transform: translate(-50%, -50%); }
+        .seat:nth-child(7)  { top: 50%; left: calc(50% - 120px); transform: translate(-50%, -50%); }
+        .seat:nth-child(8)  { top: calc(50% - 85px); left: calc(50% - 85px); transform: translate(-50%, -50%); }
         .occupied {
             background-color: red;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -179,7 +192,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen()">Siguiente</button>
+            <button onclick="nextScreen(3)">Siguiente</button>
         </div>
     </div>
 
@@ -194,7 +207,7 @@
 
     <div id="screen4" class="container">
         <div class="image-container">
-            <img src="plano.png" alt="Plano de la Mesa">
+            <img src="plano.png" alt="Plano del evento">
         </div>
         <h2>Selección de Mesa</h2>
         <label for="mesa">Seleccione su mesa:</label>
@@ -217,41 +230,53 @@
             <div class="seat" data-seat="7"></div>
             <div class="seat" data-seat="8"></div>
         </div>
+        <h3>Invitados Registrados en esta Mesa:</h3>
+        <div id="guestList"></div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList"></div>
         </div>
     </div>
     <div class="banner"></div>
 
     <script>
-        let currentScreen = 1;
-        const REPO = 'usuario/repositorio'; // Reemplaza con tu usuario y repositorio
-        const TOKEN = 'tu_token'; // Reemplaza con tu token de GitHub
+        const REPO = 'FiestaSocial/Fiesta-Social-2024'; // Reemplaza con tu usuario y repositorio
+        const TOKEN = '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'; // Reemplaza con tu nuevo token de GitHub
         const BRANCH = 'main'; // Reemplaza con la rama principal de tu repositorio
 
-        function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                if (currentScreen === 2) {
-                    let acompanante = document.getElementById("acompanante").value;
-                    if (acompanante === "si") {
-                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
+        function nextScreen(screen) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+
+            if (currentScreen === 3) {
+                let acompanante = document.getElementById("acompanante").value;
+                if (acompanante === "si") {
+                    document.getElementById(`screen${currentScreen}`).classList.add('active');
+                    let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                    let acompanantesForm = document.getElementById("acompanantesForm");
+                    acompanantesForm.innerHTML = '';
+
+                    for (let i = 1; i <= cantidadAcompanantes; i++) {
+                        acompanantesForm.innerHTML += `
+                            <h3>Acompañante ${i}</h3>
+                            <label for="nombreAcompanante${i}">Nombre:</label>
+                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                            <label for="menuAcompanante${i}">Menú:</label>
+                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                                <option value="" selected>Seleccionar</option>
+                                <option value="normal">Normal</option>
+                                <option value="vegetariano">Vegetariano</option>
+                                <option value="vegano">Vegano</option>
+                                <option value="celiaco">Celíaco</option>
+                            </select><br><br>
+                        `;
                     }
                 } else {
-                    nextScreenNumber = currentScreen + 1;
+                    nextScreen(4);
                 }
+            } else {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function prevScreen(screen) {
@@ -267,26 +292,6 @@
                 acompananteCantidad.style.display = "block";
             } else {
                 acompananteCantidad.style.display = "none";
-            }
-        }
-
-        function generateAcompanantesForm(cantidad) {
-            let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Clear previous entries
-            for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += `
-                    <h3>Acompañante ${i}</h3>
-                    <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-                    <label for="menuAcompanante${i}">Menú:</label>
-                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="normal">Normal</option>
-                        <option value="vegetariano">Vegetariano</option>
-                        <option value="vegano">Vegano</option>
-                        <option value="celiaco">Celíaco</option>
-                    </select><br><br>
-                `;
             }
         }
 
@@ -385,3 +390,4 @@
     </script>
 </body>
 </html>
+ 
