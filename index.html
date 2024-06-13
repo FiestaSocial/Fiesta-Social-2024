@@ -224,7 +224,7 @@
             <option value="" selected>Seleccionar</option>
             <script>
                 for (let i = 1; i <= 35; i++) {
-                    document.write('<option value="mesa' + i + '">Mesa ' + i + '</option>');
+                    document.write('<option value="Mesa ' + i + '">Mesa ' + i + '</option>');
                 }
             </script>
         </select><br><br>
@@ -252,17 +252,7 @@
 
     <script>
         let currentScreen = 1;
-        const guestsData = {
-            "mesa1": [
-                { seat: 1, name: "Juan Pérez" },
-                { seat: 3, name: "María López" },
-                { seat: 5, name: "Carlos Martínez" }
-            ],
-            "mesa2": [
-                { seat: 2, name: "Ana García" },
-                { seat: 4, name: "Luis Fernández" }
-            ]
-        };
+        const guestsData = {};
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -331,29 +321,6 @@
             const mesaSelect = document.getElementById("mesa");
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
-
-            // Get selected table
-            const selectedTable = mesaSelect.value;
-
-            // Get guest data for selected table
-            const guests = guestsData[selectedTable] || [];
-
-            // Update seats
-            document.querySelectorAll('.seat').forEach(seat => {
-                const seatNumber = parseInt(seat.getAttribute('data-seat'));
-                if (guests.find(guest => guest.seat === seatNumber)) {
-                    seat.classList.add('occupied');
-                } else {
-                    seat.classList.remove('occupied');
-                }
-            });
-
-            // Update guest list
-            const guestList = document.getElementById("guestList");
-            guestList.innerHTML = "";
-            guests.forEach(guest => {
-                guestList.innerHTML += `${guest.name}<br>`;
-            });
         }
 
         function submitForm() {
@@ -387,7 +354,7 @@
                     mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbxGzZ9hnvtvxodZEsuv2h7SFlhDMMGQdV_4veamMFaAs2RRAjVgSo7ep9gdaJ4zqPjN/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbx1nIWRNIUgLiha5MFZmpyu-N-87iCkCD_bhrj8QEnnWP1GACEvvFwAYfJ-qN9h4J8G/exec', {
                     method: 'POST',
                     body: JSON.stringify(data)
                 }).then(response => response.text())
@@ -406,13 +373,6 @@
             let form = document.getElementById(formId);
             return form.checkValidity();
         }
-
-        // Example function to toggle seat occupation status
-        document.querySelectorAll('.seat').forEach(seat => {
-            seat.addEventListener('click', () => {
-                seat.classList.toggle('occupied');
-            });
-        });
 
         document.addEventListener('DOMContentLoaded', () => {
             updateMesaText();
