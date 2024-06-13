@@ -129,7 +129,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="image.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -250,13 +250,15 @@
     <script>
         let currentScreen = 1;
         const guestsData = {
-            // Estructura de ejemplo para invitados reales
-            // "mesa1": [
-            //     { seat: 1, name: "Juan Pérez" },
-            //     { seat: 3, name: "María López" },
-            //     { seat: 5, name: "Carlos Martínez" }
-            // ],
-            // Añadir datos reales de invitados aquí
+            "mesa1": [
+                { seat: 1, name: "Juan Pérez" },
+                { seat: 3, name: "María López" },
+                { seat: 5, name: "Carlos Martínez" }
+            ],
+            "mesa2": [
+                { seat: 2, name: "Ana García" },
+                { seat: 4, name: "Luis Fernández" }
+            ]
         };
 
         function nextScreen(nextScreenNumber) {
@@ -376,6 +378,7 @@
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
+                      updateMesaText();
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
@@ -389,6 +392,10 @@
             seat.addEventListener('click', () => {
                 seat.classList.toggle('occupied');
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMesaText();
         });
     </script>
 </body>
