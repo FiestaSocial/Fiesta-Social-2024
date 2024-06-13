@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #D6EAF8;
+            background-color: #F0F8FF;
             color: #154360;
             margin: 0;
             padding: 0;
@@ -68,53 +68,59 @@
         }
         .table-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
             margin: 30px auto;
+            display: grid;
+            place-items: center;
         }
         .table {
-            width: 50%;
-            height: 50%;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background-color: #5499C7;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            grid-row: 1;
+            grid-column: 1;
         }
         .seat {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background-color: green;
+            background-color: #28a745;
             position: absolute;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            cursor: pointer;
         }
-        .seat:nth-child(1)  { top: calc(50% - 60px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(2)  { top: calc(50% - 42.5px); left: calc(50% + 42.5px); transform: translate(-50%, -50%); }
-        .seat:nth-child(3)  { top: 50%; left: calc(50% + 60px); transform: translate(-50%, -50%); }
-        .seat:nth-child(4)  { top: calc(50% + 42.5px); left: calc(50% + 42.5px); transform: translate(-50%, -50%); }
-        .seat:nth-child(5)  { top: calc(50% + 60px); left: 50%; transform: translate(-50%, -50%); }
-        .seat:nth-child(6)  { top: calc(50% + 42.5px); left: calc(50% - 42.5px); transform: translate(-50%, -50%); }
-        .seat:nth-child(7)  { top: 50%; left: calc(50% - 60px); transform: translate(-50%, -50%); }
-        .seat:nth-child(8)  { top: calc(50% - 42.5px); left: calc(50% - 42.5px); transform: translate(-50%, -50%); }
-        .occupied {
-            background-color: red;
+        .seat.occupied {
+            background-color: #dc3545;
+        }
+        #guestList {
+            width: 100%;
+            height: 100px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .image-container {
+            margin-bottom: 20px;
         }
         .image-container img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
-            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -123,7 +129,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen%20de%20bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="imagen%20de%20bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -192,7 +198,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen(3)">Siguiente</button>
+            <button onclick="nextScreen()">Siguiente</button>
         </div>
     </div>
 
@@ -207,7 +213,7 @@
 
     <div id="screen4" class="container">
         <div class="image-container">
-            <img src="plano.png" alt="Plano del evento">
+            <img src="plano.png" alt="Plano de la Mesa">
         </div>
         <h2>Selección de Mesa</h2>
         <label for="mesa">Seleccione su mesa:</label>
@@ -221,64 +227,56 @@
         </select><br><br>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1"></div>
-            <div class="seat" data-seat="2"></div>
-            <div class="seat" data-seat="3"></div>
-            <div class="seat" data-seat="4"></div>
-            <div class="seat" data-seat="5"></div>
-            <div class="seat" data-seat="6"></div>
-            <div class="seat" data-seat="7"></div>
-            <div class="seat" data-seat="8"></div>
+            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
+            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
+            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
+            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
+            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
+            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
+            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
+            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
         </div>
-        <h3>Invitados Registrados en esta Mesa:</h3>
-        <div id="guestList"></div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
+        </div>
+        <div>
+            <h3>Invitados Registrados en esta Mesa:</h3>
+            <div id="guestList"></div>
         </div>
     </div>
     <div class="banner"></div>
 
     <script>
-        const REPO = 'FiestaSocial/Fiesta-Social-2024'; // Reemplaza con tu usuario y repositorio
-        const TOKEN = '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'; // Reemplaza con tu nuevo token de GitHub
-        const BRANCH = 'main'; // Reemplaza con la rama principal de tu repositorio
-
         let currentScreen = 1;
+        const guestsData = {
+            // Estructura de ejemplo para invitados reales
+            // "mesa1": [
+            //     { seat: 1, name: "Juan Pérez" },
+            //     { seat: 3, name: "María López" },
+            //     { seat: 5, name: "Carlos Martínez" }
+            // ],
+            // Añadir datos reales de invitados aquí
+        };
 
-        function nextScreen(screen) {
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = screen;
-
-            if (currentScreen === 3) {
-                let acompanante = document.getElementById("acompanante").value;
-                if (acompanante === "si") {
-                    document.getElementById(`screen${currentScreen}`).classList.add('active');
-                    let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                    let acompanantesForm = document.getElementById("acompanantesForm");
-                    acompanantesForm.innerHTML = '';
-
-                    for (let i = 1; i <= cantidadAcompanantes; i++) {
-                        acompanantesForm.innerHTML += `
-                            <h3>Acompañante ${i}</h3>
-                            <label for="nombreAcompanante${i}">Nombre:</label>
-                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-                            <label for="menuAcompanante${i}">Menú:</label>
-                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                                <option value="" selected>Seleccionar</option>
-                                <option value="normal">Normal</option>
-                                <option value="vegetariano">Vegetariano</option>
-                                <option value="vegano">Vegano</option>
-                                <option value="celiaco">Celíaco</option>
-                            </select><br><br>
-                        `;
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
                     }
                 } else {
-                    nextScreen(4);
+                    nextScreenNumber = currentScreen + 1;
                 }
-            } else {
-                document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function prevScreen(screen) {
@@ -297,27 +295,41 @@
             }
         }
 
-        async function updateMesaText() {
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById("acompanantesForm");
+            acompanantesForm.innerHTML = ''; // Clear previous entries
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += `
+                    <h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>
+                `;
+            }
+        }
+
+        function updateMesaText() {
             const mesaSelect = document.getElementById("mesa");
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
 
-            const response = await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
-                headers: {
-                    'Authorization': `token ${TOKEN}`
-                }
-            });
-            const content = await response.json();
-            const data = JSON.parse(atob(content.content));
-
+            // Get selected table
             const selectedTable = mesaSelect.value;
 
-            const guests = data.invitados.filter(guest => guest.mesa === selectedTable) || [];
+            // Get guest data for selected table
+            const guests = guestsData[selectedTable] || [];
 
             // Update seats
             document.querySelectorAll('.seat').forEach(seat => {
                 const seatNumber = parseInt(seat.getAttribute('data-seat'));
-                if (guests.find(guest => parseInt(guest.asiento) === seatNumber)) {
+                if (guests.find(guest => guest.seat === seatNumber)) {
                     seat.classList.add('occupied');
                 } else {
                     seat.classList.remove('occupied');
@@ -328,67 +340,56 @@
             const guestList = document.getElementById("guestList");
             guestList.innerHTML = "";
             guests.forEach(guest => {
-                guestList.innerHTML += `${guest.nombre}<br>`;
+                guestList.innerHTML += `${guest.name}<br>`;
             });
         }
 
-        async function submitForm() {
+        function submitForm() {
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                const grado = document.getElementById("grado").value;
-                const escalafon = document.getElementById("escalafon").value;
-                const nombre = document.getElementById("nombre").value;
-                const apellido = document.getElementById("apellido").value;
-                const cedula = document.getElementById("cedula").value;
-                const acompanante = document.getElementById("acompanante").value;
-                const menu = document.getElementById("menu").value;
-                const mesa = document.getElementById("mesa").value;
-
-                const values = {
-                    grado, 
-                    escalafon, 
-                    nombre, 
-                    apellido, 
-                    cedula, 
-                    acompanante, 
-                    menu, 
-                    mesa
-                };
-
-                const response = await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
-                    headers: {
-                        'Authorization': `token ${TOKEN}`
+                const formData = new FormData(guestForm);
+                const acompanantesData = new FormData(acompanantesForm);
+                const acompanantes = [];
+                acompanantesData.forEach((value, key) => {
+                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
+                        acompanantes.push(value);
                     }
                 });
-                const content = await response.json();
-                const data = JSON.parse(atob(content.content));
 
-                data.invitados.push(values);
+                const data = {
+                    grado: formData.get('grado'),
+                    escalafon: formData.get('escalafon'),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    cedula: formData.get('cedula'),
+                    acompanante: formData.get('acompanante'),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menu: formData.get('menu'),
+                    acompanantes: acompanantes
+                };
 
-                const updatedContent = btoa(JSON.stringify(data, null, 2));
-
-                await fetch(`https://api.github.com/repos/${REPO}/contents/data.json`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: 'Update data.json',
-                        content: updatedContent,
-                        sha: content.sha,
-                        branch: BRANCH
-                    })
-                });
-
-                alert("Formulario enviado exitosamente!");
-                updateMesaText();
+                fetch('https://script.google.com/macros/s/AKfycbx4lf6nrHws2gZ3Wi5D8ywJhdR_jky_FvhRGocxVvIccrP4skBf-RYdepCjAFq64NxV/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                }).then(response => response.text())
+                  .then(result => {
+                      alert(result);
+                  }).catch(error => {
+                      alert('Error: ' + error);
+                  });
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
         }
+
+        // Example function to toggle seat occupation status
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', () => {
+                seat.classList.toggle('occupied');
+            });
+        });
     </script>
 </body>
 </html>
