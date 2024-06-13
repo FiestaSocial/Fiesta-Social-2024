@@ -334,11 +334,13 @@
                 const formData = new FormData(guestForm);
                 const acompanantesData = new FormData(acompanantesForm);
                 const acompanantes = [];
-                acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
-                        acompanantes.push(value);
+                for (let i = 1; i <= 5; i++) {
+                    const nombre = acompanantesData.get(`nombreAcompanante${i}`);
+                    const menu = acompanantesData.get(`menuAcompanante${i}`);
+                    if (nombre && menu) {
+                        acompanantes.push({ nombre, menu });
                     }
-                });
+                }
 
                 const data = {
                     email: formData.get('email'),
@@ -367,13 +369,6 @@
                 alert("Por favor, complete todos los campos requeridos.");
             }
         }
-
-        // Example function to toggle seat occupation status
-        document.querySelectorAll('.seat').forEach(seat => {
-            seat.addEventListener('click', () => {
-                seat.classList.toggle('occupied');
-            });
-        });
 
         document.addEventListener('DOMContentLoaded', () => {
             updateMesaText();
