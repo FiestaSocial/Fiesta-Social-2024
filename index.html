@@ -131,7 +131,7 @@
         <p>¡Estamos encantados de tenerte aquí!</p>
         <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
-            <button onclick="validateAndNext(2)">Iniciar</button>
+            <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
@@ -201,7 +201,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="validateAndNext()">Siguiente</button>
+            <button onclick="validateAndNext(2)">Siguiente</button>
         </div>
     </div>
 
@@ -309,7 +309,7 @@
                 currentForm = document.getElementById("acompanantesForm");
             }
 
-            if (currentForm && currentForm.checkValidity()) {
+            if (currentScreen === 1 || (currentForm && currentForm.checkValidity())) {
                 if (currentScreen === 2) {
                     let acompanante = document.getElementById("acompanante").value;
                     if (acompanante === "si") {
