@@ -131,7 +131,7 @@
         <p>¡Estamos encantados de tenerte aquí!</p>
         <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
-            <button onclick="nextScreen(2)">Iniciar</button>
+            <button onclick="validateAndNext(2)">Iniciar</button>
         </div>
     </div>
 
@@ -201,7 +201,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="validateAndNext(3)">Siguiente</button>
+            <button onclick="validateAndNext()">Siguiente</button>
         </div>
     </div>
 
@@ -252,17 +252,6 @@
 
     <script>
         let currentScreen = 1;
-        const guestsData = {
-            "mesa1": [
-                { seat: 1, name: "Juan Pérez" },
-                { seat: 3, name: "María López" },
-                { seat: 5, name: "Carlos Martínez" }
-            ],
-            "mesa2": [
-                { seat: 2, name: "Ana García" },
-                { seat: 4, name: "Luis Fernández" }
-            ]
-        };
 
         function nextScreen(nextScreenNumber) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
@@ -310,29 +299,6 @@
             const mesaSelect = document.getElementById("mesa");
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
-
-            // Get selected table
-            const selectedTable = mesaSelect.value;
-
-            // Get guest data for selected table
-            const guests = guestsData[selectedTable] || [];
-
-            // Update seats
-            document.querySelectorAll('.seat').forEach(seat => {
-                const seatNumber = parseInt(seat.getAttribute('data-seat'));
-                if (guests.find(guest => guest.seat === seatNumber)) {
-                    seat.classList.add('occupied');
-                } else {
-                    seat.classList.remove('occupied');
-                }
-            });
-
-            // Update guest list
-            const guestList = document.getElementById("guestList");
-            guestList.innerHTML = "";
-            guests.forEach(guest => {
-                guestList.innerHTML += `${guest.name}<br>`;
-            });
         }
 
         function validateAndNext(nextScreenNumber) {
@@ -344,6 +310,16 @@
             }
 
             if (currentForm && currentForm.checkValidity()) {
+                if (currentScreen === 2) {
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                }
                 nextScreen(nextScreenNumber);
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
