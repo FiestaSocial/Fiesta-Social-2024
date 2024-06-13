@@ -38,7 +38,7 @@
         }
         .navigation-buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
         }
         button {
@@ -138,6 +138,9 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
+            <label for="apelativo">Apelativo:</label>
+            <input type="text" id="apelativo" name="apelativo" required><br><br>
+            
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -164,9 +167,6 @@
 
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" required><br><br>
-
-            <label for="apelativo">Apelativo:</label>
-            <input type="text" id="apelativo" name="apelativo" required><br><br>
 
             <label for="cedula">Cédula de Identidad:</label>
             <input type="text" id="cedula" name="cedula" required><br><br>
@@ -267,6 +267,10 @@
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
+                    if (!validateForm('guestForm')) {
+                        alert('Por favor, complete todos los campos requeridos.');
+                        return;
+                    }
                     let acompanante = document.getElementById("acompanante").value;
                     if (acompanante === "si") {
                         let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
@@ -275,6 +279,9 @@
                     } else {
                         nextScreenNumber = 4;
                     }
+                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
+                    alert('Por favor, complete todos los campos requeridos.');
+                    return;
                 } else {
                     nextScreenNumber = currentScreen + 1;
                 }
@@ -389,6 +396,11 @@
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
+        }
+
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            return form.checkValidity();
         }
 
         // Example function to toggle seat occupation status
