@@ -38,7 +38,7 @@
         }
         .navigation-buttons {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             margin-top: 20px;
         }
         button {
@@ -138,9 +138,6 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required><br><br>
-
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -201,7 +198,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="validateAndNext(2)">Siguiente</button>
+            <button onclick="nextScreen()">Siguiente</button>
         </div>
     </div>
 
@@ -210,7 +207,7 @@
         <form id="acompanantesForm"></form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(2)">Anterior</button>
-            <button onclick="validateAndNext(4)">Siguiente</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
         </div>
     </div>
 
@@ -252,8 +249,33 @@
 
     <script>
         let currentScreen = 1;
+        const guestsData = {
+            "mesa1": [
+                { seat: 1, name: "Juan Pérez" },
+                { seat: 3, name: "María López" },
+                { seat: 5, name: "Carlos Martínez" }
+            ],
+            "mesa2": [
+                { seat: 2, name: "Ana García" },
+                { seat: 4, name: "Luis Fernández" }
+            ]
+        };
 
         function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                } else {
+                    nextScreenNumber = currentScreen + 1;
+                }
+            }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
@@ -299,31 +321,29 @@
             const mesaSelect = document.getElementById("mesa");
             const mesaText = document.getElementById("mesaText");
             mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
-        }
 
-        function validateAndNext(nextScreenNumber) {
-            let currentForm;
-            if (currentScreen === 2) {
-                currentForm = document.getElementById("guestForm");
-            } else if (currentScreen === 3) {
-                currentForm = document.getElementById("acompanantesForm");
-            }
+            // Get selected table
+            const selectedTable = mesaSelect.value;
 
-            if (currentScreen === 1 || (currentForm && currentForm.checkValidity())) {
-                if (currentScreen === 2) {
-                    let acompanante = document.getElementById("acompanante").value;
-                    if (acompanante === "si") {
-                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
-                    }
+            // Get guest data for selected table
+            const guests = guestsData[selectedTable] || [];
+
+            // Update seats
+            document.querySelectorAll('.seat').forEach(seat => {
+                const seatNumber = parseInt(seat.getAttribute('data-seat'));
+                if (guests.find(guest => guest.seat === seatNumber)) {
+                    seat.classList.add('occupied');
+                } else {
+                    seat.classList.remove('occupied');
                 }
-                nextScreen(nextScreenNumber);
-            } else {
-                alert("Por favor, complete todos los campos requeridos.");
-            }
+            });
+
+            // Update guest list
+            const guestList = document.getElementById("guestList");
+            guestList.innerHTML = "";
+            guests.forEach(guest => {
+                guestList.innerHTML += `${guest.name}<br>`;
+            });
         }
 
         function submitForm() {
@@ -334,16 +354,13 @@
                 const formData = new FormData(guestForm);
                 const acompanantesData = new FormData(acompanantesForm);
                 const acompanantes = [];
-                for (let i = 1; i <= 5; i++) {
-                    const nombre = acompanantesData.get(`nombreAcompanante${i}`);
-                    const menu = acompanantesData.get(`menuAcompanante${i}`);
-                    if (nombre && menu) {
-                        acompanantes.push({ nombre, menu });
+                acompanantesData.forEach((value, key) => {
+                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
+                        acompanantes.push(value);
                     }
-                }
+                });
 
                 const data = {
-                    email: formData.get('email'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
@@ -355,13 +372,9 @@
                     acompanantes: acompanantes
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbxqtYP8lKLjHw_9LRZDOnBpzgDpw_A_SgeLRLWV-69faS4yFPMlSRxvNOzud_4YxV6-/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbzNAcwafK9NKWD8WEH9bbKKquRmBac3je1wfK2KsuLVOiMy5k6Iwb62I5aF__HFS7eq/exec', {
                     method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    mode: 'cors'
+                    body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
@@ -373,6 +386,13 @@
                 alert("Por favor, complete todos los campos requeridos.");
             }
         }
+
+        // Example function to toggle seat occupation status
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', () => {
+                seat.classList.toggle('occupied');
+            });
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             updateMesaText();
