@@ -366,24 +366,28 @@
                 const acompanantes = [];
                 acompanantesData.forEach((value, key) => {
                     if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
-                        acompanantes.push(value);
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
                     }
                 });
 
                 const data = {
+                    apelativo: formData.get('apelativo'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
                     apellido: formData.get('apellido'),
-                    apelativo: formData.get('apelativo'),
                     cedula: formData.get('cedula'),
                     acompanante: formData.get('acompanante'),
                     cantidadAcompanantes: formData.get('cantidadAcompanantes'),
                     menu: formData.get('menu'),
-                    acompanantes: acompanantes
+                    acompanantes: acompanantes,
+                    mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbx1nIWRNIUgLiha5MFZmpyu-N-87iCkCD_bhrj8QEnnWP1GACEvvFwAYfJ-qN9h4J8G/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbxGzZ9hnvtvxodZEsuv2h7SFlhDMMGQdV_4veamMFaAs2RRAjVgSo7ep9gdaJ4zqPjN/exec', {
                     method: 'POST',
                     body: JSON.stringify(data)
                 }).then(response => response.text())
