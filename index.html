@@ -253,7 +253,16 @@
 
     <script>
         let currentScreen = 1;
-        const guestsData = {};
+        const guestsData = {
+            "Mesa 1": [
+                { seat: 1, name: "Juan Pérez" },
+                { seat: 3, name: "María López" }
+            ],
+            "Mesa 2": [
+                { seat: 2, name: "Ana García" },
+                { seat: 4, name: "Luis Fernández" }
+            ]
+        };
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -325,6 +334,36 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             mesaText.textContent = selectedMesa;
             mesaInput.value = selectedMesa;
+            updateSeats();
+            updateGuestList();
+        }
+
+        function updateSeats() {
+            const mesaSelect = document.getElementById("mesaSelect");
+            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
+            const seats = document.querySelectorAll('.seat');
+
+            seats.forEach(seat => seat.classList.remove('occupied'));
+
+            if (guestsData[selectedMesa]) {
+                guestsData[selectedMesa].forEach(guest => {
+                    const seat = document.querySelector(`.seat[data-seat="${guest.seat}"]`);
+                    if (seat) seat.classList.add('occupied');
+                });
+            }
+        }
+
+        function updateGuestList() {
+            const mesaSelect = document.getElementById("mesaSelect");
+            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
+            const guestList = document.getElementById("guestList");
+
+            guestList.innerHTML = "";
+            if (guestsData[selectedMesa]) {
+                guestsData[selectedMesa].forEach(guest => {
+                    guestList.innerHTML += `${guest.name}<br>`;
+                });
+            }
         }
 
         function submitForm() {
@@ -365,6 +404,13 @@
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
+                      if (!guestsData[data.mesa]) guestsData[data.mesa] = [];
+                      guestsData[data.mesa].push({
+                          seat: guestsData[data.mesa].length + 1,
+                          name: `${data.nombre} ${data.apellido}`
+                      });
+                      updateSeats();
+                      updateGuestList();
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
