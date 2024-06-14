@@ -220,7 +220,7 @@
         </div>
         <h2>Selección de Mesa</h2>
         <label for="mesa">Seleccione su mesa:</label>
-        <select id="mesa" name="mesa" required onchange="updateMesaText()">
+        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
             <option value="" selected>Seleccionar</option>
             <script>
                 for (let i = 1; i <= 35; i++) {
@@ -228,6 +228,7 @@
                 }
             </script>
         </select><br><br>
+        <input type="hidden" id="mesa" name="mesa">
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
             <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
@@ -318,9 +319,12 @@
         }
 
         function updateMesaText() {
-            const mesaSelect = document.getElementById("mesa");
+            const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
-            mesaText.textContent = mesaSelect.options[mesaSelect.selectedIndex].text;
+            const mesaInput = document.getElementById("mesa");
+            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].text;
+            mesaText.textContent = selectedMesa;
+            mesaInput.value = selectedMesa;
         }
 
         function submitForm() {
@@ -354,7 +358,7 @@
                     mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbx2usGLHX6SDSVZnfp4jGNiQm6fyqyhXDosJz5v4axdmTuOPYFsOyBN-JiC6Kh5lB3G/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbymEWUUdZTFKEhmri5TCtJaQQYWU5o5ROltrYisK62wZ0Yq1E2dvdsUWcqS-oo9o9EQ/exec', {
                     method: 'POST',
                     body: JSON.stringify(data)
                 }).then(response => response.text())
