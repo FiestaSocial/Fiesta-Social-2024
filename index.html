@@ -395,13 +395,7 @@
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
-                      if (!guestsData[data.mesa]) guestsData[data.mesa] = [];
-                      guestsData[data.mesa].push({
-                          seat: guestsData[data.mesa].length + 1,
-                          name: `${data.nombre} ${data.apellido}`
-                      });
-                      updateSeats();
-                      updateGuestList();
+                      fetchGuestsData(); // Update guests data after submission
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
