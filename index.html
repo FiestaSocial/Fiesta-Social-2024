@@ -337,8 +337,8 @@
             seats.forEach(seat => seat.classList.remove('occupied'));
 
             if (guestsData[selectedMesa]) {
-                guestsData[selectedMesa].forEach(guest => {
-                    const seat = document.querySelector(`.seat[data-seat="${guest.seat}"]`);
+                guestsData[selectedMesa].forEach((guest, index) => {
+                    const seat = document.querySelector(`.seat[data-seat="${index + 1}"]`);
                     if (seat) seat.classList.add('occupied');
                 });
             }
@@ -352,7 +352,7 @@
             guestList.innerHTML = "";
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
-                    guestList.innerHTML += `${guest.name}<br>`;
+                    guestList.innerHTML += `${guest.nombre} ${guest.apellido}<br>`;
                 });
             }
         }
