@@ -253,16 +253,7 @@
 
     <script>
         let currentScreen = 1;
-        const guestsData = {
-            "Mesa 1": [
-                { seat: 1, name: "Juan Pérez" },
-                { seat: 3, name: "María López" }
-            ],
-            "Mesa 2": [
-                { seat: 2, name: "Ana García" },
-                { seat: 4, name: "Luis Fernández" }
-            ]
-        };
+        let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -424,8 +415,18 @@
             return form.checkValidity();
         }
 
+        function fetchGuestsData() {
+            fetch('https://script.google.com/macros/s/AKfycbzz_3svROT3Ik5ZGLl6Iww1RLxafp71jvvIVyVNdFAqzUeVDAc4JwVinIkIBr4CbzPZ/exec')
+                .then(response => response.json())
+                .then(data => {
+                    guestsData = data;
+                    updateMesaText();
+                })
+                .catch(error => console.error('Error fetching guest data:', error));
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            updateMesaText();
+            fetchGuestsData();
         });
     </script>
 </body>
