@@ -352,7 +352,7 @@
             guestList.innerHTML = "";
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
-                    guestList.innerHTML += `${guest.Nombre} ${guest.Apellido}<br>`;
+                    guestList.innerHTML += `${guest.Nombre || ''} ${guest.Apellido || ''}<br>`;
                     for (let i = 1; i <= 5; i++) {
                         if (guest[`Nombre Acompanante ${i}`]) {
                             guestList.innerHTML += `${guest[`Nombre Acompanante ${i}`]}<br>`;
