@@ -322,7 +322,7 @@
             const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
             const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].text;
+            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             mesaText.textContent = selectedMesa;
             mesaInput.value = selectedMesa;
         }
@@ -358,7 +358,7 @@
                     mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbymEWUUdZTFKEhmri5TCtJaQQYWU5o5ROltrYisK62wZ0Yq1E2dvdsUWcqS-oo9o9EQ/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbx1nIWRNIUgLiha5MFZmpyu-N-87iCkCD_bhrj8QEnnWP1GACEvvFwAYfJ-qN9h4J8G/exec', {
                     method: 'POST',
                     body: JSON.stringify(data)
                 }).then(response => response.text())
