@@ -361,15 +361,16 @@
 
                     // Crear elementos para el nombre y el apellido del invitado
                     const guestName = document.createElement('strong');
-                    guestName.textContent = `${guest["Nombre"] || ''} ${guest["Apellido"] || ''}`;
+                    guestName.textContent = `${guest["Nombre"] || ''} ${guest["Apellido"] || ''}`.trim();
                     guestList.appendChild(guestName);
                     guestList.appendChild(document.createElement('br'));
 
                     // Mostrar los acompañantes, si existen
                     for (let i = 1; i <= 5; i++) {
-                        if (guest[`Acompañante ${i}`] && guest[`Acompañante ${i}`].trim() !== "") {
+                        let acompanante = guest[`Acompañante ${i}`]?.trim();
+                        if (acompanante) {
                             const accompanist = document.createElement('span');
-                            accompanist.textContent = ` - ${guest[`Acompañante ${i}`]} (${guest[`Menú Acompañante ${i}`] || ''})`;
+                            accompanist.textContent = ` - ${acompanante} (${guest[`Menú Acompañante ${i}`]?.trim() || ''})`.trim();
                             guestList.appendChild(accompanist);
                             guestList.appendChild(document.createElement('br'));
                         }
@@ -471,3 +472,4 @@
     </script>
 </body>
 </html>
+
