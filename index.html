@@ -362,7 +362,7 @@
                     // Verificar que los campos "Nombre" y "Apellido" estén presentes
                     const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
                     const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
-                    console.log(`Nombre: ${nombre}, Apellido: ${apellido}`);  // Log para depurar
+                    console.log(`Nombre asignado: ${nombre}, Apellido asignado: ${apellido}`);  // Log para depurar
 
                     // Crear elementos para el nombre y el apellido del invitado
                     const guestName = document.createElement('strong');
@@ -453,24 +453,28 @@
             const lines = csv.split("\n");
             const result = {};
             let headers = lines[0].split(",");
-            
+
             // Limpiar los encabezados para asegurarnos de que no tengan espacios innecesarios
             headers = headers.map(header => header.trim());
-            
+
             console.log("Headers Limpiados:", headers);  // Verificar los encabezados
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
                 const currentline = lines[i].split(",");
-                
+
                 // Limpiar cada valor del CSV, asegurando que no haya espacios en blanco
                 const cleanedLine = currentline.map(value => value.trim());
-                
+
                 console.log("Line", i, "Limpiada:", cleanedLine);  // Verificar cada línea limpia
 
+                // Asignar valores de forma explícita para evitar problemas con los nombres de los encabezados
                 for (let j = 0; j < headers.length; j++) {
                     obj[headers[j]] = cleanedLine[j];
                 }
+
+                // Asegurarnos de que los valores de "Nombre" y "Apellido" existen
+                console.log(`Nombre asignado: ${obj["Nombre"]}, Apellido asignado: ${obj["Apellido"]}`);  // Verificar nombre y apellido
 
                 if (obj["Mesa"] && obj["Mesa"].trim()) {
                     if (!result[obj["Mesa"]]) {
@@ -488,4 +492,5 @@
     </script>
 </body>
 </html>
+
 
