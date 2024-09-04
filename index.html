@@ -349,13 +349,15 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = "";
+            guestList.innerHTML = "";  // Limpia la lista de invitados
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
-                    guestList.innerHTML += `${guest["Nombre"] || ''} ${guest["Apellido"] || ''}<br>`;
+                    // Mostrar el invitado principal
+                    guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
+                    // Mostrar los acompañantes, si existen
                     for (let i = 1; i <= 5; i++) {
                         if (guest[`Nombre Acompanante ${i}`]) {
-                            guestList.innerHTML += `${guest[`Nombre Acompanante ${i}`]}<br>`;
+                            guestList.innerHTML += `&nbsp;&nbsp;- ${guest[`Nombre Acompanante ${i}`]} (${guest[`Menu Acompanante ${i}`] || ''})<br>`;
                         }
                     }
                 });
