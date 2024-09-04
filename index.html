@@ -349,28 +349,18 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             const guestList = document.getElementById("guestList");
 
-            // Limpiar la lista de invitados
             guestList.innerHTML = "";  
 
-            console.log('Selected Mesa:', selectedMesa);  // Verificar la mesa seleccionada
-            console.log('Guests Data:', guestsData);  // Verificar los datos de los invitados
-            
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
-                    console.log('Processing Guest:', guest);  // Verificar cada invitado procesado
-
-                    // Verificar que los campos "Nombre" y "Apellido" estén presentes
                     const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
                     const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
-                    console.log(`Nombre asignado: ${nombre}, Apellido asignado: ${apellido}`);  // Log para depurar
-
-                    // Crear elementos para el nombre y el apellido del invitado
+                    
                     const guestName = document.createElement('strong');
                     guestName.textContent = `${nombre} ${apellido}`.trim();
                     guestList.appendChild(guestName);
                     guestList.appendChild(document.createElement('br'));
 
-                    // Mostrar los acompañantes, si existen
                     for (let i = 1; i <= 5; i++) {
                         let acompanante = guest[`Acompañante ${i}`]?.trim();
                         if (acompanante) {
@@ -387,7 +377,7 @@
         }
 
         function submitForm() {
-            updateMesaText(); // Ensure mesa input is updated before submitting
+            updateMesaText();
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
@@ -424,18 +414,13 @@
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
-                      fetchGuestsData(); // Update guests data after submission
+                      fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
-        }
-
-        function validateForm(formId) {
-            let form = document.getElementById(formId);
-            return form.checkValidity();
         }
 
         function fetchGuestsData() {
@@ -454,27 +439,21 @@
             const result = {};
             let headers = lines[0].split(",");
 
-            // Limpiar los encabezados para asegurarnos de que no tengan espacios innecesarios
             headers = headers.map(header => header.trim());
 
-            console.log("Headers Limpiados:", headers);  // Verificar los encabezados
+            console.log("Encabezados CSV:", headers); // Depuración
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
-                const currentline = lines[i].split(",");
+                const currentline = lines[i].split(",").map(value => value.trim());
 
-                // Limpiar cada valor del CSV, asegurando que no haya espacios en blanco
-                const cleanedLine = currentline.map(value => value.trim());
+                console.log("Línea", i, "Limpiada:", currentline);  // Depuración
 
-                console.log("Line", i, "Limpiada:", cleanedLine);  // Verificar cada línea limpia
-
-                // Asignar valores de forma explícita para evitar problemas con los nombres de los encabezados
                 for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = cleanedLine[j];
+                    obj[headers[j]] = currentline[j];
                 }
 
-                // Asegurarnos de que los valores de "Nombre" y "Apellido" existen
-                console.log(`Nombre asignado: ${obj["Nombre"]}, Apellido asignado: ${obj["Apellido"]}`);  // Verificar nombre y apellido
+                console.log(`Nombre asignado: ${obj["Nombre"]}, Apellido asignado: ${obj["Apellido"]}`);  // Depuración
 
                 if (obj["Mesa"] && obj["Mesa"].trim()) {
                     if (!result[obj["Mesa"]]) {
@@ -492,3 +471,4 @@
     </script>
 </body>
 </html>
+
