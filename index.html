@@ -447,20 +447,24 @@
         function csvToJSON(csv) {
             const lines = csv.split("\n");
             const result = {};
-            const headers = lines[0].split(",");
+            let headers = lines[0].split(",");
             
-            // Verificar encabezados
-            console.log("Headers:", headers);
+            // Limpiar los encabezados para asegurarnos de que no tengan espacios innecesarios
+            headers = headers.map(header => header.trim());
+            
+            console.log("Headers Limpiados:", headers);  // Verificar los encabezados
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
                 const currentline = lines[i].split(",");
                 
-                // Verificar cada línea del CSV
-                console.log("Line", i, ":", currentline);
+                // Limpiar cada valor del CSV, asegurando que no haya espacios en blanco
+                const cleanedLine = currentline.map(value => value.trim());
+                
+                console.log("Line", i, "Limpiada:", cleanedLine);  // Verificar cada línea limpia
 
                 for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j].trim()] = currentline[j].trim();
+                    obj[headers[j]] = cleanedLine[j];
                 }
 
                 if (obj["Mesa"] && obj["Mesa"].trim()) {
