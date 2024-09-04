@@ -350,8 +350,12 @@
             const guestList = document.getElementById("guestList");
 
             guestList.innerHTML = "";  // Limpia la lista de invitados
+            console.log('Selected Mesa:', selectedMesa);  // Verificar la mesa seleccionada
+            console.log('Guests Data:', guestsData);  // Verificar los datos de los invitados
+            
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
+                    console.log('Processing Guest:', guest);  // Verificar cada invitado procesado
                     // Mostrar el invitado principal
                     guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
                     // Mostrar los acompañantes, si existen
