@@ -349,24 +349,34 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = "";  // Limpia la lista de invitados
+            // Limpiar la lista de invitados
+            guestList.innerHTML = "";  
+
             console.log('Selected Mesa:', selectedMesa);  // Verificar la mesa seleccionada
             console.log('Guests Data:', guestsData);  // Verificar los datos de los invitados
             
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
                     console.log('Processing Guest:', guest);  // Verificar cada invitado procesado
-                    // Mostrar el invitado principal
-                    guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
+
+                    // Crear elementos para el nombre y el apellido del invitado
+                    const guestName = document.createElement('strong');
+                    guestName.textContent = `${guest["Nombre"] || ''} ${guest["Apellido"] || ''}`;
+                    guestList.appendChild(guestName);
+                    guestList.appendChild(document.createElement('br'));
+
                     // Mostrar los acompañantes, si existen
                     for (let i = 1; i <= 5; i++) {
                         if (guest[`Acompañante ${i}`] && guest[`Acompañante ${i}`].trim() !== "") {
-                            guestList.innerHTML += `&nbsp;&nbsp;- ${guest[`Acompañante ${i}`]} (${guest[`Menú Acompañante ${i}`] || ''})<br>`;
+                            const accompanist = document.createElement('span');
+                            accompanist.textContent = ` - ${guest[`Acompañante ${i}`]} (${guest[`Menú Acompañante ${i}`] || ''})`;
+                            guestList.appendChild(accompanist);
+                            guestList.appendChild(document.createElement('br'));
                         }
                     }
                 });
             } else {
-                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
+                guestList.textContent = "No hay invitados registrados en esta mesa.";
             }
         }
 
