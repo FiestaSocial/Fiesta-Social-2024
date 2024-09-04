@@ -356,11 +356,13 @@
                     guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
                     // Mostrar los acompañantes, si existen
                     for (let i = 1; i <= 5; i++) {
-                        if (guest[`Nombre Acompanante ${i}`]) {
-                            guestList.innerHTML += `&nbsp;&nbsp;- ${guest[`Nombre Acompanante ${i}`]} (${guest[`Menu Acompanante ${i}`] || ''})<br>`;
+                        if (guest[`Acompañante ${i}`] && guest[`Acompañante ${i}`].trim() !== "") {
+                            guestList.innerHTML += `&nbsp;&nbsp;- ${guest[`Acompañante ${i}`]} (${guest[`Menú Acompañante ${i}`] || ''})<br>`;
                         }
                     }
                 });
+            } else {
+                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
             }
         }
 
