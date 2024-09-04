@@ -359,9 +359,14 @@
                 guestsData[selectedMesa].forEach(guest => {
                     console.log('Processing Guest:', guest);  // Verificar cada invitado procesado
 
+                    // Verificar que los campos "Nombre" y "Apellido" estén presentes
+                    const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
+                    const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
+                    console.log(`Nombre: ${nombre}, Apellido: ${apellido}`);  // Log para depurar
+
                     // Crear elementos para el nombre y el apellido del invitado
                     const guestName = document.createElement('strong');
-                    guestName.textContent = `${guest["Nombre"] || ''} ${guest["Apellido"] || ''}`.trim();
+                    guestName.textContent = `${nombre} ${apellido}`.trim();
                     guestList.appendChild(guestName);
                     guestList.appendChild(document.createElement('br'));
 
@@ -483,3 +488,4 @@
     </script>
 </body>
 </html>
+
