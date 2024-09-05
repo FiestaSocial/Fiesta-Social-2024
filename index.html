@@ -259,7 +259,6 @@
         let currentScreen = 1;
         let guestsData = {};
 
-        // Función para avanzar de pantalla
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
@@ -287,7 +286,6 @@
             document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        // Función para retroceder de pantalla
         function prevScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
@@ -304,7 +302,6 @@
             }
         }
 
-        // Función para generar los campos de los acompañantes dinámicamente
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
             acompanantesForm.innerHTML = ''; // Clear previous entries
@@ -324,7 +321,6 @@
             }
         }
 
-        // Actualización de la mesa seleccionada y asientos ocupados
         function updateMesaText() {
             const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
@@ -336,7 +332,6 @@
             updateGuestList();
         }
 
-        // Actualización de los asientos ocupados
         function updateSeats() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
@@ -356,7 +351,6 @@
             }
         }
 
-        // Actualización de la lista de invitados
         function updateGuestList() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
@@ -367,13 +361,16 @@
 
             // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
-                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]);
+                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]); // Verifica los datos de esta mesa
 
                 // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
                     const nombre = guest["Nombre"] || 'Nombre no disponible';
                     const apellido = guest["Apellido"] || 'Apellido no disponible';
                     
+                    // Mostrar en la consola para depurar
+                    console.log(`Invitado: ${nombre} ${apellido}`);
+
                     // Mostrar nombres y apellidos en la lista
                     guestList.innerHTML += `<strong>${nombre} ${apellido}</strong><br>`;
 
@@ -441,14 +438,13 @@
             return form.checkValidity();
         }
 
-        // Obtener datos de invitados desde Google Sheets
         function fetchGuestsData() {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
                 .then(response => response.text())
                 .then(csv => csvToJSON(csv))
                 .then(data => {
                     guestsData = data;
-                    console.log("Datos obtenidos de los invitados: ", guestsData);
+                    console.log("Datos obtenidos de los invitados: ", guestsData); // Verifica los datos aquí
                     updateMesaText();
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
