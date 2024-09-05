@@ -49,6 +49,7 @@
             cursor: pointer;
             font-size: 18px;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #2980B9;
@@ -85,8 +86,7 @@
             color: white;
             font-size: 24px;
             font-weight: bold;
-            grid-row: 1;
-            grid-column: 1;
+            transition: background-color 0.3s ease;
         }
         .seat {
             width: 50px;
@@ -100,6 +100,10 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat:hover {
+            transform: scale(1.1);
         }
         .seat.occupied {
             background-color: #dc3545;
@@ -255,6 +259,7 @@
         let currentScreen = 1;
         let guestsData = {};
 
+        // Función para avanzar de pantalla
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
@@ -282,6 +287,7 @@
             document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
+        // Función para retroceder de pantalla
         function prevScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
@@ -298,6 +304,7 @@
             }
         }
 
+        // Función para generar los campos de los acompañantes dinámicamente
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
             acompanantesForm.innerHTML = ''; // Clear previous entries
@@ -317,6 +324,7 @@
             }
         }
 
+        // Actualización de la mesa seleccionada y asientos ocupados
         function updateMesaText() {
             const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
@@ -328,6 +336,7 @@
             updateGuestList();
         }
 
+        // Actualización de los asientos ocupados
         function updateSeats() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
@@ -347,6 +356,7 @@
             }
         }
 
+        // Actualización de la lista de invitados
         function updateGuestList() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
@@ -357,7 +367,7 @@
 
             // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
-                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]); // Verifica los datos de esta mesa
+                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]);
 
                 // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
@@ -380,7 +390,7 @@
         }
 
         function submitForm() {
-            updateMesaText(); // Ensure mesa input is updated before submitting
+            updateMesaText();
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
@@ -417,7 +427,7 @@
                 }).then(response => response.text())
                   .then(result => {
                       alert(result);
-                      fetchGuestsData(); // Update guests data after submission
+                      fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
@@ -431,13 +441,14 @@
             return form.checkValidity();
         }
 
+        // Obtener datos de invitados desde Google Sheets
         function fetchGuestsData() {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
                 .then(response => response.text())
                 .then(csv => csvToJSON(csv))
                 .then(data => {
                     guestsData = data;
-                    console.log("Datos obtenidos de los invitados: ", guestsData); // Verifica los datos aquí
+                    console.log("Datos obtenidos de los invitados: ", guestsData);
                     updateMesaText();
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
@@ -471,4 +482,3 @@
     </script>
 </body>
 </html>
-
