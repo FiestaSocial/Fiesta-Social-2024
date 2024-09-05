@@ -358,9 +358,15 @@
             // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
                 console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]); // Verifica los datos de esta mesa
+
+                // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
-                    guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
+                    const nombre = guest["Nombre"] || 'Nombre no disponible';
+                    const apellido = guest["Apellido"] || 'Apellido no disponible';
                     
+                    // Mostrar nombres y apellidos en la lista
+                    guestList.innerHTML += `<strong>${nombre} ${apellido}</strong><br>`;
+
                     // Mostrar los nombres de los acompañantes (si los hay)
                     for (let i = 1; i <= 5; i++) {
                         if (guest[`Nombre Acompanante ${i}`]) {
@@ -465,3 +471,4 @@
     </script>
 </body>
 </html>
+
