@@ -306,7 +306,6 @@
             const mesaText = document.getElementById("mesaText");
             const mesaInput = document.getElementById("mesa");
 
-            // Comprobar si los elementos existen antes de usarlos
             if (!mesaSelect || !mesaText || !mesaInput) {
                 console.error("Uno o más elementos no existen en el DOM.");
                 return;
@@ -327,24 +326,26 @@
             // Asignación de asientos según los datos cargados
         }
 
+        // Modificación para mostrar los invitados en el cuadro de texto
         function updateGuestList() {
             const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
+            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex]?.value || null;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = "";  
+            guestList.innerHTML = "";  // Limpiar cualquier contenido previo
 
-            if (guestsData[selectedMesa]) {
+            if (selectedMesa && guestsData[selectedMesa]) {
+                let guestsHTML = "";
+
                 guestsData[selectedMesa].forEach(guest => {
-                    const nombre = guest["Nombre"] || "(Nombre no disponible)";
-                    const apellido = guest["Apellido"] || "(Apellido no disponible)";
-                    const guestName = document.createElement('strong');
-                    guestName.textContent = `${nombre} ${apellido}`;
-                    guestList.appendChild(guestName);
-                    guestList.appendChild(document.createElement('br'));
+                    const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
+                    const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
+                    guestsHTML += `${nombre} ${apellido}<br>`;
                 });
+
+                guestList.innerHTML = guestsHTML;
             } else {
-                guestList.textContent = "No hay invitados registrados en esta mesa.";
+                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
             }
         }
 
@@ -353,7 +354,6 @@
             const guestForm = document.getElementById("guestForm");
             const acompanantesForm = document.getElementById("acompanantesForm");
 
-            // Comprobar si los formularios existen
             if (!guestForm || !acompanantesForm) {
                 console.error("No se pudo encontrar el formulario en el DOM.");
                 return;
