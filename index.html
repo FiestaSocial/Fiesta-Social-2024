@@ -302,8 +302,8 @@
             let acompanantesForm = document.getElementById("acompanantesForm");
             acompanantesForm.innerHTML = ''; // Clear previous entries
             for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += `
-                    <h3>Acompañante ${i}</h3>
+                acompanantesForm.innerHTML += 
+                    `<h3>Acompañante ${i}</h3>
                     <label for="nombreAcompanante${i}">Nombre:</label>
                     <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
                     <label for="menuAcompanante${i}">Menú:</label>
@@ -313,8 +313,7 @@
                         <option value="vegetariano">Vegetariano</option>
                         <option value="vegano">Vegano</option>
                         <option value="celiaco">Celíaco</option>
-                    </select><br><br>
-                `;
+                    </select><br><br>`;
             }
         }
 
@@ -349,13 +348,20 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             const guestList = document.getElementById("guestList");
 
+            // Limpiar la lista de invitados
             guestList.innerHTML = "";  
 
+            console.log('Selected Mesa:', selectedMesa);  // Verificar la mesa seleccionada
+            console.log('Guests Data:', guestsData);  // Verificar los datos de los invitados
+            
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
+                    console.log('Processing Guest:', guest);  // Verificar cada invitado procesado
+
                     const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
                     const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
-                    
+                    console.log(`Nombre asignado: ${nombre}, Apellido asignado: ${apellido}`);  // Log para depurar
+
                     const guestName = document.createElement('strong');
                     guestName.textContent = `${nombre} ${apellido}`.trim();
                     guestList.appendChild(guestName);
@@ -377,7 +383,7 @@
         }
 
         function submitForm() {
-            updateMesaText();
+            updateMesaText(); 
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
@@ -386,12 +392,10 @@
                 const acompanantesData = new FormData(acompanantesForm);
                 const acompanantes = [];
                 acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
-                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
-                    }
+                    const index = parseInt(key.replace(/\D/g, '')) - 1;
+                    if (!acompanantes[index]) acompanantes[index] = {};
+                    if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                    if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
                 });
 
                 const data = {
@@ -408,19 +412,27 @@
                     mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
+                fetch('URL_DEL_SERVIDOR', {
                     method: 'POST',
                     body: JSON.stringify(data)
-                }).then(response => response.text())
-                  .then(result => {
-                      alert(result);
-                      fetchGuestsData();
-                  }).catch(error => {
-                      alert('Error: ' + error);
-                  });
+                })
+                .then(response => response.text())
+                .then(result => {
+                    alert(result);
+                    fetchGuestsData(); // Actualizar la lista de invitados después de enviar el formulario
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error: ' + error);
+                });
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
+        }
+
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            return form.checkValidity();
         }
 
         function fetchGuestsData() {
@@ -441,19 +453,21 @@
 
             headers = headers.map(header => header.trim());
 
-            console.log("Encabezados CSV:", headers); // Depuración
+            console.log("Headers Limpiados:", headers);  
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
-                const currentline = lines[i].split(",").map(value => value.trim());
+                const currentline = lines[i].split(",");
 
-                console.log("Línea", i, "Limpiada:", currentline);  // Depuración
+                const cleanedLine = currentline.map(value => value.trim());
+
+                console.log("Line", i, "Limpiada:", cleanedLine);  
 
                 for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = currentline[j];
+                    obj[headers[j]] = cleanedLine[j];
                 }
 
-                console.log(`Nombre asignado: ${obj["Nombre"]}, Apellido asignado: ${obj["Apellido"]}`);  // Depuración
+                console.log(`Nombre asignado: ${obj["Nombre"]}, Apellido asignado: ${obj["Apellido"]}`); 
 
                 if (obj["Mesa"] && obj["Mesa"].trim()) {
                     if (!result[obj["Mesa"]]) {
@@ -471,4 +485,3 @@
     </script>
 </body>
 </html>
-
