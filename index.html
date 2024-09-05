@@ -353,7 +353,7 @@
 
             // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
-                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]); // Verifica los datos de esta mesa
+                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]);
 
                 // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
@@ -368,10 +368,8 @@
 
                     // Mostrar los nombres de los acompañantes (si los hay)
                     for (let i = 1; i <= 5; i++) {
-                        // Acceder a las columnas de los nombres de los acompañantes
-                        const nombreAcompanante = guest[`Nombre Acompanante ${i}`] || guest[`Nombre Acompañante ${i}`] || 'Acompañante no disponible';
-                        
-                        if (guest[`Nombre Acompanante ${i}`] || guest[`Nombre Acompañante ${i}`]) {
+                        const nombreAcompanante = guest[`Nombre Acompanante ${i}`] || 'Acompañante no disponible';
+                        if (guest[`Nombre Acompanante ${i}`]) {
                             guestList.innerHTML += `Acompañante ${i}: ${nombreAcompanante}<br>`;
                         }
                     }
@@ -453,10 +451,19 @@
                 const obj = {};
                 const currentline = lines[i].split(",");
 
-                for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j].trim()] = currentline[j].trim();
-                }
-                if (obj["Mesa"] && obj["Mesa"].trim()) {
+                // Mapear correctamente las columnas a las propiedades del objeto
+                obj["Nombre"] = currentline[4].trim();  // Columna E - Nombre
+                obj["Apellido"] = currentline[5].trim();  // Columna F - Apellido
+                obj["Mesa"] = currentline[19].trim();  // Columna T - Mesa
+
+                // Asignar los nombres de los acompañantes de las columnas K, M, O, Q, S
+                obj["Nombre Acompanante 1"] = currentline[10].trim();  // Columna K - Nombre Acompañante 1
+                obj["Nombre Acompanante 2"] = currentline[12].trim();  // Columna M - Nombre Acompañante 2
+                obj["Nombre Acompanante 3"] = currentline[14].trim();  // Columna O - Nombre Acompañante 3
+                obj["Nombre Acompanante 4"] = currentline[16].trim();  // Columna Q - Nombre Acompañante 4
+                obj["Nombre Acompanante 5"] = currentline[18].trim();  // Columna S - Nombre Acompañante 5
+
+                if (obj["Mesa"]) {
                     if (!result[obj["Mesa"]]) {
                         result[obj["Mesa"]] = [];
                     }
