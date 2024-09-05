@@ -357,7 +357,7 @@
 
                 // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
-                    const nombre = guest["Nombre"] || 'Nombre no disponible';  // Acceder a la columna "Nombre" (E)
+                    const nombre = guest["Nombre"] || 'Nombre no disponible';  // Acceder a la columna "Nombre" (D)
                     const apellido = guest["Apellido"] || 'Apellido no disponible';  // Acceder a la columna "Apellido" (F)
                     
                     // Mostrar en la consola para depurar
@@ -452,7 +452,7 @@
                 const currentline = lines[i].split(",");
 
                 // Mapear correctamente las columnas a las propiedades del objeto
-                obj["Nombre"] = currentline[4].trim();  // Columna E - Nombre
+                obj["Nombre"] = currentline[3].trim();  // Columna D - Nombre
                 obj["Apellido"] = currentline[5].trim();  // Columna F - Apellido
                 obj["Mesa"] = currentline[19].trim();  // Columna T - Mesa
 
