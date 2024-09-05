@@ -309,15 +309,7 @@
                 acompanantesForm.innerHTML += 
                     `<h3>Acompañante ${i}</h3>
                     <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-                    <label for="menuAcompanante${i}">Menú:</label>
-                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="normal">Normal</option>
-                        <option value="vegetariano">Vegetariano</option>
-                        <option value="vegano">Vegano</option>
-                        <option value="celiaco">Celíaco</option>
-                    </select><br><br>`;
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>`;
             }
         }
 
@@ -365,8 +357,8 @@
 
                 // Iterar sobre los invitados
                 guestsData[selectedMesa].forEach(guest => {
-                    const nombre = guest["Nombre"] || 'Nombre no disponible';
-                    const apellido = guest["Apellido"] || 'Apellido no disponible';
+                    const nombre = guest["Nombre"] || 'Nombre no disponible';  // Acceder a la columna "Nombre" (E)
+                    const apellido = guest["Apellido"] || 'Apellido no disponible';  // Acceder a la columna "Apellido" (F)
                     
                     // Mostrar en la consola para depurar
                     console.log(`Invitado: ${nombre} ${apellido}`);
@@ -376,8 +368,11 @@
 
                     // Mostrar los nombres de los acompañantes (si los hay)
                     for (let i = 1; i <= 5; i++) {
-                        if (guest[`Nombre Acompanante ${i}`]) {
-                            guestList.innerHTML += `Acompañante: ${guest[`Nombre Acompanante ${i}`]}<br>`;
+                        // Acceder a las columnas de los nombres de los acompañantes
+                        const nombreAcompanante = guest[`Nombre Acompanante ${i}`] || guest[`Nombre Acompañante ${i}`] || 'Acompañante no disponible';
+                        
+                        if (guest[`Nombre Acompanante ${i}`] || guest[`Nombre Acompañante ${i}`]) {
+                            guestList.innerHTML += `Acompañante ${i}: ${nombreAcompanante}<br>`;
                         }
                     }
                 });
@@ -396,11 +391,10 @@
                 const acompanantesData = new FormData(acompanantesForm);
                 const acompanantes = [];
                 acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
+                    if (key.includes('nombreAcompanante')) {
                         const index = parseInt(key.replace(/\D/g, '')) - 1;
                         if (!acompanantes[index]) acompanantes[index] = {};
                         if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
-                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
                     }
                 });
 
