@@ -129,18 +129,94 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <!-- Asegúrate de que esta imagen esté en el mismo directorio o proporciona la ruta correcta -->
         <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
-    <!-- Más pantallas aquí -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="apelativo">Apelativo:</label>
+            <input type="text" id="apelativo" name="apelativo" required><br><br>
+            
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
+
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
 
     <div id="screen4" class="container">
         <div class="image-container">
-            <!-- Asegúrate de que este archivo de imagen esté en el directorio correcto o proporciona la ruta adecuada -->
             <img src="plano.png" alt="Plano de la Mesa">
         </div>
         <h2>Selección de Mesa</h2>
@@ -173,15 +249,33 @@
             <div id="guestList"></div>
         </div>
     </div>
+    <div class="banner"></div>
 
     <script>
         let currentScreen = 1;
         let guestsData = {};
 
-        // Asegúrate de definir esta función antes de usarla en los botones
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
-                nextScreenNumber = currentScreen + 1;
+                if (currentScreen === 2) {
+                    if (!validateForm('guestForm')) {
+                        alert('Por favor, complete todos los campos requeridos.');
+                        return;
+                    }
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
+                    alert('Por favor, complete todos los campos requeridos.');
+                    return;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
+                }
             }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
@@ -194,6 +288,35 @@
             document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
+        function toggleAcompanante() {
+            let acompanante = document.getElementById("acompanante").value;
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
+        }
+
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById("acompanantesForm");
+            acompanantesForm.innerHTML = ''; // Clear previous entries
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += 
+                    `<h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>`;
+            }
+        }
+
         function updateMesaText() {
             const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
@@ -201,8 +324,6 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             mesaText.textContent = selectedMesa;
             mesaInput.value = selectedMesa;
-
-            // Actualizar los asientos y la lista de invitados
             updateSeats();
             updateGuestList();
         }
@@ -212,14 +333,16 @@
             const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
             const seats = document.querySelectorAll('.seat');
 
+            // Remover la clase 'occupied' de todos los asientos
             seats.forEach(seat => seat.classList.remove('occupied'));
 
-            // Verifica si hay datos de invitados para la mesa seleccionada
+            // Marcar los asientos como ocupados según los datos de invitados
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach((guest, index) => {
-                    // Asigna la clase 'occupied' a los asientos ya ocupados
                     const seat = document.querySelector(`.seat[data-seat="${index + 1}"]`);
-                    if (seat) seat.classList.add('occupied');
+                    if (seat) {
+                        seat.classList.add('occupied');
+                    }
                 });
             }
         }
@@ -230,31 +353,69 @@
             const guestList = document.getElementById("guestList");
 
             // Limpiar la lista de invitados
-            guestList.innerHTML = "";  
+            guestList.innerHTML = "";
 
+            // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
-                    const nombre = guest["Nombre"]?.trim() || "(Nombre no disponible)";
-                    const apellido = guest["Apellido"]?.trim() || "(Apellido no disponible)";
-
-                    const guestName = document.createElement('strong');
-                    guestName.textContent = `${nombre} ${apellido}`;
-                    guestList.appendChild(guestName);
-                    guestList.appendChild(document.createElement('br'));
-
-                    // Mostrar acompañantes, si existen
+                    guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
+                    
+                    // Mostrar los nombres de los acompañantes (si los hay)
                     for (let i = 1; i <= 5; i++) {
-                        let acompanante = guest[`Acompañante ${i}`]?.trim();
-                        if (acompanante) {
-                            const accompanist = document.createElement('span');
-                            accompanist.textContent = `- ${acompanante} (${guest[`Menú Acompañante ${i}`]?.trim() || ''})`;
-                            guestList.appendChild(accompanist);
-                            guestList.appendChild(document.createElement('br'));
+                        if (guest[`Nombre Acompanante ${i}`]) {
+                            guestList.innerHTML += `Acompañante: ${guest[`Nombre Acompanante ${i}`]}<br>`;
                         }
                     }
                 });
             } else {
-                guestList.textContent = "No hay invitados registrados en esta mesa.";
+                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
+            }
+        }
+
+        function submitForm() {
+            updateMesaText(); // Ensure mesa input is updated before submitting
+            let guestForm = document.getElementById("guestForm");
+            let acompanantesForm = document.getElementById("acompanantesForm");
+
+            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
+                const formData = new FormData(guestForm);
+                const acompanantesData = new FormData(acompanantesForm);
+                const acompanantes = [];
+                acompanantesData.forEach((value, key) => {
+                    if (key.includes('nombreAcompanante') || key.includes('menuAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
+                    }
+                });
+
+                const data = {
+                    apelativo: formData.get('apelativo'),
+                    grado: formData.get('grado'),
+                    escalafon: formData.get('escalafon'),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    cedula: formData.get('cedula'),
+                    acompanante: formData.get('acompanante'),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menu: formData.get('menu'),
+                    acompanantes: acompanantes,
+                    mesa: formData.get('mesa')
+                };
+
+                fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                }).then(response => response.text())
+                  .then(result => {
+                      alert(result);
+                      fetchGuestsData(); // Update guests data after submission
+                  }).catch(error => {
+                      alert('Error: ' + error);
+                  });
+            } else {
+                alert("Por favor, complete todos los campos requeridos.");
             }
         }
 
@@ -277,20 +438,15 @@
         function csvToJSON(csv) {
             const lines = csv.split("\n");
             const result = {};
-            let headers = lines[0].split(",");
-
-            headers = headers.map(header => header.trim());
+            const headers = lines[0].split(",");
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
                 const currentline = lines[i].split(",");
 
-                const cleanedLine = currentline.map(value => value.trim());
-
                 for (let j = 0; j < headers.length; j++) {
-                    obj[headers[j]] = cleanedLine[j];
+                    obj[headers[j].trim()] = currentline[j].trim();
                 }
-
                 if (obj["Mesa"] && obj["Mesa"].trim()) {
                     if (!result[obj["Mesa"]]) {
                         result[obj["Mesa"]] = [];
