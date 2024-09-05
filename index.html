@@ -357,6 +357,7 @@
 
             // Mostrar los nombres de los invitados registrados en la mesa seleccionada
             if (guestsData[selectedMesa]) {
+                console.log("Invitados en mesa seleccionada: ", guestsData[selectedMesa]); // Verifica los datos de esta mesa
                 guestsData[selectedMesa].forEach(guest => {
                     guestList.innerHTML += `<strong>${guest["Nombre"] || ''} ${guest["Apellido"] || ''}</strong><br>`;
                     
@@ -430,6 +431,7 @@
                 .then(csv => csvToJSON(csv))
                 .then(data => {
                     guestsData = data;
+                    console.log("Datos obtenidos de los invitados: ", guestsData); // Verifica los datos aquí
                     updateMesaText();
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
