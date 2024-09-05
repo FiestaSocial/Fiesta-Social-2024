@@ -129,16 +129,18 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
+        <!-- Asegúrate de que esta imagen esté en el mismo directorio o proporciona la ruta correcta -->
         <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
-    <!-- ...Other screens... -->
+    <!-- Más pantallas aquí -->
 
     <div id="screen4" class="container">
         <div class="image-container">
+            <!-- Asegúrate de que este archivo de imagen esté en el directorio correcto o proporciona la ruta adecuada -->
             <img src="plano.png" alt="Plano de la Mesa">
         </div>
         <h2>Selección de Mesa</h2>
@@ -176,27 +178,10 @@
         let currentScreen = 1;
         let guestsData = {};
 
+        // Asegúrate de definir esta función antes de usarla en los botones
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
-                if (currentScreen === 2) {
-                    if (!validateForm('guestForm')) {
-                        alert('Por favor, complete todos los campos requeridos.');
-                        return;
-                    }
-                    let acompanante = document.getElementById("acompanante").value;
-                    if (acompanante === "si") {
-                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
-                    }
-                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-                    alert('Por favor, complete todos los campos requeridos.');
-                    return;
-                } else {
-                    nextScreenNumber = currentScreen + 1;
-                }
+                nextScreenNumber = currentScreen + 1;
             }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
