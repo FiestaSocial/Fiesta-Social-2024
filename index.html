@@ -55,78 +55,6 @@
         button:hover {
             background-color: #2980B9;
         }
-        label, input, select {
-            display: block;
-            width: 100%;
-            margin: 15px 0;
-        }
-        input, select {
-            padding: 12px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-        }
-        select option:first-child {
-            display: none;
-        }
-        .table-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 30px auto;
-            display: grid;
-            place-items: center;
-        }
-        .table {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .seat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #28a745;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .seat:hover {
-            transform: scale(1.1);
-        }
-        .seat.occupied {
-            background-color: #dc3545;
-        }
-        #guestList {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-        .image-container {
-            margin-bottom: 20px;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
         /* Estilos para el modal */
         #modalConfirmacion {
             display: none;
@@ -159,43 +87,8 @@
     </div>
 
     <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
         <!-- Aquí continúa el formulario como estaba antes -->
-        <!-- ... -->
-    </div>
-
-    <div id="screen4" class="container">
-        <div class="image-container">
-            <img src="plano.png" alt="Plano de la Mesa">
-        </div>
-        <h2>Selección de Mesa</h2>
-        <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
-            <option value="" selected>Seleccionar</option>
-            <script>
-                for (let i = 1; i <= 35; i++) {
-                    document.write('<option value="Mesa ' + i + '">Mesa ' + i + '</option>');
-                }
-            </script>
-        </select><br><br>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
-            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
-            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
-            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
-            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
-            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
-            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
-            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
-            <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList"></div>
-        </div>
     </div>
 
     <!-- Modal de confirmación -->
@@ -210,55 +103,18 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
 
+        // Función para cambiar de pantalla
         function nextScreen(nextScreenNumber) {
-            // Código de navegación como antes
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function prevScreen(screen) {
-            // Código de navegación como antes
-        }
-
-        function updateMesaText() {
-            const mesaSelect = document.getElementById("mesaSelect");
-            const mesaText = document.getElementById("mesaText");
-            const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
-
-            mesaText.textContent = selectedMesa;
-            mesaInput.value = selectedMesa;
-            updateSeats();
-            updateGuestList();
-
-            // Verifica si la mesa está completa
-            if (guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
-                mesaText.style.backgroundColor = 'red';  // Cambia el color si está completa
-                alert('La mesa está completa. Solo puedes ver los invitados, no puedes registrarte en esta mesa.');
-                return;
-            } else {
-                mesaText.style.backgroundColor = '';  // Restablece el color si no está completa
-            }
-        }
-
-        function submitForm() {
-            updateMesaText();
-            let guestForm = document.getElementById("guestForm");
-            let acompanantesForm = document.getElementById("acompanantesForm");
-
-            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                const formData = new FormData(guestForm);
-                const acompanantesData = new FormData(acompanantesForm);
-
-                // Procesamiento de datos
-
-                // Mostrar cuadro de confirmación
-                let mesaSeleccionada = document.getElementById('mesa').value;
-                document.getElementById('mesaConfirmacion').innerText = mesaSeleccionada;
-                document.getElementById('modalConfirmacion').style.display = 'flex';
-            } else {
-                alert("Por favor, complete todos los campos requeridos.");
-            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function finalizarRegistro() {
@@ -266,8 +122,6 @@
             document.getElementById('modalConfirmacion').style.display = 'none';
             prevScreen(1); // Vuelve a la primera pantalla
         }
-        
-        // Resto del código permanece igual
     </script>
 </body>
 </html>
