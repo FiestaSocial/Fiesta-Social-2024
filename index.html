@@ -395,6 +395,15 @@
         }
 
         function submitForm() {
+            const mesaSelect = document.getElementById("mesaSelect");
+            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+
+            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
+                // Mostrar alerta si la mesa está completa
+                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
+                return; // Impide el envío del formulario
+            }
+
             updateMesaText();
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
