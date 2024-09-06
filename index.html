@@ -42,7 +42,7 @@
             margin-top: 20px;
         }
         .navigation-buttons button {
-            margin: 0 10px; /* Aumenta el margen entre los botones */
+            margin: 0 10px;
         }
         button {
             background-color: #5499C7;
@@ -145,8 +145,67 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <!-- Formulario de Datos Personales -->
-            <!-- El contenido aquí es el mismo que tu código original -->
+            <label for="apelativo">Apelativo:</label>
+            <input type="text" id="apelativo" name="apelativo" required><br><br>
+            
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
@@ -234,15 +293,23 @@
                     nextScreenNumber = currentScreen + 1;
                 }
             }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
             currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
+            }
         }
 
         function prevScreen(screen) {
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
             currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
+            }
         }
 
         function toggleAcompanante() {
@@ -270,21 +337,25 @@
             const mesaSelect = document.getElementById("mesaSelect");
             const mesaText = document.getElementById("mesaText");
             const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
-            mesaText.textContent = selectedMesa;
-            mesaInput.value = selectedMesa;
+            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa;
+            }
+            if (mesaInput && selectedMesa) {
+                mesaInput.value = selectedMesa;
+            }
             updateSeats();
             updateGuestList();
         }
 
         function updateSeats() {
             const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
+            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
             const seats = document.querySelectorAll('.seat');
 
             seats.forEach(seat => seat.classList.remove('occupied'));
 
-            if (guestsData[selectedMesa]) {
+            if (selectedMesa && guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach((guest, index) => {
                     const seat = document.querySelector(`.seat[data-seat="${index + 1}"]`);
                     if (seat) {
@@ -292,21 +363,20 @@
                     }
                 });
 
-                // Si la mesa está completa, cambiar el color a rojo
-                if (guestsData[selectedMesa].length >= 8) { // Asumiendo 8 asientos por mesa
-                    mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545'; // Rojo
+                if (guestsData[selectedMesa].length >= 8) {
+                    mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
                 }
             }
         }
 
         function updateGuestList() {
             const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect.options[mesaSelect.selectedIndex].value;
+            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
             const guestList = document.getElementById("guestList");
 
             guestList.innerHTML = "";
 
-            if (guestsData[selectedMesa]) {
+            if (selectedMesa && guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach(guest => {
                     const nombre = guest["Nombre"] || 'Nombre no disponible';
                     const apellido = guest["Apellido"] || 'Apellido no disponible';
@@ -373,7 +443,9 @@
         function showConfirmation() {
             const mesaConfirmada = document.getElementById('mesa').value;
             document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
             document.getElementById('confirmationModal').style.display = 'block';
         }
 
@@ -433,4 +505,3 @@
     </script>
 </body>
 </html>
-
