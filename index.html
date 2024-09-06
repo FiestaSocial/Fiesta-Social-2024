@@ -112,14 +112,20 @@
             background-color: #dc3545;
         }
         #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: 100px;
-            margin-top: 20px;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
-            overflow-y: auto;
             background-color: #fff;
+            overflow: hidden; /* Evitar el desplazamiento */
+        }
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
         }
         .image-container {
             margin-bottom: 20px;
@@ -374,20 +380,16 @@
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = "";
+            guestList.innerHTML = ""; // Limpiar la lista de invitados
 
             if (selectedMesa && guestsData[selectedMesa]) {
-                guestsData[selectedMesa].forEach(guest => {
+                const guests = guestsData[selectedMesa];
+
+                // Mostrar los nombres de los invitados en dos columnas
+                guests.forEach(guest => {
                     const nombre = guest["Nombre"] || 'Nombre no disponible';
                     const apellido = guest["Apellido"] || 'Apellido no disponible';
-                    guestList.innerHTML += `<strong>${nombre} ${apellido}</strong><br>`;
-
-                    for (let i = 1; i <= 5; i++) {
-                        const nombreAcompanante = guest[`Nombre Acompanante ${i}`] || 'Acompañante no disponible';
-                        if (guest[`Nombre Acompanante ${i}`]) {
-                            guestList.innerHTML += `Acompañante ${i}: ${nombreAcompanante}<br>`;
-                        }
-                    }
+                    guestList.innerHTML += `<div><strong>${nombre}</strong> <strong>${apellido}</strong></div>`;
                 });
             } else {
                 guestList.innerHTML = "No hay invitados registrados en esta mesa.";
