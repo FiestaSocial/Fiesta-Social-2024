@@ -57,36 +57,20 @@
         button:hover {
             background-color: #2980B9;
         }
-        label, input, select {
-            display: block;
-            width: 100%;
-            margin: 15px 0;
-        }
-        input, select {
-            padding: 12px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-        }
-        select option:first-child {
-            display: none;
-        }
 
         .salon-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: row;
+            justify-content: center;
+            gap: 50px;
             margin: 30px auto;
-            width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
         }
 
-        .mesa-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
+        .mesas-container {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            grid-gap: 20px;
         }
 
         .mesa {
@@ -108,7 +92,7 @@
 
         .pista-de-baile {
             width: 200px;
-            height: 300px;
+            height: 400px;
             background-color: #27ae60;
             display: flex;
             align-items: center;
@@ -116,18 +100,21 @@
             color: white;
             font-size: 18px;
             font-weight: bold;
-            margin: 0 50px;
         }
 
         /* Ajustes para dispositivos móviles */
         @media (max-width: 768px) {
             .salon-container {
                 flex-direction: column;
+                align-items: center;
             }
             .pista-de-baile {
                 width: 150px;
-                height: 150px;
-                margin: 20px 0;
+                height: 300px;
+            }
+            .mesas-container {
+                grid-template-columns: repeat(2, 50px);
+                grid-gap: 15px;
             }
             .mesa {
                 width: 50px;
@@ -143,27 +130,19 @@
     <div id="screen4" class="container active">
         <h2>Representación del Salón</h2>
         <div class="salon-container">
-            <!-- Zona de mesas izquierda -->
-            <div class="mesa-container">
-                <div class="mesa" id="mesa1">1</div>
-                <div class="mesa" id="mesa2">2</div>
-                <div class="mesa" id="mesa3">3</div>
-                <div class="mesa" id="mesa4">4</div>
-                <div class="mesa" id="mesa5">5</div>
+            <!-- Mesas lado izquierdo -->
+            <div class="mesas-container" id="mesas-izquierda">
+                <!-- Las mesas serán generadas dinámicamente en JavaScript -->
             </div>
 
-            <!-- Pista de baile -->
+            <!-- Pista de baile en el centro -->
             <div class="pista-de-baile">
                 PISTA DE BAILE
             </div>
 
-            <!-- Zona de mesas derecha -->
-            <div class="mesa-container">
-                <div class="mesa" id="mesa6">6</div>
-                <div class="mesa" id="mesa7">7</div>
-                <div class="mesa" id="mesa8">8</div>
-                <div class="mesa" id="mesa9">9</div>
-                <div class="mesa" id="mesa10">10</div>
+            <!-- Mesas lado derecho -->
+            <div class="mesas-container" id="mesas-derecha">
+                <!-- Las mesas serán generadas dinámicamente en JavaScript -->
             </div>
         </div>
 
@@ -174,19 +153,47 @@
     </div>
 
     <script>
-        function markFullTables() {
-            const mesasCompletas = [1, 3, 7]; // IDs de mesas completas (ejemplo)
-            mesasCompletas.forEach(mesaId => {
-                const mesaElement = document.getElementById('mesa' + mesaId);
-                if (mesaElement) {
-                    mesaElement.classList.add('completa'); // Añadir clase "completa" para mesas en rojo
+        // Array de mesas completas
+        const mesasCompletas = [1, 4, 8, 12, 15]; // Ejemplo de mesas completas
+
+        // Función para crear las mesas
+        function crearMesas() {
+            const mesasIzquierda = document.getElementById("mesas-izquierda");
+            const mesasDerecha = document.getElementById("mesas-derecha");
+
+            // Crear 8 mesas para cada lado
+            for (let i = 1; i <= 8; i++) {
+                const mesaIzquierda = document.createElement("div");
+                mesaIzquierda.classList.add("mesa");
+                mesaIzquierda.textContent = i;
+                if (mesasCompletas.includes(i)) {
+                    mesaIzquierda.classList.add("completa");
                 }
-            });
+                mesasIzquierda.appendChild(mesaIzquierda);
+
+                const mesaDerecha = document.createElement("div");
+                mesaDerecha.classList.add("mesa");
+                mesaDerecha.textContent = i + 8;
+                if (mesasCompletas.includes(i + 8)) {
+                    mesaDerecha.classList.add("completa");
+                }
+                mesasDerecha.appendChild(mesaDerecha);
+            }
         }
 
+        // Llamar a la función al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
-            markFullTables(); // Marcar las mesas completas cuando la página cargue
+            crearMesas();
         });
+
+        function prevScreen(screen) {
+            // Función para navegar a la pantalla anterior
+        }
+
+        function submitForm() {
+            // Función para enviar el formulario
+        }
     </script>
 </body>
 </html>
+
