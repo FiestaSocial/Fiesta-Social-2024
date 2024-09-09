@@ -135,6 +135,23 @@
             height: auto;
             border-radius: 10px;
         }
+
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .table-container {
+                width: 300px;
+                height: 300px;
+            }
+            .table {
+                width: 150px;
+                height: 150px;
+                font-size: 18px;
+            }
+            .seat {
+                width: 40px;
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -385,11 +402,10 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
-                // Mostrar los nombres de los invitados en dos columnas
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
-                    const nombre = guest["Nombre"] || 'Nombre no disponible';
-                    const apellido = guest["Apellido"] || 'Apellido no disponible';
-                    guestList.innerHTML += `<div><strong>${nombre}</strong> <strong>${apellido}</strong></div>`;
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
                 });
             } else {
                 guestList.innerHTML = "No hay invitados registrados en esta mesa.";
@@ -516,4 +532,3 @@
     </script>
 </body>
 </html>
-
