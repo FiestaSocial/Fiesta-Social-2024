@@ -263,16 +263,32 @@
         </div>
     </div>
 
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        <button onclick="finalizarRegistro()">Finalizar</button>
+    </div>
+
+    <div class="banner"></div>
+
     <script>
         let currentScreen = 1;
-        let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
-            // Función para cambiar entre pantallas
+            if (nextScreenNumber === undefined) {
+                nextScreenNumber = currentScreen + 1;
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        function prevScreen(screen) {
-            // Función para retroceder entre pantallas
+        function prevScreen(screenNumber) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function updateMesaText() {
@@ -283,22 +299,6 @@
             // Función para validar y enviar el formulario
         }
 
-        function markFullTables() {
-            const mesaSelect = document.getElementById("mesaSelect");
-
-            for (let i = 0; i < mesaSelect.options.length; i++) {
-                const mesaOption = mesaSelect.options[i].value;
-
-                // Si la mesa tiene 8 o más invitados, la marcamos como completa (en rojo)
-                if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
-                    mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
-                } else {
-                    mesaSelect.options[i].style.backgroundColor = ''; // Restaurar el color para mesas no completas
-                }
-            }
-        }
-
-        // Llenar las mesas a los lados de la pista de baile
         function generateMesas() {
             const leftSide = document.getElementById('mesas-izquierda');
             const rightSide = document.getElementById('mesas-derecha');
@@ -319,44 +319,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchGuestsData();
             generateMesas();
         });
-
-        function fetchGuestsData() {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-                .then(response => response.text())
-                .then(csv => csvToJSON(csv))
-                .then(data => {
-                    guestsData = data;
-                    updateMesaText();
-                    markFullTables(); // Marcar las mesas completas en rojo
-                })
-                .catch(error => console.error('Error fetching guest data:', error));
-        }
-
-        function csvToJSON(csv) {
-            const lines = csv.split("\n");
-            const result = {};
-            const headers = lines[0].split(",");
-
-            for (let i = 1; i < lines.length; i++) {
-                const obj = {};
-                const currentline = lines[i].split(",");
-
-                obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[5].trim();
-                obj["Mesa"] = currentline[19].trim();
-
-                if (obj["Mesa"]) {
-                    if (!result[obj["Mesa"]]) {
-                        result[obj["Mesa"]] = [];
-                    }
-                    result[obj["Mesa"]].push(obj);
-                }
-            }
-            return result;
-        }
     </script>
 </body>
 </html>
+
