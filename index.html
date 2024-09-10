@@ -70,93 +70,82 @@
         select option:first-child {
             display: none;
         }
-
-        /* Representación del salón */
+        /* Estilo de la representación del salón */
         .salon-container {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 50px;
+            justify-content: space-between;
+            align-items: center;
             margin: 30px auto;
-            max-width: 1200px;
+            width: 100%;
+            max-width: 700px;
         }
-
         .mesas-container {
-            display: grid;
-            grid-template-columns: repeat(4, 60px);
-            grid-gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
         .mesa {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             background-color: #5499C7;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
             font-weight: bold;
         }
-
         .mesa.completa {
-            background-color: #dc3545;
+            background-color: #dc3545; /* Rojo para mesas completas */
         }
-
         .pista-de-baile {
-            width: 200px;
-            height: 400px;
-            background-color: #27ae60;
+            width: 150px;
+            height: 300px;
+            background-color: #28a745;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
             font-weight: bold;
         }
-
-        /* Ajustes para dispositivos móviles */
-        @media (max-width: 768px) {
-            .salon-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .pista-de-baile {
-                width: 150px;
-                height: 300px;
-            }
-            .mesas-container {
-                grid-template-columns: repeat(2, 50px);
-                grid-gap: 15px;
-            }
-            .mesa {
-                width: 50px;
-                height: 50px;
-                font-size: 14px;
-            }
+        .table-container {
+            display: none;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
+            width: 100%;
+            height: auto; /* Ajuste automático */
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden; /* Evitar el desplazamiento */
+        }
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
 <body>
     <div class="banner"></div>
-
-    <!-- Pantalla de bienvenida -->
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
-    <!-- Pantalla de datos personales -->
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="apelativo">Apelativo:</label>
             <input type="text" id="apelativo" name="apelativo" required><br><br>
-
+            
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -222,7 +211,6 @@
         </div>
     </div>
 
-    <!-- Pantalla de acompañantes -->
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
         <form id="acompanantesForm"></form>
@@ -232,7 +220,6 @@
         </div>
     </div>
 
-    <!-- Pantalla de selección de mesa -->
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -244,6 +231,8 @@
                 }
             </script>
         </select><br><br>
+
+        <!-- Representación del salón -->
         <div class="salon-container">
             <!-- Mesas lado izquierdo -->
             <div class="mesas-container" id="mesas-izquierda"></div>
@@ -266,6 +255,16 @@
             <div id="guestList"></div>
         </div>
     </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        <button onclick="finalizarRegistro()">Finalizar</button>
+    </div>
+
+    <div class="banner"></div>
 
     <script>
         let currentScreen = 1;
@@ -293,15 +292,23 @@
                     nextScreenNumber = currentScreen + 1;
                 }
             }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
             currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
+            }
         }
 
         function prevScreen(screen) {
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
             currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
+            }
         }
 
         function toggleAcompanante() {
@@ -316,7 +323,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Clear previous entries
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += 
                     `<h3>Acompañante ${i}</h3>
@@ -327,16 +334,25 @@
 
         function updateMesaText() {
             const mesaSelect = document.getElementById("mesaSelect");
+            const mesaText = document.getElementById("mesaText");
+            const mesaInput = document.getElementById("mesa");
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-            if (selectedMesa) {
-                updateSeats();
-                updateGuestList();
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa;
             }
+            if (mesaInput && selectedMesa) {
+                mesaInput.value = selectedMesa;
+            }
+            updateSeats();
+            updateGuestList();
         }
 
         function updateSeats() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+            const seats = document.querySelectorAll('.seat');
+
+            seats.forEach(seat => seat.classList.remove('occupied'));
 
             if (selectedMesa && guestsData[selectedMesa]) {
                 guestsData[selectedMesa].forEach((guest, index) => {
@@ -357,10 +373,11 @@
 
             for (let i = 0; i < mesaSelect.options.length; i++) {
                 const mesaOption = mesaSelect.options[i].value;
+                
                 if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
-                    mesaSelect.options[i].style.backgroundColor = '#dc3545';
+                    mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
                 } else {
-                    mesaSelect.options[i].style.backgroundColor = '';
+                    mesaSelect.options[i].style.backgroundColor = ''; // Restaurar el color para mesas no completas
                 }
             }
         }
@@ -370,7 +387,7 @@
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = "";
+            guestList.innerHTML = ""; // Limpiar la lista de invitados
 
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
@@ -390,7 +407,7 @@
 
             if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
                 alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
-                return;
+                return; // Impide el envío del formulario
             }
 
             updateMesaText();
@@ -428,7 +445,7 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      alert(result);
+                      showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
@@ -436,6 +453,20 @@
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
+        }
+
+        function showConfirmation() {
+            const mesaConfirmada = document.getElementById('mesa').value;
+            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            }
+            document.getElementById('confirmationModal').style.display = 'block';
+        }
+
+        function finalizarRegistro() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            document.getElementById('screen1').classList.add('active');
         }
 
         function validateForm(formId) {
@@ -450,7 +481,7 @@
                 .then(data => {
                     guestsData = data;
                     updateMesaText();
-                    markFullTables();
+                    markFullTables(); // Marcar las mesas completas en rojo
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
@@ -484,10 +515,30 @@
             return result;
         }
 
+        // Llenar las mesas en la representación del salón
         document.addEventListener('DOMContentLoaded', () => {
             fetchGuestsData();
+            fillSalonRepresentation();
         });
+
+        function fillSalonRepresentation() {
+            const mesasIzquierda = document.getElementById('mesas-izquierda');
+            const mesasDerecha = document.getElementById('mesas-derecha');
+
+            for (let i = 1; i <= 8; i++) {
+                const mesaDiv = document.createElement('div');
+                mesaDiv.className = 'mesa';
+                mesaDiv.textContent = i;
+                mesasIzquierda.appendChild(mesaDiv);
+            }
+
+            for (let i = 9; i <= 16; i++) {
+                const mesaDiv = document.createElement('div');
+                mesaDiv.className = 'mesa';
+                mesaDiv.textContent = i;
+                mesasDerecha.appendChild(mesaDiv);
+            }
+        }
     </script>
 </body>
 </html>
-
