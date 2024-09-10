@@ -70,33 +70,86 @@
         select option:first-child {
             display: none;
         }
-        /* Estilo de la representación del salón */
-        .salon-container {
+        .table-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 30px auto;
+            display: grid;
+            place-items: center;
+        }
+        .table {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat:hover {
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background-color: #dc3545;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        #guestList div {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin: 30px auto;
-            width: 100%;
-            max-width: 700px;
+        }
+        .salon-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
         }
         .mesas-container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
         .mesa {
             width: 50px;
             height: 50px;
-            background-color: #5499C7;
             border-radius: 50%;
+            background-color: #5499C7;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
         }
-        .mesa.completa {
-            background-color: #dc3545; /* Rojo para mesas completas */
+        .mesa.occupied {
+            background-color: #dc3545;
         }
         .pista-de-baile {
             width: 150px;
@@ -106,26 +159,25 @@
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 18px;
             font-weight: bold;
         }
-        .table-container {
-            display: none;
-        }
-        #guestList {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-            gap: 10px; /* Espacio entre columnas */
-            width: 100%;
-            height: auto; /* Ajuste automático */
-            padding: 10px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-            background-color: #fff;
-            overflow: hidden; /* Evitar el desplazamiento */
-        }
-        #guestList div {
-            display: flex;
-            justify-content: space-between;
+
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .table-container {
+                width: 300px;
+                height: 300px;
+            }
+            .table {
+                width: 150px;
+                height: 150px;
+                font-size: 18px;
+            }
+            .seat {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -221,6 +273,11 @@
     </div>
 
     <div id="screen4" class="container">
+        <div class="salon-container">
+            <div class="mesas-container" id="mesas-izquierda"></div>
+            <div class="pista-de-baile">PISTA DE BAILE</div>
+            <div class="mesas-container" id="mesas-derecha"></div>
+        </div>
         <h2>Selección de Mesa</h2>
         <label for="mesaSelect">Seleccione su mesa:</label>
         <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
@@ -231,21 +288,17 @@
                 }
             </script>
         </select><br><br>
-
-        <!-- Representación del salón -->
-        <div class="salon-container">
-            <!-- Mesas lado izquierdo -->
-            <div class="mesas-container" id="mesas-izquierda"></div>
-
-            <!-- Pista de baile en el centro -->
-            <div class="pista-de-baile">
-                PISTA DE BAILE
-            </div>
-
-            <!-- Mesas lado derecho -->
-            <div class="mesas-container" id="mesas-derecha"></div>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
+            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
+            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
+            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
+            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
+            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
+            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
+            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
         </div>
-
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -323,7 +376,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            acompanantesForm.innerHTML = ''; // Clear previous entries
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += 
                     `<h3>Acompañante ${i}</h3>
@@ -374,6 +427,7 @@
             for (let i = 0; i < mesaSelect.options.length; i++) {
                 const mesaOption = mesaSelect.options[i].value;
                 
+                // Si la mesa tiene 8 o más invitados, la marcamos como completa (en rojo)
                 if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
                     mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
                 } else {
@@ -392,6 +446,7 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
                     const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
@@ -406,6 +461,7 @@
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
 
             if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
+                // Mostrar alerta si la mesa está completa
                 alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
                 return; // Impide el envío del formulario
             }
@@ -515,30 +571,25 @@
             return result;
         }
 
-        // Llenar las mesas en la representación del salón
         document.addEventListener('DOMContentLoaded', () => {
             fetchGuestsData();
-            fillSalonRepresentation();
+
+            // Generar las mesas en las dos columnas
+            const mesasIzquierda = document.getElementById("mesas-izquierda");
+            const mesasDerecha = document.getElementById("mesas-derecha");
+
+            for (let i = 1; i <= 35; i++) {
+                const mesaDiv = document.createElement('div');
+                mesaDiv.className = 'mesa';
+                mesaDiv.innerText = i;
+
+                if (i <= 16) {
+                    mesasIzquierda.appendChild(mesaDiv);
+                } else {
+                    mesasDerecha.appendChild(mesaDiv);
+                }
+            }
         });
-
-        function fillSalonRepresentation() {
-            const mesasIzquierda = document.getElementById('mesas-izquierda');
-            const mesasDerecha = document.getElementById('mesas-derecha');
-
-            for (let i = 1; i <= 8; i++) {
-                const mesaDiv = document.createElement('div');
-                mesaDiv.className = 'mesa';
-                mesaDiv.textContent = i;
-                mesasIzquierda.appendChild(mesaDiv);
-            }
-
-            for (let i = 9; i <= 16; i++) {
-                const mesaDiv = document.createElement('div');
-                mesaDiv.className = 'mesa';
-                mesaDiv.textContent = i;
-                mesasDerecha.appendChild(mesaDiv);
-            }
-        }
     </script>
 </body>
 </html>
