@@ -113,53 +113,60 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: auto;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
         #guestList div {
             display: flex;
             justify-content: space-between;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
         .salon-container {
             display: flex;
             justify-content: space-around;
             margin-bottom: 30px;
         }
-        .mesas-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+        .mesas-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .mesa {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
             background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: white;
-            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
         }
         .mesa.occupied {
             background-color: #dc3545;
         }
-        .pista-de-baile {
-            width: 150px;
+        .dance-floor {
+            width: 200px;
             height: 300px;
             background-color: #28a745;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             color: white;
-            font-size: 18px;
             font-weight: bold;
         }
 
@@ -273,10 +280,11 @@
     </div>
 
     <div id="screen4" class="container">
+        <h2>Representación del Salón</h2>
         <div class="salon-container">
-            <div class="mesas-container" id="mesas-izquierda"></div>
-            <div class="pista-de-baile">PISTA DE BAILE</div>
-            <div class="mesas-container" id="mesas-derecha"></div>
+            <div id="mesas-izquierda" class="mesas-column"></div>
+            <div class="dance-floor">PISTA DE BAILE</div>
+            <div id="mesas-derecha" class="mesas-column"></div>
         </div>
         <h2>Selección de Mesa</h2>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -426,12 +434,19 @@
 
             for (let i = 0; i < mesaSelect.options.length; i++) {
                 const mesaOption = mesaSelect.options[i].value;
-                
+                const mesaCirculo = document.querySelector(`.mesa[data-mesa="${mesaOption}"]`);
+
                 // Si la mesa tiene 8 o más invitados, la marcamos como completa (en rojo)
                 if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
                     mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
+                    if (mesaCirculo) {
+                        mesaCirculo.style.backgroundColor = '#dc3545'; // Cambiar color del círculo
+                    }
                 } else {
                     mesaSelect.options[i].style.backgroundColor = ''; // Restaurar el color para mesas no completas
+                    if (mesaCirculo) {
+                        mesaCirculo.style.backgroundColor = '#5499C7'; // Azul para mesas disponibles
+                    }
                 }
             }
         }
@@ -574,19 +589,20 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchGuestsData();
 
-            // Generar las mesas en las dos columnas
-            const mesasIzquierda = document.getElementById("mesas-izquierda");
-            const mesasDerecha = document.getElementById("mesas-derecha");
+            const mesasIzquierda = document.getElementById('mesas-izquierda');
+            const mesasDerecha = document.getElementById('mesas-derecha');
 
+            // Genera las mesas en la representación
             for (let i = 1; i <= 35; i++) {
-                const mesaDiv = document.createElement('div');
-                mesaDiv.className = 'mesa';
-                mesaDiv.innerText = i;
-
+                const mesaElement = document.createElement('div');
+                mesaElement.classList.add('mesa');
+                mesaElement.textContent = i;
+                mesaElement.setAttribute('data-mesa', 'Mesa ' + i);
+                
                 if (i <= 16) {
-                    mesasIzquierda.appendChild(mesaDiv);
+                    mesasIzquierda.appendChild(mesaElement);
                 } else {
-                    mesasDerecha.appendChild(mesaDiv);
+                    mesasDerecha.appendChild(mesaElement);
                 }
             }
         });
