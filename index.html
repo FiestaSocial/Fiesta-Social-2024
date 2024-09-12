@@ -135,7 +135,42 @@
             height: auto;
             border-radius: 10px;
         }
-
+        .room-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* Modificación para colocar 5 mesas por fila */
+            gap: 10px;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 2px solid #154360; /* Línea de contorno azul oscuro */
+            background-color: #fff;
+        }
+        .pista-de-baile {
+            grid-column: span 5; /* Pista de baile en el centro */
+            height: 100px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
+            background-color: #5499C7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .mesa.completa {
+            background-color: #dc3545; /* Color rojo para mesas completas */
+        }
         /* Ajustes para dispositivos móviles */
         @media (max-width: 768px) {
             .table-container {
@@ -151,46 +186,6 @@
                 width: 40px;
                 height: 40px;
             }
-        }
-
-        /* Estilos para la disposición de las mesas y la pista */
-        .room-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 10px;
-            margin: 20px 0;
-            border: 2px solid #154360; /* Línea que representa las paredes del salón */
-        }
-        .dance-floor {
-            width: 150px;
-            height: 300px;
-            background-color: green;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 0 20px;
-        }
-        .table-number {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin: 10px;
-            transition: background-color 0.3s ease;
-        }
-        .table-number.full {
-            background-color: #dc3545;
         }
     </style>
 </head>
@@ -287,13 +282,42 @@
 
     <div id="screen4" class="container">
         <div class="room-container">
-            <div class="dance-floor">PISTA DE BAILE</div>
-            <div class="table-number" id="mesa-1">1</div>
-            <div class="table-number" id="mesa-2">2</div>
-            <div class="table-number" id="mesa-3">3</div>
-            <div class="table-number" id="mesa-4">4</div>
-            <div class="table-number" id="mesa-5">5</div>
-            <!-- Repite esto para todas las mesas hasta la 35 -->
+            <div class="pista-de-baile">PISTA DE BAILE</div>
+            <div class="mesa" id="mesa1">1</div>
+            <div class="mesa" id="mesa2">2</div>
+            <div class="mesa" id="mesa3">3</div>
+            <div class="mesa" id="mesa4">4</div>
+            <div class="mesa" id="mesa5">5</div>
+            <div class="mesa" id="mesa6">6</div>
+            <div class="mesa" id="mesa7">7</div>
+            <div class="mesa" id="mesa8">8</div>
+            <div class="mesa" id="mesa9">9</div>
+            <div class="mesa" id="mesa10">10</div>
+            <div class="mesa" id="mesa11">11</div>
+            <div class="mesa" id="mesa12">12</div>
+            <div class="mesa" id="mesa13">13</div>
+            <div class="mesa" id="mesa14">14</div>
+            <div class="mesa" id="mesa15">15</div>
+            <div class="mesa" id="mesa16">16</div>
+            <div class="mesa" id="mesa17">17</div>
+            <div class="mesa" id="mesa18">18</div>
+            <div class="mesa" id="mesa19">19</div>
+            <div class="mesa" id="mesa20">20</div>
+            <div class="mesa" id="mesa21">21</div>
+            <div class="mesa" id="mesa22">22</div>
+            <div class="mesa" id="mesa23">23</div>
+            <div class="mesa" id="mesa24">24</div>
+            <div class="mesa" id="mesa25">25</div>
+            <div class="mesa" id="mesa26">26</div>
+            <div class="mesa" id="mesa27">27</div>
+            <div class="mesa" id="mesa28">28</div>
+            <div class="mesa" id="mesa29">29</div>
+            <div class="mesa" id="mesa30">30</div>
+            <div class="mesa" id="mesa31">31</div>
+            <div class="mesa" id="mesa32">32</div>
+            <div class="mesa" id="mesa33">33</div>
+            <div class="mesa" id="mesa34">34</div>
+            <div class="mesa" id="mesa35">35</div>
         </div>
         <h2>Selección de Mesa</h2>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -372,6 +396,10 @@
         }
 
         function prevScreen(screen) {
+            // Si el usuario no tiene acompañantes, no permitir retroceder a la pantalla de acompañantes
+            if (currentScreen === 4 && document.getElementById("acompanante").value === "no" && screen === 3) {
+                screen = 2;
+            }
             if (document.getElementById(`screen${currentScreen}`)) {
                 document.getElementById(`screen${currentScreen}`).classList.remove('active');
             }
@@ -434,6 +462,7 @@
 
                 if (guestsData[selectedMesa].length >= 8) {
                     mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
+                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
                 }
             }
         }
@@ -447,6 +476,7 @@
                 // Si la mesa tiene 8 o más invitados, la marcamos como completa (en rojo)
                 if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
                     mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
+                    document.getElementById(`mesa${mesaOption.split(' ')[1]}`).classList.add('completa');
                 } else {
                     mesaSelect.options[i].style.backgroundColor = ''; // Restaurar el color para mesas no completas
                 }
@@ -594,4 +624,3 @@
     </script>
 </body>
 </html>
-
