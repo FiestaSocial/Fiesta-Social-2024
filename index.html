@@ -135,61 +135,63 @@
             height: auto;
             border-radius: 10px;
         }
-        /* Ajustes para dispositivos móviles */
-        @media (max-width: 768px) {
-            .table-container {
-                width: 300px;
-                height: 300px;
-            }
-            .table {
-                width: 150px;
-                height: 150px;
-                font-size: 18px;
-            }
-            .seat {
-                width: 40px;
-                height: 40px;
-            }
-        }
-        /* Estilos para el plano del salón */
-        .salon {
+        .salon-container {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 50px;
-            margin-bottom: 30px;
-            border: 3px solid #154360;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
+            border: 2px solid #154360;
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
             gap: 10px;
+            max-width: 400px;
         }
         .mesa {
-            background-color: #5DADE2;
-            border-radius: 50%;
             width: 50px;
             height: 50px;
+            border-radius: 50%;
+            background-color: #5499C7;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 14px;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         .mesa.completa {
             background-color: #dc3545;
         }
         .pista {
-            background-color: #28a745;
-            width: 150px;
+            width: 100px;
             height: 300px;
+            background-color: #28a745;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 16px;
             font-weight: bold;
-            font-size: 20px;
+        }
+
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .salon-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
@@ -198,7 +200,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen_de_bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -285,9 +287,9 @@
     </div>
 
     <div id="screen4" class="container">
-        <div class="salon">
-            <div class="mesas">
-                <!-- Mesas lado izquierdo -->
+        <h2>Selección de Mesa</h2>
+        <div class="salon-container">
+            <div class="mesas" id="mesasIzquierda">
                 <div class="mesa" id="mesa1">1</div>
                 <div class="mesa" id="mesa2">2</div>
                 <div class="mesa" id="mesa3">3</div>
@@ -303,12 +305,11 @@
                 <div class="mesa" id="mesa13">13</div>
                 <div class="mesa" id="mesa14">14</div>
                 <div class="mesa" id="mesa15">15</div>
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas">
-                <!-- Mesas lado derecho -->
                 <div class="mesa" id="mesa16">16</div>
                 <div class="mesa" id="mesa17">17</div>
+            </div>
+            <div class="pista">PISTA DE BAILE</div>
+            <div class="mesas" id="mesasDerecha">
                 <div class="mesa" id="mesa18">18</div>
                 <div class="mesa" id="mesa19">19</div>
                 <div class="mesa" id="mesa20">20</div>
@@ -329,7 +330,6 @@
                 <div class="mesa" id="mesa35">35</div>
             </div>
         </div>
-        <h2>Selección de Mesa</h2>
         <label for="mesaSelect">Seleccione su mesa:</label>
         <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
             <option value="" selected>Seleccionar</option>
@@ -406,11 +406,11 @@
         }
 
         function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
+                screen = 2;
+            }
             if (document.getElementById(`screen${currentScreen}`)) {
                 document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            }
-            if (screen === 2 && document.getElementById("acompanante").value === "no") {
-                screen = 1;
             }
             currentScreen = screen;
             if (document.getElementById(`screen${currentScreen}`)) {
@@ -471,7 +471,6 @@
 
                 if (guestsData[selectedMesa].length >= 8) {
                     mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
-                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
                 }
             }
         }
@@ -479,15 +478,10 @@
         function markFullTables() {
             const mesaSelect = document.getElementById("mesaSelect");
 
-            for (let i = 0; i < mesaSelect.options.length; i++) {
-                const mesaOption = mesaSelect.options[i].value;
-                // Si la mesa tiene 8 o más invitados, la marcamos como completa (en rojo)
-                if (guestsData[mesaOption] && guestsData[mesaOption].length >= 8) {
-                    mesaSelect.options[i].style.backgroundColor = '#dc3545'; // Rojo para mesas completas
-                    document.getElementById(`mesa${mesaOption.split(' ')[1]}`).classList.add('completa');
-                } else {
-                    mesaSelect.options[i].style.backgroundColor = ''; // Restaurar el color para mesas no completas
-                    document.getElementById(`mesa${mesaOption.split(' ')[1]}`).classList.remove('completa');
+            for (let i = 1; i <= 35; i++) {
+                const mesaDiv = document.getElementById(`mesa${i}`);
+                if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
+                    mesaDiv.classList.add('completa');
                 }
             }
         }
@@ -502,6 +496,7 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
                     const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
@@ -516,8 +511,9 @@
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
 
             if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
+                // Mostrar alerta si la mesa está completa
                 alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
-                return;
+                return; // Impide el envío del formulario
             }
 
             updateMesaText();
@@ -555,7 +551,7 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      showConfirmation();
+                      showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
@@ -591,7 +587,7 @@
                 .then(data => {
                     guestsData = data;
                     updateMesaText();
-                    markFullTables();
+                    markFullTables(); // Marcar las mesas completas en rojo
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
@@ -631,4 +627,3 @@
     </script>
 </body>
 </html>
-
