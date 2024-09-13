@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
+        /* Estilos CSS sin cambios */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #F0F8FF;
@@ -177,21 +178,6 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-        }
-
-        /* Ajustes para dispositivos móviles */
-        @media (max-width: 768px) {
-            .salon-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .pista {
-                width: 100%;
-                height: 100px;
-            }
-            .mesas {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
     </style>
 </head>
@@ -533,7 +519,7 @@
                 });
 
                 const data = {
-                    correo: formData.get('correo'),
+                    apelativo: formData.get('correo'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
@@ -602,7 +588,7 @@
                 const currentline = lines[i].split(",");
 
                 obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[5].trim();
+                obj["Apellido"] = currentline[4].trim();  // Cambié aquí la columna 5 por la 4
                 obj["Mesa"] = currentline[19].trim();
 
                 obj["Nombre Acompanante 1"] = currentline[10].trim();
@@ -627,4 +613,3 @@
     </script>
 </body>
 </html>
-
