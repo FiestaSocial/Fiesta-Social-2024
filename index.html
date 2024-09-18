@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
-        /* Estilos CSS sin cambios */
+        /* Estilos generales */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #F0F8FF;
@@ -180,8 +180,90 @@
 <body>
     <div class="banner"></div>
     
-    <!-- Contenido de la pantalla de selección de mesa -->
-    <div id="screen4" class="container active">
+    <!-- Pantalla de bienvenida -->
+    <div id="screen1" class="container active">
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <div class="navigation-buttons">
+            <button onclick="nextScreen(2)">Iniciar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de datos personales -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+            
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de selección de mesa -->
+    <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
@@ -231,7 +313,7 @@
     <div class="banner"></div>
 
     <script>
-        let currentScreen = 4;
+        let currentScreen = 1;
         let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
@@ -247,6 +329,16 @@
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function toggleAcompanante() {
+            let acompanante = document.getElementById("acompanante").value;
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
         }
 
         function updateSeats() {
@@ -287,8 +379,23 @@
         }
 
         function submitForm() {
-            // Aquí va el código para enviar el formulario.
-            alert("Formulario enviado.");
+            const mesaSelect = document.getElementById("mesaSelect");
+            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+
+            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
+                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
+                return; 
+            }
+
+            updateMesaText();
+            showConfirmation(); 
+        }
+
+        function showConfirmation() {
+            const mesaConfirmada = document.getElementById('mesa').value;
+            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            document.getElementById('confirmationModal').style.display = 'block';
         }
 
         function finalizarRegistro() {
@@ -296,7 +403,6 @@
             document.getElementById('screen1').classList.add('active');
         }
 
-        // Función para obtener los datos de los invitados
         function fetchGuestsData() {
             fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
                 .then(response => response.text())
