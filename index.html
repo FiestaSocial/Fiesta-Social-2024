@@ -24,7 +24,7 @@
             width: 100%;
         }
         .container {
-            display: none;
+            display: none; /* Por defecto, todas las pantallas están ocultas */
             text-align: center;
             padding: 30px;
             background-color: #EBF5FB;
@@ -35,7 +35,7 @@
             margin: 20px auto;
         }
         .active {
-            display: block;
+            display: block; /* Solo la pantalla activa se muestra */
         }
         .navigation-buttons {
             display: flex;
@@ -71,115 +71,11 @@
         select option:first-child {
             display: none;
         }
-        .table-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 30px auto;
-            display: grid;
-            place-items: center;
-        }
-        .table {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .seat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #28a745;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .seat:hover {
-            transform: scale(1.1);
-        }
-        .seat.occupied {
-            background-color: #dc3545;
-        }
-        .image-container {
-            margin-bottom: 20px;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .salon-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 2px solid #154360;
-        }
-        .mesas {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
-            gap: 10px;
-            max-width: 400px;
-        }
-        .mesa {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .mesa.completa {
-            background-color: #dc3545;
-        }
-        .pista {
-            width: 100px;
-            height: 300px;
-            background-color: #28a745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        /* Estilos para el tooltip */
-        #tooltip {
-            position: absolute;
-            display: none;
-            background-color: white;
-            border: 1px solid #5499C7;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 100;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
     <div class="banner"></div>
-    
+
     <!-- Pantalla de bienvenida -->
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
@@ -258,7 +154,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen()">Siguiente</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
         </div>
     </div>
 
@@ -292,12 +188,8 @@
                 <div class="mesa" id="mesa20">20</div>
             </div>
         </div>
-
-        <!-- Tooltip para mostrar los datos de los invitados -->
-        <div id="tooltip"></div>
-
         <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="prevScreen(2)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
         </div>
     </div>
@@ -314,12 +206,8 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                nextScreenNumber = currentScreen + 1;
-            }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
@@ -341,51 +229,9 @@
             }
         }
 
-        function updateSeats() {
-            const mesas = document.querySelectorAll('.mesa');
-
-            mesas.forEach(mesa => {
-                mesa.addEventListener('mouseover', function (e) {
-                    const selectedMesa = this.id;
-                    const mesaNumber = selectedMesa.replace('mesa', 'Mesa ');
-                    const guests = guestsData[mesaNumber];
-
-                    if (guests && guests.length > 0) {
-                        const tooltip = document.getElementById('tooltip');
-                        let tooltipContent = '<strong>Invitados:</strong><br>';
-
-                        guests.forEach(guest => {
-                            tooltipContent += `${guest["Nombre"]} ${guest["Apellido"]}<br>`;
-                        });
-
-                        tooltip.innerHTML = tooltipContent;
-                        tooltip.style.display = 'block';
-                        tooltip.style.left = `${e.pageX + 10}px`;
-                        tooltip.style.top = `${e.pageY + 10}px`;
-                    }
-                });
-
-                mesa.addEventListener('mousemove', function (e) {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.style.left = `${e.pageX + 10}px`;
-                    tooltip.style.top = `${e.pageY + 10}px`;
-                });
-
-                mesa.addEventListener('mouseleave', function () {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.style.display = 'none';
-                });
-            });
-        }
-
         function submitForm() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-
-            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
-                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
-                return; 
-            }
 
             updateMesaText();
             showConfirmation(); 
@@ -403,43 +249,6 @@
             document.getElementById('screen1').classList.add('active');
         }
 
-        function fetchGuestsData() {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-                .then(response => response.text())
-                .then(csv => csvToJSON(csv))
-                .then(data => {
-                    guestsData = data;
-                    updateSeats();
-                })
-                .catch(error => console.error('Error fetching guest data:', error));
-        }
-
-        function csvToJSON(csv) {
-            const lines = csv.split("\n");
-            const result = {};
-            const headers = lines[0].split(",");
-
-            for (let i = 1; i < lines.length; i++) {
-                const obj = {};
-                const currentline = lines[i].split(",");
-
-                obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[4].trim();
-                obj["Mesa"] = currentline[19].trim();
-
-                if (obj["Mesa"]) {
-                    if (!result[obj["Mesa"]]) {
-                        result[obj["Mesa"]] = [];
-                    }
-                    result[obj["Mesa"]].push(obj);
-                }
-            }
-            return result;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchGuestsData();
-        });
     </script>
 </body>
 </html>
