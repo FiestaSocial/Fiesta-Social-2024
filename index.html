@@ -70,126 +70,25 @@
         select option:first-child {
             display: none;
         }
-        .table-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 30px auto;
-            display: grid;
-            place-items: center;
-        }
-        .table {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .seat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #28a745;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .seat:hover {
-            transform: scale(1.1);
-        }
-        .seat.occupied {
-            background-color: #dc3545;
-        }
-        #guestList {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            width: 100%;
-            height: auto;
-            padding: 10px;
-            border: 1px solid #AED6F1;
-            border-radius: 5px;
-            background-color: #fff;
-            overflow: hidden;
-        }
-        #guestList div {
-            display: flex;
-            justify-content: space-between;
-        }
-        .image-container {
-            margin-bottom: 20px;
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .salon-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 2px solid #154360;
-        }
-        .mesas {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            max-width: 400px;
-        }
-        .mesa {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+        .error {
+            color: red;
             font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .mesa.completa {
-            background-color: #dc3545;
-        }
-        .pista {
-            width: 100px;
-            height: 300px;
-            background-color: #28a745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
         }
 
+        /* Ajustes para dispositivos móviles */
         @media (max-width: 768px) {
-            .salon-container {
-                flex-direction: column;
-                gap: 20px;
+            .table-container {
+                width: 300px;
+                height: 300px;
             }
-            .pista {
-                width: 100%;
-                height: 100px;
+            .table {
+                width: 150px;
+                height: 150px;
+                font-size: 18px;
             }
-            .mesas {
-                grid-template-columns: repeat(4, 1fr);
+            .seat {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -210,7 +109,7 @@
         <form id="guestForm">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required><br><br>
-            
+
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -270,6 +169,7 @@
             </select><br><br>
             <input type="hidden" id="mesa" name="mesa">
         </form>
+        <div class="error" id="formError"></div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
             <button onclick="nextScreen()">Siguiente</button>
@@ -287,48 +187,6 @@
 
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda">
-                <div class="mesa" id="mesa1" onmouseover="mostrarInvitados('Mesa 1')">1</div>
-                <div class="mesa" id="mesa2" onmouseover="mostrarInvitados('Mesa 2')">2</div>
-                <div class="mesa" id="mesa3" onmouseover="mostrarInvitados('Mesa 3')">3</div>
-                <div class="mesa" id="mesa4" onmouseover="mostrarInvitados('Mesa 4')">4</div>
-                <div class="mesa" id="mesa5" onmouseover="mostrarInvitados('Mesa 5')">5</div>
-                <div class="mesa" id="mesa6" onmouseover="mostrarInvitados('Mesa 6')">6</div>
-                <div class="mesa" id="mesa7" onmouseover="mostrarInvitados('Mesa 7')">7</div>
-                <div class="mesa" id="mesa8" onmouseover="mostrarInvitados('Mesa 8')">8</div>
-                <div class="mesa" id="mesa9" onmouseover="mostrarInvitados('Mesa 9')">9</div>
-                <div class="mesa" id="mesa10" onmouseover="mostrarInvitados('Mesa 10')">10</div>
-                <div class="mesa" id="mesa11" onmouseover="mostrarInvitados('Mesa 11')">11</div>
-                <div class="mesa" id="mesa12" onmouseover="mostrarInvitados('Mesa 12')">12</div>
-                <div class="mesa" id="mesa13" onmouseover="mostrarInvitados('Mesa 13')">13</div>
-                <div class="mesa" id="mesa14" onmouseover="mostrarInvitados('Mesa 14')">14</div>
-                <div class="mesa" id="mesa15" onmouseover="mostrarInvitados('Mesa 15')">15</div>
-                <div class="mesa" id="mesa16" onmouseover="mostrarInvitados('Mesa 16')">16</div>
-                <div class="mesa" id="mesa17" onmouseover="mostrarInvitados('Mesa 17')">17</div>
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                <div class="mesa" id="mesa18" onmouseover="mostrarInvitados('Mesa 18')">18</div>
-                <div class="mesa" id="mesa19" onmouseover="mostrarInvitados('Mesa 19')">19</div>
-                <div class="mesa" id="mesa20" onmouseover="mostrarInvitados('Mesa 20')">20</div>
-                <div class="mesa" id="mesa21" onmouseover="mostrarInvitados('Mesa 21')">21</div>
-                <div class="mesa" id="mesa22" onmouseover="mostrarInvitados('Mesa 22')">22</div>
-                <div class="mesa" id="mesa23" onmouseover="mostrarInvitados('Mesa 23')">23</div>
-                <div class="mesa" id="mesa24" onmouseover="mostrarInvitados('Mesa 24')">24</div>
-                <div class="mesa" id="mesa25" onmouseover="mostrarInvitados('Mesa 25')">25</div>
-                <div class="mesa" id="mesa26" onmouseover="mostrarInvitados('Mesa 26')">26</div>
-                <div class="mesa" id="mesa27" onmouseover="mostrarInvitados('Mesa 27')">27</div>
-                <div class="mesa" id="mesa28" onmouseover="mostrarInvitados('Mesa 28')">28</div>
-                <div class="mesa" id="mesa29" onmouseover="mostrarInvitados('Mesa 29')">29</div>
-                <div class="mesa" id="mesa30" onmouseover="mostrarInvitados('Mesa 30')">30</div>
-                <div class="mesa" id="mesa31" onmouseover="mostrarInvitados('Mesa 31')">31</div>
-                <div class="mesa" id="mesa32" onmouseover="mostrarInvitados('Mesa 32')">32</div>
-                <div class="mesa" id="mesa33" onmouseover="mostrarInvitados('Mesa 33')">33</div>
-                <div class="mesa" id="mesa34" onmouseover="mostrarInvitados('Mesa 34')">34</div>
-                <div class="mesa" id="mesa35" onmouseover="mostrarInvitados('Mesa 35')">35</div>
-            </div>
-        </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
         <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
             <option value="" selected>Seleccionar</option>
@@ -347,7 +205,6 @@
             <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
             <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
             <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
-            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -374,10 +231,13 @@
         let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
+            let formError = document.getElementById('formError');
+            formError.textContent = ''; // Limpiar mensajes de error
+
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
                     if (!validateForm('guestForm')) {
-                        alert('Por favor, complete todos los campos requeridos.');
+                        formError.textContent = 'Por favor, complete todos los campos requeridos.';
                         return;
                     }
                     let acompanante = document.getElementById("acompanante").value;
@@ -389,7 +249,7 @@
                         nextScreenNumber = 4;
                     }
                 } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-                    alert('Por favor, complete todos los campos requeridos.');
+                    formError.textContent = 'Por favor, complete todos los campos requeridos.';
                     return;
                 } else {
                     nextScreenNumber = currentScreen + 1;
@@ -429,7 +289,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Clear previous entries
+            acompanantesForm.innerHTML = ''; // Limpiar formulario
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += 
                     `<h3>Acompañante ${i}</h3>
@@ -438,196 +298,10 @@
             }
         }
 
-        function updateMesaText() {
-            const mesaSelect = document.getElementById("mesaSelect");
-            const mesaText = document.getElementById("mesaText");
-            const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-            if (mesaText && selectedMesa) {
-                mesaText.textContent = selectedMesa;
-            }
-            if (mesaInput && selectedMesa) {
-                mesaInput.value = selectedMesa;
-            }
-            updateSeats();
-            updateGuestList();
-        }
-
-        function updateSeats() {
-            const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-            const seats = document.querySelectorAll('.seat');
-
-            seats.forEach(seat => seat.classList.remove('occupied'));
-
-            if (selectedMesa && guestsData[selectedMesa]) {
-                guestsData[selectedMesa].forEach((guest, index) => {
-                    const seat = document.querySelector(`.seat[data-seat="${index + 1}"]`);
-                    if (seat) {
-                        seat.classList.add('occupied');
-                    }
-                });
-
-                if (guestsData[selectedMesa].length >= 8) {
-                    mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
-                }
-            }
-        }
-
-        function markFullTables() {
-            const mesaSelect = document.getElementById("mesaSelect");
-
-            for (let i = 1; i <= 35; i++) {
-                const mesaDiv = document.getElementById(`mesa${i}`);
-                if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
-                    mesaDiv.classList.add('completa');
-                }
-            }
-        }
-
-        function updateGuestList() {
-            const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-            const guestList = document.getElementById("guestList");
-
-            guestList.innerHTML = ""; // Limpiar la lista de invitados
-
-            if (selectedMesa && guestsData[selectedMesa]) {
-                const guests = guestsData[selectedMesa];
-
-                guests.forEach(guest => {
-                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
-                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
-                });
-            } else {
-                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
-            }
-        }
-
-        function mostrarInvitados(mesa) {
-            const invitados = guestsData[mesa] || [];
-            let tooltipText = invitados.map(inv => `${inv.Nombre} ${inv.Apellido}`).join(", ");
-            const mesaElement = document.getElementById(`mesa${mesa.split(" ")[1]}`);
-            mesaElement.title = tooltipText || "No hay invitados registrados.";
-        }
-
-        function submitForm() {
-            const mesaSelect = document.getElementById("mesaSelect");
-            const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-
-            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
-                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
-                return;
-            }
-
-            updateMesaText();
-            let guestForm = document.getElementById("guestForm");
-            let acompanantesForm = document.getElementById("acompanantesForm");
-
-            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                const formData = new FormData(guestForm);
-                const acompanantesData = new FormData(acompanantesForm);
-                const acompanantes = [];
-                acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
-                    }
-                });
-
-                const data = {
-                    correo: formData.get('correo'),
-                    grado: formData.get('grado'),
-                    escalafon: formData.get('escalafon'),
-                    nombre: formData.get('nombre'),
-                    apellido: formData.get('apellido'),
-                    cedula: formData.get('cedula'),
-                    acompanante: formData.get('acompanante'),
-                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                    menu: formData.get('menu'),
-                    acompanantes: acompanantes,
-                    mesa: formData.get('mesa')
-                };
-
-                fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                }).then(response => response.text())
-                  .then(result => {
-                      showConfirmation();
-                      fetchGuestsData();
-                  }).catch(error => {
-                      alert('Error: ' + error);
-                  });
-            } else {
-                alert("Por favor, complete todos los campos requeridos.");
-            }
-        }
-
-        function showConfirmation() {
-            const mesaConfirmada = document.getElementById('mesa').value;
-            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
-            if (document.getElementById(`screen${currentScreen}`)) {
-                document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            }
-            document.getElementById('confirmationModal').style.display = 'block';
-        }
-
-        function finalizarRegistro() {
-            document.getElementById('confirmationModal').style.display = 'none';
-            document.getElementById('screen1').classList.add('active');
-        }
-
         function validateForm(formId) {
             let form = document.getElementById(formId);
             return form.checkValidity();
         }
-
-        function fetchGuestsData() {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-                .then(response => response.text())
-                .then(csv => csvToJSON(csv))
-                .then(data => {
-                    guestsData = data;
-                    updateMesaText();
-                    markFullTables();
-                })
-                .catch(error => console.error('Error fetching guest data:', error));
-        }
-
-        function csvToJSON(csv) {
-            const lines = csv.split("\n");
-            const result = {};
-            const headers = lines[0].split(",");
-
-            for (let i = 1; i < lines.length; i++) {
-                const obj = {};
-                const currentline = lines[i].split(",");
-
-                obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[5].trim();
-                obj["Mesa"] = currentline[19].trim();
-
-                obj["Nombre Acompanante 1"] = currentline[10].trim();
-                obj["Nombre Acompanante 2"] = currentline[12].trim();
-                obj["Nombre Acompanante 3"] = currentline[14].trim();
-                obj["Nombre Acompanante 4"] = currentline[16].trim();
-                obj["Nombre Acompanante 5"] = currentline[18].trim();
-
-                if (obj["Mesa"]) {
-                    if (!result[obj["Mesa"]]) {
-                        result[obj["Mesa"]] = [];
-                    }
-                    result[obj["Mesa"]].push(obj);
-                }
-            }
-            return result;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchGuestsData();
-        });
     </script>
 </body>
 </html>
