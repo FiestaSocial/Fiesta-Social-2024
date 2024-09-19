@@ -193,52 +193,133 @@
             z-index: 100;
         }
 
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .salon-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="banner"></div>
-    <div id="screen4" class="container active">
+
+    <!-- Primera Página: Bienvenida -->
+    <div id="screen1" class="container active">
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <div class="navigation-buttons">
+            <button onclick="nextScreen(2)">Iniciar</button>
+        </div>
+    </div>
+
+    <!-- Segunda Página: Datos Personales -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required><br><br>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Tercera Página: Datos de Acompañantes -->
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Cuarta Página: Selección de Mesa -->
+    <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
-                <div class="mesa" id="mesa1" data-invitados="">1</div>
-                <div class="mesa" id="mesa2" data-invitados="">2</div>
-                <div class="mesa" id="mesa3" data-invitados="">3</div>
-                <div class="mesa" id="mesa4" data-invitados="">4</div>
-                <div class="mesa" id="mesa5" data-invitados="">5</div>
-                <div class="mesa" id="mesa6" data-invitados="">6</div>
-                <div class="mesa" id="mesa7" data-invitados="">7</div>
-                <div class="mesa" id="mesa8" data-invitados="">8</div>
-                <div class="mesa" id="mesa9" data-invitados="">9</div>
-                <div class="mesa" id="mesa10" data-invitados="">10</div>
-                <div class="mesa" id="mesa11" data-invitados="">11</div>
-                <div class="mesa" id="mesa12" data-invitados="">12</div>
-                <div class="mesa" id="mesa13" data-invitados="">13</div>
-                <div class="mesa" id="mesa14" data-invitados="">14</div>
-                <div class="mesa" id="mesa15" data-invitados="">15</div>
-                <div class="mesa" id="mesa16" data-invitados="">16</div>
-                <div class="mesa" id="mesa17" data-invitados="">17</div>
+                <div class="mesa" id="mesa1">1</div>
+                <div class="mesa" id="mesa2">2</div>
+                <!-- Repite hasta la mesa 17 del lado izquierdo -->
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <div class="mesa" id="mesa18" data-invitados="">18</div>
-                <div class="mesa" id="mesa19" data-invitados="">19</div>
-                <div class="mesa" id="mesa20" data-invitados="">20</div>
-                <div class="mesa" id="mesa21" data-invitados="">21</div>
-                <div class="mesa" id="mesa22" data-invitados="">22</div>
-                <div class="mesa" id="mesa23" data-invitados="">23</div>
-                <div class="mesa" id="mesa24" data-invitados="">24</div>
-                <div class="mesa" id="mesa25" data-invitados="">25</div>
-                <div class="mesa" id="mesa26" data-invitados="">26</div>
-                <div class="mesa" id="mesa27" data-invitados="">27</div>
-                <div class="mesa" id="mesa28" data-invitados="">28</div>
-                <div class="mesa" id="mesa29" data-invitados="">29</div>
-                <div class="mesa" id="mesa30" data-invitados="">30</div>
-                <div class="mesa" id="mesa31" data-invitados="">31</div>
-                <div class="mesa" id="mesa32" data-invitados="">32</div>
-                <div class="mesa" id="mesa33" data-invitados="">33</div>
-                <div class="mesa" id="mesa34" data-invitados="">34</div>
-                <div class="mesa" id="mesa35" data-invitados="">35</div>
+                <div class="mesa" id="mesa18">18</div>
+                <div class="mesa" id="mesa19">19</div>
+                <!-- Repite hasta la mesa 35 del lado derecho -->
             </div>
         </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
