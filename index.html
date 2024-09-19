@@ -111,19 +111,29 @@
         .seat.occupied {
             background-color: #dc3545;
         }
-        .tooltip {
-            visibility: hidden;
-            width: auto;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
         }
-        .mesa:hover .tooltip {
-            visibility: visible;
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
         .salon-container {
             display: flex;
@@ -137,7 +147,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
             max-width: 400px;
         }
@@ -153,7 +163,6 @@
             font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
-            position: relative;
         }
         .mesa.completa {
             background-color: #dc3545;
@@ -169,6 +178,7 @@
             font-size: 16px;
             font-weight: bold;
         }
+
         @media (max-width: 768px) {
             .salon-container {
                 flex-direction: column;
@@ -199,7 +209,7 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required><br><br>
+            <input type="email" id="correo" name="correo" required><br><br>
             
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -279,15 +289,44 @@
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
-                <div class="mesa" id="mesa1" onmouseover="showTooltip(1)" onmouseout="hideTooltip(1)">1<span class="tooltip" id="tooltip1"></span></div>
-                <div class="mesa" id="mesa2" onmouseover="showTooltip(2)" onmouseout="hideTooltip(2)">2<span class="tooltip" id="tooltip2"></span></div>
-                <!-- Agrega las mesas faltantes de la misma forma hasta mesa 17 -->
+                <div class="mesa" id="mesa1" onmouseover="mostrarInvitados('Mesa 1')">1</div>
+                <div class="mesa" id="mesa2" onmouseover="mostrarInvitados('Mesa 2')">2</div>
+                <div class="mesa" id="mesa3" onmouseover="mostrarInvitados('Mesa 3')">3</div>
+                <div class="mesa" id="mesa4" onmouseover="mostrarInvitados('Mesa 4')">4</div>
+                <div class="mesa" id="mesa5" onmouseover="mostrarInvitados('Mesa 5')">5</div>
+                <div class="mesa" id="mesa6" onmouseover="mostrarInvitados('Mesa 6')">6</div>
+                <div class="mesa" id="mesa7" onmouseover="mostrarInvitados('Mesa 7')">7</div>
+                <div class="mesa" id="mesa8" onmouseover="mostrarInvitados('Mesa 8')">8</div>
+                <div class="mesa" id="mesa9" onmouseover="mostrarInvitados('Mesa 9')">9</div>
+                <div class="mesa" id="mesa10" onmouseover="mostrarInvitados('Mesa 10')">10</div>
+                <div class="mesa" id="mesa11" onmouseover="mostrarInvitados('Mesa 11')">11</div>
+                <div class="mesa" id="mesa12" onmouseover="mostrarInvitados('Mesa 12')">12</div>
+                <div class="mesa" id="mesa13" onmouseover="mostrarInvitados('Mesa 13')">13</div>
+                <div class="mesa" id="mesa14" onmouseover="mostrarInvitados('Mesa 14')">14</div>
+                <div class="mesa" id="mesa15" onmouseover="mostrarInvitados('Mesa 15')">15</div>
+                <div class="mesa" id="mesa16" onmouseover="mostrarInvitados('Mesa 16')">16</div>
+                <div class="mesa" id="mesa17" onmouseover="mostrarInvitados('Mesa 17')">17</div>
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <div class="mesa" id="mesa18" onmouseover="showTooltip(18)" onmouseout="hideTooltip(18)">18<span class="tooltip" id="tooltip18"></span></div>
-                <div class="mesa" id="mesa19" onmouseover="showTooltip(19)" onmouseout="hideTooltip(19)">19<span class="tooltip" id="tooltip19"></span></div>
-                <!-- Agrega las mesas faltantes de la misma forma hasta mesa 35 -->
+                <div class="mesa" id="mesa18" onmouseover="mostrarInvitados('Mesa 18')">18</div>
+                <div class="mesa" id="mesa19" onmouseover="mostrarInvitados('Mesa 19')">19</div>
+                <div class="mesa" id="mesa20" onmouseover="mostrarInvitados('Mesa 20')">20</div>
+                <div class="mesa" id="mesa21" onmouseover="mostrarInvitados('Mesa 21')">21</div>
+                <div class="mesa" id="mesa22" onmouseover="mostrarInvitados('Mesa 22')">22</div>
+                <div class="mesa" id="mesa23" onmouseover="mostrarInvitados('Mesa 23')">23</div>
+                <div class="mesa" id="mesa24" onmouseover="mostrarInvitados('Mesa 24')">24</div>
+                <div class="mesa" id="mesa25" onmouseover="mostrarInvitados('Mesa 25')">25</div>
+                <div class="mesa" id="mesa26" onmouseover="mostrarInvitados('Mesa 26')">26</div>
+                <div class="mesa" id="mesa27" onmouseover="mostrarInvitados('Mesa 27')">27</div>
+                <div class="mesa" id="mesa28" onmouseover="mostrarInvitados('Mesa 28')">28</div>
+                <div class="mesa" id="mesa29" onmouseover="mostrarInvitados('Mesa 29')">29</div>
+                <div class="mesa" id="mesa30" onmouseover="mostrarInvitados('Mesa 30')">30</div>
+                <div class="mesa" id="mesa31" onmouseover="mostrarInvitados('Mesa 31')">31</div>
+                <div class="mesa" id="mesa32" onmouseover="mostrarInvitados('Mesa 32')">32</div>
+                <div class="mesa" id="mesa33" onmouseover="mostrarInvitados('Mesa 33')">33</div>
+                <div class="mesa" id="mesa34" onmouseover="mostrarInvitados('Mesa 34')">34</div>
+                <div class="mesa" id="mesa35" onmouseover="mostrarInvitados('Mesa 35')">35</div>
             </div>
         </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -457,7 +496,7 @@
                 const guests = guestsData[selectedMesa];
 
                 guests.forEach(guest => {
-                    const nombreCompleto = `${guest["Nombre"]} ${guest["Apellido"]}`;
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
                 });
             } else {
@@ -465,18 +504,11 @@
             }
         }
 
-        function showTooltip(mesaNumber) {
-            const tooltip = document.getElementById(`tooltip${mesaNumber}`);
-            const guests = guestsData[`Mesa ${mesaNumber}`];
-            if (guests) {
-                tooltip.innerHTML = guests.map(guest => `${guest["Nombre"]} ${guest["Apellido"]}`).join(', ');
-                tooltip.style.visibility = 'visible';
-            }
-        }
-
-        function hideTooltip(mesaNumber) {
-            const tooltip = document.getElementById(`tooltip${mesaNumber}`);
-            tooltip.style.visibility = 'hidden';
+        function mostrarInvitados(mesa) {
+            const invitados = guestsData[mesa] || [];
+            let tooltipText = invitados.map(inv => `${inv.Nombre} ${inv.Apellido}`).join(", ");
+            const mesaElement = document.getElementById(`mesa${mesa.split(" ")[1]}`);
+            mesaElement.title = tooltipText || "No hay invitados registrados.";
         }
 
         function submitForm() {
@@ -523,7 +555,7 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      showConfirmation(); 
+                      showConfirmation();
                       fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
@@ -574,8 +606,14 @@
                 const currentline = lines[i].split(",");
 
                 obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[4].trim();
+                obj["Apellido"] = currentline[5].trim();
                 obj["Mesa"] = currentline[19].trim();
+
+                obj["Nombre Acompanante 1"] = currentline[10].trim();
+                obj["Nombre Acompanante 2"] = currentline[12].trim();
+                obj["Nombre Acompanante 3"] = currentline[14].trim();
+                obj["Nombre Acompanante 4"] = currentline[16].trim();
+                obj["Nombre Acompanante 5"] = currentline[18].trim();
 
                 if (obj["Mesa"]) {
                     if (!result[obj["Mesa"]]) {
