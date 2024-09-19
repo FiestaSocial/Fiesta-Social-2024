@@ -113,15 +113,15 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: auto;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
         #guestList div {
             display: flex;
@@ -147,7 +147,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
             gap: 10px;
             max-width: 400px;
         }
@@ -210,8 +210,8 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required><br><br>
-
+            <input type="text" id="correo" name="correo" required><br><br>
+            
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -375,13 +375,10 @@
         let guestsData = {};
 
         function nextScreen(nextScreenNumber) {
-            let formError = document.getElementById('formError');
-            formError.textContent = ''; // Limpiar mensajes de error
-
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
                     if (!validateForm('guestForm')) {
-                        formError.textContent = 'Por favor, complete todos los campos requeridos.';
+                        alert('Por favor, complete todos los campos requeridos.');
                         return;
                     }
                     let acompanante = document.getElementById("acompanante").value;
@@ -393,7 +390,7 @@
                         nextScreenNumber = 4;
                     }
                 } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-                    formError.textContent = 'Por favor, complete todos los campos requeridos.';
+                    alert('Por favor, complete todos los campos requeridos.');
                     return;
                 } else {
                     nextScreenNumber = currentScreen + 1;
@@ -605,7 +602,7 @@
                 const currentline = lines[i].split(",");
 
                 obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[4].trim();
+                obj["Apellido"] = currentline[5].trim();
                 obj["Mesa"] = currentline[19].trim();
 
                 obj["Nombre Acompanante 1"] = currentline[10].trim();
@@ -630,4 +627,5 @@
     </script>
 </body>
 </html>
+
 
