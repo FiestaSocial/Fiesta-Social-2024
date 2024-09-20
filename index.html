@@ -5,8 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
-        /* Your existing styles */
-        /* No changes here */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F0F8FF;
+            color: #154360;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .banner {
+            background-color: #85C1E9;
+            height: 70px;
+            width: 100%;
+        }
+        .container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background-color: #EBF5FB;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .active {
+            display: block;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .navigation-buttons button {
+            margin: 0 10px;
+        }
+        button {
+            background-color: #5499C7;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980B9;
+        }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+        }
+        select option:first-child {
+            display: none;
+        }
+        .table-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 30px auto;
+            display: grid;
+            place-items: center;
+        }
+        .table {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat:hover {
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background-color: #dc3545;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .salon-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #154360;
+        }
+        .mesas {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 400px;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .mesa.completa {
+            background-color: #dc3545;
+        }
+        .pista {
+            width: 100px;
+            height: 300px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
+        }
+
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .salon-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
@@ -20,11 +217,70 @@
         </div>
     </div>
 
-    <!-- Datos personales -->
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <!-- Your form fields here -->
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+            
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
@@ -32,7 +288,6 @@
         </div>
     </div>
 
-    <!-- Información de los acompañantes -->
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
         <form id="acompanantesForm"></form>
@@ -42,12 +297,10 @@
         </div>
     </div>
 
-    <!-- Selección de Mesa -->
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
-                <!-- Mesas izquierda -->
                 <div class="mesa" id="mesa1" onmouseover="showGuests('Mesa 1', event)" onmouseout="hideGuests()">1</div>
                 <div class="mesa" id="mesa2" onmouseover="showGuests('Mesa 2', event)" onmouseout="hideGuests()">2</div>
                 <div class="mesa" id="mesa3" onmouseover="showGuests('Mesa 3', event)" onmouseout="hideGuests()">3</div>
@@ -68,7 +321,6 @@
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <!-- Mesas derecha -->
                 <div class="mesa" id="mesa18" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>
                 <div class="mesa" id="mesa19" onmouseover="showGuests('Mesa 19', event)" onmouseout="hideGuests()">19</div>
                 <div class="mesa" id="mesa20" onmouseover="showGuests('Mesa 20', event)" onmouseout="hideGuests()">20</div>
@@ -256,6 +508,7 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
                     const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
@@ -292,7 +545,7 @@
                 });
 
                 const data = {
-                    correo: formData.get('correo'),
+                    apelativo: formData.get('apelativo'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
@@ -310,7 +563,7 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      showConfirmation();
+                      showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
@@ -346,7 +599,7 @@
                 .then(data => {
                     guestsData = data;
                     updateMesaText();
-                    markFullTables();
+                    markFullTables(); // Marcar las mesas completas en rojo
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
