@@ -113,15 +113,15 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: auto;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
         #guestList div {
             display: flex;
@@ -147,7 +147,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
             gap: 10px;
             max-width: 400px;
         }
@@ -545,7 +545,7 @@
                 });
 
                 const data = {
-                    apelativo: formData.get('apelativo'),
+                    correo: formData.get('correo'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
@@ -613,8 +613,9 @@
                 const obj = {};
                 const currentline = lines[i].split(",");
 
+                // Corregido: Se toma el nombre de la columna D y el apellido de la columna E
                 obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[5].trim();
+                obj["Apellido"] = currentline[4].trim();
                 obj["Mesa"] = currentline[19].trim();
 
                 obj["Nombre Acompanante 1"] = currentline[10].trim();
