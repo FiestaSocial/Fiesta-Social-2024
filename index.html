@@ -113,19 +113,71 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 10px; 
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             width: 100%;
             height: auto;
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden; 
+            overflow: hidden;
         }
         #guestList div {
             display: flex;
             justify-content: space-between;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .salon-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #154360;
+        }
+        .mesas {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 400px;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .mesa.completa {
+            background-color: #dc3545;
+        }
+        .pista {
+            width: 100px;
+            height: 300px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
         }
         .tooltip {
             position: absolute;
@@ -170,6 +222,7 @@
         <form id="guestForm">
             <label for="correo">Correo:</label>
             <input type="text" id="correo" name="correo" required><br><br>
+            
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -250,13 +303,42 @@
             <div class="mesas" id="mesasIzquierda">
                 <div class="mesa" id="mesa1" onmouseover="showGuests('Mesa 1', event)" onmouseout="hideGuests()">1</div>
                 <div class="mesa" id="mesa2" onmouseover="showGuests('Mesa 2', event)" onmouseout="hideGuests()">2</div>
-                <!-- Agrega las mesas restantes aquí -->
+                <div class="mesa" id="mesa3" onmouseover="showGuests('Mesa 3', event)" onmouseout="hideGuests()">3</div>
+                <div class="mesa" id="mesa4" onmouseover="showGuests('Mesa 4', event)" onmouseout="hideGuests()">4</div>
+                <div class="mesa" id="mesa5" onmouseover="showGuests('Mesa 5', event)" onmouseout="hideGuests()">5</div>
+                <div class="mesa" id="mesa6" onmouseover="showGuests('Mesa 6', event)" onmouseout="hideGuests()">6</div>
+                <div class="mesa" id="mesa7" onmouseover="showGuests('Mesa 7', event)" onmouseout="hideGuests()">7</div>
+                <div class="mesa" id="mesa8" onmouseover="showGuests('Mesa 8', event)" onmouseout="hideGuests()">8</div>
+                <div class="mesa" id="mesa9" onmouseover="showGuests('Mesa 9', event)" onmouseout="hideGuests()">9</div>
+                <div class="mesa" id="mesa10" onmouseover="showGuests('Mesa 10', event)" onmouseout="hideGuests()">10</div>
+                <div class="mesa" id="mesa11" onmouseover="showGuests('Mesa 11', event)" onmouseout="hideGuests()">11</div>
+                <div class="mesa" id="mesa12" onmouseover="showGuests('Mesa 12', event)" onmouseout="hideGuests()">12</div>
+                <div class="mesa" id="mesa13" onmouseover="showGuests('Mesa 13', event)" onmouseout="hideGuests()">13</div>
+                <div class="mesa" id="mesa14" onmouseover="showGuests('Mesa 14', event)" onmouseout="hideGuests()">14</div>
+                <div class="mesa" id="mesa15" onmouseover="showGuests('Mesa 15', event)" onmouseout="hideGuests()">15</div>
+                <div class="mesa" id="mesa16" onmouseover="showGuests('Mesa 16', event)" onmouseout="hideGuests()">16</div>
+                <div class="mesa" id="mesa17" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
                 <div class="mesa" id="mesa18" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>
                 <div class="mesa" id="mesa19" onmouseover="showGuests('Mesa 19', event)" onmouseout="hideGuests()">19</div>
-                <!-- Agrega las mesas restantes aquí -->
+                <div class="mesa" id="mesa20" onmouseover="showGuests('Mesa 20', event)" onmouseout="hideGuests()">20</div>
+                <div class="mesa" id="mesa21" onmouseover="showGuests('Mesa 21', event)" onmouseout="hideGuests()">21</div>
+                <div class="mesa" id="mesa22" onmouseover="showGuests('Mesa 22', event)" onmouseout="hideGuests()">22</div>
+                <div class="mesa" id="mesa23" onmouseover="showGuests('Mesa 23', event)" onmouseout="hideGuests()">23</div>
+                <div class="mesa" id="mesa24" onmouseover="showGuests('Mesa 24', event)" onmouseout="hideGuests()">24</div>
+                <div class="mesa" id="mesa25" onmouseover="showGuests('Mesa 25', event)" onmouseout="hideGuests()">25</div>
+                <div class="mesa" id="mesa26" onmouseover="showGuests('Mesa 26', event)" onmouseout="hideGuests()">26</div>
+                <div class="mesa" id="mesa27" onmouseover="showGuests('Mesa 27', event)" onmouseout="hideGuests()">27</div>
+                <div class="mesa" id="mesa28" onmouseover="showGuests('Mesa 28', event)" onmouseout="hideGuests()">28</div>
+                <div class="mesa" id="mesa29" onmouseover="showGuests('Mesa 29', event)" onmouseout="hideGuests()">29</div>
+                <div class="mesa" id="mesa30" onmouseover="showGuests('Mesa 30', event)" onmouseout="hideGuests()">30</div>
+                <div class="mesa" id="mesa31" onmouseover="showGuests('Mesa 31', event)" onmouseout="hideGuests()">31</div>
+                <div class="mesa" id="mesa32" onmouseover="showGuests('Mesa 32', event)" onmouseout="hideGuests()">32</div>
+                <div class="mesa" id="mesa33" onmouseover="showGuests('Mesa 33', event)" onmouseout="hideGuests()">33</div>
+                <div class="mesa" id="mesa34" onmouseover="showGuests('Mesa 34', event)" onmouseout="hideGuests()">34</div>
+                <div class="mesa" id="mesa35" onmouseover="showGuests('Mesa 35', event)" onmouseout="hideGuests()">35</div>
             </div>
         </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -360,7 +442,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; 
+            acompanantesForm.innerHTML = ''; // Clear previous entries
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += 
                     `<h3>Acompañante ${i}</h3>
@@ -421,11 +503,12 @@
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = ""; 
+            guestList.innerHTML = ""; // Limpiar la lista de invitados
 
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
                     const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
@@ -439,14 +522,15 @@
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
 
-            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
-                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
+            if (!selectedMesa) {
+                alert("Por favor, seleccione una mesa antes de enviar.");
                 return;
             }
 
-            if (!selectedMesa) {
-                alert("Debe seleccionar una mesa.");
-                return;
+            if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
+                // Mostrar alerta si la mesa está completa
+                alert("La mesa seleccionada ya está completa. Por favor, elija otra mesa.");
+                return; // Impide el envío del formulario
             }
 
             updateMesaText();
@@ -484,9 +568,12 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      showConfirmation();
+                      showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
-                      setTimeout(() => location.reload(), 1000);
+                      // Recargar la página después de la confirmación
+                      setTimeout(() => {
+                          location.reload();
+                      }, 3000); // Recarga después de 3 segundos
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
@@ -521,7 +608,7 @@
                 .then(data => {
                     guestsData = data;
                     updateMesaText();
-                    markFullTables(); 
+                    markFullTables(); // Marcar las mesas completas en rojo
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
@@ -535,6 +622,7 @@
                 const obj = {};
                 const currentline = lines[i].split(",");
 
+                // Corregido: Se toma el nombre de la columna D y el apellido de la columna E
                 obj["Nombre"] = currentline[3].trim();
                 obj["Apellido"] = currentline[4].trim();
                 obj["Mesa"] = currentline[19].trim();
@@ -582,4 +670,3 @@
     </script>
 </body>
 </html>
-
