@@ -1,57 +1,311 @@
-        document.getElementById(`screen${currentScreen}`).classList.remove('active');
-        currentScreen = screen;
-        document.getElementById(`screen${currentScreen}`).classList.add('active');
-    }
-
-    function validateForm(formId) {
-        let form = document.getElementById(formId);
-        return form.checkValidity();
-    }
-
-    function showGuests(mesa, event) {
-        const tooltip = document.getElementById("tooltip");
-        if (guestsData[mesa]) {
-            const guestNames = guestsData[mesa].map(guest => `${guest.Nombre} ${guest.Apellido}`).join(", ");
-            tooltip.textContent = guestNames;
-            tooltip.style.left = event.pageX + 'px';
-            tooltip.style.top = event.pageY + 'px';
-            tooltip.classList.add('show');
-        } else {
-            tooltip.textContent = "No hay invitados registrados en esta mesa.";
-            tooltip.style.left = event.pageX + 'px';
-            tooltip.style.top = event.pageY + 'px';
-            tooltip.classList.add('show');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F0F8FF;
+            color: #154360;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
-    }
+        .banner {
+            background-color: #85C1E9;
+            height: 70px;
+            width: 100%;
+        }
+        .container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background-color: #EBF5FB;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .active {
+            display: block;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .navigation-buttons button {
+            margin: 0 10px;
+        }
+        button {
+            background-color: #5499C7;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980B9;
+        }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+        }
+        select option:first-child {
+            display: none;
+        }
+        .table-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 30px auto;
+            display: grid;
+            place-items: center;
+        }
+        .table {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat:hover {
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background-color: #dc3545;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
+        }
+        .tooltip.show {
+            display: block;
+        }
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .salon-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner"></div>
+    <div id="screen1" class="container active">
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <div class="navigation-buttons">
+            <button onclick="nextScreen(2)">Iniciar</button>
+        </div>
+    </div>
 
-    function hideGuests() {
-        const tooltip = document.getElementById("tooltip");
-        tooltip.classList.remove('show');
-    }
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required><br><br>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+            <!-- Otros campos omitidos por brevedad -->
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
 
-    function submitForm() {
-        const mesaSelect = document.getElementById("mesaSelect");
-        const selectedMesa = mesaSelect.value;
-        if (!selectedMesa) {
-            alert("Por favor, seleccione una mesa.");
-            return;
+    <div id="screen4" class="container">
+        <h2>Selección de Mesa</h2>
+        <div class="salon-container">
+            <div class="mesas" id="mesasIzquierda">
+                <div class="mesa" id="mesa1" onmouseover="showGuests('Mesa 1', event)" onmouseout="hideGuests()">1</div>
+                <div class="mesa" id="mesa2" onmouseover="showGuests('Mesa 2', event)" onmouseout="hideGuests()">2</div>
+                <!-- Agrega aquí las demás mesas -->
+            </div>
+            <div class="pista">PISTA DE BAILE</div>
+            <div class="mesas" id="mesasDerecha">
+                <div class="mesa" id="mesa18" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>
+                <div class="mesa" id="mesa19" onmouseover="showGuests('Mesa 19', event)" onmouseout="hideGuests()">19</div>
+                <!-- Agrega aquí las demás mesas -->
+            </div>
+        </div>
+        <label for="mesaSelect">Seleccione su mesa:</label>
+        <select id="mesaSelect" name="mesaSelect" required>
+            <option value="" selected>Seleccionar</option>
+            <script>
+                for (let i = 1; i <= 35; i++) {
+                    document.write('<option value="Mesa ' + i + '">Mesa ' + i + '</option>');
+                }
+            </script>
+        </select><br><br>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
+            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
+            <!-- Agrega más asientos si es necesario -->
+        </div>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="submitForm()">Enviar</button>
+        </div>
+        <div>
+            <h3>Invitados Registrados en esta Mesa:</h3>
+            <div id="guestList"></div>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <button onclick="location.reload()">Finalizar</button>
+    </div>
+
+    <div class="banner"></div>
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let currentScreen = 1;
+        let guestsData = {};
+
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    if (!validateForm('guestForm')) {
+                        alert('Por favor, complete todos los campos requeridos.');
+                        return;
+                    }
+                    nextScreenNumber = 4;
+                }
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        // Simular el envío del formulario y recargar la página
-        alert("Reserva enviada correctamente.");
-        location.reload();
-    }
+        function prevScreen(screen) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Fetch data for guests (simulated here for simplicity)
-        guestsData = {
-            "Mesa 1": [
-                { Nombre: "Juan", Apellido: "Pérez" },
-                { Nombre: "Ana", Apellido: "García" }
-            ],
-            "Mesa 18": [
-                { Nombre: "Luis", Apellido: "Martínez" }
-            ]
-        };
-    });
-</script>
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            return form.checkValidity();
+        }
+
+        function showGuests(mesa, event) {
+            const tooltip = document.getElementById("tooltip");
+            if (guestsData[mesa]) {
+                const guestNames = guestsData[mesa].map(guest => `${guest.Nombre} ${guest.Apellido}`).join(", ");
+                tooltip.textContent = guestNames;
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
+                tooltip.classList.add('show');
+            } else {
+                tooltip.textContent = "No hay invitados registrados en esta mesa.";
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
+                tooltip.classList.add('show');
+            }
+        }
+
+        function hideGuests() {
+            const tooltip = document.getElementById("tooltip");
+            tooltip.classList.remove('show');
+        }
+
+        function submitForm() {
+            const mesaSelect = document.getElementById("mesaSelect");
+            const selectedMesa = mesaSelect.value;
+            if (!selectedMesa) {
+                alert("Por favor, seleccione una mesa.");
+                return;
+            }
+
+            // Simular el envío del formulario y recargar la página
+            alert("Reserva enviada correctamente.");
+            location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch data for guests (simulated here for simplicidad)
+            guestsData = {
+                "Mesa 1": [
+                    { Nombre: "Juan", Apellido: "Pérez" },
+                    { Nombre: "Ana", Apellido: "García" }
+                ],
+                "Mesa 18": [
+                    { Nombre: "Luis", Apellido: "Martínez" }
+                ]
+            };
+        });
+    </script>
+</body>
+</html>
