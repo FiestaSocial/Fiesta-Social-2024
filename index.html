@@ -508,15 +508,15 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
-                // Mostrar los nombres y apellidos juntos en dos columnas, incluyendo acompañantes
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
-                    let nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
-
+                    // Mostrar acompañantes si existen
                     for (let j = 1; j <= 5; j++) {
-                        let nombreAcompanante = guest[`Nombre Acompanante ${j}`];
-                        if (nombreAcompanante) {
-                            guestList.innerHTML += `<div><strong>${nombreAcompanante}</strong></div>`;
+                        if (guest[`Nombre Acompanante ${j}`]) {
+                            const nombreAcompanante = `${guest[`Nombre Acompanante ${j}`]}`;
+                            guestList.innerHTML += `<div>${nombreAcompanante}</div>`;
                         }
                     }
                 });
@@ -591,7 +591,7 @@
 
         function finalizarRegistro() {
             document.getElementById('confirmationModal').style.display = 'none';
-            location.reload(); // Recarga la página para todos los usuarios
+            location.reload();
         }
 
         function validateForm(formId) {
@@ -644,15 +644,16 @@
         function showGuests(mesa, event) {
             const tooltip = document.getElementById("tooltip");
             if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa].map(guest => {
-                    let nombres = `${guest.Nombre} ${guest.Apellido}`;
-                    for (let i = 1; i <= 5; i++) {
-                        if (guest[`Nombre Acompanante ${i}`]) {
-                            nombres += `, ${guest[`Nombre Acompanante ${i}`]}`;
+                let guestNames = guestsData[mesa].map(guest => `${guest.Nombre} ${guest.Apellido}`).join(", ");
+                
+                // Incluir los nombres de los acompañantes si existen
+                guestsData[mesa].forEach(guest => {
+                    for (let j = 1; j <= 5; j++) {
+                        if (guest[`Nombre Acompanante ${j}`]) {
+                            guestNames += `, ${guest[`Nombre Acompanante ${j}`]}`;
                         }
                     }
-                    return nombres;
-                }).join(", ");
+                });
                 tooltip.textContent = guestNames;
                 tooltip.style.display = "block";
                 tooltip.style.left = event.pageX + 'px';
