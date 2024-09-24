@@ -113,15 +113,15 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: auto;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
         #guestList div {
             display: flex;
@@ -147,7 +147,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
             gap: 10px;
             max-width: 400px;
         }
@@ -508,10 +508,17 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
-                // Mostrar los nombres y apellidos juntos en dos columnas
+                // Mostrar los nombres y apellidos juntos en dos columnas, incluyendo acompañantes
                 guests.forEach(guest => {
-                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
+                    let nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
+
+                    for (let j = 1; j <= 5; j++) {
+                        let nombreAcompanante = guest[`Nombre Acompanante ${j}`];
+                        if (nombreAcompanante) {
+                            guestList.innerHTML += `<div><strong>${nombreAcompanante}</strong></div>`;
+                        }
+                    }
                 });
             } else {
                 guestList.innerHTML = "No hay invitados registrados en esta mesa.";
@@ -521,11 +528,6 @@
         function submitForm() {
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-
-            if (!selectedMesa) {
-                alert("Por favor, seleccione una mesa antes de enviar.");
-                return;
-            }
 
             if (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8) {
                 // Mostrar alerta si la mesa está completa
@@ -570,10 +572,6 @@
                   .then(result => {
                       showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
-                      // Recargar la página después de la confirmación
-                      setTimeout(() => {
-                          location.reload();
-                      }, 3000); // Recarga después de 3 segundos
                   }).catch(error => {
                       alert('Error: ' + error);
                   });
@@ -593,7 +591,7 @@
 
         function finalizarRegistro() {
             document.getElementById('confirmationModal').style.display = 'none';
-            document.getElementById('screen1').classList.add('active');
+            location.reload(); // Recarga la página para todos los usuarios
         }
 
         function validateForm(formId) {
@@ -646,7 +644,15 @@
         function showGuests(mesa, event) {
             const tooltip = document.getElementById("tooltip");
             if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa].map(guest => `${guest.Nombre} ${guest.Apellido}`).join(", ");
+                const guestNames = guestsData[mesa].map(guest => {
+                    let nombres = `${guest.Nombre} ${guest.Apellido}`;
+                    for (let i = 1; i <= 5; i++) {
+                        if (guest[`Nombre Acompanante ${i}`]) {
+                            nombres += `, ${guest[`Nombre Acompanante ${i}`]}`;
+                        }
+                    }
+                    return nombres;
+                }).join(", ");
                 tooltip.textContent = guestNames;
                 tooltip.style.display = "block";
                 tooltip.style.left = event.pageX + 'px';
