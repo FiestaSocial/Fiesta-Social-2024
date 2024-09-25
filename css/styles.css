@@ -1,80 +1,113 @@
 /* styles.css */
 /* Archivo de estilos CSS */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #F0F8FF;
-    color: #154360;
-    margin: 0;
-    padding: 0;
+/* styles.css - Actualizado */
+.salon-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #154360;
+}
+
+.mesas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 400px;
+}
+
+.mesa {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #5499C7;
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-}
-
-.banner {
-    background-color: #85C1E9;
-    height: 70px;
-    width: 100%;
-}
-
-.container {
-    display: none;
-    text-align: center;
-    padding: 30px;
-    background-color: #EBF5FB;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    width: 80%;
-    margin: 20px auto;
-}
-
-.active {
-    display: block;
-}
-
-.navigation-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-button {
-    background-color: #5499C7;
-    border: none;
-    padding: 15px 30px;
     color: white;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-button:hover {
-    background-color: #2980B9;
+.mesa.completa {
+    background-color: #dc3545;
 }
 
-label, input, select {
-    display: block;
+.pista {
+    width: 100px;
+    height: 300px;
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.table-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 30px auto;
+    display: grid;
+    place-items: center;
+    background-color: #EBF5FB;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: #5499C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #28a745;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.seat:hover {
+    transform: scale(1.1);
+}
+
+.seat.occupied {
+    background-color: #dc3545;
+}
+
+#guestList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
     width: 100%;
-    margin: 15px 0;
-}
-
-input, select {
-    padding: 12px;
+    height: auto;
+    padding: 10px;
     border: 1px solid #AED6F1;
     border-radius: 5px;
-}
-
-.tooltip {
-    position: absolute;
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: none;
-    z-index: 10;
-    font-size: 14px;
+    background-color: #fff;
+    overflow: hidden;
+    margin-top: 20px;
 }
