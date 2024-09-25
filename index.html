@@ -113,15 +113,15 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-            gap: 10px; /* Espacio entre columnas */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             width: 100%;
-            height: auto; /* Ajuste automático */
+            height: auto;
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden; /* Evitar el desplazamiento */
+            overflow: hidden;
         }
         #guestList div {
             display: flex;
@@ -147,7 +147,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
             max-width: 400px;
         }
@@ -563,6 +563,7 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
+                      console.log(result);
                       showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
                   }).catch(error => {
@@ -598,6 +599,7 @@
                 .then(csv => csvToJSON(csv))
                 .then(data => {
                     guestsData = data;
+                    console.log("Guests Data: ", guestsData); // Consola para verificar los datos
                     updateMesaText();
                     markFullTables(); // Marcar las mesas completas en rojo
                 })
@@ -631,7 +633,6 @@
                     result[obj["Mesa"]].push(obj);
                 }
             }
-            console.log("Guests Data: ", result); // Para ver el contenido en la consola
             return result;
         }
 
@@ -639,14 +640,9 @@
             const tooltip = document.getElementById("tooltip");
             if (guestsData[mesa]) {
                 const guestNames = guestsData[mesa].map(guest => {
-                    const acompanantes = [
-                        guest["Nombre Acompanante 1"],
-                        guest["Nombre Acompanante 2"],
-                        guest["Nombre Acompanante 3"],
-                        guest["Nombre Acompanante 4"],
-                        guest["Nombre Acompanante 5"]
-                    ].filter(nombre => nombre).join(", ");
-                    return `${guest.Nombre} ${guest.Apellido}` + (acompanantes ? ` (Acompañantes: ${acompanantes})` : "");
+                    let fullName = `${guest.Nombre} ${guest.Apellido}`;
+                    if (guest["Nombre Acompanante 1"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 1"]}`;
+                    return fullName;
                 }).join(", ");
                 tooltip.textContent = guestNames;
                 tooltip.style.display = "block";
@@ -671,4 +667,3 @@
     </script>
 </body>
 </html>
-
