@@ -1,5 +1,3 @@
-/* styles.css */
-/* Archivo de estilos CSS */
 /* styles.css - Actualizado */
 .salon-container {
     display: flex;
@@ -32,6 +30,7 @@
     font-weight: bold;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .mesa.completa {
@@ -100,7 +99,7 @@
 
 #guestList {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     width: 100%;
     height: auto;
@@ -110,4 +109,18 @@
     background-color: #fff;
     overflow: hidden;
     margin-top: 20px;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    z-index: 10;
+    font-size: 14px;
+    max-width: 200px;
+    text-align: center;
+    white-space: nowrap;
 }
