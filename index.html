@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
+        /* Estilos CSS sin cambios */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #F0F8FF;
@@ -113,15 +114,15 @@
         }
         #guestList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+            gap: 10px; /* Espacio entre columnas */
             width: 100%;
-            height: auto;
+            height: auto; /* Ajuste automático */
             padding: 10px;
             border: 1px solid #AED6F1;
             border-radius: 5px;
             background-color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
         #guestList div {
             display: flex;
@@ -147,7 +148,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* 5 columnas */
             gap: 10px;
             max-width: 400px;
         }
@@ -163,7 +164,6 @@
             font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
-            cursor: pointer;
         }
         .mesa.completa {
             background-color: #dc3545;
@@ -178,31 +178,6 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-        }
-        .tooltip {
-            position: absolute;
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none;
-            z-index: 10;
-            font-size: 14px;
-        }
-
-        /* Ajustes para dispositivos móviles */
-        @media (max-width: 768px) {
-            .salon-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .pista {
-                width: 100%;
-                height: 100px;
-            }
-            .mesas {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
     </style>
 </head>
@@ -301,19 +276,44 @@
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
-                <script>
-                    for (let i = 1; i <= 17; i++) {
-                        document.write(<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>);
-                    }
-                </script>
+                <div class="mesa" id="mesa1">1</div>
+                <div class="mesa" id="mesa2">2</div>
+                <div class="mesa" id="mesa3">3</div>
+                <div class="mesa" id="mesa4">4</div>
+                <div class="mesa" id="mesa5">5</div>
+                <div class="mesa" id="mesa6">6</div>
+                <div class="mesa" id="mesa7">7</div>
+                <div class="mesa" id="mesa8">8</div>
+                <div class="mesa" id="mesa9">9</div>
+                <div class="mesa" id="mesa10">10</div>
+                <div class="mesa" id="mesa11">11</div>
+                <div class="mesa" id="mesa12">12</div>
+                <div class="mesa" id="mesa13">13</div>
+                <div class="mesa" id="mesa14">14</div>
+                <div class="mesa" id="mesa15">15</div>
+                <div class="mesa" id="mesa16">16</div>
+                <div class="mesa" id="mesa17">17</div>
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <script>
-                    for (let i = 18; i <= 35; i++) {
-                        document.write(<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>);
-                    }
-                </script>
+                <div class="mesa" id="mesa18">18</div>
+                <div class="mesa" id="mesa19">19</div>
+                <div class="mesa" id="mesa20">20</div>
+                <div class="mesa" id="mesa21">21</div>
+                <div class="mesa" id="mesa22">22</div>
+                <div class="mesa" id="mesa23">23</div>
+                <div class="mesa" id="mesa24">24</div>
+                <div class="mesa" id="mesa25">25</div>
+                <div class="mesa" id="mesa26">26</div>
+                <div class="mesa" id="mesa27">27</div>
+                <div class="mesa" id="mesa28">28</div>
+                <div class="mesa" id="mesa29">29</div>
+                <div class="mesa" id="mesa30">30</div>
+                <div class="mesa" id="mesa31">31</div>
+                <div class="mesa" id="mesa32">32</div>
+                <div class="mesa" id="mesa33">33</div>
+                <div class="mesa" id="mesa34">34</div>
+                <div class="mesa" id="mesa35">35</div>
             </div>
         </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
@@ -355,7 +355,6 @@
     </div>
 
     <div class="banner"></div>
-    <div id="tooltip" class="tooltip"></div>
 
     <script>
         let currentScreen = 1;
@@ -383,12 +382,12 @@
                     nextScreenNumber = currentScreen + 1;
                 }
             }
-            if (document.getElementById(screen${currentScreen})) {
-                document.getElementById(screen${currentScreen}).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
             }
             currentScreen = nextScreenNumber;
-            if (document.getElementById(screen${currentScreen})) {
-                document.getElementById(screen${currentScreen}).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
         }
 
@@ -396,12 +395,12 @@
             if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
                 screen = 2;
             }
-            if (document.getElementById(screen${currentScreen})) {
-                document.getElementById(screen${currentScreen}).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
             }
             currentScreen = screen;
-            if (document.getElementById(screen${currentScreen})) {
-                document.getElementById(screen${currentScreen}).classList.add('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
             }
         }
 
@@ -420,9 +419,9 @@
             acompanantesForm.innerHTML = ''; // Clear previous entries
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += 
-                    <h3>Acompañante ${i}</h3>
+                    `<h3>Acompañante ${i}</h3>
                     <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>;
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>`;
             }
         }
 
@@ -449,27 +448,15 @@
             seats.forEach(seat => seat.classList.remove('occupied'));
 
             if (selectedMesa && guestsData[selectedMesa]) {
-                let totalGuests = 0;  // Contador para los asientos ocupados
-
                 guestsData[selectedMesa].forEach((guest, index) => {
-                    const guestAndAcompanantes = [guest]; // Incluye el invitado principal
-                    if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
-                    if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
-                    if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
-                    if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
-                    if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
-
-                    guestAndAcompanantes.forEach((_, seatIndex) => {
-                        const seat = document.querySelector(.seat[data-seat="${totalGuests + 1}"]);
-                        if (seat) {
-                            seat.classList.add('occupied');
-                        }
-                        totalGuests++; // Incrementa el contador de asientos ocupados
-                    });
+                    const seat = document.querySelector(`.seat[data-seat="${index + 1}"]`);
+                    if (seat) {
+                        seat.classList.add('occupied');
+                    }
                 });
 
-                if (totalGuests >= 8) {
-                    mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';  // Mesa completa
+                if (guestsData[selectedMesa].length >= 8) {
+                    mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
                 }
             }
         }
@@ -478,8 +465,8 @@
             const mesaSelect = document.getElementById("mesaSelect");
 
             for (let i = 1; i <= 35; i++) {
-                const mesaDiv = document.getElementById(mesa${i});
-                if (guestsData[Mesa ${i}] && guestsData[Mesa ${i}].length >= 8) {
+                const mesaDiv = document.getElementById(`mesa${i}`);
+                if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
                     mesaDiv.classList.add('completa');
                 }
             }
@@ -495,16 +482,10 @@
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
 
+                // Mostrar los nombres y apellidos juntos en dos columnas
                 guests.forEach(guest => {
-                    const nombreCompleto = ${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'};
-                    guestList.innerHTML += <div><strong>${nombreCompleto}</strong></div>;
-
-                    // Incluir acompañantes en el cuadro de texto
-                    if (guest["Nombre Acompanante 1"]) guestList.innerHTML += <div>Acompañante: ${guest["Nombre Acompanante 1"]}</div>;
-                    if (guest["Nombre Acompanante 2"]) guestList.innerHTML += <div>Acompañante: ${guest["Nombre Acompanante 2"]}</div>;
-                    if (guest["Nombre Acompanante 3"]) guestList.innerHTML += <div>Acompañante: ${guest["Nombre Acompanante 3"]}</div>;
-                    if (guest["Nombre Acompanante 4"]) guestList.innerHTML += <div>Acompañante: ${guest["Nombre Acompanante 4"]}</div>;
-                    if (guest["Nombre Acompanante 5"]) guestList.innerHTML += <div>Acompañante: ${guest["Nombre Acompanante 5"]}</div>;
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
                 });
             } else {
                 guestList.innerHTML = "No hay invitados registrados en esta mesa.";
@@ -538,7 +519,7 @@
                 });
 
                 const data = {
-                    correo: formData.get('correo'),
+                    apelativo: formData.get('correo'),
                     grado: formData.get('grado'),
                     escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
@@ -556,7 +537,6 @@
                     body: JSON.stringify(data)
                 }).then(response => response.text())
                   .then(result => {
-                      console.log(result);
                       showConfirmation(); // Mostrar confirmación
                       fetchGuestsData();
                   }).catch(error => {
@@ -570,8 +550,8 @@
         function showConfirmation() {
             const mesaConfirmada = document.getElementById('mesa').value;
             document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
-            if (document.getElementById(screen${currentScreen})) {
-                document.getElementById(screen${currentScreen}).classList.remove('active');
+            if (document.getElementById(`screen${currentScreen}`)) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
             }
             document.getElementById('confirmationModal').style.display = 'block';
         }
@@ -592,7 +572,6 @@
                 .then(csv => csvToJSON(csv))
                 .then(data => {
                     guestsData = data;
-                    console.log("Guests Data: ", guestsData); // Consola para verificar los datos
                     updateMesaText();
                     markFullTables(); // Marcar las mesas completas en rojo
                 })
@@ -608,9 +587,8 @@
                 const obj = {};
                 const currentline = lines[i].split(",");
 
-                // Corregido: Se toma el nombre de la columna D y el apellido de la columna E
                 obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[4].trim();
+                obj["Apellido"] = currentline[4].trim();  // Cambié aquí la columna 5 por la 4
                 obj["Mesa"] = currentline[19].trim();
 
                 obj["Nombre Acompanante 1"] = currentline[10].trim();
@@ -627,35 +605,6 @@
                 }
             }
             return result;
-        }
-
-        function showGuests(mesa, event) {
-            const tooltip = document.getElementById("tooltip");
-            if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa].map(guest => {
-                    let fullName = ${guest.Nombre} ${guest.Apellido};
-                    if (guest["Nombre Acompanante 1"]) fullName += , Acompañante: ${guest["Nombre Acompanante 1"]};
-                    if (guest["Nombre Acompanante 2"]) fullName += , Acompañante: ${guest["Nombre Acompanante 2"]};
-                    if (guest["Nombre Acompanante 3"]) fullName += , Acompañante: ${guest["Nombre Acompanante 3"]};
-                    if (guest["Nombre Acompanante 4"]) fullName += , Acompañante: ${guest["Nombre Acompanante 4"]};
-                    if (guest["Nombre Acompanante 5"]) fullName += , Acompañante: ${guest["Nombre Acompanante 5"]};
-                    return fullName;
-                }).join(", ");
-                tooltip.textContent = guestNames;
-                tooltip.style.display = "block";
-                tooltip.style.left = event.pageX + 'px';
-                tooltip.style.top = event.pageY + 'px';
-            } else {
-                tooltip.textContent = "No hay invitados registrados en esta mesa.";
-                tooltip.style.display = "block";
-                tooltip.style.left = event.pageX + 'px';
-                tooltip.style.top = event.pageY + 'px';
-            }
-        }
-
-        function hideGuests() {
-            const tooltip = document.getElementById("tooltip");
-            tooltip.style.display = "none";
         }
 
         document.addEventListener('DOMContentLoaded', () => {
