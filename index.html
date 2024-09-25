@@ -1,3 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/screen1.js" defer></script>
+    <script src="scripts/screen2.js" defer></script>
+    <script src="scripts/screen3.js" defer></script>
+    <script src="scripts/screen4.js" defer></script>
+</head>
+<body>
+    <div class="banner"></div>
+    <div id="app">
+        <!-- Aquí se cargarán las pantallas por JavaScript -->
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+</body>
+</html>
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F0F8FF;
+    color: #154360;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.banner {
+    background-color: #85C1E9;
+    height: 70px;
+    width: 100%;
+}
+
+/* Resto del estilo... */
+/* Incluir todos los estilos necesarios del código proporcionado */
+
 // navigation.js
 let currentScreen = 1;
 let guestsData = {};
