@@ -1,6 +1,3 @@
-// screen4.js
-// Administra la selección de mesas y la visualización de invitados en la pantalla de selección de mesa.
-// screen4.js
 // screen4.js - Actualizado
 function loadScreen4() {
     document.getElementById('screen4').innerHTML = `
@@ -31,6 +28,7 @@ function loadScreen4() {
             <h3>Invitados Registrados en esta Mesa:</h3>
             <div id="guestList">No hay invitados registrados en esta mesa.</div>
         </div>
+        <div id="tooltip" class="tooltip"></div>
     `;
 }
 
@@ -61,6 +59,35 @@ function generateSeatsHTML(count) {
         seatsHTML += `<div class="seat" data-seat="${i}" style="transform: translate(${seatPositions[i-1].x}px, ${seatPositions[i-1].y}px);"></div>`;
     }
     return seatsHTML;
+}
+
+function showGuests(mesa, event) {
+    const tooltip = document.getElementById("tooltip");
+    if (guestsData[mesa]) {
+        const guestNames = guestsData[mesa].map(guest => {
+            let fullName = `${guest.Nombre} ${guest.Apellido}`;
+            if (guest["Nombre Acompanante 1"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 1"]}`;
+            if (guest["Nombre Acompanante 2"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 2"]}`;
+            if (guest["Nombre Acompanante 3"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 3"]}`;
+            if (guest["Nombre Acompanante 4"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 4"]}`;
+            if (guest["Nombre Acompanante 5"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 5"]}`;
+            return fullName;
+        }).join("<br>");
+        tooltip.innerHTML = guestNames;
+        tooltip.style.display = "block";
+        tooltip.style.left = `${event.pageX + 10}px`;
+        tooltip.style.top = `${event.pageY + 10}px`;
+    } else {
+        tooltip.innerHTML = "No hay invitados registrados en esta mesa.";
+        tooltip.style.display = "block";
+        tooltip.style.left = `${event.pageX + 10}px`;
+        tooltip.style.top = `${event.pageY + 10}px`;
+    }
+}
+
+function hideGuests() {
+    const tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "none";
 }
 
 function updateMesaText() {
