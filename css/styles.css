@@ -1,4 +1,5 @@
 /* styles.css */
+/* Archivo de estilos CSS */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #F0F8FF;
@@ -77,4 +78,3 @@ input, select {
     z-index: 10;
     font-size: 14px;
 }
-/* Archivo de estilos CSS */
