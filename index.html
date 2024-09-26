@@ -85,7 +85,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen()">Siguiente</button>
+            <button onclick="nextScreen(3)">Siguiente</button>
         </div>
     </div>
 
@@ -156,5 +156,35 @@
     </div>
 
     <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let currentScreen = 1;
+
+        function nextScreen(screenNumber) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function prevScreen(screenNumber) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function toggleAcompanante() {
+            let acompanante = document.getElementById("acompanante").value;
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGuestsData();
+        });
+    </script>
 </body>
 </html>
