@@ -26,6 +26,7 @@ function csvToJSON(csv) {
         obj["Mesa"] = currentline[19].trim();
         obj["Acompanantes"] = [];
 
+        // Extraer los nombres de los acompañantes
         for (let j = 10; j <= 18; j += 2) {
             if (currentline[j].trim()) {
                 obj["Acompanantes"].push(currentline[j].trim());
@@ -49,12 +50,17 @@ function updateSalon() {
         const mesaDiv = document.getElementById(`mesa${i}`);
         const mesaOption = mesaSelect.querySelector(`option[value='Mesa ${i}']`);
         
-        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].reduce((sum, guest) => sum + 1 + guest["Acompanantes"].length, 0) >= 8) {
-            mesaDiv.classList.add('completa');
-            mesaOption.style.backgroundColor = '#dc3545';
-        } else {
-            mesaDiv.classList.remove('completa');
-            mesaOption.style.backgroundColor = '';
+        if (guestsData[`Mesa ${i}`]) {
+            // Contar los asientos ocupados (invitados + acompañantes)
+            const totalGuests = guestsData[`Mesa ${i}`].reduce((sum, guest) => sum + 1 + guest["Acompanantes"].length, 0);
+            
+            if (totalGuests >= 8) {
+                mesaDiv.classList.add('completa');
+                mesaOption.style.backgroundColor = '#dc3545';
+            } else {
+                mesaDiv.classList.remove('completa');
+                mesaOption.style.backgroundColor = '';
+            }
         }
     }
 }
