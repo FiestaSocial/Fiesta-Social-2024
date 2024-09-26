@@ -49,7 +49,7 @@ function updateSalon() {
         const mesaDiv = document.getElementById(`mesa${i}`);
         const mesaOption = mesaSelect.querySelector(`option[value='Mesa ${i}']`);
         
-        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
+        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].reduce((sum, guest) => sum + 1 + guest["Acompanantes"].length, 0) >= 8) {
             mesaDiv.classList.add('completa');
             mesaOption.style.backgroundColor = '#dc3545';
         } else {
