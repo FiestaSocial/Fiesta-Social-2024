@@ -43,7 +43,8 @@ body {
     margin-top: 20px;
 }
 
-button {
+.navigation-buttons button {
+    margin: 0 10px;
     background-color: #5499C7;
     border: none;
     padding: 15px 30px;
@@ -54,11 +55,11 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.navigation-buttons button:hover {
     background-color: #2980B9;
 }
 
-/* Campos de formulario */
+/* Selectores y entradas de datos */
 label, input, select {
     display: block;
     width: 100%;
@@ -71,77 +72,7 @@ input, select {
     border-radius: 5px;
 }
 
-select option:first-child {
-    display: none;
-}
-
-/* Representación de la mesa */
-.table-container {
-    position: relative;
-    width: 500px;
-    height: 500px;
-    margin: 30px auto;
-    display: grid;
-    place-items: center;
-}
-
-.table {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: #5499C7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.seat {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #28a745;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.seat:hover {
-    transform: scale(1.1);
-}
-
-.seat.occupied {
-    background-color: #dc3545;
-}
-
-/* Cuadro de invitados */
-#guestList {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    border: 1px solid #AED6F1;
-    border-radius: 5px;
-    background-color: #fff;
-    overflow: hidden;
-}
-
-#guestList div {
-    display: flex;
-    justify-content: space-between;
-}
-
-/* Representación del salón */
+/* Representación de mesas */
 .salon-container {
     display: flex;
     justify-content: space-between;
@@ -179,18 +110,72 @@ select option:first-child {
     background-color: #dc3545;
 }
 
-.pista {
-    width: 100px;
-    height: 300px;
+/* Asientos */
+.seat {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     background-color: #28a745;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 16px;
     font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.seat:hover {
+    transform: scale(1.1);
+}
+
+.seat.occupied {
+    background-color: #dc3545;
+}
+
+/* Contenedor de la mesa seleccionada */
+.table-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 30px auto;
+    display: grid;
+    place-items: center;
+}
+
+.table {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #5499C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Lista de invitados */
+#guestList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #AED6F1;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+#guestList div {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Tooltip */
 .tooltip {
     position: absolute;
     background-color: #333;
@@ -200,12 +185,6 @@ select option:first-child {
     display: none;
     z-index: 10;
     font-size: 14px;
-}
-
-/* Marcar opciones completas en el menú desplegable */
-select option.completa {
-    background-color: #dc3545;
-    color: white;
 }
 
 /* Ajustes para dispositivos móviles */
