@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="scripts/salon.js" defer></script>
 </head>
 <body>
     <div class="banner"></div>
@@ -20,7 +21,67 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <!-- Formulario de datos personales omitido por brevedad -->
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
@@ -41,10 +102,9 @@
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda">
-                <!-- Representación de mesas con el evento onmouseover -->
                 <script>
                     for (let i = 1; i <= 17; i++) {
-                        document.write('<div class="mesa" id="mesa' + i + '" onmouseover="showGuests(\'Mesa ' + i + '\', event)" onmouseout="hideGuests()">' + i + '</div>');
+                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
                     }
                 </script>
             </div>
@@ -52,13 +112,13 @@
             <div class="mesas" id="mesasDerecha">
                 <script>
                     for (let i = 18; i <= 35; i++) {
-                        document.write('<div class="mesa" id="mesa' + i + '" onmouseover="showGuests(\'Mesa ' + i + '\', event)" onmouseout="hideGuests()">' + i + '</div>');
+                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
                     }
                 </script>
             </div>
         </div>
         <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
+        <select id="mesaSelect" name="mesaSelect" required onchange="updateGuestList()">
             <option value="" selected>Seleccionar</option>
             <script>
                 for (let i = 1; i <= 35; i++) {
@@ -68,7 +128,6 @@
         </select><br><br>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            <!-- Representación de los asientos -->
             <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
             <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
             <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
@@ -96,11 +155,6 @@
         <button onclick="finalizarRegistro()">Finalizar</button>
     </div>
 
-    <div class="banner"></div>
     <div id="tooltip" class="tooltip"></div>
-
-    <!-- Scripts -->
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/guestsData.js" defer></script>
 </body>
 </html>
