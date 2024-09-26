@@ -1,95 +1,4 @@
-// screen4.js - Actualizado
-function loadScreen4() {
-    document.getElementById('screen4').innerHTML = `
-        <h2>Selección de Mesa</h2>
-        <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda">
-                ${generateMesasHTML(1, 17)}
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                ${generateMesasHTML(18, 35)}
-            </div>
-        </div>
-        <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
-            <option value="" selected>Seleccionar</option>
-            ${generateMesasOptionsHTML(1, 35)}
-        </select><br><br>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            ${generateSeatsHTML(8)}
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
-            <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList">No hay invitados registrados en esta mesa.</div>
-        </div>
-        <div id="tooltip" class="tooltip"></div>
-    `;
-}
-
-function generateMesasHTML(start, end) {
-    let mesasHTML = '';
-    for (let i = start; i <= end; i++) {
-        mesasHTML += `<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-    }
-    return mesasHTML;
-}
-
-function generateMesasOptionsHTML(start, end) {
-    let optionsHTML = '';
-    for (let i = start; i <= end; i++) {
-        optionsHTML += `<option value="Mesa ${i}">Mesa ${i}</option>`;
-    }
-    return optionsHTML;
-}
-
-function generateSeatsHTML(count) {
-    let seatsHTML = '';
-    const seatPositions = [
-        { x: -80, y: -80 }, { x: 0, y: -90 }, { x: 80, y: -80 },
-        { x: 90, y: 0 }, { x: 80, y: 80 }, { x: 0, y: 90 },
-        { x: -80, y: 80 }, { x: -90, y: 0 }
-    ];
-    for (let i = 1; i <= count; i++) {
-        seatsHTML += `<div class="seat" data-seat="${i}" style="transform: translate(${seatPositions[i-1].x}px, ${seatPositions[i-1].y}px);"></div>`;
-    }
-    return seatsHTML;
-}
-
-function showGuests(mesa, event) {
-    const tooltip = document.getElementById("tooltip");
-    if (guestsData[mesa]) {
-        const guestNames = guestsData[mesa].map(guest => {
-            let fullName = `${guest.Nombre} ${guest.Apellido}`;
-            if (guest["Nombre Acompanante 1"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 1"]}`;
-            if (guest["Nombre Acompanante 2"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 2"]}`;
-            if (guest["Nombre Acompanante 3"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 3"]}`;
-            if (guest["Nombre Acompanante 4"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 4"]}`;
-            if (guest["Nombre Acompanante 5"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 5"]}`;
-            return fullName;
-        }).join("<br>");
-        tooltip.innerHTML = guestNames;
-        tooltip.style.display = "block";
-        tooltip.style.left = `${event.pageX + 10}px`;
-        tooltip.style.top = `${event.pageY + 10}px`;
-    } else {
-        tooltip.innerHTML = "No hay invitados registrados en esta mesa.";
-        tooltip.style.display = "block";
-        tooltip.style.left = `${event.pageX + 10}px`;
-        tooltip.style.top = `${event.pageY + 10}px`;
-    }
-}
-
-function hideGuests() {
-    const tooltip = document.getElementById("tooltip");
-    tooltip.style.display = "none";
-}
-
+// screen4.js
 function updateMesaText() {
     const mesaSelect = document.getElementById("mesaSelect");
     const mesaText = document.getElementById("mesaText");
@@ -103,6 +12,39 @@ function updateMesaText() {
     }
     updateSeats();
     updateGuestList();
+}
+
+function updateSeats() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+    const seats = document.querySelectorAll('.seat');
+
+    seats.forEach(seat => seat.classList.remove('occupied'));
+
+    if (selectedMesa && guestsData[selectedMesa]) {
+        let totalGuests = 0;
+
+        guestsData[selectedMesa].forEach(guest => {
+            const guestAndAcompanantes = [guest];
+            if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
+            if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
+            if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
+            if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
+            if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
+
+            guestAndAcompanantes.forEach((_, seatIndex) => {
+                const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                if (seat) {
+                    seat.classList.add('occupied');
+                }
+                totalGuests++;
+            });
+        });
+
+        if (totalGuests >= 8) {
+            mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
+        }
+    }
 }
 
 function updateGuestList() {
@@ -119,7 +61,6 @@ function updateGuestList() {
             const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
             guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
 
-            // Incluir acompañantes en el cuadro de texto
             if (guest["Nombre Acompanante 1"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 1"]}</div>`;
             if (guest["Nombre Acompanante 2"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 2"]}</div>`;
             if (guest["Nombre Acompanante 3"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 3"]}</div>`;
