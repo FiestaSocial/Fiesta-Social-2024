@@ -47,7 +47,6 @@ body {
     margin: 0 10px;
 }
 
-/* Estilo de los botones */
 button {
     background-color: #5499C7;
     border: none;
@@ -63,7 +62,7 @@ button:hover {
     background-color: #2980B9;
 }
 
-/* Estilo de los formularios */
+/* Formularios y etiquetas */
 label, input, select {
     display: block;
     width: 100%;
@@ -80,7 +79,7 @@ select option:first-child {
     display: none;
 }
 
-/* Representación de mesas */
+/* Representación de la mesa */
 .table-container {
     position: relative;
     width: 500px;
@@ -104,7 +103,6 @@ select option:first-child {
     transition: background-color 0.3s ease;
 }
 
-/* Estilo de los asientos */
 .seat {
     width: 50px;
     height: 50px;
@@ -147,7 +145,7 @@ select option:first-child {
     justify-content: space-between;
 }
 
-/* Imagen de bienvenida */
+/* Contenedor de la imagen */
 .image-container {
     margin-bottom: 20px;
 }
@@ -196,7 +194,6 @@ select option:first-child {
     background-color: #dc3545;
 }
 
-/* Pista de baile */
 .pista {
     width: 100px;
     height: 300px;
