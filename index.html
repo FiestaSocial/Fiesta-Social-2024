@@ -1,12 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
+    <!-- Enlace al archivo CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Enlaces a los archivos JavaScript -->
     <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/screen1.js" defer></script>
     <script src="scripts/screen2.js" defer></script>
     <script src="scripts/screen3.js" defer></script>
     <script src="scripts/screen4.js" defer></script>
     <script src="scripts/confirmationModal.js" defer></script>
     <script src="scripts/guestsData.js" defer></script>
 </head>
+<body>
+    <div class="banner"></div>
+
+    <!-- Pantalla de Bienvenida -->
+    <div id="screen1" class="container active">
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" class="image-container">
+        <div class="navigation-buttons">
+            <button onclick="nextScreen(2)">Iniciar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Datos Personales -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Información de los Acompañantes -->
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Selección de Mesa -->
+    <div id="screen4" class="container">
+        <h2>Selección de Mesa</h2>
+        <div class="salon-container">
+            <div class="mesas" id="mesasIzquierda">
+                <script>
+                    for (let i = 1; i <= 17; i++) {
+                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
+                    }
+                </script>
+            </div>
+            <div class="pista">PISTA DE BAILE</div>
+            <div class="mesas" id="mesasDerecha">
+                <script>
+                    for (let i = 18; i <= 35; i++) {
+                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
+                    }
+                </script>
+            </div>
+        </div>
+        <label for="mesaSelect">Seleccione su mesa:</label>
+        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
+            <option value="" selected>Seleccionar</option>
+            <script>
+                for (let i = 1; i <= 35; i++) {
+                    document.write('<option value="Mesa ' + i + '">Mesa ' + i + '</option>');
+                }
+            </script>
+        </select>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
+            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
+            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
+            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
+            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
+            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
+            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
+            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
+        </div>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="submitForm()">Enviar</button>
+        </div>
+        <div>
+            <h3>Invitados Registrados en esta Mesa:</h3>
+            <div id="guestList"></div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        <button onclick="finalizarRegistro()">Finalizar</button>
+    </div>
+
+    <div class="banner"></div>
+    <div id="tooltip" class="tooltip"></div>
+</body>
+</html>
