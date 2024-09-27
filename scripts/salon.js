@@ -50,17 +50,12 @@ function updateSalon() {
         const mesaDiv = document.getElementById(`mesa${i}`);
         const mesaOption = mesaSelect.querySelector(`option[value='Mesa ${i}']`);
         
-        if (guestsData[`Mesa ${i}`]) {
-            // Contar los asientos ocupados (invitados + acompañantes)
-            const totalGuests = guestsData[`Mesa ${i}`].reduce((sum, guest) => sum + 1 + guest["Acompanantes"].length, 0);
-            
-            if (totalGuests >= 8) {
-                mesaDiv.classList.add('completa');
-                mesaOption.style.backgroundColor = '#dc3545';
-            } else {
-                mesaDiv.classList.remove('completa');
-                mesaOption.style.backgroundColor = '';
-            }
+        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
+            mesaDiv.classList.add('completa');
+            mesaOption.style.backgroundColor = '#dc3545';
+        } else {
+            mesaDiv.classList.remove('completa');
+            mesaOption.style.backgroundColor = '';
         }
     }
 }
@@ -92,7 +87,12 @@ function updateSeats(selectedMesa) {
     seats.forEach(seat => seat.classList.remove('occupied'));
 
     if (selectedMesa && guestsData[selectedMesa]) {
-        const totalGuests = guestsData[selectedMesa].reduce((sum, guest) => sum + 1 + guest["Acompanantes"].length, 0);
+        let totalGuests = 0;
+
+        guestsData[selectedMesa].forEach(guest => {
+            totalGuests += 1; // Contar al invitado principal
+            totalGuests += guest["Acompanantes"].length; // Contar acompañantes
+        });
 
         for (let i = 1; i <= totalGuests && i <= 8; i++) {
             const seat = document.querySelector(`.seat[data-seat="${i}"]`);
