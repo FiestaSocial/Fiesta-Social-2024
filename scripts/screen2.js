@@ -5,7 +5,7 @@ function loadScreen2() {
         <form id="guestForm">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required><br><br>
-
+            
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -71,5 +71,4 @@ function loadScreen2() {
     `;
 }
 
-// Llama a la función para cargar el contenido de la pantalla 2
 loadScreen2();
