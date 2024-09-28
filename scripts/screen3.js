@@ -1,4 +1,4 @@
-// screen3.js - Información de los Acompañantes
+// screen3.js
 function generateAcompanantesForm(cantidad) {
     let acompanantesForm = document.getElementById('acompanantesForm');
     acompanantesForm.innerHTML = ''; // Clear previous entries
@@ -20,40 +20,11 @@ function generateAcompanantesForm(cantidad) {
     }
 }
 
-function validateAcompanantesForm() {
-    let isValid = true;
-    const form = document.getElementById('acompanantesForm');
-    const inputs = form.querySelectorAll('input, select');
-
-    inputs.forEach(input => {
-        const errorMessage = input.nextElementSibling;
-        
-        // Check if the input is valid
-        if (!input.value) {
-            input.classList.add('error');
-            if (!errorMessage || !errorMessage.classList.contains('error-message')) {
-                const errorElement = document.createElement('div');
-                errorElement.classList.add('error-message');
-                errorElement.textContent = 'Este campo es obligatorio';
-                input.parentNode.insertBefore(errorElement, input.nextSibling);
-            }
-            isValid = false;
-        } else {
-            input.classList.remove('error');
-            if (errorMessage && errorMessage.classList.contains('error-message')) {
-                errorMessage.remove();
-            }
-        }
-    });
-
-    return isValid;
-}
-
-function nextScreenAcompanantes() {
-    if (validateAcompanantesForm()) {
-        nextScreen(4);
-    }
-}
-
-// Call nextScreenAcompanantes() on clicking the "Siguiente" button
-document.getElementById('nextButtonScreen3').addEventListener('click', nextScreenAcompanantes);
+document.getElementById('screen3').innerHTML = `
+    <h2>Información de los Acompañantes</h2>
+    <form id="acompanantesForm"></form>
+    <div class="navigation-buttons">
+        <button onclick="prevScreen(2)">Anterior</button>
+        <button onclick="nextScreen(4)">Siguiente</button>
+    </div>
+`;
