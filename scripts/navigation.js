@@ -1,4 +1,4 @@
-l// navigation.js
+// navigation.js
 let currentScreen = 1;
 
 function nextScreen(nextScreenNumber) {
