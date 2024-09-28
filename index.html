@@ -7,76 +7,49 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Pantalla de bienvenida -->
+    <div class="banner">
+        <img src="Imagen de bienvenida.png" alt="Bienvenida">
+    </div>
+
+    <!-- Pantallas del formulario -->
     <div id="screen1" class="container active">
-        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida">
+        <h2>Datos Personales</h2>
+        <label>Correo:</label>
+        <input type="email" id="email" required><br>
+        <label>Grado:</label>
+        <select id="grado" required>
+            <option value="">Seleccionar</option>
+            <!-- Opciones... -->
+        </select><br>
+        <!-- Más campos personales... -->
         <button id="startButton">Iniciar</button>
     </div>
 
-    <!-- Pantalla de datos personales -->
     <div id="screen2" class="container">
-        <h2>Datos Personales</h2>
-        <!-- Contenido del formulario de datos personales -->
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo"><br>
-        <label for="grado">Grado:</label>
-        <select id="grado">
-            <option value="">Seleccionar</option>
-            <!-- Opciones de grado -->
-        </select><br>
-        <label for="escalafon">Escalafón:</label>
-        <select id="escalafon">
-            <option value="">Seleccionar</option>
-            <!-- Opciones de escalafón -->
-        </select><br>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"><br>
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido"><br>
-        <label for="cedula">Cédula de Identidad:</label>
-        <input type="text" id="cedula" name="cedula"><br>
-        <label for="acompanante">¿Asiste con acompañante?</label>
-        <select id="acompanante">
-            <option value="">Seleccionar</option>
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-        </select><br>
-        <label for="menu">Menú:</label>
-        <select id="menu">
-            <option value="">Seleccionar</option>
-            <!-- Opciones de menú -->
-        </select><br>
-
-        <button class="prev-button" data-current="2">Anterior</button>
-        <button class="next-button" data-current="2">Siguiente</button>
-    </div>
-
-    <!-- Pantalla de información de acompañantes -->
-    <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
-        <!-- Contenido de información de acompañantes -->
-        <button class="prev-button" data-current="3">Anterior</button>
-        <button class="next-button" data-current="3">Siguiente</button>
+        <!-- Campos para acompañantes... -->
+        <button id="prevButton">Anterior</button>
+        <button id="nextButton">Siguiente</button>
     </div>
 
-    <!-- Pantalla de selección de mesa -->
-    <div id="screen4" class="container">
+    <div id="screen3" class="container">
         <h2>Selección de Mesa</h2>
         <div id="salon">
-            <!-- Representación gráfica del salón y mesas -->
-            <div id="pista">PISTA DE BAILE</div>
-            <select id="mesaSelect">
-                <option value="">Seleccione su mesa:</option>
-                <!-- Opciones de mesas -->
-            </select><br>
-            <div id="mesaText">Mesa</div>
+            <!-- Representación del salón... -->
         </div>
-        <button class="prev-button" data-current="4">Anterior</button>
+        <select id="mesaSelect">
+            <option value="">Seleccione su mesa</option>
+            <!-- Opciones de mesas... -->
+        </select><br>
+        <div id="mesaRepresentacion">
+            <!-- Representación de la mesa seleccionada... -->
+        </div>
+        <button id="prevButton">Anterior</button>
         <button id="submitButton">Enviar</button>
         <div id="guestList">Invitados Registrados en esta Mesa:</div>
     </div>
 
-    <!-- Tooltips y otras partes adicionales -->
+    <!-- Tooltip para la nube emergente -->
     <div id="tooltip" class="tooltip" style="display: none;"></div>
 
     <script src="scripts/navigation.js"></script>
