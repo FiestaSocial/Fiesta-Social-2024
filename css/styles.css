@@ -1,7 +1,7 @@
-/* Estilo global */
+/* Global Style */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #F0F8FF;
+    background-color: #f0f8ff;
     color: #154360;
     margin: 0;
     padding: 0;
@@ -17,15 +17,9 @@ body {
     background-color: #85C1E9;
     height: 70px;
     width: 100%;
-    text-align: center;
 }
 
-.banner img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Contenedores generales */
+/* Containers */
 .container {
     display: none;
     text-align: center;
@@ -42,7 +36,13 @@ body {
     display: block;
 }
 
-/* Botones de navegación */
+/* Navigation Buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 button {
     background-color: #3498DB;
     color: white;
@@ -50,7 +50,7 @@ button {
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 5px;
+    font-size: 16px;
 }
 
 button:hover {
@@ -58,124 +58,89 @@ button:hover {
 }
 
 button:disabled {
-    background-color: #BDC3C7;
+    background-color: #bdc3c7;
     cursor: not-allowed;
 }
 
-/* Estilo de los campos de entrada */
+/* Input Fields */
 input, select {
+    width: 80%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 80%;
-    max-width: 400px;
 }
 
-/* Estilo para el resaltado de errores */
-.error {
-    border: 2px solid red;
+input.error, select.error {
+    border-color: #E74C3C;
 }
 
+/* Error Message */
 .error-message {
-    color: red;
-    font-size: 12px;
+    color: #E74C3C;
+    font-size: 14px;
     margin-top: -10px;
 }
 
-/* Estilo de los mensajes */
-#guestList {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #D6EAF8;
-    border-radius: 5px;
-    width: 80%;
-    max-width: 600px;
-    text-align: left;
-}
-
-/* Estilos para el salón */
-#salon {
+/* Table Selection */
+.table-selection {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     margin: 20px 0;
-    padding: 20px;
-    background-color: #EBF5FB;
-    border-radius: 10px;
-    border: 2px solid #85C1E9;
 }
 
-#salon div {
-    display: inline-block;
-    text-align: center;
-}
-
-.mesa {
+.table {
     width: 50px;
     height: 50px;
-    background-color: #3498DB;
-    color: white;
+    background-color: #5DADE2;
     border-radius: 50%;
+    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
-    margin: 5px;
 }
 
-.mesa.completa {
-    background-color: #DC3545;
+.table:hover {
+    background-color: #3498DB;
 }
 
-/* Representación de la mesa seleccionada */
-#mesaRepresentacion {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+.table.completa {
+    background-color: #dc3545;
 }
 
+#tooltip {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+}
+
+/* Guest List */
+#guestList {
+    margin-top: 20px;
+    text-align: left;
+    width: 100%;
+    background-color: #EBF5FB;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Seats */
 .seat {
     width: 30px;
     height: 30px;
-    background-color: #28A745;
+    background-color: #5DADE2;
     border-radius: 50%;
     margin: 5px;
     display: inline-block;
 }
 
 .seat.occupied {
-    background-color: #DC3545;
-}
-
-/* Tooltip para mostrar los invitados al pasar el cursor */
-.tooltip {
-    position: absolute;
-    background-color: #FFF;
-    color: #000;
-    border: 1px solid #ccc;
-    padding: 5px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    white-space: nowrap;
-}
-
-/* Estilos adicionales */
-h2 {
-    color: #154360;
-    font-size: 24px;
-}
-
-label {
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-#submitButton {
-    background-color: #27AE60;
-}
-
-#submitButton:hover {
-    background-color: #229954;
+    background-color: #E74C3C;
 }
