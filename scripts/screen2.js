@@ -1,4 +1,4 @@
-// screen2.js - Datos Personales
+// screen2.js
 function validatePersonalForm() {
     let isValid = true;
     const fields = ['correo', 'grado', 'escalafon', 'nombre', 'apellido', 'cedula', 'acompanante', 'menu'];
@@ -41,17 +41,13 @@ function nextScreenPersonal() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('screen2').innerHTML = `
-        <h2>Datos Personales</h2>
-        <form id="guestForm">
-            <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required><br><br>
-            <!-- Otros campos del formulario -->
-        </form>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreenPersonal()">Siguiente</button>
-        </div>
-    `;
-});
+document.getElementById('screen2').innerHTML = `
+    <h2>Datos Personales</h2>
+    <form id="guestForm">
+        <!-- Form fields go here -->
+    </form>
+    <div class="navigation-buttons">
+        <button onclick="prevScreen(1)">Anterior</button>
+        <button onclick="nextScreenPersonal()">Siguiente</button>
+    </div>
+`;
