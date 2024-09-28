@@ -7,154 +7,79 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="banner"></div>
-
     <!-- Pantalla de bienvenida -->
     <div id="screen1" class="container active">
-        <h1>Bienvenido al asistente web para la Fiesta Social 2024</h1>
-        <p>¡Estamos encantados de tenerte aquí!</p>
-        <div class="image-container">
-            <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida">
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="nextScreen(2)">Iniciar</button>
-        </div>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida">
+        <button id="startButton">Iniciar</button>
     </div>
 
     <!-- Pantalla de datos personales -->
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
-        <form id="guestForm">
-            <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required><br><br>
+        <!-- Contenido del formulario de datos personales -->
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo"><br>
+        <label for="grado">Grado:</label>
+        <select id="grado">
+            <option value="">Seleccionar</option>
+            <!-- Opciones de grado -->
+        </select><br>
+        <label for="escalafon">Escalafón:</label>
+        <select id="escalafon">
+            <option value="">Seleccionar</option>
+            <!-- Opciones de escalafón -->
+        </select><br>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido"><br>
+        <label for="cedula">Cédula de Identidad:</label>
+        <input type="text" id="cedula" name="cedula"><br>
+        <label for="acompanante">¿Asiste con acompañante?</label>
+        <select id="acompanante">
+            <option value="">Seleccionar</option>
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+        </select><br>
+        <label for="menu">Menú:</label>
+        <select id="menu">
+            <option value="">Seleccionar</option>
+            <!-- Opciones de menú -->
+        </select><br>
 
-            <label for="grado">Grado:</label>
-            <select id="grado" name="grado" required>
-                <option value="" selected>Seleccionar</option>
-                <option value="Cnel.">Cnel.</option>
-                <option value="Tte. Cnel.">Tte. Cnel.</option>
-                <option value="May.">May.</option>
-                <option value="Cap.">Cap.</option>
-                <option value="Tte. 1°">Tte. 1°</option>
-                <option value="Tte. 2°">Tte. 2°</option>
-                <option value="Alf.">Alf.</option>
-            </select><br><br>
-
-            <label for="escalafon">Escalafón:</label>
-            <select id="escalafon" name="escalafon" required>
-                <option value="" selected>Seleccionar</option>
-                <option value="Av.">(Av.)</option>
-                <option value="Nav.">(Nav.)</option>
-                <option value="Esp.">(Esp.)</option>
-                <option value="T.P.">(T.P.)</option>
-            </select><br><br>
-
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required><br><br>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required><br><br>
-
-            <label for="cedula">Cédula de Identidad:</label>
-            <input type="text" id="cedula" name="cedula" required><br><br>
-
-            <label for="acompanante">¿Asiste con acompañante?</label>
-            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
-                <option value="" selected>Seleccionar</option>
-                <option value="no">No</option>
-                <option value="si">Sí</option>
-            </select><br><br>
-
-            <div id="acompananteCantidad" style="display:none;">
-                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-                    <option value="" selected>Seleccionar</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select><br><br>
-            </div>
-
-            <label for="menu">Menú:</label>
-            <select id="menu" name="menu" required>
-                <option value="" selected>Seleccionar</option>
-                <option value="normal">Normal</option>
-                <option value="vegetariano">Vegetariano</option>
-                <option value="vegano">Vegano</option>
-                <option value="celiaco">Celíaco</option>
-            </select><br><br>
-
-            <input type="hidden" id="mesa" name="mesa">
-        </form>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen()">Siguiente</button>
-        </div>
+        <button class="prev-button" data-current="2">Anterior</button>
+        <button class="next-button" data-current="2">Siguiente</button>
     </div>
 
-    <!-- Pantalla de acompañantes -->
+    <!-- Pantalla de información de acompañantes -->
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
-        <form id="acompanantesForm"></form>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(2)">Anterior</button>
-            <button onclick="nextScreen(4)">Siguiente</button>
-        </div>
+        <!-- Contenido de información de acompañantes -->
+        <button class="prev-button" data-current="3">Anterior</button>
+        <button class="next-button" data-current="3">Siguiente</button>
     </div>
 
     <!-- Pantalla de selección de mesa -->
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda">
-                <!-- Aquí se insertarán las mesas dinámicamente -->
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                <!-- Aquí se insertarán las mesas dinámicamente -->
-            </div>
+        <div id="salon">
+            <!-- Representación gráfica del salón y mesas -->
+            <div id="pista">PISTA DE BAILE</div>
+            <select id="mesaSelect">
+                <option value="">Seleccione su mesa:</option>
+                <!-- Opciones de mesas -->
+            </select><br>
+            <div id="mesaText">Mesa</div>
         </div>
-        <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
-            <option value="" selected>Seleccionar</option>
-        </select><br><br>
-
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1"></div>
-            <div class="seat" data-seat="2"></div>
-            <div class="seat" data-seat="3"></div>
-            <div class="seat" data-seat="4"></div>
-            <div class="seat" data-seat="5"></div>
-            <div class="seat" data-seat="6"></div>
-            <div class="seat" data-seat="7"></div>
-            <div class="seat" data-seat="8"></div>
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
-            <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList"></div>
-        </div>
+        <button class="prev-button" data-current="4">Anterior</button>
+        <button id="submitButton">Enviar</button>
+        <div id="guestList">Invitados Registrados en esta Mesa:</div>
     </div>
 
-    <!-- Modal de confirmación -->
-    <div id="confirmationModal" class="container" style="display:none;">
-        <h2>Registro Completo</h2>
-        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
-        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
-        <button onclick="finalizarRegistro()">Finalizar</button>
-    </div>
+    <!-- Tooltips y otras partes adicionales -->
+    <div id="tooltip" class="tooltip" style="display: none;"></div>
 
-    <div id="tooltip" class="tooltip"></div>
-
-    <!-- Scripts -->
     <script src="scripts/navigation.js"></script>
     <script src="scripts/salon.js"></script>
 </body>
 </html>
-
