@@ -2,11 +2,11 @@
 function validatePersonalForm() {
     let isValid = true;
     const fields = ['correo', 'grado', 'escalafon', 'nombre', 'apellido', 'cedula', 'acompanante', 'menu'];
-    
+
     fields.forEach(field => {
         const inputElement = document.getElementById(field);
         const errorMessage = inputElement.nextElementSibling;
-        
+
         // Check if the input is valid
         if (!inputElement.value) {
             inputElement.classList.add('error');
@@ -41,5 +41,17 @@ function nextScreenPersonal() {
     }
 }
 
-// Call nextScreenPersonal() on clicking the "Siguiente" button
-document.getElementById('nextButtonScreen2').addEventListener('click', nextScreenPersonal);
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('screen2').innerHTML = `
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+            <!-- Otros campos del formulario -->
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreenPersonal()">Siguiente</button>
+        </div>
+    `;
+});
