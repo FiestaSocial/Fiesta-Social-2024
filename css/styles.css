@@ -1,83 +1,181 @@
-let currentScreen = 1;
-
-// Función para mostrar la pantalla siguiente
-function nextScreen(nextScreenNumber) {
-    // Validación de la pantalla actual antes de avanzar
-    if (currentScreen === 2) {
-        if (!validateForm('guestForm')) {
-            alert('Por favor, complete todos los campos requeridos.');
-            return;
-        }
-        
-        let acompanante = document.getElementById("acompanante").value;
-        if (acompanante === "si") {
-            let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-            generateAcompanantesForm(cantidadAcompanantes);
-            nextScreenNumber = 3;
-        } else {
-            nextScreenNumber = 4;
-        }
-    } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-        alert('Por favor, complete todos los campos requeridos.');
-        return;
-    } else if (nextScreenNumber === undefined) {
-        nextScreenNumber = currentScreen + 1;
-    }
-
-    // Ocultar la pantalla actual
-    document.getElementById(`screen${currentScreen}`).classList.remove('active');
-    
-    // Mostrar la nueva pantalla
-    document.getElementById(`screen${nextScreenNumber}`).classList.add('active');
-
-    // Actualizar la pantalla actual
-    currentScreen = nextScreenNumber;
+/* Estilo global */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F0F8FF;
+    color: #154360;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
-// Función para mostrar la pantalla anterior
-function prevScreen(screen) {
-    if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
-        screen = 2; // Saltar la pantalla de acompañantes si no hay acompañantes
-    }
-
-    document.getElementById(`screen${currentScreen}`).classList.remove('active');
-    document.getElementById(`screen${screen}`).classList.add('active');
-    currentScreen = screen;
+/* Banner */
+.banner {
+    background-color: #85C1E9;
+    height: 70px;
+    width: 100%;
+    text-align: center;
 }
 
-// Función para alternar la visibilidad de los campos de acompañantes
-function toggleAcompanante() {
-    let acompanante = document.getElementById("acompanante").value;
-    let acompananteCantidad = document.getElementById("acompananteCantidad");
-    if (acompanante === "si") {
-        acompananteCantidad.style.display = "block";
-    } else {
-        acompananteCantidad.style.display = "none";
-    }
+.banner img {
+    max-width: 100%;
+    height: auto;
 }
 
-// Generar el formulario de acompañantes
-function generateAcompanantesForm(cantidad) {
-    let acompanantesForm = document.getElementById("acompanantesForm");
-    acompanantesForm.innerHTML = ''; // Limpiar los campos anteriores
-    for (let i = 1; i <= cantidad; i++) {
-        acompanantesForm.innerHTML += `
-            <h3>Acompañante ${i}</h3>
-            <label for="nombreAcompanante${i}">Nombre:</label>
-            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-        `;
-    }
+/* Contenedores generales */
+.container {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    background-color: #EBF5FB;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 80%;
+    margin: 20px auto;
 }
 
-// Validación de formularios
-function validateForm(formId) {
-    let form = document.getElementById(formId);
-    return form.checkValidity();
+.active {
+    display: block;
 }
 
-// Finalizar registro y mostrar confirmación
-function finalizarRegistro() {
-    document.getElementById('confirmationModal').style.display = 'none';
-    document.getElementById('screen1').classList.add('active');
-    currentScreen = 1;
+/* Botones de navegación */
+button {
+    background-color: #3498DB;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #2980B9;
+}
+
+button:disabled {
+    background-color: #BDC3C7;
+    cursor: not-allowed;
+}
+
+/* Estilo de los campos de entrada */
+input, select {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 400px;
+}
+
+/* Estilo para el resaltado de errores */
+.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+}
+
+/* Estilo de los mensajes */
+#guestList {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #D6EAF8;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    text-align: left;
+}
+
+/* Estilos para el salón */
+#salon {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #EBF5FB;
+    border-radius: 10px;
+    border: 2px solid #85C1E9;
+}
+
+#salon div {
+    display: inline-block;
+    text-align: center;
+}
+
+.mesa {
+    width: 50px;
+    height: 50px;
+    background-color: #3498DB;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.mesa.completa {
+    background-color: #DC3545;
+}
+
+/* Representación de la mesa seleccionada */
+#mesaRepresentacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    background-color: #28A745;
+    border-radius: 50%;
+    margin: 5px;
+    display: inline-block;
+}
+
+.seat.occupied {
+    background-color: #DC3545;
+}
+
+/* Tooltip para mostrar los invitados al pasar el cursor */
+.tooltip {
+    position: absolute;
+    background-color: #FFF;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+/* Estilos adicionales */
+h2 {
+    color: #154360;
+    font-size: 24px;
+}
+
+label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#submitButton {
+    background-color: #27AE60;
+}
+
+#submitButton:hover {
+    background-color: #229954;
 }
