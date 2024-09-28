@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="banner"></div>
+    
+    <!-- Pantalla 1 - Bienvenida -->
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
@@ -17,11 +19,12 @@
         </div>
     </div>
 
+    <!-- Pantalla 2 - Datos Personales -->
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required>
+            <input type="text" id="correo" name="correo" required><br><br>
             
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -33,7 +36,7 @@
                 <option value="Tte. 1°">Tte. 1°</option>
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
-            </select>
+            </select><br><br>
 
             <label for="escalafon">Escalafón:</label>
             <select id="escalafon" name="escalafon" required>
@@ -42,23 +45,23 @@
                 <option value="Nav.">(Nav.)</option>
                 <option value="Esp.">(Esp.)</option>
                 <option value="T.P.">(T.P.)</option>
-            </select>
+            </select><br><br>
 
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" required><br><br>
 
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" name="apellido" required><br><br>
 
             <label for="cedula">Cédula de Identidad:</label>
-            <input type="text" id="cedula" name="cedula" required>
+            <input type="text" id="cedula" name="cedula" required><br><br>
 
             <label for="acompanante">¿Asiste con acompañante?</label>
             <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
                 <option value="" selected>Seleccionar</option>
                 <option value="no">No</option>
                 <option value="si">Sí</option>
-            </select>
+            </select><br><br>
 
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
@@ -69,7 +72,7 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                </select>
+                </select><br><br>
             </div>
 
             <label for="menu">Menú:</label>
@@ -79,7 +82,7 @@
                 <option value="vegetariano">Vegetariano</option>
                 <option value="vegano">Vegano</option>
                 <option value="celiaco">Celíaco</option>
-            </select>
+            </select><br><br>
             <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
@@ -88,6 +91,7 @@
         </div>
     </div>
 
+    <!-- Pantalla 3 - Información de los Acompañantes -->
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
         <form id="acompanantesForm"></form>
@@ -97,52 +101,13 @@
         </div>
     </div>
 
+    <!-- Pantalla 4 - Selección de Mesa -->
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
-        <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda">
-                <script>
-                    for (let i = 1; i <= 17; i++) {
-                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
-                    }
-                </script>
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                <script>
-                    for (let i = 18; i <= 35; i++) {
-                        document.write(`<div class="mesa" id="mesa${i}" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`);
-                    }
-                </script>
-            </div>
-        </div>
-        <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
-            <option value="" selected>Seleccionar</option>
-            <script>
-                for (let i = 1; i <= 35; i++) {
-                    document.write('<option value="Mesa ' + i + '">Mesa ' + i + '</option>');
-                }
-            </script>
-        </select>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
-            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
-            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
-            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
-            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
-            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
-            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
-            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
-        </div>
+        <!-- Código para el salón, mesas y lista de invitados va aquí -->
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList"></div>
         </div>
     </div>
 
@@ -157,13 +122,9 @@
     <div class="banner"></div>
     <div id="tooltip" class="tooltip"></div>
 
-    <!-- Incluyendo los scripts al final -->
-    <script src="scripts/salon.js"></script>
+    <!-- Scripts -->
     <script src="scripts/navigation.js"></script>
-    <script src="scripts/screen1.js"></script>
-    <script src="scripts/screen2.js"></script>
-    <script src="scripts/screen3.js"></script>
-    <script src="scripts/screen4.js"></script>
-    <script src="scripts/confirmationModal.js"></script>
+    <script src="scripts/guestsData.js"></script>
+    <script src="scripts/salon.js"></script>
 </body>
 </html>
