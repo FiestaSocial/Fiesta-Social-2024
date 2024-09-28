@@ -1,73 +1,69 @@
-// Función para navegar a la siguiente pantalla
-function nextScreen(next) {
+document.addEventListener('DOMContentLoaded', () => {
+    let currentScreenIndex = 0;
     const screens = document.querySelectorAll('.container');
-    screens.forEach(screen => screen.classList.remove('active'));
+    const startButton = document.getElementById('startButton');
+    const nextButton = document.getElementById('nextButton');
+    const prevButton = document.getElementById('prevButton');
+    const submitButton = document.getElementById('submitButton');
 
-    const currentScreen = document.getElementById(`screen${next}`);
-    currentScreen.classList.add('active');
-
-    if (next === 3) {
-        toggleAcompanante();
-    }
-}
-
-// Función para navegar a la pantalla anterior
-function prevScreen(prev) {
-    const screens = document.querySelectorAll('.container');
-    screens.forEach(screen => screen.classList.remove('active'));
-
-    const currentScreen = document.getElementById(`screen${prev}`);
-    currentScreen.classList.add('active');
-}
-
-// Mostrar/ocultar la sección de acompañantes
-function toggleAcompanante() {
-    const acompananteSelect = document.getElementById('acompanante').value;
-    const acompananteSection = document.getElementById('screen3');
-
-    if (acompananteSelect === 'si') {
-        acompananteSection.style.display = 'block';
-    } else {
-        acompananteSection.style.display = 'none';
-    }
-}
-
-// Actualizar el texto de la mesa seleccionada
-function updateMesaText() {
-    const mesaSelect = document.getElementById('mesaSelect');
-    const mesaText = document.getElementById('mesaText');
-    const selectedMesa = mesaSelect.value;
-
-    if (selectedMesa) {
-        mesaText.textContent = selectedMesa;
-    } else {
-        mesaText.textContent = 'Mesa';
-    }
-}
-
-// Evento para el botón de inicio
-document.getElementById('startButton').addEventListener('click', () => {
-    nextScreen(2);
-});
-
-// Evento para botones "Siguiente"
-document.querySelectorAll('.next-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const currentScreen = parseInt(e.target.getAttribute('data-current'));
-        nextScreen(currentScreen + 1);
+    startButton.addEventListener('click', () => {
+        showScreen(1);
     });
-});
 
-// Evento para botones "Anterior"
-document.querySelectorAll('.prev-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const currentScreen = parseInt(e.target.getAttribute('data-current'));
-        prevScreen(currentScreen - 1);
+    nextButton.addEventListener('click', () => {
+        if (validateCurrentScreen()) {
+            showScreen(currentScreenIndex + 1);
+        }
     });
+
+    prevButton.addEventListener('click', () => {
+        showScreen(currentScreenIndex - 1);
+    });
+
+    submitButton.addEventListener('click', (event) => {
+        if (validateCurrentScreen() && validateTableSelection()) {
+            // Aquí puedes implementar la lógica de envío del formulario
+            alert('Reserva enviada con éxito');
+            location.reload(); // Recarga la página al finalizar el envío
+        }
+    });
+
+    function showScreen(index) {
+        screens[currentScreenIndex].classList.remove('active');
+        currentScreenIndex = index;
+        screens[currentScreenIndex].classList.add('active');
+    }
+
+    function validateCurrentScreen() {
+        let isValid = true;
+        const currentScreen = screens[currentScreenIndex];
+        const requiredFields = currentScreen.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('error'); // Resalta el campo con error
+                if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('error-message')) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.classList.add('error-message');
+                    errorMessage.textContent = 'Este campo es obligatorio';
+                    field.parentNode.insertBefore(errorMessage, field.nextSibling);
+                }
+            } else {
+                field.classList.remove('error');
+                if (field.nextElementSibling && field.nextElementSibling.classList.contains('error-message')) {
+                    field.nextElementSibling.remove();
+                }
+            }
+        });
+        return isValid;
+    }
+
+    function validateTableSelection() {
+        const selectedTable = document.getElementById('mesaSelect').value;
+        if (selectedTable && guestsData[selectedTable] && guestsData[selectedTable].length >= 8) {
+            alert('La mesa seleccionada está completa. Por favor, elige otra mesa.');
+            return false;
+        }
+        return true;
+    }
 });
-
-// Evento para selección de mesa
-document.getElementById('mesaSelect').addEventListener('change', updateMesaText);
-
-// Evento para selección de acompañantes
-document.getElementById('acompanante').addEventListener('change', toggleAcompanante);
