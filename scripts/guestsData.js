@@ -2,7 +2,7 @@
 let guestsData = {};
 
 function fetchGuestsData() {
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
+    fetch('https://docs.google.com/spreadsheets/d/e/YOUR_GOOGLE_SHEETS_LINK_HERE/pub?output=csv')
         .then(response => response.text())
         .then(csv => csvToJSON(csv))
         .then(data => {
@@ -25,7 +25,6 @@ function csvToJSON(csv) {
         obj["Nombre"] = currentline[3].trim();
         obj["Apellido"] = currentline[4].trim();
         obj["Mesa"] = currentline[19].trim();
-
         obj["Nombre Acompanante 1"] = currentline[10].trim();
         obj["Nombre Acompanante 2"] = currentline[12].trim();
         obj["Nombre Acompanante 3"] = currentline[14].trim();
@@ -41,3 +40,7 @@ function csvToJSON(csv) {
     }
     return result;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchGuestsData();
+});
