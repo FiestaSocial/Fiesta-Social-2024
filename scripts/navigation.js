@@ -1,69 +1,72 @@
+let currentScreen = 1;
+const totalScreens = 4;
+
 document.addEventListener('DOMContentLoaded', () => {
-    let currentScreenIndex = 0;
-    const screens = document.querySelectorAll('.container');
-    const startButton = document.getElementById('startButton');
-    const nextButton = document.getElementById('nextButton');
-    const prevButton = document.getElementById('prevButton');
-    const submitButton = document.getElementById('submitButton');
-
-    startButton.addEventListener('click', () => {
-        showScreen(1);
+    showScreen(currentScreen);
+    document.getElementById('nextButton').addEventListener('click', nextScreen);
+    document.getElementById('prevButton').addEventListener('click', prevScreen);
+    document.getElementById('submitButton').addEventListener('click', submitReservation);
+    document.getElementById('startButton').addEventListener('click', () => {
+        currentScreen = 2;
+        showScreen(currentScreen);
     });
-
-    nextButton.addEventListener('click', () => {
-        if (validateCurrentScreen()) {
-            showScreen(currentScreenIndex + 1);
-        }
-    });
-
-    prevButton.addEventListener('click', () => {
-        showScreen(currentScreenIndex - 1);
-    });
-
-    submitButton.addEventListener('click', (event) => {
-        if (validateCurrentScreen() && validateTableSelection()) {
-            // Aquí puedes implementar la lógica de envío del formulario
-            alert('Reserva enviada con éxito');
-            location.reload(); // Recarga la página al finalizar el envío
-        }
-    });
-
-    function showScreen(index) {
-        screens[currentScreenIndex].classList.remove('active');
-        currentScreenIndex = index;
-        screens[currentScreenIndex].classList.add('active');
-    }
-
-    function validateCurrentScreen() {
-        let isValid = true;
-        const currentScreen = screens[currentScreenIndex];
-        const requiredFields = currentScreen.querySelectorAll('[required]');
-        requiredFields.forEach(field => {
-            if (!field.value) {
-                isValid = false;
-                field.classList.add('error'); // Resalta el campo con error
-                if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('error-message')) {
-                    const errorMessage = document.createElement('div');
-                    errorMessage.classList.add('error-message');
-                    errorMessage.textContent = 'Este campo es obligatorio';
-                    field.parentNode.insertBefore(errorMessage, field.nextSibling);
-                }
-            } else {
-                field.classList.remove('error');
-                if (field.nextElementSibling && field.nextElementSibling.classList.contains('error-message')) {
-                    field.nextElementSibling.remove();
-                }
-            }
-        });
-        return isValid;
-    }
-
-    function validateTableSelection() {
-        const selectedTable = document.getElementById('mesaSelect').value;
-        if (selectedTable && guestsData[selectedTable] && guestsData[selectedTable].length >= 8) {
-            alert('La mesa seleccionada está completa. Por favor, elige otra mesa.');
-            return false;
-        }
-        return true;
-    }
 });
+
+function showScreen(screenNumber) {
+    const screens = document.querySelectorAll('.container');
+    screens.forEach(screen => screen.classList.remove('active'));
+    document.getElementById(`screen${screenNumber}`).classList.add('active');
+}
+
+function nextScreen() {
+    if (validateCurrentScreen()) {
+        if (currentScreen < totalScreens) {
+            currentScreen++;
+            showScreen(currentScreen);
+        }
+    }
+}
+
+function prevScreen() {
+    if (currentScreen > 1) {
+        currentScreen--;
+        showScreen(currentScreen);
+    }
+}
+
+function validateCurrentScreen() {
+    let valid = true;
+    const activeScreen = document.querySelector('.container.active');
+    const inputs = activeScreen.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        if (!input.value) {
+            input.classList.add('error');
+            const errorMessage = document.createElement('div');
+            errorMessage.classList.add('error-message');
+            errorMessage.innerText = 'Este campo es obligatorio';
+            input.parentElement.appendChild(errorMessage);
+            valid = false;
+        } else {
+            input.classList.remove('error');
+            const errorMessages = input.parentElement.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+        }
+    });
+    return valid;
+}
+
+function submitReservation() {
+    const selectedTable = document.getElementById('mesaSelect').value;
+    if (isTableFull(selectedTable)) {
+        alert('La mesa seleccionada está completa. Por favor, elija otra mesa.');
+        return;
+    }
+    // Submit the form logic here
+    alert('Reserva enviada correctamente.');
+    location.reload(); // Reload the page for all users
+}
+
+function isTableFull(selectedTable) {
+    const tableElement = document.querySelector(`.table[data-table='${selectedTable}']`);
+    return tableElement && tableElement.classList.contains('completa');
+}
