@@ -7,52 +7,16 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="banner">
-        <img src="Imagen de bienvenida.png" alt="Bienvenida">
-    </div>
+    <div class="banner"></div>
+    <div id="screen1" class="container active"></div>
+    <div id="screen2" class="container"></div>
+    <div id="screen3" class="container"></div>
+    <div id="screen4" class="container"></div>
+    <div id="confirmationModal" class="container" style="display:none;"></div>
+    <div id="tooltip" class="tooltip"></div>
 
-    <!-- Pantallas del formulario -->
-    <div id="screen1" class="container active">
-        <h2>Datos Personales</h2>
-        <label>Correo:</label>
-        <input type="email" id="email" required><br>
-        <label>Grado:</label>
-        <select id="grado" required>
-            <option value="">Seleccionar</option>
-            <!-- Opciones... -->
-        </select><br>
-        <!-- Más campos personales... -->
-        <button id="startButton">Iniciar</button>
-    </div>
-
-    <div id="screen2" class="container">
-        <h2>Información de los Acompañantes</h2>
-        <!-- Campos para acompañantes... -->
-        <button id="prevButton">Anterior</button>
-        <button id="nextButton">Siguiente</button>
-    </div>
-
-    <div id="screen3" class="container">
-        <h2>Selección de Mesa</h2>
-        <div id="salon">
-            <!-- Representación del salón... -->
-        </div>
-        <select id="mesaSelect">
-            <option value="">Seleccione su mesa</option>
-            <!-- Opciones de mesas... -->
-        </select><br>
-        <div id="mesaRepresentacion">
-            <!-- Representación de la mesa seleccionada... -->
-        </div>
-        <button id="prevButton">Anterior</button>
-        <button id="submitButton">Enviar</button>
-        <div id="guestList">Invitados Registrados en esta Mesa:</div>
-    </div>
-
-    <!-- Tooltip para la nube emergente -->
-    <div id="tooltip" class="tooltip" style="display: none;"></div>
-
+    <script src="scripts/screen1.js"></script>
+    <script src="scripts/screen2.js"></script>
     <script src="scripts/navigation.js"></script>
-    <script src="scripts/salon.js"></script>
 </body>
 </html>
