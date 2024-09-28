@@ -1,6 +1,4 @@
 // screen1.js
-// Contiene el contenido y funcionalidad de la pantalla de bienvenida.
-
 function loadScreen1() {
     document.getElementById('screen1').innerHTML = `
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
@@ -12,6 +10,4 @@ function loadScreen1() {
     `;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadScreen1();
-});
+loadScreen1();
