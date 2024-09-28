@@ -23,7 +23,7 @@ function prevScreen(screen) {
 
 function toggleAcompanante() {
     let acompanante = document.getElementById("acompanante").value;
-    let acompananteCantidad = document.getElementById("acompananteCantidad");
+    let acompananteCantidad = document.getElementById("cantidadAcompanantes");
     if (acompanante === "si") {
         acompananteCantidad.style.display = "block";
     } else {
@@ -43,12 +43,3 @@ function nextScreenPersonal() {
         }
     }
 }
-
-function validatePersonalForm() {
-    // Implementación de validación aquí
-    return true;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    nextScreen(1);
-});
