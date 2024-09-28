@@ -1,13 +1,14 @@
 // screen3.js
 function generateAcompanantesForm(cantidad) {
     let acompanantesForm = document.getElementById('acompanantesForm');
-    acompanantesForm.innerHTML = ''; // Clear previous entries
+    acompanantesForm.innerHTML = ''; // Limpiar entradas previas
 
     for (let i = 1; i <= cantidad; i++) {
         acompanantesForm.innerHTML += `
             <h3>Acompañante ${i}</h3>
             <label for="nombreAcompanante${i}">Nombre:</label>
             <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+
             <label for="menuAcompanante${i}">Menú:</label>
             <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
                 <option value="" selected>Seleccionar</option>
@@ -28,3 +29,4 @@ document.getElementById('screen3').innerHTML = `
         <button onclick="nextScreen(4)">Siguiente</button>
     </div>
 `;
+
