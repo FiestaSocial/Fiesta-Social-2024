@@ -10,4 +10,5 @@ function loadScreen1() {
     `;
 }
 
+// Llama a la función para cargar el contenido de la pantalla 1
 loadScreen1();
