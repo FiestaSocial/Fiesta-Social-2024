@@ -1,166 +1,85 @@
-let currentScreen = 1;
-let guestsData = {};
+// Función para navegar a la siguiente pantalla
+function nextScreen(next) {
+    // Ocultar todas las pantallas
+    const screens = document.querySelectorAll('.container');
+    screens.forEach(screen => screen.classList.remove('active'));
 
-// Función para cambiar a la siguiente pantalla
-function nextScreen(nextScreenNumber) {
-    if (nextScreenNumber === undefined) {
-        if (currentScreen === 2) {
-            if (!validateForm('guestForm')) {
-                alert('Por favor, complete todos los campos requeridos.');
-                return;
-            }
-            let acompanante = document.getElementById("acompanante").value;
-            if (acompanante === "si") {
-                let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                generateAcompanantesForm(cantidadAcompanantes);
-                nextScreenNumber = 3;
-            } else {
-                nextScreenNumber = 4;
-            }
-        } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-            alert('Por favor, complete todos los campos requeridos.');
-            return;
-        } else {
-            nextScreenNumber = currentScreen + 1;
-        }
+    // Mostrar la pantalla seleccionada
+    const currentScreen = document.getElementById(`screen${next}`);
+    currentScreen.classList.add('active');
+    
+    // Verificar si se debe mostrar la información de acompañantes
+    if (next === 3) {
+        toggleAcompanante();
     }
-    document.getElementById(`screen${currentScreen}`).classList.remove('active');
-    currentScreen = nextScreenNumber;
-    document.getElementById(`screen${currentScreen}`).classList.add('active');
 }
 
-function prevScreen(screen) {
-    if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
-        screen = 2;
-    }
-    document.getElementById(`screen${currentScreen}`).classList.remove('active');
-    currentScreen = screen;
-    document.getElementById(`screen${currentScreen}`).classList.add('active');
+// Función para navegar a la pantalla anterior
+function prevScreen(prev) {
+    // Ocultar todas las pantallas
+    const screens = document.querySelectorAll('.container');
+    screens.forEach(screen => screen.classList.remove('active'));
+
+    // Mostrar la pantalla seleccionada
+    const currentScreen = document.getElementById(`screen${prev}`);
+    currentScreen.classList.add('active');
 }
 
+// Función para mostrar/ocultar la información de acompañantes
 function toggleAcompanante() {
-    let acompanante = document.getElementById("acompanante").value;
-    let acompananteCantidad = document.getElementById("acompananteCantidad");
-    if (acompanante === "si") {
-        acompananteCantidad.style.display = "block";
+    const acompananteSelect = document.getElementById('acompanante').value;
+    const acompananteSection = document.getElementById('acompananteSection');
+
+    if (acompananteSelect === 'si') {
+        acompananteSection.style.display = 'block';
     } else {
-        acompananteCantidad.style.display = "none";
+        acompananteSection.style.display = 'none';
     }
 }
 
+// Función para actualizar el texto de la mesa seleccionada
 function updateMesaText() {
-    const mesaSelect = document.getElementById("mesaSelect");
-    const mesaText = document.getElementById("mesaText");
-    const mesaInput = document.getElementById("mesa");
-    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-    if (mesaText && selectedMesa) {
+    const mesaSelect = document.getElementById('mesaSelect');
+    const mesaText = document.getElementById('mesaText');
+    const selectedMesa = mesaSelect.value;
+
+    if (selectedMesa) {
         mesaText.textContent = selectedMesa;
-    }
-    if (mesaInput && selectedMesa) {
-        mesaInput.value = selectedMesa;
-    }
-    updateSeats();
-    updateGuestList();
-}
-
-function updateSeats() {
-    const mesaSelect = document.getElementById("mesaSelect");
-    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-    const seats = document.querySelectorAll('.seat');
-
-    seats.forEach(seat => seat.classList.remove('occupied'));
-
-    if (selectedMesa && guestsData[selectedMesa]) {
-        let totalGuests = 0;
-
-        guestsData[selectedMesa].forEach(guest => {
-            const guestAndAcompanantes = [guest];
-            if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
-            if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
-            if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
-            if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
-            if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
-
-            guestAndAcompanantes.forEach((_, seatIndex) => {
-                const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
-                if (seat) {
-                    seat.classList.add('occupied');
-                }
-                totalGuests++;
-            });
-        });
-
-        if (totalGuests >= 8) {
-            mesaSelect.options[mesaSelect.selectedIndex].classList.add('completa');
-        }
-    }
-}
-
-function markFullTables() {
-    const mesaSelect = document.getElementById("mesaSelect");
-
-    for (let i = 1; i <= 35; i++) {
-        const mesaDiv = document.getElementById(`mesa${i}`);
-        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
-            mesaDiv.classList.add('completa');
-        }
-    }
-}
-
-function updateGuestList() {
-    const mesaSelect = document.getElementById("mesaSelect");
-    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-    const guestList = document.getElementById("guestList");
-
-    guestList.innerHTML = "";
-
-    if (selectedMesa && guestsData[selectedMesa]) {
-        const guests = guestsData[selectedMesa];
-
-        guests.forEach(guest => {
-            const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
-            guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
-
-            if (guest["Nombre Acompanante 1"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 1"]}</div>`;
-            if (guest["Nombre Acompanante 2"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 2"]}</div>`;
-            if (guest["Nombre Acompanante 3"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 3"]}</div>`;
-            if (guest["Nombre Acompanante 4"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 4"]}</div>`;
-            if (guest["Nombre Acompanante 5"]) guestList.innerHTML += `<div>Acompañante: ${guest["Nombre Acompanante 5"]}</div>`;
-        });
     } else {
-        guestList.innerHTML = "No hay invitados registrados en esta mesa.";
+        mesaText.textContent = 'Mesa';
     }
 }
 
-function showGuests(mesa, event) {
-    const tooltip = document.getElementById("tooltip");
-    if (guestsData[mesa]) {
-        const guestNames = guestsData[mesa].map(guest => {
-            let fullName = `${guest.Nombre} ${guest.Apellido}`;
-            if (guest["Nombre Acompanante 1"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 1"]}`;
-            if (guest["Nombre Acompanante 2"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 2"]}`;
-            if (guest["Nombre Acompanante 3"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 3"]}`;
-            if (guest["Nombre Acompanante 4"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 4"]}`;
-            if (guest["Nombre Acompanante 5"]) fullName += `, Acompañante: ${guest["Nombre Acompanante 5"]}`;
-            return fullName;
-        }).join(", ");
-        tooltip.textContent = guestNames;
-        tooltip.style.display = "block";
-        tooltip.style.left = event.pageX + 'px';
-        tooltip.style.top = event.pageY + 'px';
-    } else {
-        tooltip.textContent = "No hay invitados registrados en esta mesa.";
-        tooltip.style.display = "block";
-        tooltip.style.left = event.pageX + 'px';
-        tooltip.style.top = event.pageY + 'px';
-    }
+// Función para finalizar el registro
+function finalizarRegistro() {
+    // Recargar la página para actualizar el estado de todas las mesas
+    location.reload();
 }
 
-function hideGuests() {
-    const tooltip = document.getElementById("tooltip");
-    tooltip.style.display = "none";
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    fetchGuestsData();
+// Evento para iniciar el flujo desde la pantalla de bienvenida
+document.getElementById('startButton').addEventListener('click', () => {
+    nextScreen(2);
 });
+
+// Evento para el botón "Siguiente" en cada pantalla
+document.querySelectorAll('.next-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const currentScreen = parseInt(e.target.getAttribute('data-current'));
+        nextScreen(currentScreen + 1);
+    });
+});
+
+// Evento para el botón "Anterior" en cada pantalla
+document.querySelectorAll('.prev-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const currentScreen = parseInt(e.target.getAttribute('data-current'));
+        prevScreen(currentScreen - 1);
+    });
+});
+
+// Evento para manejar cambios en la selección de mesa
+document.getElementById('mesaSelect').addEventListener('change', updateMesaText);
+
+// Evento para manejar cambios en la selección de acompañantes
+document.getElementById('acompanante').addEventListener('change', toggleAcompanante);
+
