@@ -18,7 +18,7 @@ function loadScreen4() {
         </select><br><br>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            ${generateSeatDivs(8)} <!-- Generar los 8 lugares alrededor de la mesa -->
+            ${generateSeatDivs(8)} <!-- Genera los 8 lugares alrededor de la mesa -->
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -30,12 +30,12 @@ function loadScreen4() {
         </div>
     `;
 
-    // Marcar las mesas completas y actualizar la lista de invitados
+    // Marcar mesas completas y actualizar la lista de invitados
     updateSalon();
     updateGuestList();
 }
 
-// Genera los elementos de las mesas en el salón
+// Función para generar las mesas en el salón
 function generateTableDivs(start, end) {
     let tables = '';
     for (let i = start; i <= end; i++) {
@@ -44,7 +44,7 @@ function generateTableDivs(start, end) {
     return tables;
 }
 
-// Genera las opciones del menú desplegable para seleccionar la mesa
+// Función para generar las opciones del menú desplegable de mesas
 function generateSelectOptions(start, end) {
     let options = '';
     for (let i = start; i <= end; i++) {
@@ -53,7 +53,7 @@ function generateSelectOptions(start, end) {
     return options;
 }
 
-// Genera los lugares alrededor de la mesa seleccionada
+// Función para generar los lugares alrededor de la mesa seleccionada
 function generateSeatDivs(numSeats) {
     let seats = '';
     const positions = [
@@ -66,12 +66,48 @@ function generateSeatDivs(numSeats) {
         { x: -100, y: 100 },
         { x: -125, y: 0 }
     ];
-    
+
     for (let i = 0; i < numSeats; i++) {
         seats += `<div class="seat" data-seat="${i + 1}" style="transform: translate(${positions[i].x}px, ${positions[i].y}px);"></div>`;
     }
     return seats;
 }
 
-// Cargar la pantalla de selección de mesa
+// Función para actualizar la mesa seleccionada y la lista de invitados
+function updateMesaText() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    const mesaText = document.getElementById("mesaText");
+    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+    
+    if (mesaText && selectedMesa) {
+        mesaText.textContent = selectedMesa;
+    }
+
+    updateSeats(selectedMesa);
+    updateGuestList();
+}
+
+// Función para actualizar la representación de los lugares ocupados en la mesa seleccionada
+function updateSeats(selectedMesa) {
+    const seats = document.querySelectorAll('.seat');
+    seats.forEach(seat => seat.classList.remove('occupied'));
+
+    if (selectedMesa && guestsData[selectedMesa]) {
+        let totalGuests = 0;
+
+        guestsData[selectedMesa].forEach(guest => {
+            totalGuests += 1; // Contar al invitado principal
+            totalGuests += guest["Acompanantes"].length; // Contar acompañantes
+        });
+
+        for (let i = 1; i <= totalGuests && i <= 8; i++) {
+            const seat = document.querySelector(`.seat[data-seat="${i}"]`);
+            if (seat) {
+                seat.classList.add('occupied');
+            }
+        }
+    }
+}
+
+// Llamar a la función para cargar la pantalla de selección de mesa
 loadScreen4();
