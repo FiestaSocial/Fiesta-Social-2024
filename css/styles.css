@@ -39,7 +39,7 @@ body {
 /* Navigation Buttons */
 .navigation-buttons {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
@@ -81,14 +81,113 @@ select option:first-child {
 
 /* Error Messages */
 .error {
-    border-color: #dc3545;
+    border-color: #e74c3c;
 }
 
 .error-message {
-    color: #dc3545;
+    color: #e74c3c;
     font-size: 14px;
     margin-top: -10px;
     margin-bottom: 10px;
+}
+
+/* Table Container */
+.table-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 30px auto;
+    display: grid;
+    place-items: center;
+}
+
+/* Table */
+.table {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #5499C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Seats */
+.seat {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #28a745;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.seat:hover {
+    transform: scale(1.1);
+}
+
+.seat.occupied {
+    background-color: #dc3545;
+}
+
+/* Salon Representation */
+.salon-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #154360;
+}
+
+.mesas {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 400px;
+}
+
+.mesa {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #5499C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.mesa.completa {
+    background-color: #dc3545;
+}
+
+.pista {
+    width: 100px;
+    height: 300px;
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Tooltip */
@@ -103,9 +202,17 @@ select option:first-child {
     font-size: 14px;
 }
 
-/* Adjustments for Mobile Devices */
+/* Mobile Adjustments */
 @media (max-width: 768px) {
-    .container {
-        padding: 20px;
+    .salon-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .pista {
+        width: 100%;
+        height: 100px;
+    }
+    .mesas {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
