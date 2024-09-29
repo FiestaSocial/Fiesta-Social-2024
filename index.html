@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="banner"></div>
+
+    <!-- Pantalla 1 -->
+    <div id="screen1" class="container active"></div>
+
+    <!-- Pantalla 2: Datos Personales -->
+    <div id="screen2" class="container"></div>
+
+    <!-- Pantalla 3: Información de los Acompañantes -->
+    <div id="screen3" class="container"></div>
+
+    <!-- Pantalla 4: Selección de Mesa -->
+    <div id="screen4" class="container"></div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        <button onclick="finalizarRegistro()">Finalizar</button>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="scripts/guestsData.js"></script>
+    <script src="scripts/navigation.js"></script>
+    <script src="scripts/screen1.js"></script>
+    <script src="scripts/screen2.js"></script>
+    <script src="scripts/screen3.js"></script>
+    <script src="scripts/screen4.js"></script>
+</body>
+</html>
 
