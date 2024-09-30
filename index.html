@@ -1,1 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F0F8FF;
+            color: #154360;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .banner {
+            background-color: #85C1E9;
+            height: 70px;
+            width: 100%;
+        }
+        .container {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background-color: #EBF5FB;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 80%;
+            margin: 20px auto;
+        }
+        .active {
+            display: block;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .navigation-buttons button {
+            margin: 0 10px;
+        }
+        button {
+            background-color: #5499C7;
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980B9;
+        }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+        }
+        select option:first-child {
+            display: none;
+        }
+        .table-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 30px auto;
+            display: grid;
+            place-items: center;
+        }
+        .table {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #28a745;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .seat:hover {
+            transform: scale(1.1);
+        }
+        .seat.occupied {
+            background-color: #dc3545;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #AED6F1;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        #guestList div {
+            display: flex;
+            justify-content: space-between;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .salon-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #154360;
+        }
+        .mesas {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 400px;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .mesa.completa {
+            background-color: #dc3545;
+        }
+        .pista {
+            width: 100px;
+            height: 300px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
+        }
+        /* Ajustes para dispositivos móviles */
+        @media (max-width: 768px) {
+            .salon-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner"></div>
+
+    <!-- Pantalla 1: Bienvenida -->
+    <div id="screen1" class="container active">
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <div class="navigation-buttons">
+            <button onclick="nextScreen(2)">Iniciar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 2: Datos Personales -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+            <!-- Aquí se incluyen todos los demás campos necesarios del formulario, como Grado, Escalafón, Nombre, Apellido, etc. -->
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen(3)">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 3: Información de los Acompañantes -->
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 4: Selección de Mesa -->
+    <div id="screen4" class="container">
+        <h2>Selección de Mesa</h2>
+        <!-- Aquí va el contenido para la selección de mesa, como la representación visual de las mesas, etc. -->
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="submitForm()">Enviar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 5: Modal de Confirmación -->
+    <div id="confirmationModal" class="container" style="display:none;">
+        <h2>Registro Completo</h2>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        <button onclick="finalizarRegistro()">Finalizar</button>
+    </div>
+
+    <div class="banner"></div>
+    <div id="tooltip" class="tooltip"></div>
+
+    <!-- Scripts -->
+    <script src="scripts/navigation.js"></script>
+    <script src="scripts/screen2.js"></script>
+    <script src="scripts/screen3.js"></script>
+    <script src="scripts/screen4.js"></script>
+    <script src="scripts/screen5.js"></script>
+</body>
+</html>
 
