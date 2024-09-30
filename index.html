@@ -78,19 +78,6 @@
             display: grid;
             place-items: center;
         }
-        .table {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background-color: #5499C7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
         .seat {
             width: 50px;
             height: 50px;
@@ -138,18 +125,26 @@
         .mesa.selected {
             border: 3px solid #154360;
         }
-        .bar {
-            width: 80%;
-            background-color: #E8E8E8;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 20px 0;
+        .pista {
+            width: 100px;
+            height: 300px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
         }
-        .progress {
-            height: 20px;
-            width: 0;
-            background-color: #5499C7;
-            transition: width 0.5s;
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
         }
         /* Ajustes para dispositivos móviles */
         @media (max-width: 768px) {
@@ -157,17 +152,18 @@
                 flex-direction: column;
                 gap: 20px;
             }
-            .table-container {
-                width: 90%;
+            .pista {
+                width: 100%;
+                height: 100px;
+            }
+            .mesas {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
 <body>
     <div class="banner"></div>
-    <div class="bar">
-        <div class="progress" id="progressBar"></div>
-    </div>
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
@@ -193,6 +189,15 @@
                 <option value="Tte. 1°">Tte. 1°</option>
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
             </select><br><br>
 
             <label for="nombre">Nombre:</label>
@@ -292,15 +297,12 @@
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
-
-            updateProgressBar();
         }
 
         function prevScreen(screen) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
-            updateProgressBar();
         }
 
         function selectMesa(mesaId) {
@@ -342,6 +344,7 @@
             const data = {
                 correo: formData.get('correo'),
                 grado: formData.get('grado'),
+                escalafon: formData.get('escalafon'),
                 nombre: formData.get('nombre'),
                 apellido: formData.get('apellido'),
                 cedula: formData.get('cedula'),
@@ -373,13 +376,7 @@
             document.getElementById('screen1').classList.add('active');
         }
 
-        function updateProgressBar() {
-            const progress = (currentScreen / 4) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Generar mesas en el salón
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
             for (let i = 1; i <= 17; i++) {
