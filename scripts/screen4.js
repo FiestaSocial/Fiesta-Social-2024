@@ -1,43 +1,63 @@
-// screen4.js - Selección de Mesa
-function loadScreen4() {
-    document.getElementById('screen4').innerHTML = `
-        <h2>Selección de Mesa</h2>
-        <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda">
-                ${Array.from({ length: 17 }, (_, i) => `<div class="mesa" id="mesa${i + 1}" onmouseover="showGuests('Mesa ${i + 1}', event)" onmouseout="hideGuests()">${i + 1}</div>`).join('')}
-            </div>
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                ${Array.from({ length: 18 }, (_, i) => `<div class="mesa" id="mesa${i + 18}" onmouseover="showGuests('Mesa ${i + 18}', event)" onmouseout="hideGuests()">${i + 18}</div>`).join('')}
-            </div>
-        </div>
-        <label for="mesaSelect">Seleccione su mesa:</label>
-        <select id="mesaSelect" name="mesaSelect" required onchange="updateMesaText()">
-            <option value="" selected>Seleccionar</option>
-            ${Array.from({ length: 35 }, (_, i) => `<option value="Mesa ${i + 1}">Mesa ${i + 1}</option>`).join('')}
-        </select><br><br>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            ${Array.from({ length: 8 }, (_, i) => `<div class="seat" data-seat="${i + 1}" style="transform: translate(${getSeatPosition(i)});"></div>`).join('')}
-        </div>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
-            <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList"></div>
-        </div>
-    `;
-    markFullTables(); // Marca las mesas completas al cargar
+function updateMesaText() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    const mesaText = document.getElementById("mesaText");
+    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+    if (mesaText && selectedMesa) {
+        mesaText.textContent = selectedMesa;
+    }
+    updateSeats();
+    updateGuestList();
 }
 
-function getSeatPosition(index) {
-    const positions = [
-        '-100px, -100px', '0, -125px', '100px, -100px', 
-        '125px, 0', '100px, 100px', '0, 125px', 
-        '-100px, 100px', '-125px, 0'
-    ];
-    return positions[index];
+function updateSeats() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+    const seats = document.querySelectorAll('.seat');
+
+    seats.forEach(seat => seat.classList.remove('occupied'));
+
+    if (selectedMesa && guestsData[selectedMesa]) {
+        let totalGuests = 0;
+        guestsData[selectedMesa].forEach(guest => {
+            totalGuests++;
+            guest["Acompanantes"].forEach(() => totalGuests++);
+        });
+        for (let i = 1; i <= totalGuests && i <= 8; i++) {
+            const seat = document.querySelector(`.seat[data-seat="${i}"]`);
+            if (seat) {
+                seat.classList.add('occupied');
+            }
+        }
+    }
 }
 
+function markFullTables() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    for (let i = 1; i <= 35; i++) {
+        const mesaDiv = document.getElementById(`mesa${i}`);
+        if (guestsData[`Mesa ${i}`] && guestsData[`Mesa ${i}`].length >= 8) {
+            mesaDiv.classList.add('completa');
+            mesaSelect.querySelector(`option[value='Mesa ${i}']`).style.backgroundColor = '#dc3545';
+        }
+    }
+}
+
+function updateGuestList() {
+    const mesaSelect = document.getElementById("mesaSelect");
+    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
+    const guestList = document.getElementById("guestList");
+
+    guestList.innerHTML = "";
+    if (selectedMesa && guestsData[selectedMesa]) {
+        const guests = guestsData[selectedMesa];
+        guests.forEach(guest => {
+            const nombreCompleto = `${guest["Nombre"]} ${guest["Apellido"]}`;
+            guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
+            guest["Acompanantes"].forEach(acomp => {
+                guestList.innerHTML += `<div>Acompañante: ${acomp}</div>`;
+            });
+        });
+    } else {
+        guestList.innerHTML = "No hay invitados registrados en esta mesa.";
+    }
+}
