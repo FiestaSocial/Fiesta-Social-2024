@@ -1,17 +1,3 @@
-let guestsData = {};
-
-function fetchGuestsData() {
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-        .then(response => response.text())
-        .then(csv => csvToJSON(csv))
-        .then(data => {
-            guestsData = data;
-            updateMesaText();
-            markFullTables(); // Marcar las mesas completas
-        })
-        .catch(error => console.error('Error fetching guest data:', error));
-}
-
 function csvToJSON(csv) {
     const lines = csv.split("\n");
     const result = {};
@@ -26,6 +12,7 @@ function csvToJSON(csv) {
         obj["Mesa"] = currentline[19].trim();
         obj["Acompanantes"] = [];
 
+        // Extraer los nombres de los acompañantes
         for (let j = 10; j <= 18; j += 2) {
             if (currentline[j].trim()) {
                 obj["Acompanantes"].push(currentline[j].trim());
@@ -49,7 +36,6 @@ function markFullTables() {
         const mesaDiv = document.getElementById(`mesa${i}`);
         const mesaOption = mesaSelect.querySelector(`option[value='Mesa ${i}']`);
         
-        // Contar los invitados y acompañantes en la mesa
         let totalGuests = 0;
         if (guestsData[`Mesa ${i}`]) {
             guestsData[`Mesa ${i}`].forEach(guest => {
@@ -67,74 +53,3 @@ function markFullTables() {
         }
     }
 }
-
-function updateMesaText() {
-    const mesaSelect = document.getElementById("mesaSelect");
-    const selectedMesa = mesaSelect?.options[mesaSelect.selectedIndex]?.value;
-    const guestList = document.getElementById("guestList");
-    guestList.innerHTML = "";
-
-    if (selectedMesa && guestsData[selectedMesa]) {
-        const guests = guestsData[selectedMesa];
-        guests.forEach(guest => {
-            const nombreCompleto = `${guest["Nombre"]} ${guest["Apellido"]}`;
-            guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
-            guest["Acompanantes"].forEach(acomp => {
-                guestList.innerHTML += `<div>Acompañante: ${acomp}</div>`;
-            });
-        });
-    } else {
-        guestList.innerHTML = "No hay invitados registrados en esta mesa.";
-    }
-
-    updateSeats(selectedMesa);
-}
-
-function updateSeats(selectedMesa) {
-    const seats = document.querySelectorAll('.seat');
-    seats.forEach(seat => seat.classList.remove('occupied'));
-
-    if (selectedMesa && guestsData[selectedMesa]) {
-        let totalGuests = 0;
-
-        guestsData[selectedMesa].forEach(guest => {
-            totalGuests += 1; // Contar al invitado principal
-            totalGuests += guest["Acompanantes"].length; // Contar acompañantes
-        });
-
-        for (let i = 1; i <= totalGuests && i <= 8; i++) {
-            const seat = document.querySelector(`.seat[data-seat="${i}"]`);
-            if (seat) {
-                seat.classList.add('occupied');
-            }
-        }
-    }
-}
-
-function showGuests(mesa, event) {
-    const tooltip = document.getElementById("tooltip");
-    if (guestsData[mesa]) {
-        const guestNames = guestsData[mesa].map(guest => {
-            let fullName = `${guest.Nombre} ${guest.Apellido}`;
-            guest["Acompanantes"].forEach(acomp => {
-                fullName += `, Acompañante: ${acomp}`;
-            });
-            return fullName;
-        }).join(", ");
-        tooltip.textContent = guestNames;
-        tooltip.style.display = "block";
-        tooltip.style.left = event.pageX + 'px';
-        tooltip.style.top = event.pageY + 'px';
-    } else {
-        tooltip.textContent = "No hay invitados registrados en esta mesa.";
-        tooltip.style.display = "block";
-        tooltip.style.left = event.pageX + 'px';
-        tooltip.style.top = event.pageY + 'px';
-    }
-}
-
-function hideGuests() {
-    const tooltip = document.getElementById("tooltip");
-    tooltip.style.display = "none";
-}
-
