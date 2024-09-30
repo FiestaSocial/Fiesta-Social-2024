@@ -69,46 +69,54 @@
         input:invalid, select:invalid {
             border-color: #e74c3c;
         }
-        .table-container {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 30px auto;
+        .salon-container {
             display: grid;
-            place-items: center;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: center;
+            justify-items: center;
         }
-        .table {
-            width: 200px;
-            height: 200px;
+        .mesas {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
-        .seat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .mesa.completa {
+            background-color: #e74c3c;
+        }
+        .pista {
+            width: 100px;
+            height: 300px;
             background-color: #28a745;
-            position: absolute;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .seat:hover {
-            transform: scale(1.1);
-        }
-        .seat.occupied {
-            background-color: #e74c3c;
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
         }
         #guestList {
             display: grid;
@@ -121,16 +129,6 @@
             border-radius: 5px;
             background-color: #f8f9fa;
             overflow: hidden;
-        }
-        .tooltip {
-            position: absolute;
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none;
-            z-index: 10;
-            font-size: 14px;
         }
     </style>
 </head>
@@ -149,7 +147,7 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required><br><br>
+            <input type="text" id="correo" name="correo" required><br><br>
 
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -321,7 +319,15 @@
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
                     <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>`;
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>`;
             }
         }
 
@@ -345,10 +351,10 @@
             const selectedMesa = mesaSelect.value;
             const seats = document.querySelectorAll('.seat');
 
-            seats.forEach(seat => seat.classList.remove('occupied')); // Limpiar la ocupación de todos los asientos
+            seats.forEach(seat => seat.classList.remove('occupied')); // Clear seat occupancy
 
             if (selectedMesa && guestsData[selectedMesa]) {
-                let totalGuests = 0; // Contador de los asientos ocupados
+                let totalGuests = 0;
 
                 guestsData[selectedMesa].forEach(guest => {
                     const guestAndAcompanantes = [guest];
@@ -363,11 +369,10 @@
                         if (seat) {
                             seat.classList.add('occupied');
                         }
-                        totalGuests++; // Incrementa el contador de asientos ocupados
+                        totalGuests++;
                     });
                 });
 
-                // Marcar la mesa como completa si hay 8 o más ocupantes
                 if (totalGuests >= 8) {
                     mesaSelect.options[mesaSelect.selectedIndex].style.backgroundColor = '#dc3545';
                     document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
@@ -382,7 +387,7 @@
             const selectedMesa = mesaSelect.value;
             const guestList = document.getElementById("guestList");
 
-            guestList.innerHTML = ""; // Limpiar la lista de invitados
+            guestList.innerHTML = "";
 
             if (selectedMesa && guestsData[selectedMesa]) {
                 const guests = guestsData[selectedMesa];
@@ -391,7 +396,6 @@
                     const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
                     guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
 
-                    // Agregar acompañantes al cuadro de texto
                     if (guest["Nombre Acompanante 1"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 1"]}</div>`;
                     if (guest["Nombre Acompanante 2"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 2"]}</div>`;
                     if (guest["Nombre Acompanante 3"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 3"]}</div>`;
@@ -407,13 +411,11 @@
             const mesaSelect = document.getElementById("mesaSelect");
             const selectedMesa = mesaSelect.value;
 
-            // Nueva validación para mesa
             if (!selectedMesa || (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 8)) {
                 alert("Debe seleccionar una mesa disponible antes de continuar.");
                 return;
             }
 
-            updateMesaText();
             let guestForm = document.getElementById("guestForm");
             let acompanantesForm = document.getElementById("acompanantesForm");
 
@@ -421,11 +423,16 @@
                 const formData = new FormData(guestForm);
                 const acompanantesData = new FormData(acompanantesForm);
                 const acompanantes = [];
+
                 acompanantesData.forEach((value, key) => {
                     if (key.includes('nombreAcompanante')) {
                         const index = parseInt(key.replace(/\D/g, '')) - 1;
                         if (!acompanantes[index]) acompanantes[index] = {};
                         if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                    } else if (key.includes('menuAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
                     }
                 });
 
@@ -497,12 +504,11 @@
                 const obj = {};
                 const currentline = lines[i].split(",");
 
-                // Ajustar las posiciones según la hoja de cálculo
+                obj["Correo"] = currentline[0].trim();
                 obj["Nombre"] = currentline[3].trim();
                 obj["Apellido"] = currentline[4].trim();
                 obj["Mesa"] = currentline[19].trim();
 
-                // Obtener los nombres de los acompañantes
                 obj["Nombre Acompanante 1"] = currentline[9].trim();
                 obj["Nombre Acompanante 2"] = currentline[11].trim();
                 obj["Nombre Acompanante 3"] = currentline[13].trim();
@@ -551,7 +557,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchGuestsData();
 
-            // Generar las mesas en la representación del salón
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
             for (let i = 1; i <= 17; i++) {
