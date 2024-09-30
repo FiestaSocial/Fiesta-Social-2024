@@ -98,6 +98,9 @@
         .mesa.completa {
             background-color: #e74c3c;
         }
+        .mesa.seleccionada {
+            background-color: #f39c12;
+        }
         .pista {
             width: 100px;
             height: 400px;
@@ -326,6 +329,11 @@
         function selectTable(tableNumber) {
             const mesaInput = document.getElementById("mesa");
             mesaInput.value = `Mesa ${tableNumber}`;
+
+            // Marcar la mesa seleccionada y desmarcar las demás
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
+            document.getElementById(`mesa${tableNumber}`).classList.add('seleccionada');
+
             updateMesaText();
         }
 
