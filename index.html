@@ -111,6 +111,30 @@
         .seat.occupied {
             background-color: #dc3545;
         }
+        .mesas {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 400px;
+        }
+        .mesa {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5499C7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .mesa.completa {
+            background-color: #dc3545;
+            cursor: not-allowed;
+        }
         .bar {
             width: 80%;
             background-color: #E8E8E8;
@@ -223,17 +247,9 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <div class="table-container">
-                <div class="table">Mesa</div>
-                <div class="seat" data-seat="1" onclick="selectSeat(1)">1</div>
-                <div class="seat" data-seat="2" onclick="selectSeat(2)">2</div>
-                <div class="seat" data-seat="3" onclick="selectSeat(3)">3</div>
-                <div class="seat" data-seat="4" onclick="selectSeat(4)">4</div>
-                <div class="seat" data-seat="5" onclick="selectSeat(5)">5</div>
-                <div class="seat" data-seat="6" onclick="selectSeat(6)">6</div>
-                <div class="seat" data-seat="7" onclick="selectSeat(7)">7</div>
-                <div class="seat" data-seat="8" onclick="selectSeat(8)">8</div>
-            </div>
+            <div class="mesas" id="mesasIzquierda"></div>
+            <div class="pista">PISTA DE BAILE</div>
+            <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -284,14 +300,17 @@
             updateProgressBar();
         }
 
-        function selectSeat(seatNumber) {
-            if (selectedMesa === seatNumber) {
-                selectedMesa = null;
-                document.querySelector(`.seat[data-seat="${seatNumber}"]`).classList.remove('occupied');
-            } else {
-                selectedMesa = seatNumber;
-                document.querySelector(`.seat[data-seat="${seatNumber}"]`).classList.add('occupied');
+        function selectMesa(mesaId) {
+            const mesaElement = document.getElementById(mesaId);
+            if (mesaElement.classList.contains('completa')) {
+                alert("La mesa está completa. Por favor, seleccione otra mesa.");
+                return;
             }
+            if (selectedMesa) {
+                document.getElementById(selectedMesa).classList.remove('selected');
+            }
+            selectedMesa = mesaId;
+            mesaElement.classList.add('selected');
         }
 
         function toggleAcompanante() {
@@ -357,7 +376,15 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialization and fetch guest data if needed
+            // Generar mesas en el salón
+            const mesasIzquierda = document.getElementById('mesasIzquierda');
+            const mesasDerecha = document.getElementById('mesasDerecha');
+            for (let i = 1; i <= 17; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectMesa('mesa${i}')">${i}</div>`;
+            }
+            for (let i = 18; i <= 35; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectMesa('mesa${i}')">${i}</div>`;
+            }
         });
     </script>
 </body>
