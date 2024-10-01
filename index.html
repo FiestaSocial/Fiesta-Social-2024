@@ -153,8 +153,8 @@
             border-radius: 5px;
             background-color: #f8f9fa;
             overflow: hidden;
-            font-size: 16px; /* Uniform font size */
-            font-family: 'Arial', sans-serif; /* Uniform font style */
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
         }
         .tooltip {
             position: absolute;
@@ -195,6 +195,15 @@
                 <option value="Tte. 1°">Tte. 1°</option>
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
             </select><br><br>
 
             <label for="nombre">Nombre:</label>
@@ -257,18 +266,7 @@
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
-        <div class="table-container" id="mesaSeleccionada">
-            Mesa 1
-            <!-- Asientos distribuidos en círculo -->
-            <div class="seat" style="top: 10%; left: 50%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 30%; left: 80%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 50%; left: 90%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 70%; left: 80%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 90%; left: 50%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 70%; left: 20%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 50%; left: 10%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" style="top: 30%; left: 20%; transform: translate(-50%, -50%);"></div>
-        </div>
+        <div class="table-container" id="mesaSeleccionada">Mesa 1</div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -316,6 +314,37 @@
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function toggleAcompanante() {
+            let acompanante = document.getElementById("acompanante").value;
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
+        }
+
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById("acompanantesForm");
+            acompanantesForm.innerHTML = ''; // Clear previous entries
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += `
+                    <h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>
+                `;
+            }
         }
 
         function selectTable(tableNumber) {
@@ -431,9 +460,12 @@
             tooltip.style.display = "none";
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchGuestsData();
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            return form.checkValidity();
+        }
 
+        document.addEventListener('DOMContentLoaded', () => {
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
             for (let i = 1; i <= 17; i++) {
