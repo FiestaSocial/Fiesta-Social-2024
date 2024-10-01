@@ -134,9 +134,31 @@
             background-color: #f8f9fa;
             overflow: hidden;
         }
+        .table-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 30px auto;
+        }
+        .table {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
         .seat {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: #28a745;
             position: absolute;
@@ -148,9 +170,21 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
+        .seat:hover {
+            transform: scale(1.1);
+        }
         .seat.occupied {
             background-color: #e74c3c;
         }
+        /* Ubicación de los asientos alrededor de la mesa */
+        .seat[data-seat="1"] { top: 10%; left: 50%; transform: translate(-50%, -50%); }
+        .seat[data-seat="2"] { top: 30%; left: 80%; transform: translate(-50%, -50%); }
+        .seat[data-seat="3"] { top: 70%; left: 80%; transform: translate(-50%, -50%); }
+        .seat[data-seat="4"] { top: 90%; left: 50%; transform: translate(-50%, -50%); }
+        .seat[data-seat="5"] { top: 70%; left: 20%; transform: translate(-50%, -50%); }
+        .seat[data-seat="6"] { top: 30%; left: 20%; transform: translate(-50%, -50%); }
+        .seat[data-seat="7"] { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .seat[data-seat="8"] { top: 50%; left: 50%; transform: translate(-50%, -50%); }
     </style>
 </head>
 <body>
@@ -242,16 +276,16 @@
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
-        <div class="table-container" style="position: relative; width: 250px; height: 250px; margin-top: 20px;">
-            <div class="table" id="mesaText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Mesa</div>
-            <div class="seat" data-seat="1" style="position: absolute; top: 20%; left: 10%;"></div>
-            <div class="seat" data-seat="2" style="position: absolute; top: 20%; left: 50%;"></div>
-            <div class="seat" data-seat="3" style="position: absolute; top: 20%; left: 90%;"></div>
-            <div class="seat" data-seat="4" style="position: absolute; top: 50%; left: 90%;"></div>
-            <div class="seat" data-seat="5" style="position: absolute; top: 80%; left: 90%;"></div>
-            <div class="seat" data-seat="6" style="position: absolute; top: 80%; left: 50%;"></div>
-            <div class="seat" data-seat="7" style="position: absolute; top: 80%; left: 10%;"></div>
-            <div class="seat" data-seat="8" style="position: absolute; top: 50%; left: 10%;"></div>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -586,4 +620,3 @@
     </script>
 </body>
 </html>
-
