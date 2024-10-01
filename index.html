@@ -113,15 +113,34 @@
             font-size: 16px;
             font-weight: bold;
         }
-        .tooltip {
+        .table-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .seat {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #28a745;
             position: absolute;
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none;
-            z-index: 10;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .seat.occupied {
+            background-color: #dc3545;
         }
         #guestList {
             display: grid;
@@ -134,23 +153,6 @@
             border-radius: 5px;
             background-color: #f8f9fa;
             overflow: hidden;
-        }
-        .seat {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #28a745;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .seat.occupied {
-            background-color: #dc3545;
         }
     </style>
 </head>
@@ -243,16 +245,17 @@
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1" style="transform: translate(-100px, -100px);"></div>
-            <div class="seat" data-seat="2" style="transform: translate(0, -125px);"></div>
-            <div class="seat" data-seat="3" style="transform: translate(100px, -100px);"></div>
-            <div class="seat" data-seat="4" style="transform: translate(125px, 0);"></div>
-            <div class="seat" data-seat="5" style="transform: translate(100px, 100px);"></div>
-            <div class="seat" data-seat="6" style="transform: translate(0, 125px);"></div>
-            <div class="seat" data-seat="7" style="transform: translate(-100px, 100px);"></div>
-            <div class="seat" data-seat="8" style="transform: translate(-125px, 0);"></div>
+        <div class="table-container" id="mesaSeleccionada">
+            Mesa 1
+            <!-- Asientos distribuidos en círculo -->
+            <div class="seat" style="top: 10%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 30%; left: 80%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 50%; left: 90%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 70%; left: 80%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 90%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 70%; left: 20%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 50%; left: 10%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" style="top: 30%; left: 20%; transform: translate(-50%, -50%);"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -264,18 +267,8 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación -->
-    <div id="confirmationModal" class="container" style="display:none;">
-        <h2>Registro Completo</h2>
-        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
-        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
-        <button onclick="finalizarRegistro()">Finalizar</button>
-    </div>
-
-    <div class="banner"></div>
-    <div id="tooltip" class="tooltip"></div>
-
     <script>
+        // Código JavaScript para manejar la lógica del registro y validación
         let currentScreen = 1;
         let guestsData = {};
 
@@ -364,7 +357,7 @@
 
         function updateMesaText() {
             const mesaInput = document.getElementById("mesa");
-            const mesaText = document.getElementById("mesaText");
+            const mesaText = document.getElementById("mesaSeleccionada");
             const selectedMesa = mesaInput.value;
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
@@ -493,7 +486,7 @@
 
         function showConfirmation() {
             const mesaConfirmada = document.getElementById('mesa').value;
-            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            document.getElementById('mesaSeleccionada').textContent = mesaConfirmada;
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             document.getElementById('confirmationModal').style.display = 'block';
         }
