@@ -82,15 +82,15 @@
             gap: 10px;
         }
         .mesa {
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
@@ -101,32 +101,78 @@
         .mesa.seleccionada {
             background-color: #f39c12;
         }
+        .pista {
+            width: 100px;
+            height: 400px;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
+        }
+        #guestList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            overflow: hidden;
+        }
         .table-container {
             position: relative;
             width: 300px;
             height: 300px;
-            background-color: #f8f9fa;
-            margin: 20px auto;
+            margin: 30px auto;
+        }
+        .table {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         .seat {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: green;
+            background-color: #28a745;
             position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        /* Posicionamiento de los asientos alrededor del punto central (130px, 135px) */
-        .seat:nth-child(1) { transform: translate(130px, 20px); }
-        .seat:nth-child(2) { transform: translate(190px, 50px); }
-        .seat:nth-child(3) { transform: translate(225px, 110px); }
-        .seat:nth-child(4) { transform: translate(225px, 170px); }
-        .seat:nth-child(5) { transform: translate(190px, 230px); }
-        .seat:nth-child(6) { transform: translate(130px, 260px); }
-        .seat:nth-child(7) { transform: translate(70px, 230px); }
-        .seat:nth-child(8) { transform: translate(35px, 170px); }
-        .seat:nth-child(9) { transform: translate(35px, 110px); }
-        .seat:nth-child(10) { transform: translate(70px, 50px); }
+        .seat.occupied {
+            background-color: #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -219,17 +265,18 @@
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="table-container">
-            <div class="mesa">Mesa</div>
-            <div class="seat" data-seat="1"></div>
-            <div class="seat" data-seat="2"></div>
-            <div class="seat" data-seat="3"></div>
-            <div class="seat" data-seat="4"></div>
-            <div class="seat" data-seat="5"></div>
-            <div class="seat" data-seat="6"></div>
-            <div class="seat" data-seat="7"></div>
-            <div class="seat" data-seat="8"></div>
-            <div class="seat" data-seat="9"></div>
-            <div class="seat" data-seat="10"></div>
+            <div class="table" id="mesaText">Mesa</div>
+            <!-- 10 seats arranged in a circular pattern -->
+            <div class="seat" data-seat="1" style="top: 10%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="2" style="top: 25%; left: 75%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="3" style="top: 50%; left: 90%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="4" style="top: 75%; left: 75%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="5" style="top: 90%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="6" style="top: 75%; left: 25%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="7" style="top: 50%; left: 10%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="8" style="top: 25%; left: 25%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="9" style="top: 5%; left: 25%; transform: translate(-50%, -50%);"></div>
+            <div class="seat" data-seat="10" style="top: 5%; left: 50%; transform: translate(-50%, -50%);"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -325,7 +372,6 @@
             const mesaInput = document.getElementById("mesa");
             mesaInput.value = `Mesa ${tableNumber}`;
 
-            // Marcar la mesa seleccionada y desmarcar las demás
             document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
             document.getElementById(`mesa${tableNumber}`).classList.add('seleccionada');
 
@@ -334,7 +380,7 @@
 
         function updateMesaText() {
             const mesaInput = document.getElementById("mesa");
-            const mesaText = document.querySelector('.table-container .mesa');
+            const mesaText = document.getElementById("mesaText");
             const selectedMesa = mesaInput.value;
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
