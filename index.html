@@ -266,17 +266,17 @@
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            <!-- 10 seats arranged in a circular pattern -->
-            <div class="seat" data-seat="1" style="top: 20%; left: 50%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="2" style="top: 30%; left: 75%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="3" style="top: 50%; left: 85%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="4" style="top: 70%; left: 75%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="5" style="top: 80%; left: 50%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="6" style="top: 70%; left: 25%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="7" style="top: 50%; left: 15%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="8" style="top: 30%; left: 25%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="9" style="top: 10%; left: 30%; transform: translate(-50%, -50%);"></div>
-            <div class="seat" data-seat="10" style="top: 10%; left: 70%; transform: translate(-50%, -50%);"></div>
+            <!-- 10 seats will be positioned dynamically using JavaScript -->
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
+            <div class="seat" data-seat="9"></div>
+            <div class="seat" data-seat="10"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -300,8 +300,35 @@
     <div id="tooltip" class="tooltip"></div>
 
     <script>
-        let currentScreen = 1;
-        let guestsData = {};
+        document.addEventListener('DOMContentLoaded', () => {
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50; // Centro del círculo en porcentaje
+            const centerY = 50; // Centro del círculo en porcentaje
+            const radius = 40; // Radio del círculo en porcentaje
+
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI); // Calcular el ángulo para cada asiento
+                const x = centerX + radius * Math.cos(angle); // Calcular la coordenada X
+                const y = centerY + radius * Math.sin(angle); // Calcular la coordenada Y
+
+                // Aplicar estilos a cada asiento
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
+            });
+
+            // Cargar mesas
+            const mesasIzquierda = document.getElementById('mesasIzquierda');
+            const mesasDerecha = document.getElementById('mesasDerecha');
+            for (let i = 1; i <= 17; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+            for (let i = 18; i <= 35; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+        });
 
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
@@ -594,19 +621,7 @@
             const tooltip = document.getElementById("tooltip");
             tooltip.style.display = "none";
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchGuestsData();
-
-            const mesasIzquierda = document.getElementById('mesasIzquierda');
-            const mesasDerecha = document.getElementById('mesasDerecha');
-            for (let i = 1; i <= 17; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-            }
-            for (let i = 18; i <= 35; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-            }
-        });
     </script>
 </body>
 </html>
+
