@@ -82,7 +82,7 @@
             gap: 10px;
         }
         .mesa {
-            width: 80px; /* Increased size */
+            width: 80px;
             height: 80px;
             border-radius: 50%;
             background-color: #3498db;
@@ -116,17 +116,17 @@
             background-color: green;
             position: absolute;
         }
-        /* Positioning seats around the central point (130px, 135px) */
+        /* Posicionamiento de los asientos alrededor del punto central (130px, 135px) */
         .seat:nth-child(1) { transform: translate(130px, 20px); }
-        .seat:nth-child(2) { transform: translate(180px, 55px); }
-        .seat:nth-child(3) { transform: translate(210px, 110px); }
-        .seat:nth-child(4) { transform: translate(210px, 170px); }
-        .seat:nth-child(5) { transform: translate(180px, 225px); }
+        .seat:nth-child(2) { transform: translate(190px, 50px); }
+        .seat:nth-child(3) { transform: translate(225px, 110px); }
+        .seat:nth-child(4) { transform: translate(225px, 170px); }
+        .seat:nth-child(5) { transform: translate(190px, 230px); }
         .seat:nth-child(6) { transform: translate(130px, 260px); }
-        .seat:nth-child(7) { transform: translate(80px, 225px); }
-        .seat:nth-child(8) { transform: translate(50px, 170px); }
-        .seat:nth-child(9) { transform: translate(50px, 110px); }
-        .seat:nth-child(10) { transform: translate(80px, 55px); }
+        .seat:nth-child(7) { transform: translate(70px, 230px); }
+        .seat:nth-child(8) { transform: translate(35px, 170px); }
+        .seat:nth-child(9) { transform: translate(35px, 110px); }
+        .seat:nth-child(10) { transform: translate(70px, 50px); }
     </style>
 </head>
 <body>
@@ -134,12 +134,83 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
-    <!-- Representación de la mesa -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen()">Siguiente</button>
+        </div>
+    </div>
+
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
+
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
@@ -148,19 +219,18 @@
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="table-container">
-            <div class="mesa" style="transform: translate(130px, 135px);">Mesa</div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
+            <div class="mesa">Mesa</div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
+            <div class="seat" data-seat="9"></div>
+            <div class="seat" data-seat="10"></div>
         </div>
-
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -255,6 +325,7 @@
             const mesaInput = document.getElementById("mesa");
             mesaInput.value = `Mesa ${tableNumber}`;
 
+            // Marcar la mesa seleccionada y desmarcar las demás
             document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
             document.getElementById(`mesa${tableNumber}`).classList.add('seleccionada');
 
@@ -263,7 +334,7 @@
 
         function updateMesaText() {
             const mesaInput = document.getElementById("mesa");
-            const mesaText = document.getElementById("mesaText");
+            const mesaText = document.querySelector('.table-container .mesa');
             const selectedMesa = mesaInput.value;
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
