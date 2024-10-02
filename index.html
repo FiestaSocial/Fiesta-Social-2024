@@ -82,15 +82,15 @@
             gap: 10px;
         }
         .mesa {
-            width: 50px;
-            height: 50px;
+            width: 80px; /* Increased size */
+            height: 80px;
             border-radius: 50%;
             background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
@@ -101,78 +101,32 @@
         .mesa.seleccionada {
             background-color: #f39c12;
         }
-        .pista {
-            width: 100px;
-            height: 400px;
-            background-color: #28a745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .tooltip {
-            position: absolute;
-            background-color: #333;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: none;
-            z-index: 10;
-            font-size: 14px;
-        }
-        #guestList {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            width: 100%;
-            height: auto;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            overflow: hidden;
-        }
         .table-container {
             position: relative;
             width: 300px;
             height: 300px;
-            margin: 30px auto;
-        }
-        .table {
-            width: 100px;
-            height: 100px;
+            background-color: #f8f9fa;
+            margin: 20px auto;
             border-radius: 50%;
-            background-color: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
         .seat {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #28a745;
+            background-color: green;
             position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-        .seat.occupied {
-            background-color: #e74c3c;
-        }
+        /* Positioning seats around the central point (130px, 135px) */
+        .seat:nth-child(1) { transform: translate(130px, 20px); }
+        .seat:nth-child(2) { transform: translate(180px, 55px); }
+        .seat:nth-child(3) { transform: translate(210px, 110px); }
+        .seat:nth-child(4) { transform: translate(210px, 170px); }
+        .seat:nth-child(5) { transform: translate(180px, 225px); }
+        .seat:nth-child(6) { transform: translate(130px, 260px); }
+        .seat:nth-child(7) { transform: translate(80px, 225px); }
+        .seat:nth-child(8) { transform: translate(50px, 170px); }
+        .seat:nth-child(9) { transform: translate(50px, 110px); }
+        .seat:nth-child(10) { transform: translate(80px, 55px); }
     </style>
 </head>
 <body>
@@ -180,83 +134,12 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
-    <div id="screen2" class="container">
-        <h2>Datos Personales</h2>
-        <form id="guestForm">
-            <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required><br><br>
-
-            <label for="grado">Grado:</label>
-            <select id="grado" name="grado" required>
-                <option value="" selected>Seleccionar</option>
-                <option value="Cnel.">Cnel.</option>
-                <option value="Tte. Cnel.">Tte. Cnel.</option>
-                <option value="May.">May.</option>
-                <option value="Cap.">Cap.</option>
-                <option value="Tte. 1°">Tte. 1°</option>
-                <option value="Tte. 2°">Tte. 2°</option>
-                <option value="Alf.">Alf.</option>
-            </select><br><br>
-
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required><br><br>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required><br><br>
-
-            <label for="cedula">Cédula de Identidad:</label>
-            <input type="text" id="cedula" name="cedula" required><br><br>
-
-            <label for="acompanante">¿Asiste con acompañante?</label>
-            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
-                <option value="" selected>Seleccionar</option>
-                <option value="no">No</option>
-                <option value="si">Sí</option>
-            </select><br><br>
-
-            <div id="acompananteCantidad" style="display:none;">
-                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-                    <option value="" selected>Seleccionar</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select><br><br>
-            </div>
-
-            <label for="menu">Menú:</label>
-            <select id="menu" name="menu" required>
-                <option value="" selected>Seleccionar</option>
-                <option value="normal">Normal</option>
-                <option value="vegetariano">Vegetariano</option>
-                <option value="vegano">Vegano</option>
-                <option value="celiaco">Celíaco</option>
-            </select><br><br>
-            <input type="hidden" id="mesa" name="mesa">
-        </form>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen()">Siguiente</button>
-        </div>
-    </div>
-
-    <div id="screen3" class="container">
-        <h2>Información de los Acompañantes</h2>
-        <form id="acompanantesForm"></form>
-        <div class="navigation-buttons">
-            <button onclick="prevScreen(2)">Anterior</button>
-            <button onclick="nextScreen(4)">Siguiente</button>
-        </div>
-    </div>
-
+    <!-- Representación de la mesa -->
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
@@ -264,22 +147,19 @@
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
-      <div class="table-container" style="position: relative; width: 300px; height: 300px;">
-    <!-- Mesa central agrandada -->
-    <div class="table" id="mesaText" style="position: absolute; top: 115px; left: 110px; width: 90px; height: 90px; border-radius: 50%; background-color: #3498db; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;">Mesa</div>
-    
-    <!-- Asientos alrededor de la mesa -->
-    <div class="seat" data-seat="1" style="position: absolute; top: 20px; left: 130px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="2" style="position: absolute; top: 50px; left: 200px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="3" style="position: absolute; top: 115px; left: 230px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="4" style="position: absolute; top: 180px; left: 200px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="5" style="position: absolute; top: 210px; left: 130px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="6" style="position: absolute; top: 180px; left: 60px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="7" style="position: absolute; top: 115px; left: 30px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="8" style="position: absolute; top: 50px; left: 60px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="9" style="position: absolute; top: 30px; left: 160px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-    <div class="seat" data-seat="10" style="position: absolute; top: 160px; left: 200px; width: 40px; height: 40px; border-radius: 50%; background-color: green;"></div>
-</div>
+        <div class="table-container">
+            <div class="mesa" style="transform: translate(130px, 135px);">Mesa</div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+            <div class="seat"></div>
+        </div>
 
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
