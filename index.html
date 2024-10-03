@@ -266,7 +266,6 @@
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
-            <!-- 10 seats will be positioned dynamically using JavaScript -->
             <div class="seat" data-seat="1"></div>
             <div class="seat" data-seat="2"></div>
             <div class="seat" data-seat="3"></div>
@@ -300,21 +299,20 @@
     <div id="tooltip" class="tooltip"></div>
 
     <script>
-        let currentScreen = 1; // Inicializa la pantalla actual
+        let currentScreen = 1;
+        let guestsData = {}; // Datos de invitados y acompañantes
 
         document.addEventListener('DOMContentLoaded', () => {
             // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
-            const centerX = 50; // Centro del círculo en porcentaje
-            const centerY = 50; // Centro del círculo en porcentaje
-            const radius = 40; // Radio del círculo en porcentaje
+            const centerX = 50; 
+            const centerY = 50;
+            const radius = 40; 
 
             seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI); // Calcular el ángulo para cada asiento
-                const x = centerX + radius * Math.cos(angle); // Calcular la coordenada X
-                const y = centerY + radius * Math.sin(angle); // Calcular la coordenada Y
-
-                // Aplicar estilos a cada asiento
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
                 seat.style.position = 'absolute';
                 seat.style.left = `${x}%`;
                 seat.style.top = `${y}%`;
@@ -330,6 +328,8 @@
             for (let i = 18; i <= 35; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
+
+            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
         function nextScreen(nextScreenNumber) {
@@ -561,6 +561,7 @@
                     guestsData = data;
                     console.log("Guests Data: ", guestsData);
                     updateMesaText();
+                    updateMesasCompletaColor();
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
@@ -593,6 +594,15 @@
                 }
             }
             return result;
+        }
+
+        function updateMesasCompletaColor() {
+            Object.keys(guestsData).forEach(mesa => {
+                const totalGuests = guestsData[mesa].length;
+                if (totalGuests >= 10) {
+                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
+                }
+            });
         }
 
         function showGuests(mesa, event) {
