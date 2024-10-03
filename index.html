@@ -70,16 +70,18 @@
             border-color: #e74c3c;
         }
         .salon-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            display: flex;
             align-items: center;
-            justify-items: center;
+            justify-content: center;
+            border: 2px solid #333; /* Línea de contorno alrededor del salón */
+            padding: 20px;
+            margin-top: 20px;
+            gap: 20px;
         }
         .mesas {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 20px; /* Ajuste del espacio entre mesas */
         }
         .mesa {
             width: 50px;
@@ -102,8 +104,8 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 100px;
-            height: 400px;
+            width: 80px; /* Reducir el tamaño de la pista de baile */
+            height: 300px; /* Reducir la altura de la pista de baile */
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -287,7 +289,6 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación -->
     <div id="confirmationModal" class="container" style="display:none;">
         <h2>Registro Completo</h2>
         <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
@@ -322,9 +323,13 @@
             // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
-            for (let i = 1; i <= 17; i++) {
+
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 16; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>`;
+
             for (let i = 18; i <= 35; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
@@ -380,7 +385,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Clear previous entries
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
