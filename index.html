@@ -104,7 +104,7 @@
         }
         .pista {
             width: 100px;
-            height: 100%;
+            height: 100%; /* Ahora ocupa todo el espacio vertical */
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -196,6 +196,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
+        <img src="ruta/de/tu/imagen.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -205,7 +206,7 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required><br><br>
+            <input type="email" id="correo" name="correo" required><br><br>
 
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
