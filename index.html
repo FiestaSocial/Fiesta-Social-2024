@@ -30,7 +30,7 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 1000px;
             width: 100%;
             margin: 20px auto;
         }
@@ -71,16 +71,15 @@
         }
         .salon-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
-            gap: 20px;
+            position: relative;
         }
         .mesas {
             display: grid;
-            grid-template-rows: repeat(4, 1fr); /* 4 filas para las mesas */
+            grid-template-columns: repeat(4, 1fr); /* Organiza las mesas en líneas horizontales */
             gap: 20px;
         }
         .mesa {
@@ -104,8 +103,8 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 80px;
-            height: 300px;
+            width: 100px;
+            height: 100%;
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -115,8 +114,8 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 80px;
-            height: 150px;
+            width: 100px;
+            height: 50px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -124,6 +123,10 @@
             color: white;
             font-size: 14px;
             font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: calc(50% - 200px);
+            transform: translateY(-50%);
         }
         .tooltip {
             position: absolute;
@@ -193,7 +196,6 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -278,19 +280,6 @@
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
-        <div class="table-container">
-            <div class="table" id="mesaText">Mesa</div>
-            <div class="seat" data-seat="1"></div>
-            <div class="seat" data-seat="2"></div>
-            <div class="seat" data-seat="3"></div>
-            <div class="seat" data-seat="4"></div>
-            <div class="seat" data-seat="5"></div>
-            <div class="seat" data-seat="6"></div>
-            <div class="seat" data-seat="7"></div>
-            <div class="seat" data-seat="8"></div>
-            <div class="seat" data-seat="9"></div>
-            <div class="seat" data-seat="10"></div>
-        </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -313,39 +302,21 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {}; // Datos de invitados y acompañantes
+        let guestsData = {};
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Posicionar los asientos en forma de círculo alrededor de la mesa
-            const seats = document.querySelectorAll('.seat');
-            const centerX = 50; 
-            const centerY = 50;
-            const radius = 40; 
-
-            seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI);
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
-                seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
-            });
-
-            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            // Organizar las mesas en 4 líneas perpendiculares a la pista de baile
             for (let i = 1; i <= 17; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
             }
 
             for (let i = 18; i <= 35; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
             }
 
-            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
+            fetchGuestsData();
         });
 
         function nextScreen(nextScreenNumber) {
@@ -396,7 +367,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            acompanantesForm.innerHTML = ''; 
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
