@@ -73,15 +73,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #333; /* Línea de contorno alrededor del salón */
+            border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
             gap: 20px;
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px; /* Ajuste del espacio entre mesas */
+            grid-template-rows: repeat(4, 1fr); /* 4 filas para las mesas */
+            gap: 20px;
         }
         .mesa {
             width: 50px;
@@ -104,14 +104,25 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 80px; /* Reducir el tamaño de la pista de baile */
-            height: 300px; /* Reducir la altura de la pista de baile */
+            width: 80px;
+            height: 300px;
             background-color: #28a745;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 16px;
+            font-weight: bold;
+        }
+        .estado-mayor {
+            width: 80px;
+            height: 150px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
             font-weight: bold;
         }
         .tooltip {
@@ -262,6 +273,7 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
+            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
@@ -324,11 +336,10 @@
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
-            for (let i = 1; i <= 16; i++) {
+            // Organizar las mesas en 4 líneas perpendiculares a la pista de baile
+            for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
-            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>`;
 
             for (let i = 18; i <= 35; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
