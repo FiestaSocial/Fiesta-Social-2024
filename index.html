@@ -79,7 +79,7 @@
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Organiza las mesas en líneas horizontales */
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
         .mesa {
@@ -97,14 +97,14 @@
             cursor: pointer;
         }
         .mesa.completa {
-            background-color: #e74c3c;
+            background-color: #e74c3e;
         }
         .mesa.seleccionada {
             background-color: #f39c12;
         }
         .pista {
             width: 100px;
-            height: 100%; /* Ahora ocupa todo el espacio vertical */
+            height: calc(100% - 40px); /* Ajustar para ocupar el borde superior al borde inferior */
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -150,45 +150,6 @@
             background-color: #f8f9fa;
             overflow: hidden;
         }
-        .table-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 30px auto;
-        }
-        .table {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background-color: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .seat {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #28a745;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .seat.occupied {
-            background-color: #e74c3c;
-        }
     </style>
 </head>
 <body>
@@ -196,7 +157,8 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="ruta/de/tu/imagen.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
+        <!-- Agregar la imagen de bienvenida -->
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -207,7 +169,6 @@
         <form id="guestForm">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required><br><br>
-
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
                 <option value="" selected>Seleccionar</option>
@@ -219,23 +180,18 @@
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
             </select><br><br>
-
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br><br>
-
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" required><br><br>
-
             <label for="cedula">Cédula de Identidad:</label>
             <input type="text" id="cedula" name="cedula" required><br><br>
-
             <label for="acompanante">¿Asiste con acompañante?</label>
             <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
                 <option value="" selected>Seleccionar</option>
                 <option value="no">No</option>
                 <option value="si">Sí</option>
             </select><br><br>
-
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
                 <select id="cantidadAcompanantes" name="cantidadAcompanantes">
@@ -247,7 +203,6 @@
                     <option value="5">5</option>
                 </select><br><br>
             </div>
-
             <label for="menu">Menú:</label>
             <select id="menu" name="menu" required>
                 <option value="" selected>Seleccionar</option>
