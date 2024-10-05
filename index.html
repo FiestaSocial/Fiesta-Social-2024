@@ -76,6 +76,7 @@
             padding: 20px;
             margin-top: 20px;
             position: relative;
+            height: 400px; /* Altura del contenedor */
         }
         .mesas {
             display: grid;
@@ -95,16 +96,17 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
         .mesa.completa {
-            background-color: #e74c3e;
+            background-color: #e74c3c;
         }
         .mesa.seleccionada {
             background-color: #f39c12;
         }
         .pista {
-            width: 100px;
-            height: calc(100% - 40px); /* Ajustar para ocupar el borde superior al borde inferior */
+            width: 150px;
+            height: 100%; /* Ocupa todo el espacio vertical */
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -114,8 +116,8 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 100px;
-            height: 50px;
+            width: 60px; /* Tamaño ajustado */
+            height: 150px; /* Tamaño ajustado */
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -125,8 +127,10 @@
             font-weight: bold;
             position: absolute;
             top: 50%;
-            left: calc(50% - 200px);
+            left: 20%; /* Ajuste para posición correcta */
             transform: translateY(-50%);
+            writing-mode: vertical-rl; /* Alinear texto verticalmente */
+            text-orientation: upright;
         }
         .tooltip {
             position: absolute;
@@ -157,7 +161,6 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <!-- Agregar la imagen de bienvenida -->
         <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
@@ -265,79 +268,43 @@
             const mesasDerecha = document.getElementById('mesasDerecha');
 
             for (let i = 1; i <= 17; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onmouseover="showGuests(${i}, event)" onmouseout="hideGuests()" onclick="selectTable(${i})">${i}</div>`;
             }
 
             for (let i = 18; i <= 35; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onmouseover="showGuests(${i}, event)" onmouseout="hideGuests()" onclick="selectTable(${i})">${i}</div>`;
             }
 
             fetchGuestsData();
         });
 
-        function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                if (currentScreen === 2) {
-                    if (!validateForm('guestForm')) {
-                        alert('Por favor, complete todos los campos requeridos.');
-                        return;
-                    }
-                    let acompanante = document.getElementById("acompanante").value;
-                    if (acompanante === "si") {
-                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
-                    }
-                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-                    alert('Por favor, complete todos los campos requeridos.');
-                    return;
-                } else {
-                    nextScreenNumber = currentScreen + 1;
-                }
-            }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
-        }
-
-        function prevScreen(screen) {
-            if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
-                screen = 2;
-            }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
-        }
-
-        function toggleAcompanante() {
-            let acompanante = document.getElementById("acompanante").value;
-            let acompananteCantidad = document.getElementById("acompananteCantidad");
-            if (acompanante === "si") {
-                acompananteCantidad.style.display = "block";
+        function showGuests(mesa, event) {
+            const tooltip = document.getElementById("tooltip");
+            if (guestsData[`Mesa ${mesa}`]) {
+                const guestNames = guestsData[`Mesa ${mesa}`].map(guest => {
+                    let fullName = `${guest.Nombre} ${guest.Apellido}`;
+                    if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
+                    if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
+                    if (guest["Nombre Acompanante 3"]) fullName += `, ${guest["Nombre Acompanante 3"]}`;
+                    if (guest["Nombre Acompanante 4"]) fullName += `, ${guest["Nombre Acompanante 4"]}`;
+                    if (guest["Nombre Acompanante 5"]) fullName += `, ${guest["Nombre Acompanante 5"]}`;
+                    return fullName;
+                }).join(", ");
+                tooltip.textContent = guestNames;
+                tooltip.style.display = "block";
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
             } else {
-                acompananteCantidad.style.display = "none";
+                tooltip.textContent = "No hay invitados registrados en esta mesa.";
+                tooltip.style.display = "block";
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
             }
         }
 
-        function generateAcompanantesForm(cantidad) {
-            let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; 
-            for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += `
-                    <h3>Acompañante ${i}</h3>
-                    <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
-                    <label for="menuAcompanante${i}">Menú:</label>
-                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="normal">Normal</option>
-                        <option value="vegetariano">Vegetariano</option>
-                        <option value="vegano">Vegano</option>
-                        <option value="celiaco">Celíaco</option>
-                    </select><br><br>`;
-            }
+        function hideGuests() {
+            const tooltip = document.getElementById("tooltip");
+            tooltip.style.display = "none";
         }
 
         function selectTable(tableNumber) {
@@ -546,35 +513,6 @@
                     document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
                 }
             });
-        }
-
-        function showGuests(mesa, event) {
-            const tooltip = document.getElementById("tooltip");
-            if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa].map(guest => {
-                    let fullName = `${guest.Nombre} ${guest.Apellido}`;
-                    if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
-                    if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
-                    if (guest["Nombre Acompanante 3"]) fullName += `, ${guest["Nombre Acompanante 3"]}`;
-                    if (guest["Nombre Acompanante 4"]) fullName += `, ${guest["Nombre Acompanante 4"]}`;
-                    if (guest["Nombre Acompanante 5"]) fullName += `, ${guest["Nombre Acompanante 5"]}`;
-                    return fullName;
-                }).join(", ");
-                tooltip.textContent = guestNames;
-                tooltip.style.display = "block";
-                tooltip.style.left = event.pageX + 'px';
-                tooltip.style.top = event.pageY + 'px';
-            } else {
-                tooltip.textContent = "No hay invitados registrados en esta mesa.";
-                tooltip.style.display = "block";
-                tooltip.style.left = event.pageX + 'px';
-                tooltip.style.top = event.pageY + 'px';
-            }
-        }
-
-        function hideGuests() {
-            const tooltip = document.getElementById("tooltip");
-            tooltip.style.display = "none";
         }
     </script>
 </body>
