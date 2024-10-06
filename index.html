@@ -116,7 +116,7 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 80px; /* Tamaño ajustado */
+            width: 60px; /* Tamaño ajustado */
             height: 200px; /* Tamaño ajustado */
             background-color: #007bff;
             display: flex;
@@ -127,7 +127,7 @@
             font-weight: bold;
             position: absolute;
             top: 50%;
-            left: 15%; /* Ajuste para colocarlo en el espacio adecuado */
+            left: 25%; /* Ajuste para colocarlo entre las mesas de la izquierda y la pista */
             transform: translateY(-50%);
             writing-mode: vertical-rl; /* Alinear texto verticalmente */
             text-orientation: upright;
@@ -153,6 +153,45 @@
             border-radius: 5px;
             background-color: #f8f9fa;
             overflow: hidden;
+        }
+        .table-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 30px auto;
+        }
+        .table {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #28a745;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .seat.occupied {
+            background-color: #e74c3c;
         }
     </style>
 </head>
@@ -246,6 +285,10 @@
         <div>
             <h3>Invitados Registrados en esta Mesa:</h3>
             <div id="guestList"></div>
+        </div>
+        <div class="table-container">
+            <div class="table">Mesa</div>
+            <!-- Aquí puedes añadir más elementos de la mesa o sillas si es necesario -->
         </div>
     </div>
 
