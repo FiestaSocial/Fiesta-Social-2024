@@ -30,7 +30,7 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
+            max-width: 800px;
             width: 100%;
             margin: 20px auto;
         }
@@ -71,16 +71,17 @@
         }
         .salon-container {
             display: flex;
-            justify-content: space-between;
-            border: 2px solid #333;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333; /* Línea de contorno alrededor del salón */
             padding: 20px;
             margin-top: 20px;
-            position: relative;
+            gap: 20px;
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Organiza las mesas en líneas horizontales */
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px; /* Ajuste del espacio entre mesas */
         }
         .mesa {
             width: 50px;
@@ -103,8 +104,8 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 100px;
-            height: 100%; /* Ahora ocupa todo el espacio vertical */
+            width: 80px; /* Reducir el tamaño de la pista de baile */
+            height: 300px; /* Reducir la altura de la pista de baile */
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -112,21 +113,6 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-        }
-        .estado-mayor {
-            width: 100px;
-            height: 50px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: calc(50% - 200px);
-            transform: translateY(-50%);
         }
         .tooltip {
             position: absolute;
@@ -196,7 +182,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="ruta/de/tu/imagen.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 20px;">
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -206,7 +192,7 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="email" id="correo" name="correo" required><br><br>
+            <input type="text" id="correo" name="correo" required><br><br>
 
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -276,10 +262,22 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
+        </div>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
+            <div class="seat" data-seat="9"></div>
+            <div class="seat" data-seat="10"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -303,21 +301,40 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
+        let guestsData = {}; // Datos de invitados y acompañantes
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50; 
+            const centerY = 50;
+            const radius = 40; 
+
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
+            });
+
+            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            for (let i = 1; i <= 17; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 16; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>`;
 
             for (let i = 18; i <= 35; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
-            fetchGuestsData();
+            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
         function nextScreen(nextScreenNumber) {
@@ -368,7 +385,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; 
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
