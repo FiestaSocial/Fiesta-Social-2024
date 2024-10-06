@@ -79,8 +79,8 @@
             height: 400px;
         }
         .estado-mayor {
-            width: 100px;
-            height: 100%;
+            width: 80px;
+            height: 50%;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -89,7 +89,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            left: 20%; /* Ajuste de la posición para estar entre las mesas y la pista de baile */
+            left: 10%;
             top: 50%;
             transform: translateY(-50%);
         }
@@ -306,27 +306,13 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {}; 
+        let guestsData = {}; // Datos de invitados y acompañantes
 
         document.addEventListener('DOMContentLoaded', () => {
-            const seats = document.querySelectorAll('.seat');
-            const centerX = 50; 
-            const centerY = 50;
-            const radius = 40; 
-
-            seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI);
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
-                seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
-            });
-
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
             for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
@@ -335,7 +321,7 @@
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
-            fetchGuestsData(); 
+            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
         function nextScreen(nextScreenNumber) {
@@ -366,6 +352,9 @@
         }
 
         function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
+                screen = 2;
+            }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
@@ -383,7 +372,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; 
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
