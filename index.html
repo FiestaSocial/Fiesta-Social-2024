@@ -78,6 +78,21 @@
             position: relative;
             height: 400px;
         }
+        .estado-mayor {
+            width: 100px;
+            height: 200px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: calc(25% - 50px); /* Ajuste de la posición horizontal */
+            top: 50%;
+            transform: translateY(-50%);
+        }
         .mesas {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -96,6 +111,7 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
         .mesa.completa {
             background-color: #e74c3c;
@@ -152,6 +168,16 @@
         }
         .seat.occupied {
             background-color: #e74c3c;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 10;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -241,6 +267,7 @@
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda"></div>
+            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
@@ -282,7 +309,6 @@
         let guestsData = {}; 
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
             const centerX = 50; 
             const centerY = 50;
@@ -298,11 +324,9 @@
                 seat.style.transform = 'translate(-50%, -50%)';
             });
 
-            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
             for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
