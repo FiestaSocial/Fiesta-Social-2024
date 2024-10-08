@@ -80,7 +80,7 @@
         }
         .estado-mayor {
             width: 60px;
-            height: 150px; /* Ajuste de altura */
+            height: 200px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -89,9 +89,10 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            left: 15%; /* Ajuste para colocar en el espacio indicado */
+            left: 15%;
             top: 50%;
             transform: translateY(-50%);
+            writing-mode: vertical-rl; /* Texto en vertical */
         }
         .mesas {
             display: grid;
@@ -315,15 +316,31 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
+        let guestsData = {}; 
 
         document.addEventListener('DOMContentLoaded', () => {
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50;
+            const centerY = 50;
+            const radius = 40;
+
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
+            });
+
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            for (let i = 1; i <= 17; i++) {
+            for (let i = 1; i <= 16; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>`;
 
             for (let i = 18; i <= 35; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
