@@ -72,11 +72,12 @@
         .salon-container {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
             gap: 20px;
+            position: relative;
         }
         .mesas {
             display: grid;
@@ -115,7 +116,7 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 60px;
+            width: 80px;
             height: 150px;
             background-color: #007bff;
             display: flex;
@@ -124,8 +125,12 @@
             color: white;
             font-size: 14px;
             font-weight: bold;
+            position: absolute;
+            right: -100px; /* Ajuste la posición al lado derecho */
+            top: 50%;
+            transform: translateY(-50%);
             writing-mode: vertical-rl;
-            transform: translateX(-10px); /* Desplazar el rectángulo hacia la derecha */
+            text-orientation: mixed;
         }
         .tooltip {
             position: absolute;
@@ -284,9 +289,9 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
+            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="table-container">
@@ -324,9 +329,10 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
+        let guestsData = {}; // Datos de invitados y acompañantes
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
             const centerX = 50; 
             const centerY = 50;
@@ -342,18 +348,21 @@
                 seat.style.transform = 'translate(-50%, -50%)';
             });
 
+            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            for (let i = 1; i <= 17; i++) {
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 16; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>`;
 
             for (let i = 18; i <= 35; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
-            fetchGuestsData();
+            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
         function nextScreen(nextScreenNumber) {
@@ -404,7 +413,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = '';
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
@@ -534,7 +543,6 @@
                 const data = {
                     correo: formData.get('correo'),
                     grado: formData.get('grado'),
-                    escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
                     apellido: formData.get('apellido'),
                     cedula: formData.get('cedula'),
