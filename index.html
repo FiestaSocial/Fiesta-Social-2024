@@ -72,8 +72,8 @@
         .salon-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: 2px solid #333;
+            justify-content: space-between;
+            border: 2px solid #333; 
             padding: 20px;
             margin-top: 20px;
             gap: 20px;
@@ -104,7 +104,7 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 80px;
+            width: 60px;
             height: 300px;
             background-color: #28a745;
             display: flex;
@@ -125,7 +125,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 444px;
+            right: calc(50% + 80px);
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -290,8 +290,8 @@
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
-            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasDerecha"></div>
+            <div class="estado-mayor">ESTADO MAYOR</div>
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
@@ -328,7 +328,7 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {};
+        let guestsData = {}; 
 
         document.addEventListener('DOMContentLoaded', () => {
             const seats = document.querySelectorAll('.seat');
@@ -358,7 +358,7 @@
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
-            fetchGuestsData();
+            fetchGuestsData(); 
         });
 
         function nextScreen(nextScreenNumber) {
