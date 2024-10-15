@@ -72,12 +72,11 @@
         .salon-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
             gap: 20px;
-            position: relative;
         }
         .mesas {
             display: grid;
@@ -116,7 +115,7 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 80px;
+            width: 60px;
             height: 150px;
             background-color: #007bff;
             display: flex;
@@ -126,7 +125,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: -100px; /* Ajuste la posición al lado derecho */
+            right: 444px;
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -329,10 +328,9 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {}; // Datos de invitados y acompañantes
+        let guestsData = {};
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
             const centerX = 50; 
             const centerY = 50;
@@ -348,11 +346,9 @@
                 seat.style.transform = 'translate(-50%, -50%)';
             });
 
-            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
             for (let i = 1; i <= 16; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
@@ -362,7 +358,7 @@
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
-            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
+            fetchGuestsData();
         });
 
         function nextScreen(nextScreenNumber) {
@@ -413,7 +409,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            acompanantesForm.innerHTML = ''; 
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
