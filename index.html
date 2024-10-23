@@ -72,7 +72,7 @@
         .salon-container {
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
@@ -105,7 +105,7 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 100px;
+            width: 80px;
             height: 300px;
             background-color: #28a745;
             display: flex;
@@ -116,7 +116,7 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 60px;
+            width: 80px;
             height: 150px;
             background-color: #007bff;
             display: flex;
@@ -126,7 +126,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            left: 180px; /* Ajuste para colocar el rectángulo cerca de la pista de baile */
+            right: -100px; /* Ajuste la posición al lado derecho */
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -291,8 +291,8 @@
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha"></div>
             <div class="estado-mayor">ESTADO MAYOR</div>
+            <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
@@ -352,6 +352,7 @@
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
             for (let i = 1; i <= 16; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
@@ -412,7 +413,7 @@
 
         function generateAcompanantesForm(cantidad) {
             let acompanantesForm = document.getElementById("acompanantesForm");
-            acompanantesForm.innerHTML = ''; 
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
                 acompanantesForm.innerHTML += `
                     <h3>Acompañante ${i}</h3>
