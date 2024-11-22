@@ -30,7 +30,7 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 1000px;
             width: 100%;
             margin: 20px auto;
         }
@@ -56,31 +56,42 @@
         .navigation-buttons button:hover {
             background-color: #2980b9;
         }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        input:invalid, select:invalid {
+            border-color: #e74c3c;
+        }
         .salon-container {
             display: flex;
-            align-items: center;
             justify-content: space-between;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
-            gap: 20px;
             position: relative;
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .mesa {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
@@ -92,8 +103,8 @@
             background-color: #f39c12;
         }
         .pista {
-            width: 80px;
-            height: 300px;
+            width: 100px;
+            height: 100%;
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -103,7 +114,7 @@
             font-weight: bold;
         }
         .estado-mayor {
-            width: 60px;
+            width: 80px;
             height: 150px;
             background-color: #007bff;
             display: flex;
@@ -113,40 +124,60 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 444px;
             top: 50%;
+            left: 20px;
             transform: translateY(-50%);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
         }
     </style>
 </head>
 <body>
     <div class="banner"></div>
+
+    <!-- Pantalla 1: Bienvenida -->
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="imagen-bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
     </div>
 
+    <!-- Pantalla 2: Datos personales -->
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required><br><br>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br><br>
+
             <label for="apellido">Apellido:</label>
             <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
             <label for="acompanante">¿Asiste con acompañante?</label>
-            <select id="acompanante" name="acompanante" onchange="toggleAcompanante()" required>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
                 <option value="" selected>Seleccionar</option>
-                <option value="si">Sí</option>
                 <option value="no">No</option>
+                <option value="si">Sí</option>
             </select><br><br>
+
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
                 <select id="cantidadAcompanantes" name="cantidadAcompanantes">
@@ -155,8 +186,19 @@
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
+                    <option value="5">5</option>
                 </select><br><br>
             </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
@@ -164,80 +206,75 @@
         </div>
     </div>
 
-    <div id="screen3" class="container">
+    <!-- Pantalla 3: Selección de Mesa -->
+    <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
             <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
-            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="navigation-buttons">
-            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="prevScreen()">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
         </div>
-    </div>
-
-    <div id="confirmationModal" class="container" style="display:none;">
-        <h2>Registro Completo</h2>
-        <p>Se ha registrado correctamente.</p>
-        <button onclick="finalizarRegistro()">Finalizar</button>
     </div>
 
     <script>
         let currentScreen = 1;
 
+        // Función para cambiar de pantalla
         function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                nextScreenNumber = currentScreen + 1;
-            }
-            document.getElementById(`screen${currentScreen}`).classList.remove("active");
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add("active");
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        function prevScreen(screen) {
-            document.getElementById(`screen${currentScreen}`).classList.remove("active");
-            currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add("active");
+        // Función para regresar a la pantalla anterior
+        function prevScreen() {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen -= 1;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        function toggleAcompanante() {
-            let acompanante = document.getElementById("acompanante").value;
-            let acompananteCantidad = document.getElementById("acompananteCantidad");
-            acompananteCantidad.style.display = acompanante === "si" ? "block" : "none";
-        }
+        // Generar las mesas dinámicamente
+        document.addEventListener('DOMContentLoaded', () => {
+            const mesasIzquierda = document.getElementById('mesasIzquierda');
+            const mesasDerecha = document.getElementById('mesasDerecha');
 
-        function submitForm() {
-            alert("Reserva enviada correctamente.");
-            document.getElementById(`screen3`).classList.remove("active");
-            document.getElementById("confirmationModal").style.display = "block";
-        }
+            // Generar mesas del lado izquierdo (1-18)
+            for (let i = 1; i <= 18; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+            }
 
-        function finalizarRegistro() {
-            document.getElementById("confirmationModal").style.display = "none";
-            document.getElementById("screen1").classList.add("active");
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const mesasIzquierda = document.getElementById("mesasIzquierda");
-            const mesasDerecha = document.getElementById("mesasDerecha");
-
-            const ordenIzquierdo = [4, 8, 12, 16, 1, 5, 9, 13, 17, 2, 6, 10, 14, 18, 3, 7, 11, 15];
-            ordenIzquierdo.forEach((numero) => {
-                mesasIzquierda.innerHTML += `<div class="mesa" onclick="selectTable(${numero})">${numero}</div>`;
-            });
-
-            const ordenDerecho = [18, 22, 26, 30, 34, 19, 23, 27, 31, 35, 20, 24, 28, 32, 36, 21, 25, 29, 33];
-            ordenDerecho.forEach((numero) => {
-                mesasDerecha.innerHTML += `<div class="mesa" onclick="selectTable(${numero})">${numero}</div>`;
-            });
+            // Generar mesas del lado derecho (19-36)
+            for (let i = 19; i <= 36; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
+            }
         });
 
-        function selectTable(tableNumber) {
-            alert(`Mesa ${tableNumber} seleccionada`);
+        // Función para seleccionar mesa
+        function selectTable(mesa) {
+            document.querySelectorAll('.mesa').forEach(m => m.classList.remove('seleccionada'));
+            document.getElementById(`mesa${mesa}`).classList.add('seleccionada');
+            alert(`Mesa seleccionada: ${mesa}`);
+        }
+
+        // Función para enviar formulario
+        function submitForm() {
+            const mesaSeleccionada = document.querySelector('.mesa.seleccionada');
+            if (!mesaSeleccionada) {
+                alert('Por favor, selecciona una mesa antes de continuar.');
+                return;
+            }
+            alert(`Reserva enviada para la ${mesaSeleccionada.textContent}`);
+        }
+
+        // Mostrar campos de acompañantes si aplica
+        function toggleAcompanante() {
+            const acompanante = document.getElementById('acompanante').value;
+            document.getElementById('acompananteCantidad').style.display = (acompanante === 'si') ? 'block' : 'none';
         }
     </script>
 </body>
 </html>
-
