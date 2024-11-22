@@ -353,7 +353,7 @@
             const mesasDerecha = document.getElementById('mesasDerecha');
 
             // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
-            for (let i = 1; i <= 18; i++) {
+            for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
             mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
