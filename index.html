@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
-        /* Aquí va todo el CSS tal como estaba en tu código original */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f6f8;
@@ -110,7 +109,7 @@
             height: 300px;
             background-color: #28a745;
             display: flex;
-            align-items:center;
+            align-items: center;
             justify-content: center;
             color: white;
             font-size: 16px;
@@ -127,7 +126,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 10px;
+            right: 444px; /* Ajuste la posición al lado derecho */
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -172,7 +171,7 @@
             color: white;
             font-size: 20px;
             font-weight: bold;
-            position:absolute;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -201,7 +200,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="welcome_image.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -274,7 +273,7 @@
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
-            <button onclick="nextScreen(3)">Siguiente</button>
+            <button onclick="nextScreen()">Siguiente</button>
         </div>
     </div>
 
@@ -290,25 +289,37 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <div class="estado-mayor">ESTADO MAYOR</div>
-            <div class="mesas" id="mesasIzquierda">
-                <!-- Mesas del lado izquierdo -->
-            </div>
+            <div class="mesas" id="mesasIzquierda"></div>
             <div class="pista">PISTA DE BAILE</div>
-            <div class="mesas" id="mesasDerecha">
-                <!-- Mesas del lado derecho -->
-            </div>
+            <div class="estado-mayor">ESTADO MAYOR</div>
+            <div class="mesas" id="mesasDerecha"></div>
         </div>
-        <div id="guestList"></div>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div class="seat" data-seat="8"></div>
+            <div class="seat" data-seat="9"></div>
+            <div class="seat" data-seat="10"></div>
+        </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
+        </div>
+        <div>
+            <h3>Invitados Registrados en esta Mesa:</h3>
+            <div id="guestList"></div>
         </div>
     </div>
 
     <div id="confirmationModal" class="container" style="display:none;">
         <h2>Registro Completo</h2>
-        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong>.</p>
+        <p>Se ha registrado en la <strong id="mesaConfirmada"></strong></p>
         <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
         <button onclick="finalizarRegistro()">Finalizar</button>
     </div>
@@ -318,13 +329,14 @@
 
     <script>
         let currentScreen = 1;
-        let guestsData = {}; // Declarar guestsData
+        let guestsData = {}; // Datos de invitados y acompañantes
+
         document.addEventListener('DOMContentLoaded', () => {
             // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
-            const centerX = 50;
+            const centerX = 50; 
             const centerY = 50;
-            const radius = 40;
+            const radius = 40; 
 
             seats.forEach((seat, index) => {
                 const angle = (index / seats.length) * (2 * Math.PI);
@@ -344,10 +356,7 @@
             for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
-
-            for (let i = 18; i <= 18; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-            }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
 
             for (let i = 19; i <= 36; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
@@ -433,8 +442,8 @@
 
         function updateMesaText() {
             const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaInput.value;
             const mesaText = document.getElementById("mesaText");
+            const selectedMesa = mesaInput.value;
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
             }
@@ -660,3 +669,4 @@
     </script>
 </body>
 </html>
+
