@@ -126,14 +126,14 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 10px; /* Posicionado al lado derecho */
+            right: 10px; /* Ajuste la posición al lado derecho */
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
         .tooltip {
-            position: absolute;
+            position:absolute;
             background-color: #333;
             color: #fff;
             padding: 5px 10px;
@@ -200,7 +200,7 @@
     <div id="screen1" class="container active">
         <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
         <p>¡Estamos encantados de tenerte aquí!</p>
-        <img src="Imagen de bienvenida.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
+        <img src="welcome_image.png" alt="Imagen de bienvenida" style="max-width: 100%; height: auto; border-radius: 10px;">
         <div class="navigation-buttons">
             <button onclick="nextScreen(2)">Iniciar</button>
         </div>
@@ -218,7 +218,7 @@
                 <option value="Cnel.">Cnel.</option>
                 <option value="Tte. Cnel.">Tte. Cnel.</option>
                 <option value="May.">May.</option>
-                <option value="Cap.">Cap.</option
+                <option value="Cap.">Cap.</option>
                 <option value="Tte. 1°">Tte. 1°</option>
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
@@ -236,7 +236,7 @@
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br><br>
 
-            <label for="apellido">Apellido:</label>
+            <label for="apellido">Apellido:</label
             <input type="text" id="apellido" name="apellido" required><br><br>
 
             <label for="cedula">Cédula de Identidad:</label>
@@ -289,27 +289,28 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
+            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasIzquierda">
-                <!-- Mesas del lado izquierdo -->
-                for (let i = 1; i <= 16; i++) {
-                    mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
-                }
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa17" style="grid-row-start: 5;" onclick="selectTable(17)">17</div>`;
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" style="grid-row-start: 5;" onclick="selectTable(18)">18</div>`;
+                <!-- Mesas lado izquierdo excepto 17, 18 -->
+                <div class="mesa" id="mesa1" onclick="selectTable(1)">1</div>
+                <div class="mesa" id="mesa2" onclick="selectTable(2)">2</div>
+                <!-- More mesas -->
+                <div class="mesa" id="mesa17" onclick="selectTable(17)" style="grid-row-start: 5;">17</div>
+                <div class="mesa" id="mesa18" onclick="selectTable(18)" style="grid-row-start: 5;">18</div>
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <!-- Mesas del lado derecho -->
-                for (let i = 19; i <= 34; i++) {
-                    mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})">${i}</div>`;
-                }
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa35" style="grid-row-start: 5;" onclick="selectTable(35)">35</div>`;
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa36" style="grid-row-start: 5;" onclick="selectTable(36)">36</div>`;
+                <!-- Mesas lado derecho excepto 35, 36 -->
+                <div class="mesa" id="mesa19" onclick="selectTable(19)">19</div>
+                <div class="mesa" id="mesa20" onclick="selectTable(20)">20</div>
+                <!-- More mesas -->
+                <div class="mesa" id="mesa35" onclick="selectTable(35)" style="grid-row-start: 5;">35</div>
+                <div class="mesa" id="mesa36" onclick="selectTable(36)" style="grid-row-start: 5;">36</div>
             </div>
         </div>
         <div id="guestList"></div>
         <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="prevScreen(3)">Anterior</button
             <button onclick="submitForm()">Enviar</button>
         </div>
     </div>
@@ -326,74 +327,340 @@
 
     <script>
         let currentScreen = 1;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50; 
+            const centerY = 50;
+            const radius = 40; 
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.mesa').forEach(mesa => {
-                mesa.addEventListener('click', function() {
-                    selectTable(this.id.replace('mesa', ''));
-                });
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
             });
+
+            // Cargar mesas
+            const mesasIzquierda = document.getElementById('mesasIzquierda');
+            const mesasDerecha = document.getElementById('mesasDerecha');
+
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 17; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
+
+            for (let i = 19; i <= 36; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+
+            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
-        function nextScreen(next) {
-            let currentElement = document.getElementById(`screen${currentScreen}`);
-            let nextElement = document.getElementById(`screen${next}`);
-            if (currentElement && nextElement) {
-                currentElement.classList.remove('active');
-                nextElement.classList.add('active');
-                currentScreen = next;
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    if (!validateForm('guestForm')) {
+                        alert('Por favor, complete todos los campos requeridos.');
+                        return;
+                    }
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
+                    alert('Por favor, complete todos los campos requeridos.');
+                    return;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
+                }
             }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
-        function prevScreen(prev) {
-            let currentElement = document.getElementById(`screen${currentScreen}`);
-            let prevElement = document.getElementById(`screen${prev}`);
-            if (currentElement && prevElement) {
-                currentElement.classList.remove('active');
-                prevElement.classList.add('active');
-                currentScreen = prev;
+        function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
+                screen = 2;
             }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function toggleAcompanante() {
             let acompanante = document.getElementById("acompanante").value;
-            let acompananteDiv = document.getElementById("acompananteCantidad");
-            acompananteDiv.style.display = acompanante === "si" ? "block" : "none";
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
+        }
+
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById("acompanantesForm");
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += `
+                    <h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>`;
+            }
         }
 
         function selectTable(tableNumber) {
-            let selectedMesa = document.getElementById(`mesa${tableNumber}`);
+            const mesaInput = document.getElementById("mesa");
+            mesaInput.value = `Mesa ${tableNumber}`;
+
             document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
-            if (selectedMesa) {
-                selectedMesa.classList.add('seleccionada');
-                document.getElementById("mesa").value = tableNumber;
-                updateGuestList(tableNumber);
+            document.getElementById(`mesa${tableNumber}`).classList.add('seleccionada');
+
+            updateMesaText();
+        }
+
+        function updateMesaText() {
+            const mesaInput = document.getElementById("mesa");
+            const mesaText = document.getElementById("mesaText");
+            const selectedMesa = mesaInput.value;
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa;
+            }
+            updateSeats();
+            updateGuestList();
+        }
+
+        function updateSeats() {
+            const mesaInput = document.getElementById("mesa");
+            the selectedMesa = mesaInput.value;
+            const seats = document.querySelectorAll('.seat');
+
+            seats.forEach(seat => seat.classList.remove('occupied'));
+
+            if (selectedMesa && guestsData[selectedMesa]) {
+                let totalGuests = 0;
+
+                guestsData[selectedMesa].forEach(guest => {
+                    const guestAndAcompanantes = [guest];
+                    if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
+                    if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
+                    if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
+                    if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
+                    if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
+
+                    guestAndAcompanantes.forEach((_, seatIndex) => {
+                        const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                        if (seat) {
+                            seat.classList.add('occupied');
+                        }
+                        totalGuests++;
+                    });
+                });
+
+                if (totalGuests >= 10) {
+                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
+                } else {
+                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.remove('completa');
+                }
+            }
+        }
+
+        function updateGuestList() {
+            const mesaInput = document.getElementById("mesa");
+            the selectedMesa = mesaInput.value;
+            the guestList = document.getElementById("guestList");
+
+            guestList.innerHTML = "";
+
+            if (selectedMesa && guestsData[selectedMesa]) {
+                const guests = guestsData[selectedMesa];
+
+                guests.forEach(guest => {
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'} ${guest["Apellido"] || 'Apellido no disponible'}`;
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
+
+                    if (guest["Nombre Acompanante 1"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 1"]}</div>`;
+                    if (guest["Nombre Acompanante 2"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 2"]}</div>`;
+                    if (guest["Nombre Acompanante 3"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 3"]}</div>`;
+                    if (guest["Nombre Acompanante 4"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 4"]}</div>`;
+                    if (guest["Nombre Acompanante 5"]) guestList.innerHTML += `<div>${guest["Nombre Acompanante 5"]}</div>`;
+                });
+            } else {
+                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
             }
         }
 
         function submitForm() {
-            // Validation and form submission logic
-            alert("Formulario enviado correctamente.");
+            const mesaInput = document.getElementById("mesa");
+            the selectedMesa = mesaInput.value;
+
+            if (!selectedMesa || (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 10)) {
+                alert("Debe seleccionar una mesa disponible antes de continuar.");
+                return;
+            }
+
+            let guestForm = document.getElementById("guestForm");
+            let acompanantesForm = document.getElementById("acompanantesForm");
+
+            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
+                const formData = new FormData(guestForm);
+                const acompanantesData = new FormData(acompanantesForm);
+                the acompanantes = [];
+
+                acompanantesData.forEach((value, key) => {
+                    if (key.includes('nombreAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                    } else if (key.includes('menuAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('menuAcompanante')) acompanantes[index].menu = value;
+                    }
+                });
+
+                const data = {
+                    correo: formData.get('correo'),
+                    grado: formData.get('grado'),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    cedula: formData.get('cedula'),
+                    acompanante: formData.get('acompanante'),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menu: formData.get('menu'),
+                    acompanantes: acompanantes,
+                    mesa: formData.get('mesa')
+                };
+
+                fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                }).then(response => response.text())
+                  .then(result => {
+                      console.log(result);
+                      showConfirmation();
+                      fetchGuestsData();
+                  }).catch(error => {
+                      alert('Error: ' + error);
+                  });
+            } else {
+                alert("Por favor, complete todos los campos requeridos.");
+            }
+        }
+
+        function showConfirmation() {
+            const mesaConfirmada = document.getElementById('mesa').value;
+            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            document.getElementById('confirmationModal').style.display = 'block';
         }
 
         function finalizarRegistro() {
-            let confirmationModal = document.getElementById("confirmationModal");
-            if (confirmationModal) {
-                confirmationModal.style.display = "none";
-            }
-            let firstScreen = document.getElementById("screen1");
-            if (firstScreen) {
-                firstScreen.classList.add('active');
-            }
-            currentScreen = 1;
+            document.getElementById('confirmationModal').style.display = 'none';
+            document.getElementById('screen1').classList.add('active');
         }
 
-        function updateGuestList(mesaNumber) {
-            // Placeholder for actual guest list update logic
-            let guestList = document.getElementById("guestList");
-            if (guestList) {
-                guestList.innerHTML = `Guest list for table ${mesaNumber}`; // Placeholder text
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            return form.checkValidity();
+        }
+
+        function fetchGuestsData() {
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
+                .then(response => response.text())
+                .then(csv => csvToJSON(csv))
+                .then(data => {
+                    guestsData = data;
+                    console.log("Guests Data: ", guestsData);
+                    updateMesaText();
+                    updateMesasCompletaColor();
+                })
+                .catch(error => console.error('Error fetching guest data:', error));
+        }
+
+        function csvToJSON(csv) {
+            const lines = csv.split("\n");
+            const result = {};
+            the headers = lines[0].split(",");
+
+            for (let i = 1; i < lines.length; i++) {
+                const obj = {};
+                the currentline = lines[i].split(",");
+
+                obj["Correo"] = currentline[0].trim();
+                obj["Nombre"] = currentline[3].trim();
+                obj["Apellido"] = currentline[4].trim();
+                obj["Mesa"] = currentline[19].trim();
+
+                obj["Nombre Acompanante 1"] = currentline[9].trim();
+                obj["Nombre Acompanante 2"] = currentline[11].trim();
+                obj["Nombre Acompanante 3"] = currentline[13].trim();
+                obj["Nombre Acompanante 4"] = currentline[15].trim();
+                obj["Nombre Acompanante 5"] = currentline[17].trim();
+
+                if (obj["Mesa"]) {
+                    if (!result[obj["Mesa"]]) {
+                        result[obj["Mesa"]] = [];
+                    }
+                    result[obj["Mesa"]].push(obj);
+                }
             }
+            return result;
+        }
+
+        function updateMesasCompletaColor() {
+            Object.keys(guestsData).forEach(mesa => {
+                the totalGuests = guestsData[mesa].length;
+                if (totalGuests >= 10) {
+                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
+                }
+            });
+        }
+
+        function showGuests(mesa, event) {
+            const tooltip = document.getElementById("tooltip");
+            if (guestsData[mesa]) {
+                the guestNames = guestsData[mesa].map(guest => {
+                    let fullName = `${guest.Nombre} ${guest.Apellido}`;
+                    if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
+                    if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
+                    if (guest["Nombre Acompanante 3"]) fullName += `, ${guest["Nombre Acompanante 3"]}`;
+                    if (guest["Nombre Acompanante 4"]) fullName += `, ${guest["Nombre Acompanante 4"]}`;
+                    if (guest["Nombre Acompanante 5"]) fullName += `, ${guest["Nombre Acompanante 5"]}`;
+                    return fullName;
+                }).join(", ");
+                tooltip.textContent = guestNames;
+                tooltip.style.display = "block";
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
+            } else {
+                tooltip.textContent = "No hay invitados registrados en esta mesa.";
+                tooltip.style.display = "block";
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
+            }
+        }
+
+        function hideGuests() {
+            const tooltip = document.getElementById("tooltip");
+            tooltip.style.display = "none";
         }
     </script>
 </body>
