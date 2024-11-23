@@ -56,6 +56,19 @@
         .navigation-buttons button:hover {
             background-color: #2980b9;
         }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+        }
+        input, select {
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        input:invalid, select:invalid {
+            border-color: #e74c3c;
+        }
         .salon-container {
             display: flex;
             align-items: center;
@@ -127,7 +140,45 @@
         </div>
     </div>
 
-    <!-- Pantalla de selección de mesa -->
+    <div id="screen2" class="container">
+        <h2>Datos Personales</h2>
+        <form id="guestForm">
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="">Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select>
+        </form>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="nextScreen(3)">Siguiente</button>
+        </div>
+    </div>
+
+    <div id="screen3" class="container">
+        <h2>Información de los Acompañantes</h2>
+        <p>Aquí puedes agregar información sobre tus acompañantes.</p>
+        <div class="navigation-buttons">
+            <button onclick="prevScreen(2)">Anterior</button>
+            <button onclick="nextScreen(4)">Siguiente</button>
+        </div>
+    </div>
+
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
@@ -137,55 +188,53 @@
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="navigation-buttons">
-            <button onclick="prevScreen(1)">Anterior</button>
+            <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
         </div>
     </div>
 
     <script>
-        // Variable global para mantener el estado actual de la pantalla
         let currentScreen = 1;
 
-        // Función para avanzar a la siguiente pantalla
         function nextScreen(next) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             document.getElementById(`screen${next}`).classList.add('active');
             currentScreen = next;
         }
 
-        // Función para regresar a la pantalla anterior
         function prevScreen(previous) {
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             document.getElementById(`screen${previous}`).classList.add('active');
             currentScreen = previous;
         }
 
-        // Función para enviar el formulario
         function submitForm() {
-            alert("Formulario enviado correctamente");
+            const guestForm = document.getElementById("guestForm");
+            if (guestForm.checkValidity()) {
+                alert("Formulario enviado correctamente.");
+            } else {
+                alert("Por favor, completa todos los campos requeridos.");
+            }
         }
 
-        // Cargar las mesas en la representación del salón
         document.addEventListener("DOMContentLoaded", () => {
             const mesasIzquierda = document.getElementById("mesasIzquierda");
             const mesasDerecha = document.getElementById("mesasDerecha");
 
-            // Crear mesas del lado izquierdo
             for (let i = 1; i <= 18; i++) {
-                const mesaDiv = document.createElement("div");
-                mesaDiv.className = "mesa";
-                mesaDiv.id = `mesa${i}`;
-                mesaDiv.textContent = i;
-                mesasIzquierda.appendChild(mesaDiv);
+                const mesa = document.createElement("div");
+                mesa.className = "mesa";
+                mesa.id = `mesa${i}`;
+                mesa.textContent = i;
+                mesasIzquierda.appendChild(mesa);
             }
 
-            // Crear mesas del lado derecho
             for (let i = 19; i <= 36; i++) {
-                const mesaDiv = document.createElement("div");
-                mesaDiv.className = "mesa";
-                mesaDiv.id = `mesa${i}`;
-                mesaDiv.textContent = i;
-                mesasDerecha.appendChild(mesaDiv);
+                const mesa = document.createElement("div");
+                mesa.className = "mesa";
+                mesa.id = `mesa${i}`;
+                mesa.textContent = i;
+                mesasDerecha.appendChild(mesa);
             }
         });
     </script>
