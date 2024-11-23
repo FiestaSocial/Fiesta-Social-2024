@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
+        /* Aquí va todo el CSS tal como estaba en tu código original */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f6f8;
@@ -218,7 +219,7 @@
                 <option value="Cnel.">Cnel.</option>
                 <option value="Tte. Cnel.">Tte. Cnel.</option>
                 <option value="May.">May.</option>
-                <option value="Cap.">Cap.</option
+                <option value="Cap.">Cap.</option>
                 <option value="Tte. 1°">Tte. 1°</option>
                 <option value="Tte. 2°">Tte. 2°</option>
                 <option value="Alf.">Alf.</option>
@@ -274,7 +275,7 @@
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
             <button onclick="nextScreen(3)">Siguiente</button>
-        </div
+        </div>
     </div>
 
     <div id="screen3" class="container">
@@ -291,22 +292,12 @@
         <div class="salon-container">
             <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="mesas" id="mesasIzquierda">
-                <!-- Mesas del lado izquierdo excepto 17, 18 -->
-                <div class="mesa" id="mesa1" onclick="selectTable(1)">1</div>
-                <div class="mesa" id="mesa2" onclick="selectTable(2)">2</div>
-                <!-- More mesas -->
-                <div class="mesa" id="mesa17" onclick="selectTable(17)" style="grid-row-start: 5;">17</div>
-                <div class="mesa" id="mesa18" onclick="selectTable(18)" style="grid-row-start: 5;">18</div>
+                <!-- Mesas del lado izquierdo -->
             </div>
             <div class="pista">PISTA DE BAILE</div>
             <div class="mesas" id="mesasDerecha">
-                <!-- Mesas del lado derecho excepto 35, 36 -->
-                <div class="mesa" id="mesa19" onclick="selectTable(19)">19</div>
-                <div class="mesa" id="mesa20" onclick="selectTable(20)">20</div>
-                <!-- More mesas -->
-                <div class="mesa" id="mesa35" onclick="selectTable(35)" style="grid-row-start: 5;">35</div>
-                <div class="mesa" id="mesa36" onclick="selectTable(36)" style="grid-row-start: 5;">36</div>
-            </div
+                <!-- Mesas del lado derecho -->
+            </div>
         </div>
         <div id="guestList"></div>
         <div class="navigation-buttons">
@@ -327,6 +318,7 @@
 
     <script>
         let currentScreen = 1;
+        let guestsData = {}; // Declarar guestsData
         document.addEventListener('DOMContentLoaded', () => {
             // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
@@ -352,7 +344,10 @@
             for (let i = 1; i <= 17; i++) {
                 mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
-            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
+
+            for (let i = 18; i <= 18; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
 
             for (let i = 19; i <= 36; i++) {
                 mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
@@ -394,7 +389,7 @@
             }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList add('active');
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
         }
 
         function toggleAcompanante() {
@@ -438,8 +433,8 @@
 
         function updateMesaText() {
             const mesaInput = document.getElementById("mesa");
-            the selectedMesa = mesaInput.value;
-            the mesaText = document.getElementById("mesaText");
+            const selectedMesa = mesaInput.value;
+            const mesaText = document.getElementById("mesaText");
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
             }
@@ -449,8 +444,8 @@
 
         function updateSeats() {
             const mesaInput = document.getElementById("mesa");
-            the selectedMesa = mesaInput.value;
-            the seats = document.querySelectorAll('.seat');
+            const selectedMesa = mesaInput.value;
+            const seats = document.querySelectorAll('.seat');
 
             seats.forEach(seat => seat.classList.remove('occupied'));
 
@@ -468,7 +463,7 @@
                     guestAndAcompanantes.forEach((_, seatIndex) => {
                         const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
                         if (seat) {
-                            seat.classList add('occupied');
+                            seat.classList.add('occupied');
                         }
                         totalGuests++;
                     });
@@ -484,8 +479,8 @@
 
         function updateGuestList() {
             const mesaInput = document.getElementById("mesa");
-            the selectedMesa = mesaInput.value;
-            the guestList = document.getElementById("guestList");
+            const selectedMesa = mesaInput.value;
+            const guestList = document.getElementById("guestList");
 
             guestList.innerHTML = "";
 
@@ -509,7 +504,7 @@
 
         function submitForm() {
             const mesaInput = document.getElementById("mesa");
-            the selectedMesa = mesaInput.value;
+            const selectedMesa = mesaInput.value;
 
             if (!selectedMesa || (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 10)) {
                 alert("Debe seleccionar una mesa disponible antes de continuar.");
@@ -522,7 +517,7 @@
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
                 const formData = new FormData(guestForm);
                 const acompanantesData = new FormData(acompanantesForm);
-                the acompanantes = [];
+                const acompanantes = [];
 
                 acompanantesData.forEach((value, key) => {
                     if (key.includes('nombreAcompanante')) {
@@ -566,7 +561,7 @@
         }
 
         function showConfirmation() {
-            the mesaConfirmada = document.getElementById('mesa').value;
+            const mesaConfirmada = document.getElementById('mesa').value;
             document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             document.getElementById('confirmationModal').style.display = 'block';
@@ -596,13 +591,13 @@
         }
 
         function csvToJSON(csv) {
-            the lines = csv.split("\n");
-            the result = {};
-            the headers = lines[0].split(",");
+            const lines = csv.split("\n");
+            const result = {};
+            const headers = lines[0].split(",");
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
-                the currentline = lines[i].split(",");
+                const currentline = lines[i].split(",");
 
                 obj["Correo"] = currentline[0].trim();
                 obj["Nombre"] = currentline[3].trim();
@@ -627,17 +622,17 @@
 
         function updateMesasCompletaColor() {
             Object.keys(guestsData).forEach(mesa => {
-                the totalGuests = guestsData[mesa].length;
+                const totalGuests = guestsData[mesa].length;
                 if (totalGuests >= 10) {
-                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList add('completa');
+                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
                 }
             });
         }
 
         function showGuests(mesa, event) {
-            the tooltip = document.getElementById("tooltip");
+            const tooltip = document.getElementById("tooltip");
             if (guestsData[mesa]) {
-                the guestNames = guestsData[mesa].map(guest => {
+                const guestNames = guestsData[mesa].map(guest => {
                     let fullName = `${guest.Nombre} ${guest.Apellido}`;
                     if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
                     if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
@@ -653,13 +648,13 @@
             } else {
                 tooltip.textContent = "No hay invitados registrados en esta mesa.";
                 tooltip.style.display = "block";
-                tooltip.style left = event.pageX + 'px';
-                tooltip.style top = event.pageY + 'px';
+                tooltip.style.left = event.pageX + 'px';
+                tooltip.style.top = event.pageY + 'px';
             }
         }
 
         function hideGuests() {
-            the tooltip = document.getElementById("tooltip");
+            const tooltip = document.getElementById("tooltip");
             tooltip.style.display = "none";
         }
     </script>
