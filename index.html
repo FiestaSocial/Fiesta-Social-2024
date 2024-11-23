@@ -69,64 +69,6 @@
         input:invalid, select:invalid {
             border-color: #e74c3c;
         }
-        .salon-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            margin-top: 20px;
-            gap: 20px;
-            position: relative;
-            border: 2px solid #333;
-        }
-        .mesas {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-        }
-        .mesa {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .mesa.completa {
-            background-color: #e74c3c;
-        }
-        .mesa.seleccionada {
-            background-color: #f39c12;
-        }
-        .pista {
-            width: 100px;
-            height: 500px;
-            background-color: #28a745;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .estado-mayor {
-            width: 100px;
-            height: 200px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-        }
     </style>
 </head>
 <body>
@@ -146,6 +88,27 @@
             <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required>
 
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option>
+                <option value="T.P.">(T.P.)</option>
+            </select>
+
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
 
@@ -155,9 +118,28 @@
             <label for="cedula">Cédula de Identidad:</label>
             <input type="text" id="cedula" name="cedula" required>
 
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+            </select>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
             <label for="menu">Menú:</label>
             <select id="menu" name="menu" required>
-                <option value="">Seleccionar</option>
+                <option value="" selected>Seleccionar</option>
                 <option value="normal">Normal</option>
                 <option value="vegetariano">Vegetariano</option>
                 <option value="vegano">Vegano</option>
@@ -172,7 +154,7 @@
 
     <div id="screen3" class="container">
         <h2>Información de los Acompañantes</h2>
-        <p>Aquí puedes agregar información sobre tus acompañantes.</p>
+        <form id="acompanantesForm"></form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(2)">Anterior</button>
             <button onclick="nextScreen(4)">Siguiente</button>
@@ -197,24 +179,29 @@
         let currentScreen = 1;
 
         function nextScreen(next) {
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            document.getElementById(`screen${next}`).classList.add('active');
-            currentScreen = next;
+            const current = document.getElementById(`screen${currentScreen}`);
+            const nextScreen = document.getElementById(`screen${next}`);
+            if (current && nextScreen) {
+                current.classList.remove('active');
+                nextScreen.classList.add('active');
+                currentScreen = next;
+            }
         }
 
         function prevScreen(previous) {
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            document.getElementById(`screen${previous}`).classList.add('active');
-            currentScreen = previous;
+            const current = document.getElementById(`screen${currentScreen}`);
+            const prevScreen = document.getElementById(`screen${previous}`);
+            if (current && prevScreen) {
+                current.classList.remove('active');
+                prevScreen.classList.add('active');
+                currentScreen = previous;
+            }
         }
 
-        function submitForm() {
-            const guestForm = document.getElementById("guestForm");
-            if (guestForm.checkValidity()) {
-                alert("Formulario enviado correctamente.");
-            } else {
-                alert("Por favor, completa todos los campos requeridos.");
-            }
+        function toggleAcompanante() {
+            const cantidadDiv = document.getElementById("acompananteCantidad");
+            const acompanante = document.getElementById("acompanante").value;
+            cantidadDiv.style.display = acompanante === "si" ? "block" : "none";
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -237,6 +224,10 @@
                 mesasDerecha.appendChild(mesa);
             }
         });
+
+        function submitForm() {
+            alert("Formulario enviado correctamente.");
+        }
     </script>
 </body>
 </html>
