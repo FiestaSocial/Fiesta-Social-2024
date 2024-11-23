@@ -56,19 +56,6 @@
         .navigation-buttons button:hover {
             background-color: #2980b9;
         }
-        label, input, select {
-            display: block;
-            width: 100%;
-            margin: 15px 0;
-        }
-        input, select {
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        input:invalid, select:invalid {
-            border-color: #e74c3c;
-        }
         .salon-container {
             display: flex;
             align-items: center;
@@ -127,18 +114,6 @@
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
-        #guestList {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            width: 100%;
-            height: auto;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            overflow: hidden;
-        }
     </style>
 </head>
 <body>
@@ -162,16 +137,35 @@
             <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="navigation-buttons">
-            <button onclick="prevScreen(3)">Anterior</button>
+            <button onclick="prevScreen(1)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
-        </div>
-        <div>
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            <div id="guestList">No hay invitados registrados en esta mesa.</div>
         </div>
     </div>
 
     <script>
+        // Variable global para mantener el estado actual de la pantalla
+        let currentScreen = 1;
+
+        // Función para avanzar a la siguiente pantalla
+        function nextScreen(next) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            document.getElementById(`screen${next}`).classList.add('active');
+            currentScreen = next;
+        }
+
+        // Función para regresar a la pantalla anterior
+        function prevScreen(previous) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            document.getElementById(`screen${previous}`).classList.add('active');
+            currentScreen = previous;
+        }
+
+        // Función para enviar el formulario
+        function submitForm() {
+            alert("Formulario enviado correctamente");
+        }
+
+        // Cargar las mesas en la representación del salón
         document.addEventListener("DOMContentLoaded", () => {
             const mesasIzquierda = document.getElementById("mesasIzquierda");
             const mesasDerecha = document.getElementById("mesasDerecha");
@@ -194,15 +188,6 @@
                 mesasDerecha.appendChild(mesaDiv);
             }
         });
-
-        function prevScreen(screenNumber) {
-            document.getElementById("screen4").classList.remove("active");
-            document.getElementById(`screen${screenNumber}`).classList.add("active");
-        }
-
-        function submitForm() {
-            alert("Formulario enviado correctamente");
-        }
     </script>
 </body>
 </html>
