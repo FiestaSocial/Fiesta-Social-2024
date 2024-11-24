@@ -600,48 +600,26 @@
             if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
                 const formData = new FormData(guestForm);
                 const acompanantesData = new FormData(acompanantesForm);
-                const acompanantes = [];
 
+                // Agregamos los campos de acompañantes al FormData
                 acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        acompanantes[index].nombre = value;
-                    } else if (key.includes('menuAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        acompanantes[index].menu = value;
-                    }
+                    formData.append(key, value);
                 });
 
-                const data = {
-                    correo: formData.get('correo'),
-                    grado: formData.get('grado'),
-                    escalafon: formData.get('escalafon'),
-                    nombre: formData.get('nombre'),
-                    apellido: formData.get('apellido'),
-                    cedula: formData.get('cedula'),
-                    acompanante: formData.get('acompanante'),
-                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                    menu: formData.get('menu'),
-                    acompanantes: acompanantes,
-                    mesa: formData.get('mesa')
-                };
-
-                fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
+                // Enviamos el FormData al Google Apps Script
+                fetch('https://script.google.com/macros/s/AKfycbyuXTuFi0DP9mGfx-j0u0Jim_UzqGo9SBpU7HjkJp0LPRXt96amwUHPZmijk8H9I0A/exec', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                }).then(response => response.text())
-                  .then(result => {
-                      console.log(result);
-                      showConfirmation();
-                      fetchGuestsData();
-                  }).catch(error => {
-                      alert('Error: ' + error);
-                  });
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result);
+                    showConfirmation();
+                    fetchGuestsData();
+                })
+                .catch(error => {
+                    alert('Error: ' + error);
+                });
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
@@ -660,7 +638,7 @@
         }
 
         function fetchGuestsData() {
-            fetch('https://script.google.com/macros/s/AKfycbyuXTuFi0DP9mGfx-j0u0Jim_UzqGo9SBpU7HjkJp0LPRXt96amwUHPZmijk8H9I0A/exec')
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
                 .then(response => response.text())
                 .then(csv => csvToJSON(csv))
                 .then(data => {
