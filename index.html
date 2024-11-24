@@ -111,7 +111,7 @@
         /* Ajustes para evitar superposiciones */
         .pista {
             width: 80px;
-            height: 270px;
+            height: 180px;
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -122,8 +122,25 @@
             margin: 0 20px;
         }
         .estado-mayor {
-            width: 30px;
+            width: 25px;
             height: 150px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 55px;
+            transform: translateX(-300%);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        .entrada {
+            width: 135px;
+            height: 25px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -135,27 +152,10 @@
             left: 50%;
             top: 10px;
             transform: translateX(-50%);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-        }
-        .entrada {
-            width: 135px;
-            height: 30px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            position: absolute;
-            left: 50%;
-            top: -40px;
-            transform: translateX(-50%);
         }
         .dj {
-            width: 90px;
-            height: 30px;
+            width: 100px;
+            height: 25px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -165,12 +165,12 @@
             font-weight: bold;
             position: absolute;
             left: 50%;
-            bottom: -40px;
+            bottom: 5px;
             transform: translateX(-50%);
         }
         .postres {
-            width: 25px;
-            height: 121px;
+            width: 20px;
+            height: 80px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -179,15 +179,15 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 0;
+            right: 40%;
             top: 50%;
-            transform: translateY(-150%);
+            transform: translateY(-105%);
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
         .postres2 {
-            width: 25px;
-            height: 120px;
+            width: 20px;
+            height: 80px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -196,7 +196,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 0;
+            right: 40%;
             top: 50%;
             transform: translateY(20%);
             writing-mode: vertical-rl;
@@ -862,7 +862,7 @@
             mesa17.onmouseover = (event) => showGuests('Mesa 17', event);
             mesa17.onmouseout = hideGuests;
             mesa17.style.position = 'absolute';
-            mesa17.style.top = '30%';
+            mesa17.style.top = '10%';
             mesa17.style.left = '0';
             mesasIzquierda.appendChild(mesa17);
 
@@ -874,7 +874,7 @@
             mesa18.onmouseover = (event) => showGuests('Mesa 18', event);
             mesa18.onmouseout = hideGuests;
             mesa18.style.position = 'absolute';
-            mesa18.style.top = '60%';
+            mesa18.style.top = '70%';
             mesa18.style.left = '0';
             mesasIzquierda.appendChild(mesa18);
 
@@ -921,7 +921,7 @@
             mesa35.onmouseover = (event) => showGuests('Mesa 35', event);
             mesa35.onmouseout = hideGuests;
             mesa35.style.position = 'absolute';
-            mesa35.style.top = '30%';
+            mesa35.style.top = '100%';
             mesa35.style.right = '0';
             mesasDerecha.appendChild(mesa35);
 
@@ -933,7 +933,7 @@
             mesa36.onmouseover = (event) => showGuests('Mesa 36', event);
             mesa36.onmouseout = hideGuests;
             mesa36.style.position = 'absolute';
-            mesa36.style.top = '60%';
+            mesa36.style.top = '70%';
             mesa36.style.right = '0';
             mesasDerecha.appendChild(mesa36);
         });
