@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Meta y estilos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
@@ -245,7 +246,7 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <label for="apelativo">Correo:</label>
+            <label for="correo">Correo:</label>
             <input type="email" id="correo" name="correo" required><br><br>
 
             <label for="grado">Grado:</label>
@@ -613,39 +614,34 @@
                     }
                 });
 
-                // Crear un objeto FormData para enviar
-                const formDataToSend = new FormData();
-                formDataToSend.append('correo', formData.get('correo'));
-                formDataToSend.append('grado', formData.get('grado'));
-                formDataToSend.append('escalafon', formData.get('escalafon'));
-                formDataToSend.append('nombre', formData.get('nombre'));
-                formDataToSend.append('apellido', formData.get('apellido'));
-                formDataToSend.append('cedula', formData.get('cedula'));
-                formDataToSend.append('acompanante', formData.get('acompanante'));
-                formDataToSend.append('cantidadAcompanantes', formData.get('cantidadAcompanantes'));
-                formDataToSend.append('menu', formData.get('menu'));
-                formDataToSend.append('mesa', formData.get('mesa'));
+                const data = {
+                    correo: formData.get('correo'),
+                    grado: formData.get('grado'),
+                    escalafon: formData.get('escalafon'),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    cedula: formData.get('cedula'),
+                    acompanante: formData.get('acompanante'),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menu: formData.get('menu'),
+                    acompanantes: acompanantes,
+                    mesa: formData.get('mesa')
+                };
 
-                // Añadir los acompañantes al FormData
-                acompanantes.forEach((acompanante, index) => {
-                    formDataToSend.append(`nombreAcompanante${index + 1}`, acompanante.nombre);
-                    formDataToSend.append(`menuAcompanante${index + 1}`, acompanante.menu);
-                });
-
-                // Enviar los datos al Google Apps Script
                 fetch('https://script.google.com/macros/s/AKfycbwOjliAJHahKuQcJ34EwCkjnAwxfJmeLCrmhraBK3xs7pCHyBAvL0D5IMbLEGm_cpyZ/exec', {
                     method: 'POST',
-                    body: formDataToSend
-                })
-                .then(response => response.text())
-                .then(result => {
-                    console.log(result);
-                    showConfirmation();
-                    fetchGuestsData();
-                })
-                .catch(error => {
-                    alert('Error: ' + error);
-                });
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => response.text())
+                  .then(result => {
+                      console.log(result);
+                      showConfirmation();
+                      fetchGuestsData();
+                  }).catch(error => {
+                      alert('Error: ' + error);
+                  });
             } else {
                 alert("Por favor, complete todos los campos requeridos.");
             }
@@ -687,13 +683,13 @@
                 obj["Correo"] = currentline[0].trim();
                 obj["Nombre"] = currentline[3].trim();
                 obj["Apellido"] = currentline[4].trim();
-                obj["Mesa"] = currentline[19].trim();
+                obj["Mesa"] = currentline[9].trim(); // Ajustado a la posición correcta
 
-                obj["Nombre Acompanante 1"] = currentline[9].trim();
-                obj["Nombre Acompanante 2"] = currentline[11].trim();
-                obj["Nombre Acompanante 3"] = currentline[13].trim();
-                obj["Nombre Acompanante 4"] = currentline[15].trim();
-                obj["Nombre Acompanante 5"] = currentline[17].trim();
+                obj["Nombre Acompanante 1"] = currentline[10].trim();
+                obj["Nombre Acompanante 2"] = currentline[12].trim();
+                obj["Nombre Acompanante 3"] = currentline[14].trim();
+                obj["Nombre Acompanante 4"] = currentline[16].trim();
+                obj["Nombre Acompanante 5"] = currentline[18].trim();
 
                 if (obj["Mesa"]) {
                     if (!result[obj["Mesa"]]) {
