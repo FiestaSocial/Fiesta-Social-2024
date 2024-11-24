@@ -71,21 +71,30 @@
             border-color: #e74c3c;
         }
         .salon-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            position: relative;
+            width: 1000px; /* Ajusta el ancho para que todos los elementos quepan */
+            height: 600px; /* Ajusta la altura según sea necesario */
+            margin: 0 auto; /* Centra el contenedor */
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
-            gap: 20px;
-            position: relative;
+            /* Elimina 'display: flex;' y 'gap' para tener control manual de la posición de los elementos */
         }
         .mesas {
-            display: grid;
-            grid-template-columns: repeat(4, 2fr);
-            gap: 20px;
+            position: absolute;
+            /* Posicionamiento manual */
         }
-        .mesa {
+        #mesasIzquierda {
+            top: 100px;
+            left: 150px; /* Mueve las mesas más cerca del centro */
+        }
+        #mesasDerecha {
+            top: 100px;
+            right: 150px; /* Mueve las mesas más cerca del centro */
+        }
+        /* Estilos para las mesas independientes */
+        #mesa17, #mesa18, #mesa35, #mesa36 {
+            position: absolute;
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -99,11 +108,33 @@
             transition: background-color 0.3s ease;
             cursor: pointer;
         }
-        .mesa.completa {
-            background-color: #e74c3c;
+        /* Posicionamiento de las mesas independientes */
+        #mesa17 {
+            top: 200px; /* Ajusta según sea necesario */
+            left: 100px; /* A la izquierda de la mesa 5 */
         }
-        .mesa.seleccionada {
-            background-color: #f39c12;
+        #mesa18 {
+            top: 300px; /* Ajusta según sea necesario */
+            left: 100px; /* A la izquierda de la mesa 9 */
+        }
+        #mesa35 {
+            top: 200px; /* Ajusta según sea necesario */
+            right: 100px; /* A la derecha de la mesa 26 */
+        }
+        #mesa36 {
+            top: 300px; /* Ajusta según sea necesario */
+            right: 100px; /* A la derecha de la mesa 30 */
+        }
+        /* Ajustar el tamaño de los rectángulos y su posición */
+        .estado-mayor {
+            width: 30px;
+            height: 200px;
+            right: 485px; /* Ajusta según sea necesario */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .postres, .postres2 {
+            right: 150px; /* Mueve los postres más cerca de las mesas */
         }
         .pista {
             width: 80px;
@@ -115,23 +146,10 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-        }
-        .estado-mayor {
-            width: 30px;
-            height: 150px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
             position: absolute;
-            right: 444px;
+            left: 50%;
             top: 50%;
-            transform: translateY(-50%);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
+            transform: translate(-50%, -50%);
         }
         .entrada {
             width: 135px;
@@ -144,10 +162,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 335px;
-            top: 50%;
-            transform: translateY(-580%);
-            text-orientation: mixed;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
         }
         .dj {
             width: 90px;
@@ -160,10 +177,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 354px;
-            top: 50%;
-            transform: translateY(500%);
-            text-orientation: mixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
         }
         .postres {
             width: 25px;
@@ -176,9 +192,8 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 300px;
-            top: 50%;
-            transform: translateY(-120%);
+            right: 150px;
+            top: 150px;
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
@@ -193,9 +208,8 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 300px;
-            top: 50%;
-            transform: translateY(20%);
+            right: 150px;
+            bottom: 150px;
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
@@ -357,14 +371,26 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <div class="mesas" id="mesasIzquierda"></div>
+            <!-- Mesas Izquierda -->
+            <div class="mesas" id="mesasIzquierda">
+                <!-- Mesas 1 a 16 (excepto 17 y 18) -->
+            </div>
+            <!-- Mesas Derecha -->
+            <div class="mesas" id="mesasDerecha">
+                <!-- Mesas 19 a 34 (excepto 35 y 36) -->
+            </div>
+            <!-- Mesas independientes -->
+            <div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>
+            <div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>
+            <div class="mesa" id="mesa35" onclick="selectTable(35)" onmouseover="showGuests('Mesa 35', event)" onmouseout="hideGuests()">35</div>
+            <div class="mesa" id="mesa36" onclick="selectTable(36)" onmouseover="showGuests('Mesa 36', event)" onmouseout="hideGuests()">36</div>
+            <!-- Otros elementos -->
             <div class="pista">PISTA DE BAILE</div>
             <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="entrada">ENTRADA/PISCINA</div>
             <div class="dj">DJ</div>
             <div class="postres">POSTRES</div>
             <div class="postres2">POSTRES</div>
-            <div class="mesas" id="mesasDerecha"></div>
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
@@ -661,7 +687,7 @@
                     mesa: formData.get('mesa')
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec', {
+                fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
                     method: 'POST',
                     body: JSON.stringify(data)
                 }).then(response => response.text())
@@ -691,7 +717,7 @@
         }
 
         function fetchGuestsData() {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
+            fetch('https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?output=csv')
                 .then(response => response.text())
                 .then(csv => csvToJSON(csv))
                 .then(data => {
@@ -819,14 +845,18 @@
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
-            for (let i = 1; i <= 15; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            // Mesas 1 a 16 en la izquierda (excepto 17 y 18)
+            for (let i = 1; i <= 16; i++) {
+                if (i !== 17 && i !== 18) {
+                    mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+                }
             }
-            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(16)" onmouseover="showGuests('Mesa 16', event)" onmouseout="hideGuests()">16</div>`;
 
+            // Mesas 19 a 34 en la derecha (excepto 35 y 36)
             for (let i = 19; i <= 34; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+                if (i !== 35 && i !== 36) {
+                    mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+                }
             }
         });
     </script>
