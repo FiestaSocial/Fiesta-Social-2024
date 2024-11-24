@@ -126,7 +126,24 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 444px;
+            right: 444px; /* Ajuste la posición al lado derecho */
+            top: 50%;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        .postres {
+            width: 30px;
+            height: 150px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            right: 324px; /* Ajuste la posición al lado derecho */
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -209,7 +226,67 @@
     <div id="screen2" class="container">
         <h2>Datos Personales</h2>
         <form id="guestForm">
-            <!-- Elementos del formulario -->
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required><br><br>
+
+            <label for="grado">Grado:</label>
+            <select id="grado" name="grado" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Cnel.">Cnel.</option>
+                <option value="Tte. Cnel.">Tte. Cnel.</option>
+                <option value="May.">May.</option>
+                <option value="Cap.">Cap.</option>
+                <option value="Tte. 1°">Tte. 1°</option>
+                <option value="Tte. 2°">Tte. 2°</option>
+                <option value="Alf.">Alf.</option>
+            </select><br><br>
+
+            <label for="escalafon">Escalafón:</label>
+            <select id="escalafon" name="escalafon" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="Av.">(Av.)</option>
+                <option value="Nav.">(Nav.)</option>
+                <option value="Esp.">(Esp.)</option
+                <option value="T.P.">(T.P.)</option>
+            </select><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required><br><br>
+
+            <label for="cedula">Cédula de Identidad:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="acompanante">¿Asiste con acompañante?</label>
+            <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                <option value="" selected>Seleccionar</option>
+                <option value="no">No</option
+                <option value="si">Sí</option>
+            </select><br><br>
+
+            <div id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br><br>
+            </div>
+
+            <label for="menu">Menú:</label>
+            <select id="menu" name="menu" required>
+                <option value="" selected>Seleccionar</option>
+                <option value="normal">Normal</option>
+                <option value="vegetariano">Vegetariano</option>
+                <option value="vegano">Vegano</option>
+                <option value="celiaco">Celíaco</option>
+            </select><br><br>
+            <input type="hidden" id="mesa" name="mesa">
         </form>
         <div class="navigation-buttons">
             <button onclick="prevScreen(1)">Anterior</button>
@@ -235,6 +312,20 @@
             <div class="postres">POSTRES</div>
             <div class="mesas" id="mesasDerecha"></div>
         </div>
+        <div class="table-container">
+            <div class="table" id="mesaText">Mesa</div>
+            <div class="seat" data-seat="1"></div>
+            <div class="seat" data-seat="2"></div>
+            <div class="seat" data-seat="3"></div>
+            <div class="seat" data-seat="4"></div>
+            <div class="seat" data-seat="5"></div>
+            <div class="seat" data-seat="6"></div>
+            <div class="seat" data-seat="7"></div>
+            <div the="seat" data-seat="8"></div>
+            <div class="seat" data-seat="9"></div>
+            <div class="seat" data-seat="10"></div>
+            <div class="seat" data-seat="11"></div>
+        </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
             <button onclick="submitForm()">Enviar</button>
@@ -252,37 +343,113 @@
         <button onclick="finalizarRegistro()">Finalizar</button>
     </div>
 
+    <div class="banner"></div>
     <div id="tooltip" class="tooltip"></div>
 
     <script>
         let currentScreen = 1;
         let guestsData = {}; // Datos de invitados y acompañantes
-        let mesaCapacities = {
-            '8': [8, 1, 17, 23, 27, 22, 35, 36],
-            '10': [2, 3, 6, 7, 5, 16, 11, 15, 10, 14, 9, 13, 19, 20, 21, 24, 25, 26, 28, 29, 30, 31, 32, 33, 34],
-            '11': [4]
-        };
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50; 
+            const centerY = 50;
+            const radius = 40; 
+
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
+            });
+
+            // Cargar mesas
             const mesasIzquierda = document.getElementById('mesasIzquierda');
             const mesasDerecha = document.getElementById('mesasDerecha');
 
-            for (let i = 1; i <= 36; i++) {
-                let mesaCapacity = 10; // Default capacity
-                if (mesaCapacities['8'].includes(i)) {
-                    mesaCapacity = 8;
-                } else if (mesaCapacities['11'].includes(i)) {
-                    mesaCapacity = 11;
-                }
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 17; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
 
-                const parentDiv = i <= 18 ? mesasIzquierda : mesasDerecha;
-                parentDiv.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i}, ${mesaCapacity})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            for (let i = 19; i <= 36; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
             }
 
             fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
         });
 
-        function selectTable(tableNumber, capacity) {
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    if (!validateForm('guestForm')) {
+                        alert('Por favor, complete todos los campos requeridos.');
+                        return;
+                    }
+                    let acompanante = document.getElementById("acompanante").value;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
+                    alert('Por favor, complete todos los campos requeridos.');
+                    return;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
+                }
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById("acompanante").value === "no") {
+                screen = 2;
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+        }
+
+        function toggleAcompanante() {
+            let acompanante = document.getElementById("acompanante").value;
+            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidad.style.display = "block";
+            } else {
+                acompananteCantidad.style.display = "none";
+            }
+        }
+
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById("acompanantesForm");
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += 
+                    `<h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>`;
+            }
+        }
+
+        function selectTable(tableNumber) {
             const mesaInput = document.getElementById("mesa");
             mesaInput.value = `Mesa ${tableNumber}`;
 
@@ -290,39 +457,6 @@
             document.getElementById(`mesa${tableNumber}`).classList.add('seleccionada');
 
             updateMesaText();
-            updateSeats(capacity);
-        }
-
-        function updateSeats(capacity) {
-            const mesaInput = document.getElementById("mesa");
-            const selectedMesa = mesaInput.value;
-            const seats = document.querySelectorAll('.seat');
-
-            seats.forEach((seat, index) => {
-                if (index < capacity) {
-                    seat.style.display = 'flex';
-                } else {
-                    seat.style.display = 'none';
-                }
-            });
-
-            if (selectedMesa && guestsData[selectedMesa]) {
-                let totalGuests = guestsData[selectedMesa].reduce((acc, guest) => acc + 1 + (guest.acompanantes || []).length, 0);
-
-                seats.forEach((seat, index) => {
-                    if (index < totalGuests) {
-                        seat.classList.add('occupied');
-                    } else {
-                        seat.classList.remove('occupied');
-                    }
-                });
-
-                if (totalGuests >= capacity) {
-                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
-                } else {
-                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.remove('completa');
-                }
-            }
         }
 
         function updateMesaText() {
@@ -332,7 +466,62 @@
             if (mesaText && selectedMesa) {
                 mesaText.textContent = selectedMesa;
             }
+            updateSeats();
             updateGuestList();
+        }
+
+        function updateSeats() {
+            const mesaInput = document.getElementById("mesa");
+            const selectedMesa = mesaInput.value;
+            const seats = document.querySelectorAll('.seat');
+
+            // Resetear asientos
+            seats.forEach(seat => seat.classList.remove('occupied'));
+
+            // Definir la capacidad máxima de la mesa
+            let maxCapacity;
+            switch (selectedMesa) {
+                case 'Mesa 4':
+                    maxCapacity = 11; // Mesa con 11 lugares
+                    break;
+                case 'Mesa 8': case 'Mesa 1': case 'Mesa 17': case 'Mesa 23': case 'Mesa 27': case 'Mesa 22': case 'Mesa 35': case 'Mesa 36':
+                    maxCapacity = 8; // Mesas con 8 lugares
+                    break;
+                default:
+                    maxCapacity = 10; // Todas las otras mesas con 10 lugares
+                    break;
+            }
+
+            // Ocupar asientos según los datos de invitados
+            if (selectedMesa && guestsData[selectedMesa]) {
+                let totalGuests = 0;
+
+                guestsData[selectedMesa].forEach(guest => {
+                    const guestAndAcompanantes = [guest];
+                    if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
+                    if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
+                    if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
+                    if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
+                    if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
+
+                    guestAndAcompanantes.forEach((_, seatIndex) => {
+                        if (totalGuests < maxCapacity) {
+                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                            if (seat) {
+                                seat.classList.add('occupied');
+                            }
+                            totalGuests++;
+                        }
+                    });
+                });
+
+                // Marcar la mesa como completa si alcanza la capacidad máxima
+                if (totalGuests >= maxCapacity) {
+                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
+                } else {
+                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.remove('completa');
+                }
+            }
         }
 
         function updateGuestList() {
@@ -481,7 +670,19 @@
         function updateMesasCompletaColor() {
             Object.keys(guestsData).forEach(mesa => {
                 const totalGuests = guestsData[mesa].length;
-                if (totalGuests >= 10) {
+                let maxCapacity;
+                switch (mesa) {
+                    case 'Mesa 4':
+                        maxCapacity = 11; // Mesa con 11 lugares
+                        break;
+                    case 'Mesa 8': case 'Mesa 1': case 'Mesa 17': case 'Mesa 23': case 'Mesa 27': case 'Mesa 22': case 'Mesa 35': case 'Mesa 36':
+                        maxCapacity = 8; // Mesas con 8 lugares
+                        break;
+                    default:
+                        maxCapacity = 10; // Todas las otras mesas con 10 lugares
+                        break;
+                }
+                if (totalGuests >= maxCapacity) {
                     document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
                 }
             });
