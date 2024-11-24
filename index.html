@@ -245,7 +245,7 @@
         <h2>Datos Personales</h2>
         <form id="guestForm">
             <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required><br><br>
+            <input type="email" id="correo" name="correo" required><br><br>
 
             <label for="grado">Grado:</label>
             <select id="grado" name="grado" required>
@@ -286,7 +286,7 @@
 
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes" required>
                     <option value="" selected>Seleccionar</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -360,24 +360,6 @@
         let currentScreen = 1;
         let guestsData = {}; // Datos de invitados y acompañantes
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Cargar mesas
-            const mesasIzquierda = document.getElementById('mesasIzquierda');
-            const mesasDerecha = document.getElementById('mesasDerecha');
-
-            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
-            for (let i = 1; i <= 17; i++) {
-                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-            }
-            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
-
-            for (let i = 19; i <= 36; i++) {
-                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-            }
-
-            fetchGuestsData(); // Cargar los datos de los invitados al cargar la página
-        });
-
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
@@ -388,6 +370,10 @@
                     let acompanante = document.getElementById("acompanante").value;
                     if (acompanante === "si") {
                         let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        if (!cantidadAcompanantes) {
+                            alert('Por favor, seleccione la cantidad de acompañantes.');
+                            return;
+                        }
                         generateAcompanantesForm(cantidadAcompanantes);
                         nextScreenNumber = 3;
                     } else {
@@ -403,6 +389,11 @@
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
             currentScreen = nextScreenNumber;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
+
+            // Si estamos en la pantalla de selección de mesa, cargar los datos
+            if (currentScreen === 4) {
+                fetchGuestsData();
+            }
         }
 
         function prevScreen(screen) {
@@ -473,25 +464,7 @@
             const seatsContainer = document.getElementById('seatsContainer');
 
             // Definir la capacidad máxima de la mesa
-            let maxCapacity;
-            switch (selectedMesa) {
-                case 'Mesa 4':
-                    maxCapacity = 11; // Mesa con 11 lugares
-                    break;
-                case 'Mesa 8':
-                case 'Mesa 1':
-                case 'Mesa 17':
-                case 'Mesa 23':
-                case 'Mesa 27':
-                case 'Mesa 22':
-                case 'Mesa 35':
-                case 'Mesa 36':
-                    maxCapacity = 8; // Mesas con 8 lugares
-                    break;
-                default:
-                    maxCapacity = 10; // Todas las otras mesas con 10 lugares
-                    break;
-            }
+            let maxCapacity = getMesaCapacity(selectedMesa);
 
             // Eliminar asientos existentes
             seatsContainer.innerHTML = '';
@@ -542,13 +515,6 @@
                         }
                     });
                 });
-
-                // Marcar la mesa como completa si alcanza la capacidad máxima
-                if (totalGuests >= maxCapacity) {
-                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.add('completa');
-                } else {
-                    document.getElementById(`mesa${selectedMesa.split(' ')[1]}`).classList.remove('completa');
-                }
             }
         }
 
@@ -582,25 +548,7 @@
             const selectedMesa = mesaInput.value;
 
             // Definir la capacidad máxima de la mesa
-            let maxCapacity;
-            switch (selectedMesa) {
-                case 'Mesa 4':
-                    maxCapacity = 11; // Mesa con 11 lugares
-                    break;
-                case 'Mesa 8':
-                case 'Mesa 1':
-                case 'Mesa 17':
-                case 'Mesa 23':
-                case 'Mesa 27':
-                case 'Mesa 22':
-                case 'Mesa 35':
-                case 'Mesa 36':
-                    maxCapacity = 8; // Mesas con 8 lugares
-                    break;
-                default:
-                    maxCapacity = 10; // Todas las otras mesas con 10 lugares
-                    break;
-            }
+            let maxCapacity = getMesaCapacity(selectedMesa);
 
             let totalGuests = 0;
             if (selectedMesa && guestsData[selectedMesa]) {
@@ -645,6 +593,7 @@
                 const data = {
                     correo: formData.get('correo'),
                     grado: formData.get('grado'),
+                    escalafon: formData.get('escalafon'),
                     nombre: formData.get('nombre'),
                     apellido: formData.get('apellido'),
                     cedula: formData.get('cedula'),
@@ -662,6 +611,7 @@
                   .then(result => {
                       console.log(result);
                       showConfirmation();
+                      // Volver a cargar los datos después de enviar el formulario
                       fetchGuestsData();
                   }).catch(error => {
                       alert('Error: ' + error);
@@ -731,30 +681,15 @@
         }
 
         function updateMesasCompletaColor() {
+            // Limpiar todas las clases 'completa' antes de actualizar
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
+
             Object.keys(guestsData).forEach(mesa => {
                 const guests = guestsData[mesa];
                 let totalGuests = 0;
 
                 // Definir la capacidad máxima de la mesa
-                let maxCapacity;
-                switch (mesa) {
-                    case 'Mesa 4':
-                        maxCapacity = 11; // Mesa con 11 lugares
-                        break;
-                    case 'Mesa 8':
-                    case 'Mesa 1':
-                    case 'Mesa 17':
-                    case 'Mesa 23':
-                    case 'Mesa 27':
-                    case 'Mesa 22':
-                    case 'Mesa 35':
-                    case 'Mesa 36':
-                        maxCapacity = 8; // Mesas con 8 lugares
-                        break;
-                    default:
-                        maxCapacity = 10; // Todas las otras mesas con 10 lugares
-                        break;
-                }
+                let maxCapacity = getMesaCapacity(mesa);
 
                 guests.forEach(guest => {
                     totalGuests++; // Contar al invitado principal
@@ -766,11 +701,33 @@
                 });
 
                 if (totalGuests >= maxCapacity) {
-                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
-                } else {
-                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.remove('completa');
+                    const mesaNumber = mesa.split(' ')[1];
+                    if (mesaNumber) {
+                        const mesaElement = document.getElementById(`mesa${mesaNumber}`);
+                        if (mesaElement) {
+                            mesaElement.classList.add('completa');
+                        }
+                    }
                 }
             });
+        }
+
+        function getMesaCapacity(mesa) {
+            switch (mesa) {
+                case 'Mesa 4':
+                    return 11;
+                case 'Mesa 1':
+                case 'Mesa 8':
+                case 'Mesa 17':
+                case 'Mesa 22':
+                case 'Mesa 23':
+                case 'Mesa 27':
+                case 'Mesa 35':
+                case 'Mesa 36':
+                    return 8;
+                default:
+                    return 10;
+            }
         }
 
         function showGuests(mesa, event) {
@@ -801,6 +758,23 @@
             const tooltip = document.getElementById("tooltip");
             tooltip.style.display = "none";
         }
+
+        // Inicializar las mesas al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cargar mesas
+            const mesasIzquierda = document.getElementById('mesasIzquierda');
+            const mesasDerecha = document.getElementById('mesasDerecha');
+
+            // Organizar las mesas en 4 líneas horizontales a cada lado de la pista de baile
+            for (let i = 1; i <= 17; i++) {
+                mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+            mesasIzquierda.innerHTML += `<div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>`;
+
+            for (let i = 19; i <= 36; i++) {
+                mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            }
+        });
     </script>
 </body>
 </html>
