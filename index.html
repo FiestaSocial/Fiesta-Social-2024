@@ -15,7 +15,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
         }
         .banner {
@@ -72,35 +71,34 @@
         }
         .salon-container {
             position: relative;
-            width: 1000px; /* Ajuste del ancho del salón */
-            height: 600px; /* Ajuste de la altura del salón */
+            width: 100%;
+            max-width: 800px;
+            height: auto;
             margin: 0 auto;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
+            box-sizing: border-box;
         }
-        .mesas {
-            position: absolute;
+        .salon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            height: 400px;
+            position: relative;
         }
-        #mesasIzquierda {
-            top: 100px;
-            left: 150px; /* Desplazamiento hacia el centro */
-        }
-        #mesasDerecha {
-            top: 100px;
-            right: 150px; /* Desplazamiento hacia el centro */
-        }
-        /* Estilos para las mesas */
         .mesa {
-            width: 30px;
-            height: 30px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
+            font-size: 20px;
             font-weight: bold;
             transition: background-color 0.3s ease;
             cursor: pointer;
@@ -111,30 +109,9 @@
         .mesa.seleccionada {
             background-color: #f39c12;
         }
-        /* Estilos para las mesas independientes */
-        #mesa17, #mesa18, #mesa35, #mesa36 {
-            position: absolute;
-        }
-        /* Posicionamiento de las mesas independientes */
-        #mesa17 {
-            top: 200px; /* Alineación de la mesa 17 a la izquierda de la 5 */
-            left: 100px;
-        }
-        #mesa18 {
-            top: 300px; /* Alineación de la mesa 18 a la izquierda de la 9 */
-            left: 100px;
-        }
-        #mesa35 {
-            top: 200px; /* Alineación de la mesa 35 a la derecha de la 26 */
-            right: 100px;
-        }
-        #mesa36 {
-            top: 300px; /* Alineación de la mesa 36 a la derecha de la 30 */
-            right: 100px;
-        }
         .pista {
-            width: 80px;
-            height: 270px;
+            width: 100px;
+            height: 100px;
             background-color: #28a745;
             display: flex;
             align-items: center;
@@ -142,14 +119,13 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
+            grid-column: 2 / span 2;
+            grid-row: 2 / span 2;
         }
         .estado-mayor {
-            width: 30px;
-            height: 200px;
+            width: 50px;
+            height: 100px;
             background-color: #007bff;
             display: flex;
             align-items: center;
@@ -158,9 +134,41 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            left: 50%;
+            left: -60px;
             top: 50%;
-            transform: translate(-400px, -50%);
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        .postres {
+            width: 50px;
+            height: 100px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            right: -60px;
+            top: 25%;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        .postres2 {
+            width: 50px;
+            height: 100px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            right: -60px;
+            top: 65%;
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
@@ -176,7 +184,7 @@
             font-weight: bold;
             position: absolute;
             left: 50%;
-            top: 20px;
+            top: -40px;
             transform: translateX(-50%);
         }
         .dj {
@@ -191,40 +199,8 @@
             font-weight: bold;
             position: absolute;
             left: 50%;
-            bottom: 20px;
+            bottom: -40px;
             transform: translateX(-50%);
-        }
-        .postres {
-            width: 25px;
-            height: 121px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            position: absolute;
-            right: 150px; /* Desplazamiento hacia el centro */
-            top: 150px;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-        }
-        .postres2 {
-            width: 25px;
-            height: 120px;
-            background-color: #007bff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            position: absolute;
-            right: 150px; /* Desplazamiento hacia el centro */
-            bottom: 150px;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
         }
         .tooltip {
             position: absolute;
@@ -384,26 +360,19 @@
     <div id="screen4" class="container">
         <h2>Selección de Mesa</h2>
         <div class="salon-container">
-            <!-- Mesas Izquierda -->
-            <div class="mesas" id="mesasIzquierda">
-                <!-- Mesas 1 a 16 (excepto 17 y 18) -->
+            <div class="salon-grid">
+                <!-- Generaremos las mesas dinámicamente -->
+                <!-- Pista de baile y otros elementos -->
+                <div class="pista">
+                    PISTA
+                    <div class="estado-mayor">ESTADO MAYOR</div>
+                    <div class="postres">POSTRES</div>
+                    <div class="postres2">POSTRES</div>
+                </div>
+                <!-- Las mesas se generarán en el script -->
             </div>
-            <!-- Mesas Derecha -->
-            <div class="mesas" id="mesasDerecha">
-                <!-- Mesas 19 a 34 (excepto 35 y 36) -->
-            </div>
-            <!-- Mesas independientes -->
-            <div class="mesa" id="mesa17" onclick="selectTable(17)" onmouseover="showGuests('Mesa 17', event)" onmouseout="hideGuests()">17</div>
-            <div class="mesa" id="mesa18" onclick="selectTable(18)" onmouseover="showGuests('Mesa 18', event)" onmouseout="hideGuests()">18</div>
-            <div class="mesa" id="mesa35" onclick="selectTable(35)" onmouseover="showGuests('Mesa 35', event)" onmouseout="hideGuests()">35</div>
-            <div class="mesa" id="mesa36" onclick="selectTable(36)" onmouseover="showGuests('Mesa 36', event)" onmouseout="hideGuests()">36</div>
-            <!-- Otros elementos -->
-            <div class="pista">PISTA DE BAILE</div>
-            <div class="estado-mayor">ESTADO MAYOR</div>
             <div class="entrada">ENTRADA/PISCINA</div>
             <div class="dj">DJ</div>
-            <div class="postres">POSTRES</div>
-            <div class="postres2">POSTRES</div>
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
@@ -575,18 +544,16 @@
 
             // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
-            const centerX = 50;
-            const centerY = 50;
-            const radius = 40;
+            const centerX = 150;
+            const centerY = 150;
+            const radius = 100;
 
             seats.forEach((seat, index) => {
                 const angle = (index / seats.length) * (2 * Math.PI);
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
-                seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
+                seat.style.left = `${x}px`;
+                seat.style.top = `${y}px`;
             });
 
             // Ocupar asientos según los datos de invitados
@@ -804,23 +771,8 @@
         }
 
         function getMesaCapacity(mesa) {
-            switch (mesa) {
-                case 'Mesa 4':
-                    return 11;
-                case 'Mesa 1':
-                case 'Mesa 8':
-                case 'Mesa 12':
-                case 'Mesa 17':
-                case 'Mesa 18':
-                case 'Mesa 22':
-                case 'Mesa 23':
-                case 'Mesa 27':
-                case 'Mesa 35':
-                case 'Mesa 36':
-                    return 8;
-                default:
-                    return 10;
-            }
+            // Puede ajustar las capacidades según sus necesidades
+            return 10; // Por ejemplo, todas las mesas tienen capacidad para 10 personas
         }
 
         function showGuests(mesa, event) {
@@ -854,23 +806,47 @@
 
         // Inicializar las mesas al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
-            // Cargar mesas
-            const mesasIzquierda = document.getElementById('mesasIzquierda');
-            const mesasDerecha = document.getElementById('mesasDerecha');
+            const salonGrid = document.querySelector('.salon-grid');
 
-            // Mesas 1 a 16 en la izquierda (excepto 17 y 18)
-            for (let i = 1; i <= 16; i++) {
-                if (i !== 17 && i !== 18) {
-                    mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
+            let mesaNumero = 1;
+            for (let fila = 1; fila <= 4; fila++) {
+                for (let columna = 1; columna <= 4; columna++) {
+                    // Saltar las posiciones ocupadas por la pista
+                    if ((fila === 2 || fila === 3) && (columna === 2 || columna === 3)) {
+                        continue;
+                    }
+
+                    const mesaDiv = document.createElement('div');
+                    mesaDiv.classList.add('mesa');
+                    mesaDiv.id = `mesa${mesaNumero}`;
+                    mesaDiv.textContent = mesaNumero;
+                    mesaDiv.onclick = () => selectTable(mesaNumero);
+                    mesaDiv.onmouseover = (event) => showGuests(`Mesa ${mesaNumero}`, event);
+                    mesaDiv.onmouseout = hideGuests;
+
+                    salonGrid.appendChild(mesaDiv);
+                    mesaNumero++;
                 }
             }
 
-            // Mesas 19 a 34 en la derecha (excepto 35 y 36)
-            for (let i = 19; i <= 34; i++) {
-                if (i !== 35 && i !== 36) {
-                    mesasDerecha.innerHTML += `<div class="mesa" id="mesa${i}" onclick="selectTable(${i})" onmouseover="showGuests('Mesa ${i}', event)" onmouseout="hideGuests()">${i}</div>`;
-                }
-            }
+            // Posicionamos la pista de baile en el centro del grid
+            const pista = document.querySelector('.pista');
+            pista.style.gridColumn = '2 / span 2';
+            pista.style.gridRow = '2 / span 2';
+
+            // Actualizamos las posiciones de "Estado Mayor", "Postres" y "Postres2"
+            const estadoMayor = document.querySelector('.estado-mayor');
+            estadoMayor.style.left = '-60px';
+            estadoMayor.style.top = '50%';
+            estadoMayor.style.transform = 'translateY(-50%)';
+
+            const postres = document.querySelector('.postres');
+            postres.style.right = '-60px';
+            postres.style.top = '25%';
+
+            const postres2 = document.querySelector('.postres2');
+            postres2.style.right = '-60px';
+            postres2.style.top = '65%';
         });
     </script>
 </body>
