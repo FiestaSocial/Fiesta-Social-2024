@@ -363,8 +363,9 @@
         function nextScreen(nextScreenNumber) {
             if (nextScreenNumber === undefined) {
                 if (currentScreen === 2) {
-                    if (!validateForm('guestForm')) {
-                        alert('Por favor, complete todos los campos requeridos.');
+                    let invalidFields = validateForm('guestForm');
+                    if (invalidFields.length > 0) {
+                        alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
                         return;
                     }
                     let acompanante = document.getElementById("acompanante").value;
@@ -379,9 +380,13 @@
                     } else {
                         nextScreenNumber = 4;
                     }
-                } else if (currentScreen === 3 && !validateForm('acompanantesForm')) {
-                    alert('Por favor, complete todos los campos requeridos.');
-                    return;
+                } else if (currentScreen === 3) {
+                    let invalidFields = validateForm('acompanantesForm');
+                    if (invalidFields.length > 0) {
+                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
+                        return;
+                    }
+                    nextScreenNumber = 4;
                 } else {
                     nextScreenNumber = currentScreen + 1;
                 }
@@ -394,6 +399,20 @@
             if (currentScreen === 4) {
                 fetchGuestsData();
             }
+        }
+
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            let invalidFields = [];
+            let elements = form.querySelectorAll('input, select');
+            elements.forEach(function(element) {
+                if (!element.checkValidity()) {
+                    let label = form.querySelector(`label[for="${element.id}"]`);
+                    let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
+                    invalidFields.push(fieldName);
+                }
+            });
+            return invalidFields;
         }
 
         function prevScreen(screen) {
@@ -631,11 +650,6 @@
         function finalizarRegistro() {
             // Recargar la página
             location.reload();
-        }
-
-        function validateForm(formId) {
-            let form = document.getElementById(formId);
-            return form.checkValidity();
         }
 
         function fetchGuestsData() {
