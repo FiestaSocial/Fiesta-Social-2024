@@ -79,10 +79,12 @@
             margin-top: 20px;
             gap: 20px;
             position: relative;
+            width: 100%;
+            max-width: 1000px;
         }
         .mesas {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 20px;
         }
         .mesa {
@@ -105,18 +107,8 @@
         .mesa.seleccionada {
             background-color: #f39c12;
         }
-        /* Estilos para las mesas vacías */
-        .mesa.empty {
-            visibility: hidden;
-        }
-        /* Reducir el tamaño de las mesas 17, 18, 35 y 36 */
-        .mesa#mesa17,
-        .mesa#mesa18,
-        .mesa#mesa35,
-        .mesa#mesa36 {
-            width: 40px;
-            height: 40px;
-        }
+        /* Eliminar estilos que modificaban tamaños específicos */
+        /* Ajustes para evitar superposiciones */
         .pista {
             width: 80px;
             height: 270px;
@@ -127,6 +119,7 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
+            margin: 0 20px;
         }
         .estado-mayor {
             width: 30px;
@@ -139,9 +132,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 444px;
-            top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            top: 10px;
+            transform: translateX(-50%);
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
@@ -156,10 +149,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 335px;
-            top: 50%;
-            transform: translateY(-580%);
-            text-orientation: mixed;
+            left: 50%;
+            top: -40px;
+            transform: translateX(-50%);
         }
         .dj {
             width: 90px;
@@ -172,10 +164,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 354px;
-            top: 50%;
-            transform: translateY(500%);
-            text-orientation: mixed;
+            left: 50%;
+            bottom: -40px;
+            transform: translateX(-50%);
         }
         .postres {
             width: 25px;
@@ -188,9 +179,9 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 300px;
+            right: 0;
             top: 50%;
-            transform: translateY(-120%);
+            transform: translateY(-150%);
             writing-mode: vertical-rl;
             text-orientation: mixed;
         }
@@ -205,7 +196,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 300px;
+            right: 0;
             top: 50%;
             transform: translateY(20%);
             writing-mode: vertical-rl;
@@ -829,41 +820,120 @@
             const mesasDerecha = document.getElementById('mesasDerecha');
 
             // Disposición personalizada de las mesas izquierdas
-            const mesasIzquierdaPositions = [
-                [1, 2, 3, 4, null],
-                [17, 5, 6, 7, 8],
-                [18, 9, 10, 11, 12],
-                [13, 14, 15, 16, null]
+            const leftTables = [
+                {number: 1, row: 1, column: 2},
+                {number: 2, row: 1, column: 3},
+                {number: 3, row: 1, column: 4},
+                {number: 4, row: 1, column: 5},
+                {number: 5, row: 2, column: 3},
+                {number: 6, row: 2, column: 4},
+                {number: 7, row: 2, column: 5},
+                {number: 8, row: 2, column: 6},
+                {number: 9, row: 3, column: 3},
+                {number: 10, row: 3, column: 4},
+                {number: 11, row: 3, column: 5},
+                {number: 12, row: 3, column: 6},
+                {number: 13, row: 4, column: 2},
+                {number: 14, row: 4, column: 3},
+                {number: 15, row: 4, column: 4},
+                {number: 16, row: 4, column: 5},
             ];
 
-            mesasIzquierdaPositions.forEach(row => {
-                row.forEach(mesaNum => {
-                    if (mesaNum) {
-                        mesasIzquierda.innerHTML += `<div class="mesa" id="mesa${mesaNum}" onclick="selectTable(${mesaNum})" onmouseover="showGuests('Mesa ${mesaNum}', event)" onmouseout="hideGuests()">${mesaNum}</div>`;
-                    } else {
-                        mesasIzquierda.innerHTML += `<div class="mesa empty"></div>`;
-                    }
-                });
+            leftTables.forEach(table => {
+                let mesaDiv = document.createElement('div');
+                mesaDiv.classList.add('mesa');
+                mesaDiv.id = `mesa${table.number}`;
+                mesaDiv.textContent = table.number;
+                mesaDiv.onclick = () => selectTable(table.number);
+                mesaDiv.onmouseover = (event) => showGuests(`Mesa ${table.number}`, event);
+                mesaDiv.onmouseout = hideGuests;
+                // Posicionar en el grid
+                mesaDiv.style.gridRow = table.row;
+                mesaDiv.style.gridColumn = table.column;
+                mesasIzquierda.appendChild(mesaDiv);
             });
+
+            // Mesas 17 y 18 con alineación individual
+            let mesa17 = document.createElement('div');
+            mesa17.classList.add('mesa');
+            mesa17.id = 'mesa17';
+            mesa17.textContent = '17';
+            mesa17.onclick = () => selectTable(17);
+            mesa17.onmouseover = (event) => showGuests('Mesa 17', event);
+            mesa17.onmouseout = hideGuests;
+            mesa17.style.gridRow = 2;
+            mesa17.style.gridColumn = 2; // A la izquierda de la mesa 5
+            mesasIzquierda.appendChild(mesa17);
+
+            let mesa18 = document.createElement('div');
+            mesa18.classList.add('mesa');
+            mesa18.id = 'mesa18';
+            mesa18.textContent = '18';
+            mesa18.onclick = () => selectTable(18);
+            mesa18.onmouseover = (event) => showGuests('Mesa 18', event);
+            mesa18.onmouseout = hideGuests;
+            mesa18.style.gridRow = 3;
+            mesa18.style.gridColumn = 2; // A la izquierda de la mesa 9
+            mesasIzquierda.appendChild(mesa18);
 
             // Disposición personalizada de las mesas derechas
-            const mesasDerechaPositions = [
-                [19, 20, 21, 22, null],
-                [23, 24, 25, 26, 35],
-                [27, 28, 29, 30, 36],
-                [31, 32, 33, 34, null]
+            const rightTables = [
+                {number: 19, row: 1, column: 1},
+                {number: 20, row: 1, column: 2},
+                {number: 21, row: 1, column: 3},
+                {number: 22, row: 1, column: 4},
+                {number: 23, row: 2, column: 1},
+                {number: 24, row: 2, column: 2},
+                {number: 25, row: 2, column: 3},
+                {number: 26, row: 2, column: 4},
+                {number: 27, row: 3, column: 1},
+                {number: 28, row: 3, column: 2},
+                {number: 29, row: 3, column: 3},
+                {number: 30, row: 3, column: 4},
+                {number: 31, row: 4, column: 1},
+                {number: 32, row: 4, column: 2},
+                {number: 33, row: 4, column: 3},
+                {number: 34, row: 4, column: 4},
             ];
 
-            mesasDerechaPositions.forEach(row => {
-                row.forEach(mesaNum => {
-                    if (mesaNum) {
-                        mesasDerecha.innerHTML += `<div class="mesa" id="mesa${mesaNum}" onclick="selectTable(${mesaNum})" onmouseover="showGuests('Mesa ${mesaNum}', event)" onmouseout="hideGuests()">${mesaNum}</div>`;
-                    } else {
-                        mesasDerecha.innerHTML += `<div class="mesa empty"></div>`;
-                    }
-                });
+            rightTables.forEach(table => {
+                let mesaDiv = document.createElement('div');
+                mesaDiv.classList.add('mesa');
+                mesaDiv.id = `mesa${table.number}`;
+                mesaDiv.textContent = table.number;
+                mesaDiv.onclick = () => selectTable(table.number);
+                mesaDiv.onmouseover = (event) => showGuests(`Mesa ${table.number}`, event);
+                mesaDiv.onmouseout = hideGuests;
+                // Posicionar en el grid
+                mesaDiv.style.gridRow = table.row;
+                mesaDiv.style.gridColumn = table.column;
+                mesasDerecha.appendChild(mesaDiv);
             });
+
+            // Mesas 35 y 36 con alineación individual
+            let mesa35 = document.createElement('div');
+            mesa35.classList.add('mesa');
+            mesa35.id = 'mesa35';
+            mesa35.textContent = '35';
+            mesa35.onclick = () => selectTable(35);
+            mesa35.onmouseover = (event) => showGuests('Mesa 35', event);
+            mesa35.onmouseout = hideGuests;
+            mesa35.style.gridRow = 2;
+            mesa35.style.gridColumn = 5; // A la derecha de la mesa 26
+            mesasDerecha.appendChild(mesa35);
+
+            let mesa36 = document.createElement('div');
+            mesa36.classList.add('mesa');
+            mesa36.id = 'mesa36';
+            mesa36.textContent = '36';
+            mesa36.onclick = () => selectTable(36);
+            mesa36.onmouseover = (event) => showGuests('Mesa 36', event);
+            mesa36.onmouseout = hideGuests;
+            mesa36.style.gridRow = 3;
+            mesa36.style.gridColumn = 5; // A la derecha de la mesa 30
+            mesasDerecha.appendChild(mesa36);
         });
     </script>
 </body>
 </html>
+
