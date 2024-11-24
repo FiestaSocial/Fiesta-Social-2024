@@ -72,29 +72,26 @@
         }
         .salon-container {
             position: relative;
-            width: 1000px; /* Ajusta el ancho para que todos los elementos quepan */
-            height: 600px; /* Ajusta la altura según sea necesario */
-            margin: 0 auto; /* Centra el contenedor */
+            width: 1000px; /* Ajuste del ancho del salón */
+            height: 600px; /* Ajuste de la altura del salón */
+            margin: 0 auto;
             border: 2px solid #333;
             padding: 20px;
             margin-top: 20px;
-            /* Elimina 'display: flex;' y 'gap' para tener control manual de la posición de los elementos */
         }
         .mesas {
             position: absolute;
-            /* Posicionamiento manual */
         }
         #mesasIzquierda {
             top: 100px;
-            left: 150px; /* Mueve las mesas más cerca del centro */
+            left: 150px; /* Desplazamiento hacia el centro */
         }
         #mesasDerecha {
             top: 100px;
-            right: 150px; /* Mueve las mesas más cerca del centro */
+            right: 150px; /* Desplazamiento hacia el centro */
         }
-        /* Estilos para las mesas independientes */
-        #mesa17, #mesa18, #mesa35, #mesa36 {
-            position: absolute;
+        /* Estilos para las mesas */
+        .mesa {
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -108,33 +105,32 @@
             transition: background-color 0.3s ease;
             cursor: pointer;
         }
+        .mesa.completa {
+            background-color: #e74c3c;
+        }
+        .mesa.seleccionada {
+            background-color: #f39c12;
+        }
+        /* Estilos para las mesas independientes */
+        #mesa17, #mesa18, #mesa35, #mesa36 {
+            position: absolute;
+        }
         /* Posicionamiento de las mesas independientes */
         #mesa17 {
-            top: 200px; /* Ajusta según sea necesario */
-            left: 100px; /* A la izquierda de la mesa 5 */
+            top: 200px; /* Alineación de la mesa 17 a la izquierda de la 5 */
+            left: 100px;
         }
         #mesa18 {
-            top: 300px; /* Ajusta según sea necesario */
-            left: 100px; /* A la izquierda de la mesa 9 */
+            top: 300px; /* Alineación de la mesa 18 a la izquierda de la 9 */
+            left: 100px;
         }
         #mesa35 {
-            top: 200px; /* Ajusta según sea necesario */
-            right: 100px; /* A la derecha de la mesa 26 */
+            top: 200px; /* Alineación de la mesa 35 a la derecha de la 26 */
+            right: 100px;
         }
         #mesa36 {
-            top: 300px; /* Ajusta según sea necesario */
-            right: 100px; /* A la derecha de la mesa 30 */
-        }
-        /* Ajustar el tamaño de los rectángulos y su posición */
-        .estado-mayor {
-            width: 30px;
-            height: 200px;
-            right: 485px; /* Ajusta según sea necesario */
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .postres, .postres2 {
-            right: 150px; /* Mueve los postres más cerca de las mesas */
+            top: 300px; /* Alineación de la mesa 36 a la derecha de la 30 */
+            right: 100px;
         }
         .pista {
             width: 80px;
@@ -150,6 +146,23 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+        }
+        .estado-mayor {
+            width: 30px;
+            height: 200px;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-400px, -50%);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
         }
         .entrada {
             width: 135px;
@@ -192,7 +205,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 150px;
+            right: 150px; /* Desplazamiento hacia el centro */
             top: 150px;
             writing-mode: vertical-rl;
             text-orientation: mixed;
@@ -208,7 +221,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 150px;
+            right: 150px; /* Desplazamiento hacia el centro */
             bottom: 150px;
             writing-mode: vertical-rl;
             text-orientation: mixed;
