@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiesta Social 2024</title>
     <style>
+        /* Estilos CSS */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f6f8;
@@ -275,7 +276,7 @@
             <input type="text" id="apellido" name="apellido" required><br><br>
 
             <label for="cedula">Cédula de Identidad:</label>
-            <input type="text" id="cedula" name="cedula" required><br><br>
+            <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2"><br><br>
 
             <label for="acompanante">¿Asiste con acompañante?</label>
             <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
@@ -286,7 +287,7 @@
 
             <div id="acompananteCantidad" style="display:none;">
                 <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                <select id="cantidadAcompanantes" name="cantidadAcompanantes" required>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
                     <option value="" selected>Seleccionar</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -426,11 +427,14 @@
 
         function toggleAcompanante() {
             let acompanante = document.getElementById("acompanante").value;
-            let acompananteCantidad = document.getElementById("acompananteCantidad");
+            let acompananteCantidad = document.getElementById("cantidadAcompanantes");
+            let acompananteCantidadContainer = document.getElementById("acompananteCantidad");
             if (acompanante === "si") {
-                acompananteCantidad.style.display = "block";
+                acompananteCantidadContainer.style.display = "block";
+                acompananteCantidad.setAttribute("required", "required");
             } else {
-                acompananteCantidad.style.display = "none";
+                acompananteCantidadContainer.style.display = "none";
+                acompananteCantidad.removeAttribute("required");
             }
         }
 
