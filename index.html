@@ -126,7 +126,7 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 444px; /* Ajuste la posición al lado derecho */
+            right: 444px;
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
@@ -143,11 +143,11 @@
             font-size: 14px;
             font-weight: bold;
             position: absolute;
-            right: 324px; /* Ajuste la posición al lado derecho */
+            right: 324px;
             top: 50%;
             transform: translateY(-50%);
             writing-mode: vertical-rl;
-            text-orientation: mixed.
+            text-orientation: mixed;
         }
         .tooltip {
             position: absolute;
@@ -169,10 +169,10 @@
             border: 1px solid #ced4da;
             border-radius: 5px;
             background-color: #f8f9fa;
-            overflow: hidden.
+            overflow: hidden;
         }
         .table-container {
-            position:relative;
+            position: relative;
             width: 300px;
             height: 300px;
             margin: 30px auto;
@@ -191,7 +191,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%).
+            transform: translate(-50%, -50%);
         }
         .seat {
             width: 40px;
@@ -205,10 +205,10 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease.
+            transition: background-color 0.3s ease;
         }
         .seat.occupied {
-            background-color: #e74c3c.
+            background-color: #e74c3c;
         }
     </style>
 </head>
@@ -314,6 +314,8 @@
         </div>
         <div class="table-container">
             <div class="table" id="mesaText">Mesa</div>
+            <!-- Los asientos se generarán dinámicamente -->
+            <div id="seatsContainer"></div>
         </div>
         <div class="navigation-buttons">
             <button onclick="prevScreen(3)">Anterior</button>
@@ -407,8 +409,8 @@
             let acompanantesForm = document.getElementById("acompanantesForm");
             acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
             for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += 
-                    `<h3>Acompañante ${i}</h3>
+                acompanantesForm.innerHTML += `
+                    <h3>Acompañante ${i}</h3>
                     <label for="nombreAcompanante${i}">Nombre:</label>
                     <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required><br><br>
                     <label for="menuAcompanante${i}">Menú:</label>
@@ -446,10 +448,7 @@
         function updateSeats() {
             const mesaInput = document.getElementById("mesa");
             const selectedMesa = mesaInput.value;
-            const tableContainer = document.querySelector('.table-container');
-
-            // Limpiar asientos existentes
-            document.querySelectorAll('.seat').forEach(seat => seat.remove());
+            const seatsContainer = document.getElementById('seatsContainer');
 
             // Definir la capacidad máxima de la mesa
             let maxCapacity;
@@ -457,7 +456,14 @@
                 case 'Mesa 4':
                     maxCapacity = 11; // Mesa con 11 lugares
                     break;
-                case 'Mesa 8': case 'Mesa 1': case 'Mesa 17': case 'Mesa 23': case 'Mesa 27': case 'Mesa 22': case 'Mesa 35': case 'Mesa 36':
+                case 'Mesa 8':
+                case 'Mesa 1':
+                case 'Mesa 17':
+                case 'Mesa 23':
+                case 'Mesa 27':
+                case 'Mesa 22':
+                case 'Mesa 35':
+                case 'Mesa 36':
                     maxCapacity = 8; // Mesas con 8 lugares
                     break;
                 default:
@@ -465,15 +471,18 @@
                     break;
             }
 
-            // Crear y posicionar asientos dinámicamente
+            // Eliminar asientos existentes
+            seatsContainer.innerHTML = '';
+
+            // Generar asientos dinámicamente
             for (let i = 1; i <= maxCapacity; i++) {
                 let seat = document.createElement('div');
-                seat.className = 'seat';
+                seat.classList.add('seat');
                 seat.dataset.seat = i;
-                tableContainer.appendChild(seat);
+                seatsContainer.appendChild(seat);
             }
 
-            // Posicionar los asientos en forma de círculo
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
             const seats = document.querySelectorAll('.seat');
             const centerX = 50; 
             const centerY = 50;
@@ -550,8 +559,44 @@
             const mesaInput = document.getElementById("mesa");
             const selectedMesa = mesaInput.value;
 
-            if (!selectedMesa || (selectedMesa && guestsData[selectedMesa] && guestsData[selectedMesa].length >= 10)) {
-                alert("Debe seleccionar una mesa disponible antes de continuar.");
+            // Definir la capacidad máxima de la mesa
+            let maxCapacity;
+            switch (selectedMesa) {
+                case 'Mesa 4':
+                    maxCapacity = 11; // Mesa con 11 lugares
+                    break;
+                case 'Mesa 8':
+                case 'Mesa 1':
+                case 'Mesa 17':
+                case 'Mesa 23':
+                case 'Mesa 27':
+                case 'Mesa 22':
+                case 'Mesa 35':
+                case 'Mesa 36':
+                    maxCapacity = 8; // Mesas con 8 lugares
+                    break;
+                default:
+                    maxCapacity = 10; // Todas las otras mesas con 10 lugares
+                    break;
+            }
+
+            let totalGuests = 0;
+            if (selectedMesa && guestsData[selectedMesa]) {
+                guestsData[selectedMesa].forEach(guest => {
+                    totalGuests++; // Contar al invitado principal
+                    if (guest["Nombre Acompanante 1"]) totalGuests++;
+                    if (guest["Nombre Acompanante 2"]) totalGuests++;
+                    if (guest["Nombre Acompanante 3"]) totalGuests++;
+                    if (guest["Nombre Acompanante 4"]) totalGuests++;
+                    if (guest["Nombre Acompanante 5"]) totalGuests++;
+                });
+            }
+
+            const cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value || 0;
+            const totalNuevosGuests = 1 + parseInt(cantidadAcompanantes); // Invitado principal + acompañantes
+
+            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
+                alert("Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.");
                 return;
             }
 
@@ -628,8 +673,6 @@
                 .then(data => {
                     guestsData = data;
                     console.log("Guests Data: ", guestsData);
-                    updateMesaText();
-                    updateMesasCompletaColor();
                 })
                 .catch(error => console.error('Error fetching guest data:', error));
         }
@@ -637,7 +680,7 @@
         function csvToJSON(csv) {
             const lines = csv.split("\n");
             const result = {};
-            the headers = lines[0].split(",");
+            const headers = lines[0].split(",");
 
             for (let i = 1; i < lines.length; i++) {
                 const obj = {};
@@ -662,27 +705,6 @@
                 }
             }
             return result;
-        }
-
-        function updateMesasCompletaColor() {
-            Object.keys(guestsData).forEach(mesa => {
-                const totalGuests = guestsData[mesa].length;
-                let maxCapacity;
-                switch (mesa) {
-                    case 'Mesa 4':
-                        maxCapacity = 11; // Mesa con 11 lugares
-                        break;
-                    case 'Mesa 8': case 'Mesa 1': case 'Mesa 17': case 'Mesa 23': case 'Mesa 27': case 'Mesa 22': case 'Mesa 35': case 'Mesa 36':
-                        maxCapacity = 8; // Mesas con 8 lugares
-                        break;
-                    default:
-                        maxCapacity = 10; // Todas las otras mesas con 10 lugares
-                        break;
-                }
-                if (totalGuests >= maxCapacity) {
-                    document.getElementById(`mesa${mesa.split(' ')[1]}`).classList.add('completa');
-                }
-            });
         }
 
         function showGuests(mesa, event) {
