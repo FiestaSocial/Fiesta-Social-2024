@@ -317,6 +317,10 @@
 
         .map-zone {
             position: absolute;
+            left: calc(var(--zone-x, 50) * 1%);
+            top: calc(var(--zone-y, 50) * 1%);
+            transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
+            transform-origin: var(--zone-origin, center);
             padding: 6px 16px;
             border-radius: 999px;
             font-size: 12px;
@@ -325,52 +329,48 @@
             letter-spacing: 0.08em;
             color: #fff;
             background: rgba(15, 23, 42, 0.7);
+            pointer-events: none;
+            z-index: 1;
+            white-space: nowrap;
         }
 
         .map-zone--dance {
-            left: 50%;
-            top: 45%;
-            transform: translate(-50%, -50%);
             background: rgba(34, 197, 94, 0.85);
         }
 
         .map-zone--stage {
-            left: 4%;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
-            transform-origin: left center;
+            --zone-tx: 0%;
+            --zone-ty: -50%;
+            --zone-rotate: -90deg;
+            --zone-origin: left center;
             background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--entrance {
-            top: 4%;
-            left: 50%;
-            transform: translateX(-50%);
+            --zone-ty: 0%;
             background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dj {
-            bottom: 4%;
-            left: 50%;
-            transform: translateX(-50%);
+            --zone-ty: -100%;
             background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dessert {
-            right: 3%;
             width: 24px;
             text-align: center;
             writing-mode: vertical-rl;
             letter-spacing: 0.2em;
             padding: 12px 6px;
+            background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dessert-left {
-            top: 25%;
+            --zone-tx: -50%;
         }
 
         .map-zone--dessert-right {
-            bottom: 25%;
+            --zone-tx: -50%;
         }
 
         .mesa {
@@ -389,6 +389,7 @@
             border: none;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            z-index: 2;
         }
 
         .mesa:hover,
@@ -695,14 +696,7 @@
                         <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
                     </div>
                 </aside>
-                <div class="salon-map" id="salonMap">
-                    <div class="map-zone map-zone--dance">Pista de baile</div>
-                    <div class="map-zone map-zone--stage">Estado Mayor</div>
-                    <div class="map-zone map-zone--entrance">Entrada / Piscina</div>
-                    <div class="map-zone map-zone--dj">DJ</div>
-                    <div class="map-zone map-zone--dessert map-zone--dessert-left">Postres</div>
-                    <div class="map-zone map-zone--dessert map-zone--dessert-right">Postres</div>
-                </div>
+                <div class="salon-map" id="salonMap"></div>
             </div>
             <div class="table-details">
                 <div class="table-container">
@@ -736,6 +730,15 @@
         let guestsData = {};
         let dataFetchInterval;
         let siteConfig = null;
+
+        const DEFAULT_ZONES = [
+            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
+            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
+            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
+            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
+            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
+            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+        ];
 
         function ensureSingleHero() {
             const heroSection = document.getElementById('screen1');
@@ -790,6 +793,16 @@
                 config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
             }
 
+            if (!Array.isArray(config.zones) || config.zones.length === 0) {
+                config.zones = DEFAULT_ZONES.map(zone => ({
+                    id: zone.id,
+                    label: zone.label,
+                    className: zone.className,
+                    position: { ...zone.position }
+                }));
+            }
+
+            renderZones(config.zones);
             renderTables(config.mesas || []);
             updateSummary(config.mesas || []);
         }
@@ -803,6 +816,31 @@
                 const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
                 capacidadTotalCounter.textContent = totalCapacity;
             }
+        }
+
+        function renderZones(zones) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
+
+            salonMap.querySelectorAll('.map-zone').forEach(zoneElement => zoneElement.remove());
+
+            const sourceZones = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
+
+            sourceZones.forEach(zone => {
+                const zoneElement = document.createElement('div');
+                zoneElement.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
+                zoneElement.textContent = zone.label || '';
+                zoneElement.dataset.zoneId = zone.id || '';
+
+                const posX = parseFloat(zone.position?.x);
+                const posY = parseFloat(zone.position?.y);
+                const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
+                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
+                zoneElement.style.setProperty('--zone-x', safeX);
+                zoneElement.style.setProperty('--zone-y', safeY);
+
+                salonMap.appendChild(zoneElement);
+            });
         }
 
         function renderTables(mesas) {
@@ -1316,4 +1354,3 @@
     </script>
 </body>
 </html>
-plano-coordenadas.s
