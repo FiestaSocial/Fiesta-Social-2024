@@ -98,6 +98,12 @@
             text-decoration: none;
         }
 
+        .button[disabled] {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
         .button--primary {
             background: var(--color-primary);
             color: #fff;
@@ -292,16 +298,20 @@
             <div class="card__header">
                 <div>
                     <h2>Configuración del evento</h2>
-                    <p class="hint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
+                    <p class="hint" id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
                 </div>
                 <div class="toolbar">
                     <button class="button button--primary" id="saveConfigBtn">Guardar cambios</button>
-                    <button class="button button--ghost" id="downloadConfigBtn">Descargar JSON</button>
+                    <button class="button button--ghost" id="writeConfigBtn">Guardar en config.json</button>
+                    <button class="button button--ghost" id="importConfigBtn">Importar JSON</button>
+                    <button class="button button--ghost" id="downloadConfigBtn">Descargar copia</button>
                     <button class="button button--danger" id="resetConfigBtn">Restablecer valores</button>
                 </div>
             </div>
 
             <div class="status status--success" id="saveStatus"></div>
+
+            <input type="file" id="importConfigInput" accept="application/json" style="display:none" aria-hidden="true">
 
             <div class="grid-two">
                 <form id="generalSettingsForm">
@@ -373,6 +383,7 @@
     <script>
         let siteConfig = null;
         let usingLocalOverride = false;
+        let lastFileHandle = null;
 
         async function loadConfig() {
             let storedConfig = null;
@@ -503,7 +514,8 @@
             renderMesaTable();
         }
 
-        async function saveConfiguration() {
+        async function saveConfiguration(options = {}) {
+            const { skipStatus = false } = options;
             siteConfig.siteTitle = document.getElementById('siteTitleInput').value.trim();
             siteConfig.siteSubtitle = document.getElementById('siteSubtitleInput').value.trim();
             siteConfig.siteDescription = document.getElementById('siteDescriptionInput').value.trim();
@@ -547,7 +559,10 @@
             document.getElementById('newPasswordInput').value = '';
             document.getElementById('confirmPasswordInput').value = '';
             updateLocalConfigBadge();
-            showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
+            if (!skipStatus) {
+                showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
+            }
+            return siteConfig;
         }
 
         function downloadConfiguration() {
@@ -569,11 +584,130 @@
             window.location.reload();
         }
 
+        function supportsFileSystemAccess() {
+            return typeof window !== 'undefined' && 'showSaveFilePicker' in window && 'showOpenFilePicker' in window;
+        }
+
+        async function saveConfigToDisk() {
+            try {
+                await saveConfiguration({ skipStatus: true });
+                if (!supportsFileSystemAccess()) {
+                    showStatus(document.getElementById('saveStatus'), 'Tu navegador no permite escribir archivos directamente. Usa "Descargar copia".', 'error');
+                    return;
+                }
+
+                const fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'config.json',
+                    types: [
+                        {
+                            description: 'Archivo de configuración JSON',
+                            accept: { 'application/json': ['.json'] }
+                        }
+                    ]
+                });
+
+                const writable = await fileHandle.createWritable();
+                await writable.write(JSON.stringify(siteConfig, null, 2));
+                await writable.close();
+                lastFileHandle = fileHandle;
+                showStatus(document.getElementById('saveStatus'), 'config.json actualizado en tu equipo.');
+            } catch (error) {
+                console.error(error);
+                showStatus(document.getElementById('saveStatus'), 'No se pudo guardar el archivo: ' + error.message, 'error');
+            }
+        }
+
+        async function reSaveLastFile() {
+            if (!lastFileHandle) {
+                await saveConfigToDisk();
+                return;
+            }
+            try {
+                const writable = await lastFileHandle.createWritable();
+                await writable.write(JSON.stringify(siteConfig, null, 2));
+                await writable.close();
+                showStatus(document.getElementById('saveStatus'), 'config.json actualizado en el archivo previamente elegido.');
+            } catch (error) {
+                console.error(error);
+                showStatus(document.getElementById('saveStatus'), 'No se pudo sobrescribir el archivo: ' + error.message, 'error');
+            }
+        }
+
+        async function importConfigurationFromFile() {
+            try {
+                if (supportsFileSystemAccess()) {
+                    const [handle] = await window.showOpenFilePicker({
+                        types: [
+                            {
+                                description: 'Archivo de configuración JSON',
+                                accept: { 'application/json': ['.json'] }
+                            }
+                        ]
+                    });
+                    const file = await handle.getFile();
+                    lastFileHandle = handle;
+                    await applyImportedConfig(file);
+                } else {
+                    const input = document.getElementById('importConfigInput');
+                    input.value = '';
+                    input.click();
+                }
+            } catch (error) {
+                console.error(error);
+                showStatus(document.getElementById('saveStatus'), 'No se pudo abrir el archivo: ' + error.message, 'error');
+            }
+        }
+
+        async function applyImportedConfig(file) {
+            try {
+                const text = await file.text();
+                const parsed = JSON.parse(text);
+                siteConfig = parsed;
+                populateGeneralForms();
+                renderMesaTable();
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
+                    usingLocalOverride = true;
+                }
+                updateLocalConfigBadge();
+                showStatus(document.getElementById('saveStatus'), 'Configuración importada correctamente.');
+            } catch (error) {
+                console.error(error);
+                showStatus(document.getElementById('saveStatus'), 'Archivo inválido: ' + error.message, 'error');
+            }
+        }
+
+        function updateFileAccessUI() {
+            const writeBtn = document.getElementById('writeConfigBtn');
+            const importBtn = document.getElementById('importConfigBtn');
+            const fileAccessHint = document.getElementById('fileAccessHint');
+
+            if (!writeBtn || !importBtn || !fileAccessHint) return;
+
+            if (supportsFileSystemAccess()) {
+                fileAccessHint.textContent = 'Puedes guardar los cambios directamente sobre config.json usando los botones superiores.';
+                writeBtn.disabled = false;
+                importBtn.disabled = false;
+                writeBtn.removeAttribute('aria-disabled');
+                importBtn.removeAttribute('aria-disabled');
+                writeBtn.removeAttribute('title');
+                importBtn.removeAttribute('title');
+            } else {
+                writeBtn.title = 'Disponible solo en navegadores basados en Chromium bajo HTTPS.';
+                importBtn.title = 'Si no está disponible, utiliza el botón de importar inferior.';
+                fileAccessHint.textContent = 'Si tu navegador no permite editar archivos, usa "Descargar copia" y reemplaza config.json manualmente.';
+                writeBtn.disabled = true;
+                importBtn.disabled = false;
+                writeBtn.setAttribute('aria-disabled', 'true');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 siteConfig = await loadConfig();
                 document.getElementById('passwordHint').textContent = siteConfig?.admin?.passwordHint || '';
                 updateLocalConfigBadge();
+                updateFileAccessUI();
             } catch (error) {
                 console.error(error);
                 const status = document.getElementById('loginStatus');
@@ -617,10 +751,27 @@
         document.getElementById('saveConfigBtn').addEventListener('click', async event => {
             event.preventDefault();
             await saveConfiguration();
+            if (supportsFileSystemAccess() && lastFileHandle) {
+                await reSaveLastFile();
+            }
         });
         document.getElementById('downloadConfigBtn').addEventListener('click', event => {
             event.preventDefault();
             downloadConfiguration();
+        });
+        document.getElementById('writeConfigBtn').addEventListener('click', async event => {
+            event.preventDefault();
+            await saveConfigToDisk();
+        });
+        document.getElementById('importConfigBtn').addEventListener('click', async event => {
+            event.preventDefault();
+            await importConfigurationFromFile();
+        });
+        document.getElementById('importConfigInput').addEventListener('change', async event => {
+            const [file] = event.target.files;
+            if (file) {
+                await applyImportedConfig(file);
+            }
         });
         document.getElementById('resetConfigBtn').addEventListener('click', event => {
             event.preventDefault();
@@ -629,5 +780,6 @@
             }
         });
     </script>
+
 </body>
 </html>
