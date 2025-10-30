@@ -334,7 +334,7 @@
                     <div>
                         <label for="reservationScriptInput">URL de Google Apps Script</label>
                         <input type="url" id="reservationScriptInput" placeholder="https://script.google.com/macros/s/...">
-                        <p class="hint">Se utilizará para enviar las reservas a la hoja de cálculo.</p>
+                        <p class="hint">Publica el Apps Script como aplicación web (acceso: cualquiera con el enlace), añade la cabecera <code>Access-Control-Allow-Origin: *</code> en la respuesta y lee los datos con <code>JSON.parse(e.parameter.payload || e.postData.contents)</code> para guardarlos en la hoja.</p>
                     </div>
                     <div>
                         <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
