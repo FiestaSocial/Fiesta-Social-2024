@@ -377,6 +377,31 @@
                     <tbody id="mesasTableBody"></tbody>
                 </table>
             </div>
+
+            <div class="card__header" style="margin-top: 40px;">
+                <h3>Zonas del salón</h3>
+                <div class="toolbar">
+                    <button class="button button--primary" id="addZoneBtn">Agregar zona</button>
+                </div>
+            </div>
+
+            <p class="hint">Modifica el texto y la posición (0-100%) de elementos como la pista de baile, entrada o postres.</p>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Identificador</th>
+                            <th>Etiqueta visible</th>
+                            <th>Clases CSS</th>
+                            <th>Posición X (%)</th>
+                            <th>Posición Y (%)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="zonesTableBody"></tbody>
+                </table>
+            </div>
         </section>
     </main>
 
@@ -384,6 +409,15 @@
         let siteConfig = null;
         let usingLocalOverride = false;
         let lastFileHandle = null;
+
+        const DEFAULT_ZONES = [
+            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
+            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
+            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
+            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
+            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
+            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+        ];
 
         async function loadConfig() {
             let storedConfig = null;
@@ -428,6 +462,42 @@
             setTimeout(() => {
                 element.style.display = 'none';
             }, 3200);
+        }
+
+        function clampPercentage(value) {
+            const number = parseFloat(value);
+            if (Number.isNaN(number)) {
+                return 0;
+            }
+            return Math.min(Math.max(number, 0), 100);
+        }
+
+        function ensureZonesStructure() {
+            if (!siteConfig) {
+                siteConfig = {};
+            }
+
+            if (!Array.isArray(siteConfig.zones) || siteConfig.zones.length === 0) {
+                siteConfig.zones = DEFAULT_ZONES.map(zone => ({
+                    id: zone.id,
+                    label: zone.label,
+                    className: zone.className,
+                    position: {
+                        x: clampPercentage(zone.position?.x ?? 0),
+                        y: clampPercentage(zone.position?.y ?? 0)
+                    }
+                }));
+            } else {
+                siteConfig.zones = siteConfig.zones.map(zone => ({
+                    id: zone?.id || '',
+                    label: zone?.label || '',
+                    className: zone?.className || '',
+                    position: {
+                        x: clampPercentage(zone?.position?.x ?? 0),
+                        y: clampPercentage(zone?.position?.y ?? 0)
+                    }
+                }));
+            }
         }
 
         function populateGeneralForms() {
@@ -488,6 +558,64 @@
             });
         }
 
+        function renderZoneTable() {
+            const tbody = document.getElementById('zonesTableBody');
+            if (!tbody) return;
+
+            ensureZonesStructure();
+            tbody.innerHTML = '';
+
+            siteConfig.zones.forEach((zone, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" value="${zone.id || ''}" data-field="id" aria-label="Identificador de la zona"></td>
+                    <td><input type="text" value="${zone.label || ''}" data-field="label" aria-label="Etiqueta visible de la zona"></td>
+                    <td><input type="text" value="${zone.className || ''}" data-field="className" aria-label="Clases CSS adicionales"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value="${zone.position?.x ?? 0}" data-field="posX" aria-label="Posición horizontal de la zona"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value="${zone.position?.y ?? 0}" data-field="posY" aria-label="Posición vertical de la zona"></td>
+                    <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
+                `;
+
+                const idInput = row.querySelector('[data-field="id"]');
+                const labelInput = row.querySelector('[data-field="label"]');
+                const classInput = row.querySelector('[data-field="className"]');
+                const posXInput = row.querySelector('[data-field="posX"]');
+                const posYInput = row.querySelector('[data-field="posY"]');
+                const removeBtn = row.querySelector('[data-action="remove"]');
+
+                idInput.addEventListener('input', event => {
+                    siteConfig.zones[index].id = event.target.value.trim();
+                });
+
+                labelInput.addEventListener('input', event => {
+                    siteConfig.zones[index].label = event.target.value;
+                });
+
+                classInput.addEventListener('input', event => {
+                    siteConfig.zones[index].className = event.target.value;
+                });
+
+                posXInput.addEventListener('input', event => {
+                    const value = clampPercentage(event.target.value);
+                    siteConfig.zones[index].position.x = value;
+                    event.target.value = value;
+                });
+
+                posYInput.addEventListener('input', event => {
+                    const value = clampPercentage(event.target.value);
+                    siteConfig.zones[index].position.y = value;
+                    event.target.value = value;
+                });
+
+                removeBtn.addEventListener('click', () => {
+                    siteConfig.zones.splice(index, 1);
+                    renderZoneTable();
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+
         function updateLocalConfigBadge() {
             const badge = document.getElementById('localConfigBadge');
             if (!badge) return;
@@ -512,6 +640,18 @@
                 position: { x: 50, y: 50 }
             });
             renderMesaTable();
+        }
+
+        function addZone() {
+            ensureZonesStructure();
+            const uniqueId = `zona-${Math.random().toString(36).slice(2, 7)}`;
+            siteConfig.zones.push({
+                id: uniqueId,
+                label: 'Nueva zona',
+                className: '',
+                position: { x: 50, y: 50 }
+            });
+            renderZoneTable();
         }
 
         async function saveConfiguration(options = {}) {
@@ -550,6 +690,21 @@
                     .sort((a, b) => (a.number || 0) - (b.number || 0));
             }
 
+            ensureZonesStructure();
+            if (Array.isArray(siteConfig.zones)) {
+                siteConfig.zones = siteConfig.zones
+                    .map(zone => ({
+                        id: (zone.id || '').trim(),
+                        label: (zone.label || '').trim(),
+                        className: (zone.className || '').trim(),
+                        position: {
+                            x: clampPercentage(zone.position?.x ?? 0),
+                            y: clampPercentage(zone.position?.y ?? 0)
+                        }
+                    }))
+                    .filter(zone => zone.id && zone.label);
+            }
+
             if (typeof localStorage !== 'undefined') {
                 localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
                 usingLocalOverride = true;
@@ -559,6 +714,7 @@
             document.getElementById('newPasswordInput').value = '';
             document.getElementById('confirmPasswordInput').value = '';
             updateLocalConfigBadge();
+            renderZoneTable();
             if (!skipStatus) {
                 showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
             }
@@ -665,6 +821,7 @@
                 siteConfig = parsed;
                 populateGeneralForms();
                 renderMesaTable();
+                renderZoneTable();
                 if (typeof localStorage !== 'undefined') {
                     localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
                     usingLocalOverride = true;
@@ -737,6 +894,7 @@
                     document.getElementById('editorCard').hidden = false;
                     populateGeneralForms();
                     renderMesaTable();
+                    renderZoneTable();
                     updateLocalConfigBadge();
                 } else {
                     showStatus(status, 'Contraseña incorrecta.', 'error');
@@ -748,6 +906,7 @@
         });
 
         document.getElementById('addMesaBtn').addEventListener('click', addMesa);
+        document.getElementById('addZoneBtn').addEventListener('click', addZone);
         document.getElementById('saveConfigBtn').addEventListener('click', async event => {
             event.preventDefault();
             await saveConfiguration();
@@ -782,4 +941,3 @@
     </script>
 
 </body>
-</html>
