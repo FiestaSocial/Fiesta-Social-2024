@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de administración · Fiesta Social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #0b66ff;
+            --color-primary-dark: #084dcc;
+            --color-surface: #ffffff;
+            --color-muted: #475569;
+            --color-border: #e2e8f0;
+            --color-success: #059669;
+            --color-danger: #ef4444;
+            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.18);
+            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.14);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.35), transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.25), transparent 55%),
+                        linear-gradient(135deg, #0f172a, #1e293b 60%, #0f172a);
+            color: #0f172a;
+            padding: 40px 16px 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            gap: 24px;
+        }
+
+        h1, h2, h3 {
+            margin: 0 0 16px;
+            color: #0f172a;
+        }
+
+        p {
+            margin: 0 0 16px;
+            color: var(--color-muted);
+            line-height: 1.6;
+        }
+
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
+            pointer-events: none;
+        }
+
+        .card__header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 999px;
+            border: none;
+            padding: 12px 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .button--primary {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
+        }
+
+        .button--primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .button--ghost {
+            background: rgba(15, 23, 42, 0.05);
+            color: var(--color-primary);
+        }
+
+        .button--ghost:hover {
+            background: rgba(15, 23, 42, 0.12);
+        }
+
+        .button--danger {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--color-danger);
+        }
+
+        .button--danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        form {
+            display: grid;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            font-size: 15px;
+            background: #f8fafc;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(11, 102, 255, 0.8);
+            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        thead {
+            background: rgba(15, 23, 42, 0.05);
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(148, 163, 184, 0.12);
+        }
+
+        tbody tr:hover {
+            background: rgba(11, 102, 255, 0.08);
+        }
+
+        td input {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .grid-two {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .hint {
+            font-size: 13px;
+            color: rgba(148, 163, 184, 1);
+        }
+
+        .status {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status--success {
+            background: rgba(5, 150, 105, 0.12);
+            color: var(--color-success);
+        }
+
+        .status--error {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--color-danger);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-actions .button {
+            padding: 8px 14px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.06);
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(15, 23, 42, 0.7);
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 24px 12px 48px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar .button {
+                width: 100%;
+            }
+
+            .table-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="card" id="loginCard">
+            <h1>Panel de administración</h1>
+            <p>Administra el contenido del sitio sin editar código. Ingresa la contraseña para desbloquear las configuraciones.</p>
+            <form id="loginForm">
+                <div>
+                    <label for="adminPassword">Contraseña</label>
+                    <input type="password" id="adminPassword" autocomplete="current-password" required>
+                    <p class="hint" id="passwordHint"></p>
+                </div>
+                <div class="toolbar">
+                    <button type="submit" class="button button--primary">Ingresar</button>
+                    <a href="index.html" class="button button--ghost">Volver al sitio</a>
+                </div>
+                <div class="status status--error" id="loginStatus"></div>
+            </form>
+        </section>
+
+        <section class="card" id="editorCard" hidden>
+            <div class="card__header">
+                <div>
+                    <h2>Configuración del evento</h2>
+                    <p class="hint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
+                </div>
+                <div class="toolbar">
+                    <button class="button button--primary" id="saveConfigBtn">Guardar cambios</button>
+                    <button class="button button--ghost" id="downloadConfigBtn">Descargar JSON</button>
+                    <button class="button button--danger" id="resetConfigBtn">Restablecer valores</button>
+                </div>
+            </div>
+
+            <div class="status status--success" id="saveStatus"></div>
+
+            <div class="grid-two">
+                <form id="generalSettingsForm">
+                    <div>
+                        <label for="siteTitleInput">Título del sitio</label>
+                        <input type="text" id="siteTitleInput" required>
+                    </div>
+                    <div>
+                        <label for="siteSubtitleInput">Subtítulo</label>
+                        <input type="text" id="siteSubtitleInput" required>
+                    </div>
+                    <div>
+                        <label for="siteDescriptionInput">Descripción breve</label>
+                        <textarea id="siteDescriptionInput" required></textarea>
+                    </div>
+                    <div>
+                        <label for="heroImageInput">Imagen principal (ruta o URL)</label>
+                        <input type="text" id="heroImageInput" placeholder="Imagen de bienvenida.png">
+                    </div>
+                    <div>
+                        <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
+                        <input type="number" id="defaultCapacityInput" min="1" step="1" required>
+                    </div>
+                </form>
+
+                <form id="securityForm">
+                    <div>
+                        <label for="passwordHintInput">Pista de contraseña</label>
+                        <input type="text" id="passwordHintInput">
+                    </div>
+                    <div>
+                        <label for="newPasswordInput">Nueva contraseña (opcional)</label>
+                        <input type="password" id="newPasswordInput" autocomplete="new-password">
+                        <p class="hint">Se almacenará un hash SHA-256, nunca la contraseña en texto plano.</p>
+                    </div>
+                    <div>
+                        <label for="confirmPasswordInput">Confirmar nueva contraseña</label>
+                        <input type="password" id="confirmPasswordInput" autocomplete="new-password">
+                    </div>
+                    <div class="badge" id="localConfigBadge"></div>
+                </form>
+            </div>
+
+            <div class="card__header" style="margin-top: 32px;">
+                <h3>Mesas del salón</h3>
+                <div class="toolbar">
+                    <button class="button button--primary" id="addMesaBtn">Agregar mesa</button>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Etiqueta</th>
+                            <th>Capacidad</th>
+                            <th>Posición X (%)</th>
+                            <th>Posición Y (%)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="mesasTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let siteConfig = null;
+        let usingLocalOverride = false;
+
+        async function loadConfig() {
+            let storedConfig = null;
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    storedConfig = localStorage.getItem('fiestaConfig');
+                    if (storedConfig) {
+                        storedConfig = JSON.parse(storedConfig);
+                        usingLocalOverride = true;
+                    }
+                } catch (error) {
+                    console.warn('No se pudo leer la configuración almacenada.', error);
+                    storedConfig = null;
+                }
+            }
+
+            if (storedConfig) {
+                return storedConfig;
+            }
+
+            const response = await fetch('config.json?_=' + Date.now());
+            if (!response.ok) {
+                throw new Error('No se pudo cargar config.json');
+            }
+            usingLocalOverride = false;
+            return await response.json();
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function showStatus(element, message, type = 'success') {
+            if (!element) return;
+            element.textContent = message;
+            element.classList.remove('status--success', 'status--error');
+            element.classList.add(type === 'success' ? 'status--success' : 'status--error');
+            element.style.display = 'flex';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3200);
+        }
+
+        function populateGeneralForms() {
+            document.getElementById('siteTitleInput').value = siteConfig.siteTitle || '';
+            document.getElementById('siteSubtitleInput').value = siteConfig.siteSubtitle || '';
+            document.getElementById('siteDescriptionInput').value = siteConfig.siteDescription || '';
+            document.getElementById('heroImageInput').value = siteConfig.heroImage || '';
+            document.getElementById('defaultCapacityInput').value = siteConfig.defaultCapacity || 10;
+
+            const hintInput = document.getElementById('passwordHintInput');
+            hintInput.value = siteConfig?.admin?.passwordHint || '';
+        }
+
+        function renderMesaTable() {
+            const tbody = document.getElementById('mesasTableBody');
+            tbody.innerHTML = '';
+
+            if (!Array.isArray(siteConfig.mesas)) {
+                siteConfig.mesas = [];
+            }
+
+            siteConfig.mesas.forEach((mesa, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="number" min="1" step="1" value="${mesa.number ?? ''}" data-field="number" aria-label="Número de mesa"></td>
+                    <td><input type="text" value="${mesa.label || ''}" data-field="label" aria-label="Etiqueta de mesa"></td>
+                    <td><input type="number" min="1" step="1" value="${mesa.capacity ?? siteConfig.defaultCapacity ?? 10}" data-field="capacity" aria-label="Capacidad de mesa"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value="${mesa.position?.x ?? 0}" data-field="posX" aria-label="Posición horizontal"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value="${mesa.position?.y ?? 0}" data-field="posY" aria-label="Posición vertical"></td>
+                    <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
+                `;
+
+                row.querySelector('[data-field="number"]').addEventListener('input', event => {
+                    siteConfig.mesas[index].number = parseInt(event.target.value, 10) || 0;
+                });
+                row.querySelector('[data-field="label"]').addEventListener('input', event => {
+                    siteConfig.mesas[index].label = event.target.value;
+                });
+                row.querySelector('[data-field="capacity"]').addEventListener('input', event => {
+                    siteConfig.mesas[index].capacity = parseInt(event.target.value, 10) || siteConfig.defaultCapacity || 10;
+                });
+                row.querySelector('[data-field="posX"]').addEventListener('input', event => {
+                    const value = parseFloat(event.target.value);
+                    if (!siteConfig.mesas[index].position) siteConfig.mesas[index].position = { x: 0, y: 0 };
+                    siteConfig.mesas[index].position.x = isNaN(value) ? 0 : value;
+                });
+                row.querySelector('[data-field="posY"]').addEventListener('input', event => {
+                    const value = parseFloat(event.target.value);
+                    if (!siteConfig.mesas[index].position) siteConfig.mesas[index].position = { x: 0, y: 0 };
+                    siteConfig.mesas[index].position.y = isNaN(value) ? 0 : value;
+                });
+                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                    siteConfig.mesas.splice(index, 1);
+                    renderMesaTable();
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateLocalConfigBadge() {
+            const badge = document.getElementById('localConfigBadge');
+            if (!badge) return;
+            if (typeof localStorage === 'undefined') {
+                badge.textContent = 'El navegador no admite almacenamiento local para guardar cambios.';
+                return;
+            }
+            if (usingLocalOverride) {
+                badge.textContent = 'Usando configuración almacenada en este navegador';
+            } else {
+                badge.textContent = 'Usando configuración predeterminada de config.json';
+            }
+        }
+
+        function addMesa() {
+            const nextNumber = (siteConfig.mesas?.reduce((max, mesa) => Math.max(max, mesa.number || 0), 0) || 0) + 1;
+            const defaultCapacity = siteConfig.defaultCapacity || 10;
+            siteConfig.mesas.push({
+                number: nextNumber,
+                label: `Mesa ${nextNumber}`,
+                capacity: defaultCapacity,
+                position: { x: 50, y: 50 }
+            });
+            renderMesaTable();
+        }
+
+        async function saveConfiguration() {
+            siteConfig.siteTitle = document.getElementById('siteTitleInput').value.trim();
+            siteConfig.siteSubtitle = document.getElementById('siteSubtitleInput').value.trim();
+            siteConfig.siteDescription = document.getElementById('siteDescriptionInput').value.trim();
+            siteConfig.heroImage = document.getElementById('heroImageInput').value.trim();
+            siteConfig.defaultCapacity = parseInt(document.getElementById('defaultCapacityInput').value, 10) || 10;
+
+            if (!siteConfig.admin) siteConfig.admin = {};
+            siteConfig.admin.passwordHint = document.getElementById('passwordHintInput').value.trim();
+
+            const newPassword = document.getElementById('newPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+            if (newPassword || confirmPassword) {
+                if (newPassword !== confirmPassword) {
+                    showStatus(document.getElementById('saveStatus'), 'Las contraseñas no coinciden.', 'error');
+                    return;
+                }
+                siteConfig.admin.passwordHash = await hashPassword(newPassword);
+            }
+
+            if (Array.isArray(siteConfig.mesas)) {
+                siteConfig.mesas = siteConfig.mesas
+                    .map(mesa => ({
+                        ...mesa,
+                        number: parseInt(mesa.number, 10) || 0,
+                        capacity: parseInt(mesa.capacity, 10) || siteConfig.defaultCapacity || 10,
+                        position: {
+                            x: parseFloat(mesa.position?.x) || 0,
+                            y: parseFloat(mesa.position?.y) || 0
+                        }
+                    }))
+                    .sort((a, b) => (a.number || 0) - (b.number || 0));
+            }
+
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
+                usingLocalOverride = true;
+            } else {
+                console.warn('localStorage no está disponible en este entorno.');
+            }
+            document.getElementById('newPasswordInput').value = '';
+            document.getElementById('confirmPasswordInput').value = '';
+            updateLocalConfigBadge();
+            showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
+        }
+
+        function downloadConfiguration() {
+            const blob = new Blob([JSON.stringify(siteConfig, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'config-fiesta-social.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function resetConfiguration() {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem('fiestaConfig');
+            }
+            window.location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                siteConfig = await loadConfig();
+                document.getElementById('passwordHint').textContent = siteConfig?.admin?.passwordHint || '';
+                updateLocalConfigBadge();
+            } catch (error) {
+                console.error(error);
+                const status = document.getElementById('loginStatus');
+                if (status) {
+                    status.textContent = 'No se pudo cargar config.json. Verifica que el archivo exista.';
+                    status.classList.add('status--error');
+                    status.style.display = 'flex';
+                }
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async event => {
+            event.preventDefault();
+            const passwordInput = document.getElementById('adminPassword');
+            const status = document.getElementById('loginStatus');
+            status.style.display = 'none';
+
+            if (!siteConfig?.admin?.passwordHash) {
+                showStatus(status, 'No hay contraseña configurada. Verifica config.json.', 'error');
+                return;
+            }
+
+            try {
+                const hash = await hashPassword(passwordInput.value);
+                if (hash === siteConfig.admin.passwordHash) {
+                    document.getElementById('loginCard').hidden = true;
+                    document.getElementById('editorCard').hidden = false;
+                    populateGeneralForms();
+                    renderMesaTable();
+                    updateLocalConfigBadge();
+                } else {
+                    showStatus(status, 'Contraseña incorrecta.', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                showStatus(status, 'Ocurrió un error al verificar la contraseña.', 'error');
+            }
+        });
+
+        document.getElementById('addMesaBtn').addEventListener('click', addMesa);
+        document.getElementById('saveConfigBtn').addEventListener('click', async event => {
+            event.preventDefault();
+            await saveConfiguration();
+        });
+        document.getElementById('downloadConfigBtn').addEventListener('click', event => {
+            event.preventDefault();
+            downloadConfiguration();
+        });
+        document.getElementById('resetConfigBtn').addEventListener('click', event => {
+            event.preventDefault();
+            if (confirm('Esto eliminará la configuración personalizada guardada en este navegador. ¿Deseas continuar?')) {
+                resetConfiguration();
+            }
+        });
+    </script>
+</body>
+</html>
+)
