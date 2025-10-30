@@ -1,225 +1,119 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiesta Social 2024</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #0b66ff;
-            --color-primary-dark: #084dcc;
-            --color-secondary: #f39c12;
-            --color-background: #0f172a;
-            --color-surface: #ffffff;
-            --color-muted: #64748b;
-            --color-border: #e2e8f0;
-            --color-success: #22c55e;
-            --color-danger: #ef4444;
-            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.25);
-            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.18);
-            --radius-lg: 28px;
-            --radius-md: 18px;
-            --radius-sm: 12px;
+<!DOCTYPE html >
+< html lang = "es" > 
+< encabezado >
+    < meta charset = "UTF-8" > 
+    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
+    <title>Panel de administración · Fiesta Social</title>
+    < link rel = "preconnect" href = "https://fonts.googleapis.com" >  
+    < link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin >   
+    < link href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel = "stylesheet" >  
+    < estilo >
+        :raíz {
+            --color-primary : #0b66ff ;
+            --color-primary-dark : #084dcc ;
+            --color-surface : #ffffff ;
+            --color-muted : #475569 ;
+            --color-border : #e2e8f0 ;
+            --color-success : #059669 ;
+            --color-danger : #ef4444 ;
+            --shadow-lg : 0 24px 60px rgba ( 15 , 23 , 42 , 0.18 );
+   
+            --shadow-md : 0 14px 35px rgba ( 15 , 23 , 42 , 0.14 );
+   
+            --radius-lg : 28px ;
+            --radius-md : 18px ;
+            --radius-sm : 12px ;
+            font-family : 'Poppins' , 'Segoe UI' , sans-serif;
         }
 
         * {
-            box-sizing: border-box;
+            tamaño de caja : caja con borde;
         }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.45), transparent 55%),
-                        radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.35), transparent 55%),
-                        linear-gradient(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
-            color: #0f172a;
-            padding: 40px 16px 60px;
-            display: flex;
-            justify-content: center;
+        cuerpo {
+            margen : 0 ;
+            altura mínima : 100vh ;
+            fondo : degradado radial (círculo en la parte superior izquierda, rgba ( 59 , 130 , 246 , 0.35 ), transparente 50% ),
+                        gradiente radial (círculo en la parte inferior derecha, rgba ( 236 , 72 , 153 , 0.25 ), transparente 55% ),
+                        gradiente-lineal ( 135deg , #0f172a , #1e293b 60% , #0f172a );
+ 
+            color : #0f172a ;
+            relleno : 40px 16px 60px ;
+  
+            pantalla : flexible;
+            justificar-contenido : centro;
         }
 
-        main {
-            width: 100%;
-            max-width: 1100px;
+        principal {
+            ancho : 100% ;
+            ancho máximo : 1100px ;
+            visualización : cuadrícula;
+            espacio : 24px ;
         }
 
-        h1, h2, h3 {
-            color: #0f172a;
-            margin: 0 0 12px 0;
+        h1 , h2 , h3 {
+            margen : 0 0 16px ;
+  
+            color : #0f172a ;
         }
 
-        p {
-            margin: 0 0 16px;
-            color: var(--color-muted);
-            line-height: 1.6;
+        pag {
+            margen : 0 0 16px ;
+  
+            color : var (--color-muted);
+            altura de línea : 1.6 ;
         }
 
-        .container {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: 32px 32px 40px;
-            box-shadow: var(--shadow-lg);
-            display: none;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
+        .tarjeta {
+            fondo : var (--color-surface);
+            radio-borde : var (--radius-lg);
+            relleno : 32px ;
+            box-shadow : var (--shadow-lg);
+            posición : relativa;
+            desbordamiento : oculto;
         }
 
-        .container::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
-            pointer-events: none;
+        .card ::después {
+            contenido : "" ;
+            posición : absoluta;
+            recuadro : 0 ;
+            fondo : degradado radial (círculo en la parte superior derecha, rgba ( 11 , 102 , 255 , 0.08 ), transparente 55% );
+            eventos de puntero : ninguno;
         }
 
-        .container.active {
-            display: block;
-            animation: fadeIn 0.45s ease;
+        .card__header {
+            pantalla : flexible;
+            flex-wrap : envolver;
+            alinear elementos : centro;
+            justificar-contenido : espacio-entre;
+            espacio : 16px ;
+            margen inferior : 24px ;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .botón {
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            espacio : 8px ;
+            radio de borde : 999px ;
+            borde : ninguno;
+            relleno : 12px 22px ;
+ 
+            peso de la fuente : 600 ;
+            cursor : puntero;
+            transición : transformación 0.2s ease, sombra de caja 0.2s ease;
+            decoración de texto : ninguna;
         }
 
-        .hero-card {
-            display: grid;
-            gap: 32px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            align-items: center;
+        .botón [deshabilitado] {
+            opacidad : 0,55 ;
+            cursor : no permitido;
+            box-shadow : ninguna;
         }
 
-        .hero-card__content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-card__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background: rgba(11, 102, 255, 0.1);
-            color: var(--color-primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 12px;
-        }
-
-        .hero-card__title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .hero-card__description {
-            font-size: 16px;
-            color: rgba(15, 23, 42, 0.8);
-            margin-bottom: 24px;
-        }
-
-        .hero-card__actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .hero-card__media {
-            margin: 0;
-            position: relative;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-
-        .hero-card__media::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
-        }
-
-        .hero-card__media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .section-description {
-            font-size: 15px;
-            color: rgba(15, 23, 42, 0.7);
-            margin-bottom: 24px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label {
-            font-weight: 600;
-            color: rgba(15, 23, 42, 0.85);
-            font-size: 14px;
-        }
-
-        input, select {
-            padding: 12px 14px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-            font-size: 15px;
-            transition: border 0.2s ease, box-shadow 0.2s ease;
-            background: #f8fafc;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: rgba(11, 102, 255, 0.8);
-            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
-        }
-
-        input:invalid, select:invalid {
-            border-color: rgba(239, 68, 68, 0.6);
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-            border-radius: 999px;
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
-        }
-
-        .button--primary {
-            background: var(--color-primary);
-            color: #fff;
+        .botón--primario {
+            fondo : var (--color-primary);
+            color : #fff ;
             box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
         }
 
@@ -229,1137 +123,936 @@
         }
 
         .button--ghost {
-            background: rgba(15, 23, 42, 0.04);
+            background: rgba(15, 23, 42, 0.05);
             color: var(--color-primary);
         }
 
         .button--ghost:hover {
-            background: rgba(15, 23, 42, 0.1);
+            background: rgba(15, 23, 42, 0.12);
         }
 
-        .navigation-buttons {
-            margin-top: 32px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
+        .button--danger {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--color-danger);
         }
 
-        .salon-wrapper {
+        .button--danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        form {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 28px;
-            margin-bottom: 32px;
-            align-items: start;
+            gap: 20px;
         }
 
-        .salon-summary {
-            background: rgba(248, 250, 252, 0.9);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            position: sticky;
-            top: 32px;
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
         }
 
-        .salon-summary h3 {
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .salon-summary p {
-            margin-bottom: 12px;
-            color: rgba(15, 23, 42, 0.75);
-        }
-
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .legend span {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: rgba(15, 23, 42, 0.8);
-        }
-
-        .legend-swatch {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .legend-swatch--available {
-            background: var(--color-primary);
-        }
-
-        .legend-swatch--full {
-            background: var(--color-danger);
-        }
-
-        .legend-swatch--selected {
-            background: var(--color-secondary);
-        }
-
-        .salon-map {
-            position: relative;
+        input, textarea {
             width: 100%;
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
-            overflow: hidden;
-        }
-
-        .map-zone {
-            position: absolute;
-            left: calc(var(--zone-x, 50) * 1%);
-            top: calc(var(--zone-y, 50) * 1%);
-            transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
-            transform-origin: var(--zone-origin, center);
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #fff;
-            background: rgba(15, 23, 42, 0.7);
-            pointer-events: none;
-            z-index: 1;
-            white-space: nowrap;
-        }
-
-        .map-zone--dance {
-            background: rgba(34, 197, 94, 0.85);
-        }
-
-        .map-zone--stage {
-            --zone-tx: 0%;
-            --zone-ty: -50%;
-            --zone-rotate: -90deg;
-            --zone-origin: left center;
-            background: rgba(59, 130, 246, 0.9);
-        }
-
-        .map-zone--entrance {
-            --zone-ty: 0%;
-            background: rgba(59, 130, 246, 0.9);
-        }
-
-        .map-zone--dj {
-            --zone-ty: -100%;
-            background: rgba(59, 130, 246, 0.9);
-        }
-
-        .map-zone--dessert {
-            width: 24px;
-            text-align: center;
-            writing-mode: vertical-rl;
-            letter-spacing: 0.2em;
-            padding: 12px 6px;
-            background: rgba(59, 130, 246, 0.9);
-        }
-
-        .map-zone--dessert-left {
-            --zone-tx: -50%;
-        }
-
-        .map-zone--dessert-right {
-            --zone-tx: -50%;
-        }
-
-        .mesa {
-            position: absolute;
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: var(--color-primary);
-            color: #fff;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
-            transform: translate(-50%, -50%);
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            z-index: 2;
-        }
-
-        .mesa:hover,
-        .mesa:focus {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
-            outline: none;
-        }
-
-        .mesa.completa {
-            background: var(--color-danger);
-            box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3);
-        }
-
-        .mesa.seleccionada {
-            background: var(--color-secondary);
-            box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35);
-        }
-
-        .table-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .table-container {
-            position: relative;
-            width: 100%;
-            padding-top: 100%;
-            border-radius: var(--radius-md);
-            background: rgba(248, 250, 252, 0.9);
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            display: none;
-        }
-
-        #seatsContainer {
-            position: absolute;
-            inset: 0;
-        }
-
-        .table {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            color: #fff;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
-        }
-
-        #seatsContainer .seat {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: var(--color-success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 600;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-
-        #seatsContainer .seat.occupied {
-            background: var(--color-danger);
-        }
-
-        #guestList {
-            min-height: 180px;
-            background: rgba(248, 250, 252, 0.85);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            font-size: 14px;
-            display: grid;
-            gap: 6px;
-        }
-
-        #guestList strong {
-            color: rgba(15, 23, 42, 0.9);
-        }
-
-        #acompanantesForm {
-            display: grid;
-            gap: 16px;
-        }
-
-        #acompanantesForm h3 {
-            margin-top: 24px;
-        }
-
-        #acompananteCantidad {
-            transition: opacity 0.2s ease;
-        }
-
-        .tooltip {
-            position: absolute;
-            background: rgba(15, 23, 42, 0.88);
-            color: #fff;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: var(--radius-sm);
-            font-size: 13px;
-            display: none;
-            max-width: 280px;
-            line-height: 1.4;
-            z-index: 50;
-            pointer-events: none;
+            border: 1px solid var(--color-border);
+            font-size: 15px;
+            background: #f8fafc;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            z-index: 100;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(11, 102, 255, 0.8);
+            box-shadow : 0 0 0 4px rgba ( 11 , 102 , 255 , 0.12 );
+    
         }
 
-        .modal-overlay.active {
-            display: flex;
+        área de texto {
+            altura mínima : 120px ;
+            redimensionar : vertical;
         }
 
-        .modal-content {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
+        mesa {
+            ancho : 100% ;
+            colapso fronterizo : colapso;
+            radio-borde : var (--radius-md);
+            desbordamiento : oculto;
+            box-shadow : var (--shadow-md);
         }
 
-        .modal-content h2 {
-            margin-bottom: 12px;
+        anuncio {
+            fondo : rgba ( 15 , 23 , 42 , 0.05 );
         }
 
-        .modal-content p {
-            color: rgba(15, 23, 42, 0.75);
-            margin-bottom: 24px;
+        el , td {
+            relleno : 14px 16px ;
+ 
+            alineación del texto : izquierda;
+            tamaño de fuente : 14px ;
         }
 
-        @media (max-width: 900px) {
-            body {
-                padding: 24px 12px 48px;
+        tbody tr :nth-child (par) {
+ 
+            fondo : rgba ( 148 , 163 , 184 , 0.12 );
+        }
+
+        tbody tr :hover {
+ 
+            fondo : rgba ( 11 , 102 , 255 , 0.08 );
+        }
+
+        td entrada {
+ 
+            relleno : 10px 12px ;
+ 
+            tamaño de fuente : 14px ;
+        }
+
+        .grid-two {
+            visualización : cuadrícula;
+            espacio : 24px ;
+            grid-template-columns : repetir (auto-ajuste, minmax ( 280px , 1fr ));
+        }
+
+        .pista {
+            tamaño de fuente : 13px ;
+            color : rgba ( 148 , 163 , 184 , 1 );
+        }
+
+        .estado {
+            relleno : 12px 16px ;
+ 
+            radio-frontera : var (--radius-sm);
+            tamaño de fuente : 14px ;
+            peso de la fuente : 500 ;
+            mostrar : ninguna;
+            alinear elementos : centro;
+            espacio : 8px ;
+        }
+
+        .status--success {
+            fondo : rgba ( 5 , 150 , 105 , 0.12 );
+            color : var (--color-success);
+        }
+
+        .status--error {
+            fondo : rgba ( 239 , 68 , 68 , 0.12 );
+            color : var (--color-danger);
+        }
+
+        .toolbar {
+            pantalla : flexible;
+            flex-wrap : envolver;
+            espacio : 12px ;
+            alinear elementos : centro;
+        }
+
+        .acciones-tabla {
+            pantalla : flexible;
+            espacio : 8px ;
+        }
+
+        .table-actions .button {
+ 
+            relleno : 8px 14px ;
+ 
+        }
+
+        .insignia {
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            espacio : 6px ;
+            relleno : 6px 12px ;
+ 
+            radio de borde : 999px ;
+            fondo : rgba ( 15 , 23 , 42 , 0.06 );
+            tamaño de fuente : 13px ;
+            peso de la fuente : 500 ;
+            color : rgba ( 15 , 23 , 42 , 0.7 );
+        }
+
+        @media ( max-width : 720px ) {
+            cuerpo {
+                relleno : 24px 12px 48px ;
+  
             }
 
-            .salon-wrapper {
-                grid-template-columns: 1fr;
+            .toolbar {
+                flex-direction : columna;
+                alinear elementos : estirar;
             }
 
-            .salon-summary {
-                position: relative;
-                top: auto;
+            .toolbar .button {
+ 
+                ancho : 100% ;
+            }
+
+            .acciones-tabla {
+                flex-direction : columna;
             }
         }
+    </style>​​
+</head>​​
+< cuerpo >
+    < principal >
+        < section class = "card" id = "loginCard" >  
+            <h1>Panel de administración</h1>
+            <p>Administra el contenido del sitio sin editar código. Ingresa la contraseña para desbloquear las configuraciones.</p>
+            < form id = "loginForm" > 
+                < div >
+                    <label for="adminPassword">Contraseña</label>
+                    < input type = "password" id = "adminPassword" autocomplete = "current-password" required >    
+                    < p class = "hint" id = " passwordHint " > </p>  
+                </div>​​
+                < div class = "toolbar" > 
+                    < button type = " submit " class = "button button--primary " > Ingresar </button>  
+                    <a href="index.html" class="button button--ghost"> Volver al sitio </a>​​​​​​​​  
+                </div>​​
+                < div class = "status status--error" id = " loginStatus " > </div>  
+            </form>​​
+        </ sección >
 
-        @media (max-width: 600px) {
-            .hero-card {
-                grid-template-columns: 1fr;
-            }
+        < section class = "card" id = "editorCard" hidden >   
+            < div class = "card__header" > 
+                < div >
+                    <h2>Configuración del evento</h2>
+                    <p class="hint" id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
+                </div>​​
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " saveConfigBtn" > Guardar cambios </button>  
+                    <button class="button button--ghost" id="writeConfigBtn">Guardar en config.json</button>
+                    <button class="button button--ghost" id="importConfigBtn">Importar JSON</button>
+                    <button class="button button--ghost" id="downloadConfigBtn">Descargar copia</button>
+                    <button class="button button--danger" id="resetConfigBtn">Restablecer valores</button>
+                </div>
+            </div>
 
-            .navigation-buttons {
-                flex-direction: column-reverse;
-                align-items: stretch;
-            }
+            <div class="status status--success" id="saveStatus"></div>
 
-            .navigation-buttons .button {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <main>
-        <section id="screen1" class="container active">
-            <div class="hero-card">
-                <div class="hero-card__content">
-                    <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
-                    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
-                    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
-                    <div class="hero-card__actions">
-                        <button class="button button--primary" onclick="nextScreen(2)">Comenzar registro</button>
-                        <a class="button button--ghost" href="admin.html">Administración</a>
+            <input type="file" id="importConfigInput" accept="application/json" style="display:none" aria-hidden="true">
+
+            <div class="grid-two">
+                <form id="generalSettingsForm">
+                    <div>
+                        <label for="siteTitleInput">Título del sitio</label>
+                        <input type="text" id="siteTitleInput" required>
                     </div>
-                </div>
-                <figure class="hero-card__media">
-                    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
-                </figure>
-            </div>
-        </section>
-
-        <section id="screen2" class="container">
-            <h2>Datos personales</h2>
-            <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
-            <form id="guestForm" class="form-grid">
-                <div class="form-field">
-                    <label for="correo">Correo</label>
-                    <input type="email" id="correo" name="correo" required>
-                </div>
-                <div class="form-field">
-                    <label for="grado">Grado</label>
-                    <select id="grado" name="grado" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Cnel.">Cnel.</option>
-                        <option value="Tte. Cnel.">Tte. Cnel.</option>
-                        <option value="May.">May.</option>
-                        <option value="Cap.">Cap.</option>
-                        <option value="Tte. 1°">Tte. 1°</option>
-                        <option value="Tte. 2°">Tte. 2°</option>
-                        <option value="Alf.">Alf.</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="escalafon">Escalafón</label>
-                    <select id="escalafon" name="escalafon" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Av.">(Av.)</option>
-                        <option value="Nav.">(Nav.)</option>
-                        <option value="Esp.">(Esp.)</option>
-                        <option value="T.P.">(T.P.)</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-field">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" required>
-                </div>
-                <div class="form-field">
-                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
-                    <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
-                </div>
-                <div class="form-field">
-                    <label for="acompanante">¿Asiste con acompañante?</label>
-                    <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                    </select>
-                </div>
-                <div class="form-field" id="acompananteCantidad" style="display:none;">
-                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="menu">Menú</label>
-                    <select id="menu" name="menu" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="normal">Normal</option>
-                        <option value="vegetariano">Vegetariano</option>
-                        <option value="vegano">Vegano</option>
-                        <option value="celiaco">Celíaco</option>
-                    </select>
-                </div>
-                <input type="hidden" id="mesa" name="mesa">
-            </form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(1)">Anterior</button>
-                <button class="button button--primary" onclick="nextScreen()">Siguiente</button>
-            </div>
-        </section>
-
-        <section id="screen3" class="container">
-            <h2>Información de acompañantes</h2>
-            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
-            <form id="acompanantesForm"></form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(2)">Anterior</button>
-                <button class="button button--primary" onclick="nextScreen(4)">Siguiente</button>
-            </div>
-        </section>
-
-        <section id="screen4" class="container">
-            <h2>Selecciona tu mesa</h2>
-            <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
-            <div class="salon-wrapper">
-                <aside class="salon-summary">
-                    <h3>Resumen del salón</h3>
-                    <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
-                    <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
-                    <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-                    <div class="legend">
-                        <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
-                        <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
-                        <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
+                    <div>
+                        <label for="siteSubtitleInput">Subtítulo</label>
+                        <input type="text" id="siteSubtitleInput" required>
                     </div>
-                </aside>
-                <div class="salon-map" id="salonMap"></div>
-            </div>
-            <div class="table-details">
-                <div class="table-container">
-                    <div class="table" id="mesaText">Mesa</div>
-                    <div id="seatsContainer"></div>
-                </div>
-                <div>
-                    <h3>Invitados registrados en esta mesa</h3>
-                    <div id="guestList">Selecciona una mesa para ver los invitados.</div>
-                </div>
-            </div>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(3)">Anterior</button>
-                <button class="button button--primary" onclick="submitForm()">Enviar</button>
-            </div>
-        </section>
-    </main>
+                    <div>
+                        <label for="siteDescriptionInput">Descripción breve</label>
+                        < textarea id = " siteDescriptionInput " required > </textarea>  
+                    </div>​​
+                    < div >
+                        < label for = "heroImageInput" > Imagen principal (ruta o URL ) </label> 
+                        < input type = "text" id = "heroImageInput" placeholder = "Imagen de bienvenida.png" >   
+                    </div>​​
+                    < div >
+                        <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
+                        < input type = "number" id = "defaultCapacityInput" min = "1" step = "1" required >     
+                    </div>​​
+                </form>​​
 
-    <div id="confirmationModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Registro completo</h2>
-            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
-            <button class="button button--primary" onclick="finalizarRegistro()">Finalizar</button>
-        </div>
-    </div>
+                < form id = "securityForm" > 
+                    < div >
+                        < label for = "passwordHintInput" > Pista de contraseña </label> 
+                        < input type = "text" id = "passwordHintInput" >  
+                    </div>​​
+                    < div >
+                        <label for="newPasswordInput">Nueva contraseña (opcional)</label>
+                        < input type = "password" id = "newPasswordInput" autocomplete = "new-password" >   
+                        <p class="hint">Se almacenará un hash SHA-256, nunca la contraseña en texto plano.</p>
+                    </div>​​
+                    < div >
+                        <label for="confirmPasswordInput">Confirmar nueva contraseña</label>
+                        < input type = "password" id = "confirmPasswordInput" autocomplete = "new-password" >   
+                    </div>​​
+                    < div class = "badge" id = " localConfigBadge " > </div>  
+                </form>​​
+            </div>​​
 
-    <div id="tooltip" class="tooltip"></div>
+            < div class = "card__header" style = "margin-top: 32px;" >  
+                <h3>Mesas del salón</h3>
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " addMesaBtn" > Agregar mesa </button>  
+                </div>​​
+            </div>​​
 
-    <script>
-        let currentScreen = 1;
-        let guestsData = {};
-        let dataFetchInterval;
-        let siteConfig = null;
+            < div style = "overflow-x: auto;" > 
+                < tabla >
+                    < anuncio >
+                        < tr >
+                            <th> # </th>​​​​
+                            <th>Etiqueta</th>
+                            <th>Capacidad</th>
+                            <th>Posición X (%)</th>
+                            <th>Posición Y (%)</th>
+                            <th> </th>​​​​
+                        </tr>​​
+                    </ anuncio >
+                    < tbody id = " mesasTableBody " > </tbody> 
+                </ tabla >
+            </div>​​
 
-        const DEFAULT_ZONES = [
-            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
-            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
-            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
-            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
-            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
-            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+            < div class = "card__header" style = "margin-top: 40px;" >  
+                <h3>Zonas del salón</h3>
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " addZoneBtn" > Agregar zona </button>  
+                </div>​​
+            </div>​​
+
+            <p class="hint">Modifica el texto y la posición (0-100%) de elementos como la pista de baile, entrada o postres.</p>
+
+            < div style = "overflow-x: auto;" > 
+                < tabla >
+                    < anuncio >
+                        < tr >
+                            <th> Identificador </th>
+                            <th> Etiqueta visible </th>
+                            <th> Clases CSS </th>​​​
+                            <th>Posición X (%)</th>
+                            <th>Posición Y (%)</th>
+                            <th> </th>​​​​
+                        </tr>​​
+                    </ anuncio >
+                    < tbody id = " zonesTableBody " > </tbody> 
+                </ tabla >
+            </div>​​
+        </ sección >
+    </main>​​
+
+    < script >
+        sea ​​siteConfig = null ;
+        sea ​​usingLocalOverride = false ;
+        sea ​​últimoManejadorDeArchivo = nulo ;
+
+        const ZONAS_PREDETERMINADAS = [
+ 
+            { id : 'dance' , label : 'Pista de baile' , className : 'map-zone--dance' , position : { x : 50 , y : 45 } },
+            { id : 'stage' , label : 'Estado Mayor' , className : 'map-zone--stage' , position : { x : 6 , y : 50 } },
+            { id : 'entrance' , label : 'Entrada / Piscina' , className : 'map-zone--entrance' , position : { x : 50 , y : 6 } },
+            { id : 'dj' , label : 'DJ' , className : 'map-zone--dj' , position : { x : 50 , y : 94 } },
+            { id : 'dessertLeft' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-left' , position : { x : 92 , y : 28 } },
+            { id : 'dessertRight' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-right' , position : { x : 92 , y : 72 } }
         ];
 
-        function ensureSingleHero() {
-            const heroSection = document.getElementById('screen1');
-            if (!heroSection) return;
-            const heroCards = heroSection.querySelectorAll('.hero-card');
-            heroCards.forEach((card, index) => {
-                if (index === 0) return;
-                card.remove();
-            });
-        }
-
-        async function loadConfig() {
-            let storedConfig = null;
-            if (typeof localStorage !== 'undefined') {
-                try {
-                    storedConfig = localStorage.getItem('fiestaConfig');
-                    if (storedConfig) {
-                        storedConfig = JSON.parse(storedConfig);
+        función asíncrona cargarConfiguración ( ) {
+  
+            sea ​​storedConfig = null ;
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                intentar {
+                    almacenadoConfig = almacenamiento local . getItem ( 'fiestaConfig' );
+                    si (configuración almacenada) {
+                        storedConfig = JSON.parse ( storedConfig );
+                        usingLocalOverride = true ;
                     }
                 } catch (error) {
-                    console.warn('No se pudo leer la configuración almacenada localmente.', error);
-                    storedConfig = null;
+                    console.warn('No se pudo leer la configuración almacenada.', error);
+                    storedConfig = null ;
                 }
             }
 
-            if (storedConfig) {
-                return storedConfig;
+            si (configuración almacenada) {
+                devolver configuración almacenada;
             }
 
-            const response = await fetch('config.json?_=' + Date.now());
-            if (!response.ok) {
-                throw new Error('No se pudo cargar la configuración');
+            const respuesta = await fetch ( 'config.json?_=' + Date . now ());
+ 
+            if (!response.ok ) {
+                throw new Error('No se pudo cargar config.json');
             }
-            return await response.json();
+            usingLocalOverride = false ;
+            return await response.json ()
+ ; 
         }
 
-        function applyConfig(config) {
-            if (!config) return;
-            ensureSingleHero();
-            document.title = config.siteTitle || document.title;
-            const titleHeading = document.getElementById('siteTitleHeading');
-            const subtitleElement = document.getElementById('siteSubtitle');
-            const descriptionElement = document.getElementById('siteDescription');
-            const heroImage = document.getElementById('heroImage');
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
-            if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
-            if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
-            if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
-            if (heroImage && config.heroImage) heroImage.src = config.heroImage;
+        function showStatus(element, message, type = 'success') {
+            if (!element) return;
+            element.textContent = message;
+            element.classList.remove('status--success', 'status--error');
+            element.classList.add(type === 'success' ? 'status--success' : 'status--error');
+            element.style.display = 'flex';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3200);
+        }
 
-            if (Array.isArray(config.mesas)) {
-                config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
+        function clampPercentage(value) {
+            const number = parseFloat(value);
+            if (Number.isNaN(number)) {
+                return 0;
+            }
+            return Math.min(Math.max(number, 0), 100);
+        }
+
+        function ensureZonesStructure() {
+            if (!siteConfig) {
+                siteConfig = {};
             }
 
-            if (!Array.isArray(config.zones) || config.zones.length === 0) {
-                config.zones = DEFAULT_ZONES.map(zone => ({
-                    id: zone.id,
-                    label: zone.label,
-                    className: zone.className,
-                    position: { ...zone.position }
+            if (!Array.isArray(siteConfig.zones) || siteConfig.zones.length === 0) {
+                siteConfig.zones = DEFAULT_ZONES.map ( zone = > ( {
+​
+                    id : zona.id ,
+                    etiqueta : zona. etiqueta ,
+                    className : zone.className ,
+                    posición : {
+                        x : porcentajeDeAjuste (zona. posición ?. x ?? 0 ),
+                        y : porcentajeDeAjuste (zona. posición ?. y ?? 0 )
+                    }
+                }));
+            } demás {
+                siteConfig.zones = siteConfig.zones.map ( zone = > (
+ {​
+                    id : zona?. id || '' ,
+                    etiqueta : zona?. etiqueta || '' ,
+                    className : zone?. className || '' ,
+                    posición : {
+                        x : porcentajeDeAjuste (zona?. posición ?. x ?? 0 ),
+                        y : porcentajeDeAjuste (zona?. posición ?. y ?? 0 )
+                    }
                 }));
             }
-
-            renderZones(config.zones);
-            renderTables(config.mesas || []);
-            updateSummary(config.mesas || []);
         }
 
-        function updateSummary(mesas) {
-            const totalMesasCounter = document.getElementById('totalMesasCounter');
-            const capacidadTotalCounter = document.getElementById('capacidadTotalCounter');
+        función poblarFormulariosGenerales ( ) {
+ 
+            document.getElementById ( ' siteTitleInput' )
+ . value = siteConfig.siteTitle || '' ;
+            document.getElementById ( ' siteSubtitleInput' )
+ . value = siteConfig.siteSubtitle || '' ;
+            document.getElementById ( ' siteDescriptionInput' )
+ . value = siteConfig.siteDescription || '' ;
+            document.getElementById ( ' heroImageInput' ). value = siteConfig.heroImage || ' '
+ ;
+            document.getElementById ( ' defaultCapacityInput ' ). value = siteConfig.defaultCapacity || 10 ;
 
-            if (totalMesasCounter) totalMesasCounter.textContent = mesas.length;
-            if (capacidadTotalCounter) {
-                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
-                capacidadTotalCounter.textContent = totalCapacity;
+            const hintInput = document.getElementById ( ' passwordHintInput' )
+ ;
+            hintInput.value = siteConfig? .admin ? .passwordHint || '' ;
+        }
+
+        función renderMesaTable ( ) {
+ 
+            const tbody = document.getElementById ( ' mesasTableBody' )
+ ;
+            tbody.innerHTML = ' ' ;
+
+            if (! Array.isArray ( siteConfig.tables ) ) {
+                siteConfig. mesas = [];
+            }
+
+            siteConfig.mesas.forEach ( ( mesa , index ) = > {
+                const fila = document.createElement ( ' tr ' )
+ ;
+                fila.innerHTML = `
+​
+                    <td><input type="number" min="1" step="1" value=" ${mesa.number ?? '' } " data-field="number" aria-label="Número de mesa"></td>
+                    <td><input type="text" value=" ${mesa.label || '' } " data-field="label" aria-label="Etiqueta de mesa"></td>
+                    <td><input type="number" min="1" step="1" value=" ${mesa.capacity ?? siteConfig.defaultCapacity ?? 10 } " data-field="capacity" aria-label="Capacidad de mesa"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${mesa.position?.x ?? 0 } " data-field="posX" aria-label="Posición horizontal"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${mesa.position?.y ?? 0 } " data-field="posY" aria-label="Posición vertical"></td>
+                    <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
+                ` ;
+
+                fila.querySelector ( '[data-field="number"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [ index
+ ] .number = parseInt ( event.target.value , 10 ) || 0 ;
+                });
+                fila.querySelector ( '[data-field="label"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [ index ] .label = event.target.value ;
+​
+                });
+                fila.querySelector ( '[data-field="capacity"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [
+ index ] .capacity = parseInt ( event.target.value , 10 ) || siteConfig.defaultCapacity || 10 ;
+                });
+                fila.querySelector ( '[data-field="posX"]' ). addEventListener ( 'input' , event = > {
+                    const value = parseFloat ( event.target.value )
+ ;
+                    if ( !siteConfig.mesas [index] .position ) siteConfig.mesas [index] .position = { x : 0 , y : 0 };
+                    siteConfig. mesas [index]. position . x = isNaN (value) ? 0 : value;
+                });
+                fila.querySelector ( '[data-field="posY"]' ). addEventListener ( 'input' , event = > {
+                    const value = parseFloat ( event.target.value )
+ ;
+                    if ( !siteConfig.mesas [index] .position ) siteConfig.mesas [index] .position = { x : 0 , y : 0 };
+                    siteConfig. tablas [índice]. posición . y = esNaN (valor) ? 0 : valor;
+                });
+                fila.querySelector ( '[ data -action="remove"]' ). addEventListener ( 'click' , () => {
+                    siteConfig. mesas . splice (index, 1 );
+                    renderMesaTable ();
+                });
+
+                tbody.appendChild ( fila );
+            });
+        }
+
+        función renderZoneTable ( ) {
+ 
+            const tbody = document.getElementById ( ' zonesTableBody' )
+ ;
+            Si (!tbody) devolver ;
+
+            asegurarZonasEstructura ();
+            tbody.innerHTML = ' ' ;
+
+            siteConfig.zones.forEach ( ( zona , índice ) = > {
+                const fila = document.createElement ( ' tr ' )
+ ;
+                fila.innerHTML = `
+​
+                    <td><input type="text" value=" ${zone.id || '' } " data-field="id" aria-label="Identificador de la zona"></td>
+                    <td><input type="text" value=" ${zone.label || '' } " data-field="label" aria-label="Etiqueta visible de la zona"></td>
+                    <td><input type="text" value=" ${zone.className || '' } " data-field="className" aria-label="Clases CSS adicionales"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${zone.position?.x ?? 0 } " data-field="posX" aria-label="Posición horizontal de la zona"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${zone.position?.y ?? 0 } " data-field="posY" aria-label="Posición vertical de la zona"></td>
+                    <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
+                ` ;
+
+                const idInput = row.querySelector ( ' [data-field="id"]' );
+                const labelInput = row.querySelector ( ' [data-field="label"]' );
+                const classInput = row.querySelector ( ' [data-field="className"]' );
+                const posXInput = row.querySelector ( ' [data-field="posX"]' );
+                const posYInput = row.querySelector ( ' [data-field="posY"]' );
+                const removeBtn = fila.querySelector ( ' [data-action="remove"]' );
+
+                idInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [ index
+ ] .id = event.target.value.trim ( ) ;​
+                });
+
+                labelInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [ index ] .label = event.target.value ;
+​
+                });
+
+                classInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [
+ index ] .className = event.target.value ;​
+                });
+
+                posXInput.addEventListener ( ' input' , event => {
+                    const valor = clampPercentage (evento. objetivo . valor );
+                    siteConfig. zonas [índice]. posición . x = valor;
+                    evento.objetivo.valor = valor ;
+​
+                });
+
+                posYInput.addEventListener ( ' input' , event => {
+                    const valor = clampPercentage (evento. objetivo . valor );
+                    siteConfig. zonas [índice]. posición . y = valor;
+                    evento.objetivo.valor = valor ;
+​
+                });
+
+                removeBtn.addEventListener ( 'click' , ( ) => {
+                    siteConfig.zones.splice (
+ index , 1 ) ;
+                    renderZoneTable ();
+                });
+
+                tbody.appendChild ( fila );
+            });
+        }
+
+        función actualizarInsigniaConfiguraciónLocal ( ) {
+ 
+            const badge = document.getElementById ( ' localConfigBadge' )
+ ;
+            Si (!insignia) devolver ;
+            if ( typeof localStorage === 'undefined' ) {
+ 
+                badge.textContent = 'El navegador no admite almacenamiento local para guardar cambios.';
+                devolver ;
+            }
+            si (usandoLocalOverride) {
+                badge.textContent = 'Usando configuración almacenada en este navegador';
+            } demás {
+                badge.textContent = 'Usando configuración predeterminada de config.json';
             }
         }
 
-        function renderZones(zones) {
-            const salonMap = document.getElementById('salonMap');
-            if (!salonMap) return;
-
-            salonMap.querySelectorAll('.map-zone').forEach(zoneElement => zoneElement.remove());
-
-            const sourceZones = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
-
-            sourceZones.forEach(zone => {
-                const zoneElement = document.createElement('div');
-                zoneElement.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
-                zoneElement.textContent = zone.label || '';
-                zoneElement.dataset.zoneId = zone.id || '';
-
-                const posX = parseFloat(zone.position?.x);
-                const posY = parseFloat(zone.position?.y);
-                const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
-                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
-                zoneElement.style.setProperty('--zone-x', safeX);
-                zoneElement.style.setProperty('--zone-y', safeY);
-
-                salonMap.appendChild(zoneElement);
+        función addMesa ( ) {
+ 
+            const nextNumber = (siteConfig. mesas ?. reduce ( ( max, mesa ) => Math . max (max, mesa. number || 0 ), 0 ) || 0 ) + 1 ;
+ 
+            const defaultCapacity = siteConfig.defaultCapacity || 10 ;
+            siteConfig.mesas.push ( {​​
+                número : siguienteNúmero,
+                etiqueta : `Mesa ${nextNumber} ` ,
+                capacidad : capacidad predeterminada,
+                posición : { x : 50 , y : 50 }
             });
+            renderMesaTable ();
         }
 
-        function renderTables(mesas) {
-            const salonMap = document.getElementById('salonMap');
-            if (!salonMap) return;
-            salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
-
-            mesas.forEach(mesa => {
-                const mesaElement = document.createElement('button');
-                mesaElement.type = 'button';
-                mesaElement.className = 'mesa';
-                mesaElement.id = `mesa${mesa.number}`;
-                const label = mesa.label || `Mesa ${mesa.number}`;
-                mesaElement.dataset.label = label;
-                mesaElement.dataset.capacity = mesa.capacity ?? siteConfig?.defaultCapacity ?? 0;
-                mesaElement.style.left = `${mesa.position?.x ?? 0}%`;
-                mesaElement.style.top = `${mesa.position?.y ?? 0}%`;
-                mesaElement.textContent = mesa.number ?? label;
-                mesaElement.setAttribute('aria-label', `${label} (capacidad ${mesaElement.dataset.capacity})`);
-                mesaElement.addEventListener('click', () => selectTable(mesa));
-                mesaElement.addEventListener('mouseover', event => showGuests(label, event));
-                mesaElement.addEventListener('focus', event => showGuests(label, event));
-                mesaElement.addEventListener('mouseleave', hideGuests);
-                mesaElement.addEventListener('blur', hideGuests);
-                salonMap.appendChild(mesaElement);
+        función addZone ( ) {
+ 
+            asegurarZonasEstructura ();
+            const uniqueId = `zona- ${ Math.random ().toString( 36 ).slice( 2 , 7 )} ` ;
+            siteConfig.zones.push ( {
+​​
+                id : id único,
+                label: 'Nueva zona',
+                nombreDeClase : '' ,
+                posición : { x : 50 , y : 50 }
             });
-
-            updateMesasCompletaColor();
+            renderZoneTable ();
         }
 
-        function startDataFetchInterval() {
-            dataFetchInterval = setInterval(() => {
-                fetchGuestsData();
-            }, 5000);
-        }
+        función asíncrona guardarConfiguración ( opciones = {} ) {
+  
+            const { skipStatus = false } = opciones;
+            siteConfig.siteTitle = document.getElementById ( ' siteTitleInput ' )
+ . value.trim ( ) ;
+            siteConfig.siteSubtitle = document.getElementById ( ' siteSubtitleInput ' ) . value.trim ( )
+ ;
+            siteConfig.siteDescription = document.getElementById ( ' siteDescriptionInput ' )
+ . value.trim ( ) ;
+            siteConfig.heroImage = document.getElementById ( ' heroImageInput ' )
+ . value.trim ( ) ;
+            siteConfig.defaultCapacity = parseInt ( document.getElementById ( 'defaultCapacityInput ' )
+ . value , 10 ) || 10 ;
 
-        function stopDataFetchInterval() {
-            clearInterval(dataFetchInterval);
-        }
+            if (!siteConfig.admin ) siteConfig.admin = {}
+ ;
+            siteConfig.admin.passwordHint = document.getElementById ( ' passwordHintInput ' ) . value.trim (
+ ) ;​​
 
-        function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                if (currentScreen === 2) {
-                    let invalidFields = validateForm('guestForm');
-                    if (invalidFields.length > 0) {
-                        alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                        return;
-                    }
-                    let acompanante = document.getElementById('acompanante').value;
-                    if (acompanante === 'si') {
-                        let cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value;
-                        if (!cantidadAcompanantes) {
-                            alert('Por favor, seleccione la cantidad de acompañantes.');
-                            return;
+            const newPassword = document.getElementById('newPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+            if (newPassword || confirmPassword) {
+                if (newPassword !== confirmPassword) {
+                    showStatus(document.getElementById('saveStatus'), 'Las contraseñas no coinciden.', 'error');
+                    return;
+                }
+                siteConfig.admin.passwordHash = await hashPassword(newPassword);
+            }
+
+            if (Array.isArray(siteConfig.mesas)) {
+                siteConfig.mesas = siteConfig.mesas
+                    .map(mesa => ({
+                        ...mesa,
+                        number: parseInt(mesa.number, 10) || 0,
+                        capacity: parseInt(mesa.capacity, 10) || siteConfig.defaultCapacity || 10,
+                        position: {
+                            x: parseFloat(mesa.position?.x) || 0,
+                            y: parseFloat(mesa.position?.y) || 0
                         }
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
-                    }
-                } else if (currentScreen === 3) {
-                    let invalidFields = validateForm('acompanantesForm');
-                    if (invalidFields.length > 0) {
-                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
-                        return;
-                    }
-                    nextScreenNumber = 4;
-                } else {
-                    nextScreenNumber = currentScreen + 1;
+                    }))
+                    .sort((a, b) => (a.number || 0) - (b.number || 0));
+            }
+
+            ensureZonesStructure();
+            if (Array.isArray(siteConfig.zones)) {
+                siteConfig.zones = siteConfig.zones
+                    .map(zone => ({
+                        id: (zone.id || '').trim(),
+                        etiqueta : (zona.etiqueta || ' ' ) .trim (),
+                        className : (zone.className || ' ' ) .trim (),
+                        posición : {
+                            x : porcentajeDeAjuste (zona. posición ?. x ?? 0 ),
+                            y : porcentajeDeAjuste (zona. posición ?. y ?? 0 )
+                        }
+                    }))
+                    .filter ( zone = > zone.id && zone.label )
+ ;
+            }
+
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                localStorage.setItem ( 'fiestaConfig' , JSON.stringify ( siteConfig ) )
+ ;
+                usingLocalOverride = true ;
+            } demás {
+                console.warn('localStorage no está disponible en este entorno.');
+            }
+            document.getElementById ( ' newPasswordInput' ). value = ' ' ;
+            document.getElementById ( ' confirmPasswordInput' ). value = ' ' ;
+            actualizarInsigniaConfiguraciónLocal ();
+            renderZoneTable ();
+            if (!skipStatus) {
+                showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
+            }
+            devolver siteConfig;
+        }
+
+        función descargarConfiguración ( ) {
+ 
+            const blob = new Blob ([ JSON . stringify (siteConfig, null , 2 )], { type : 'application/json' });
+ 
+            const url = URL.createObjectURL ( blob );
+            const link = document.createElement ( ' a' )
+ ;
+            enlace.href = url
+ ;
+            enlace.descargar = 'config-fiesta-social.json ' ;
+            documento.cuerpo.appendChild ( enlace ) ;
+​
+            enlace.clic ( );
+            documento.cuerpo.eliminarHijo (
+ enlace ) ;​
+            URL.revocarObjetoURL (url
+ ) ;
+        }
+
+        función resetConfiguration ( ) {
+ 
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                localStorage.removeItem ( ' fiestaConfig' ) ;
+            }
+            ventana.ubicación.recargar ( )
+ ;​​
+        }
+
+        función admite el acceso al sistema de archivos ( ) {
+ 
+            return typeof window !== 'undefined' && 'showSaveFilePicker' in window && 'showOpenFilePicker' in window ;
+      
+        }
+
+        función asíncrona guardarConfiguraciónEnDisco ( ) {
+  
+            intentar {
+                esperar guardarConfiguración ({ skipStatus : true });
+ 
+                if (! supportsFileSystemAccess ()) {
+                    showStatus(document.getElementById('saveStatus'), 'Tu navegador no permite escribir archivos directamente. Usa "Descargar copia".', 'error');
+                    devolver ;
                 }
-            }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
 
-            if (currentScreen === 4) {
-                fetchGuestsData();
-                startDataFetchInterval();
-            } else {
-                stopDataFetchInterval();
-            }
-        }
+                const fileHandle = await window.showSaveFilePicker (
+ { 
+                    nombre sugerido : 'config.json' ,
+                    tipos : [
+                        {
+                            description: 'Archivo de configuración JSON',
+                            aceptar : { 'application/json' : [ '.json' ] }
+                        }
+                    ]
+                });
 
-        function validateForm(formId) {
-            let form = document.getElementById(formId);
-            if (!form) return [];
-            let invalidFields = [];
-            let elements = form.querySelectorAll('input, select');
-            elements.forEach(function(element) {
-                if (!element.checkValidity()) {
-                    let label = form.querySelector(`label[for="${element.id}"]`);
-                    let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
-                    invalidFields.push(fieldName.trim());
-                }
-            });
-            return invalidFields;
-        }
-
-        function prevScreen(screen) {
-            if (currentScreen === 4 && document.getElementById('acompanante').value === 'no') {
-                screen = 2;
-            }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
-            stopDataFetchInterval();
-        }
-
-        function toggleAcompanante() {
-            let acompanante = document.getElementById('acompanante').value;
-            let acompananteCantidad = document.getElementById('cantidadAcompanantes');
-            let acompananteCantidadContainer = document.getElementById('acompananteCantidad');
-            if (acompanante === 'si') {
-                acompananteCantidadContainer.style.display = 'block';
-                acompananteCantidadContainer.style.opacity = '1';
-                acompananteCantidad.setAttribute('required', 'required');
-            } else {
-                acompananteCantidadContainer.style.opacity = '0';
-                acompananteCantidadContainer.style.display = 'none';
-                acompananteCantidad.removeAttribute('required');
-                acompananteCantidad.value = '';
+                const escribible = await fileHandle.createWritable ( );
+                await writable.write ( JSON.stringify ( siteConfig, null , 2 ) )
+ ;
+                esperar a que sea escribible. cerrar ();
+                últimoManejadorDeArchivo = manejadorDeArchivo;
+                mostrarEstado ( document.getElementById ( ' saveStatus ' ), 'config.json actualizado en tu equipo.' );
+            } catch (error) {
+                consola.error (error
+ ) ;
+                showStatus(document.getElementById('saveStatus'), 'No se pudo guardar el archivo: ' + error.message, 'error');
             }
         }
 
-        function generateAcompanantesForm(cantidad) {
-            let acompanantesForm = document.getElementById('acompanantesForm');
-            acompanantesForm.innerHTML = '';
-            for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += `
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <h3>Acompañante ${i}</h3>
-                            <label for="nombreAcompanante${i}">Nombre</label>
-                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="menuAcompanante${i}">Menú</label>
-                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                                <option value="" selected>Seleccionar</option>
-                                <option value="normal">Normal</option>
-                                <option value="vegetariano">Vegetariano</option>
-                                <option value="vegano">Vegano</option>
-                                <option value="celiaco">Celíaco</option>
-                            </select>
-                        </div>
-                    </div>`;
+        función asíncrona guardarÚltimoArchivo ( ) {
+  
+            if (!lastFileHandle) {
+                esperar guardarConfiguraciónEnDisco ();
+ 
+                devolver ;
+            }
+            intentar {
+                const escribible = await últimoManejadorArchivo.createWritable ( );
+                await writable.write ( JSON.stringify ( siteConfig, null , 2 ) )
+ ;
+                esperar a que sea escribible. cerrar ();
+                showStatus(document.getElementById('saveStatus'), 'config.json actualizado en el archivo previamente elegido.');
+            } catch (error) {
+                consola.error (error
+ ) ;
+                showStatus(document.getElementById('saveStatus'), 'No se pudo sobrescribir el archivo: ' + error.message, 'error');
             }
         }
 
-        function selectTable(mesaConfig) {
-            if (!mesaConfig) return;
-            const label = mesaConfig.label || `Mesa ${mesaConfig.number}`;
-            const mesaInput = document.getElementById('mesa');
-            mesaInput.value = label;
-
-            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
-            const mesaElement = document.getElementById(`mesa${mesaConfig.number}`);
-            if (mesaElement) {
-                mesaElement.classList.add('seleccionada');
-            }
-
-            const summaryLabel = document.getElementById('mesaSeleccionadaLabel');
-            if (summaryLabel) {
-                summaryLabel.textContent = label;
-            }
-
-            const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.style.display = 'block';
-            }
-
-            updateMesaText();
-        }
-
-        function updateMesaText() {
-            const mesaInput = document.getElementById('mesa');
-            const mesaText = document.getElementById('mesaText');
-            const selectedMesa = mesaInput.value;
-            if (mesaText && selectedMesa) {
-                mesaText.textContent = selectedMesa;
-            }
-            updateSeats();
-            updateGuestList();
-        }
-
-        function updateSeats() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
-            const seatsContainer = document.getElementById('seatsContainer');
-            if (!seatsContainer) return;
-
-            let maxCapacity = getMesaCapacity(selectedMesa);
-            seatsContainer.innerHTML = '';
-
-            for (let i = 1; i <= maxCapacity; i++) {
-                let seat = document.createElement('div');
-                seat.classList.add('seat');
-                seat.dataset.seat = i;
-                seatsContainer.appendChild(seat);
-            }
-
-            const seats = document.querySelectorAll('.seat');
-            const centerX = 50;
-            const centerY = 50;
-            const radius = 38;
-
-            seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI);
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
-                seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
-            });
-
-            if (selectedMesa && guestsData[selectedMesa]) {
-                let totalGuests = 0;
-                guestsData[selectedMesa].forEach(guest => {
-                    const guestAndAcompanantes = [guest];
-                    if (guest['Nombre Acompanante 1']) guestAndAcompanantes.push(guest['Nombre Acompanante 1']);
-                    if (guest['Nombre Acompanante 2']) guestAndAcompanantes.push(guest['Nombre Acompanante 2']);
-                    if (guest['Nombre Acompanante 3']) guestAndAcompanantes.push(guest['Nombre Acompanante 3']);
-                    if (guest['Nombre Acompanante 4']) guestAndAcompanantes.push(guest['Nombre Acompanante 4']);
-                    if (guest['Nombre Acompanante 5']) guestAndAcompanantes.push(guest['Nombre Acompanante 5']);
-
-                    guestAndAcompanantes.forEach(() => {
-                        if (totalGuests < maxCapacity) {
-                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
-                            if (seat) {
-                                seat.classList.add('occupied');
+        función asíncrona importarConfiguraciónDesdeArchivo ( ) {
+  
+            intentar {
+                if ( supportsFileSystemAccess ()) {
+                    const [handle] = await window.showOpenFilePicker ( {
+ 
+                        tipos : [
+                            {
+                                description: 'Archivo de configuración JSON',
+                                aceptar : { 'application/json' : [ '.json' ] }
                             }
-                            totalGuests++;
-                        }
+                        ]
                     });
-                });
+                    const archivo = await handle.getFile ( );
+                    últimoManejadorDeArchivo = manejador;
+                    esperar aplicarConfiguraciónImportada (archivo);
+ 
+                } demás {
+                    const input = document.getElementById ( ' importConfigInput' )
+ ;
+valor                     de entrada = '' ;
+                    entrada.click ()
+ ;
+                }
+            } catch (error) {
+                consola.error (error
+ ) ;
+                showStatus(document.getElementById('saveStatus'), 'No se pudo abrir el archivo: ' + error.message, 'error');
             }
         }
 
-        function updateGuestList() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
-            const guestList = document.getElementById('guestList');
-            if (!guestList) return;
+        función asíncrona aplicarConfiguraciónImportada ( archivo ) {
+  
+            intentar {
+                const texto = await archivo.texto ( ) ;
+                const parsed = JSON.parse ( text)
+ ;
+                siteConfig = analizado;
+                poblarFormulariosGenerales ();
+                renderMesaTable ();
+                renderZoneTable ();
+                if ( typeof localStorage !== 'undefined' ) {
+ 
+                    localStorage.setItem ( 'fiestaConfig' , JSON.stringify ( siteConfig ) )
+ ;
+                    usingLocalOverride = true ;
+                }
+                actualizarInsigniaConfiguraciónLocal ();
+                showStatus(document.getElementById('saveStatus'), 'Configuración importada correctamente.');
+            } catch (error) {
+                consola.error (error
+ ) ;
+                mostrarEstado ( document.getElementById ( 'saveStatus' ) , 'Archivo inválido : ' + error.message , 'error' )
+ ;
+            }
+        }
 
-            guestList.innerHTML = '';
+        función actualizarInterfazDeAccesoAArchivos ( ) {
+ 
+            const writeBtn = document.getElementById ( ' writeConfigBtn' );
+            const importBtn = document.getElementById ( ' importConfigBtn' );
+            const fileAccessHint = document.getElementById ( ' fileAccessHint' );
 
-            if (selectedMesa && guestsData[selectedMesa]) {
-                const guests = guestsData[selectedMesa];
+            if (!writeBtn || !importBtn || !fileAccessHint) retorno ;
 
-                guests.forEach(guest => {
-                    const nombreCompleto = `${guest['Nombre'] || 'Nombre no disponible'} ${guest['Apellido'] || 'Apellido no disponible'}`;
-                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
-
-                    if (guest['Nombre Acompanante 1']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 1']}</div>`;
-                    if (guest['Nombre Acompanante 2']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 2']}</div>`;
-                    if (guest['Nombre Acompanante 3']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 3']}</div>`;
-                    if (guest['Nombre Acompanante 4']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 4']}</div>`;
-                    if (guest['Nombre Acompanante 5']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 5']}</div>`;
-                });
+            if (supportsFileSystemAccess()) {
+                fileAccessHint.textContent = 'Puedes guardar los cambios directamente sobre config.json usando los botones superiores.';
+                writeBtn.disabled = false;
+                importBtn.disabled = false;
+                writeBtn.removeAttribute('aria-disabled');
+                importBtn.removeAttribute('aria-disabled');
+                writeBtn.removeAttribute('title');
+                importBtn.removeAttribute('title');
             } else {
-                guestList.innerHTML = 'No hay invitados registrados en esta mesa.';
+                writeBtn.title = 'Disponible solo en navegadores basados en Chromium bajo HTTPS.';
+                importBtn.title = 'Si no está disponible, utiliza el botón de importar inferior.';
+                fileAccessHint.textContent = 'Si tu navegador no permite editar archivos, usa "Descargar copia" y reemplaza config.json manualmente.';
+                writeBtn.disabled = true;
+                importBtn.disabled = false;
+                writeBtn.setAttribute('aria-disabled', 'true');
             }
-        }
-
-        function submitForm() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
-
-            let maxCapacity = getMesaCapacity(selectedMesa);
-
-            let totalGuests = 0;
-            if (selectedMesa && guestsData[selectedMesa]) {
-                guestsData[selectedMesa].forEach(guest => {
-                    totalGuests++;
-                    if (guest['Nombre Acompanante 1']) totalGuests++;
-                    if (guest['Nombre Acompanante 2']) totalGuests++;
-                    if (guest['Nombre Acompanante 3']) totalGuests++;
-                    if (guest['Nombre Acompanante 4']) totalGuests++;
-                    if (guest['Nombre Acompanante 5']) totalGuests++;
-                });
-            }
-
-            const cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value || 0;
-            const totalNuevosGuests = 1 + parseInt(cantidadAcompanantes);
-
-            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
-                alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
-                return;
-            }
-
-            let guestForm = document.getElementById('guestForm');
-            let acompanantesForm = document.getElementById('acompanantesForm');
-
-            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
-                const formData = new FormData(guestForm);
-                const acompanantesData = new FormData(acompanantesForm);
-                const acompanantes = [];
-
-                acompanantesData.forEach((value, key) => {
-                    if (key.includes('nombreAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        acompanantes[index].nombre = value;
-                    } else if (key.includes('menuAcompanante')) {
-                        const index = parseInt(key.replace(/\D/g, '')) - 1;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        acompanantes[index].menu = value;
-                    }
-                });
-
-                const data = {
-                    correo: formData.get('correo'),
-                    grado: formData.get('grado'),
-                    escalafon: formData.get('escalafon'),
-                    nombre: formData.get('nombre'),
-                    apellido: formData.get('apellido'),
-                    cedula: formData.get('cedula'),
-                    acompanante: formData.get('acompanante'),
-                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                    menu: formData.get('menu'),
-                    acompanantes: acompanantes,
-                    mesa: formData.get('mesa')
-                };
-
-                const submission = new FormData();
-                Object.entries(data).forEach(([key, value]) => {
-                    if (key === 'acompanantes') {
-                        submission.append(key, JSON.stringify(value));
-                    } else if (value !== null && value !== undefined) {
-                        submission.append(key, value);
-                    }
-                });
-
-                fetch('https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec', {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: submission
-                }).then(() => {
-                    showConfirmation();
-                    fetchGuestsData();
-                }).catch(error => {
-                    console.error('Error enviando reserva:', error);
-                    alert('Error: ' + (error && error.message ? error.message : error));
-                });
-            } else {
-                alert('Por favor, complete todos los campos requeridos.');
-            }
-        }
-
-        function showConfirmation() {
-            const mesaConfirmada = document.getElementById('mesa').value;
-            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
-            const current = document.getElementById(`screen${currentScreen}`);
-            if (current) current.classList.remove('active');
-            const modal = document.getElementById('confirmationModal');
-            if (modal) {
-                modal.classList.add('active');
-                modal.style.display = 'flex';
-            }
-            stopDataFetchInterval();
-        }
-
-        function finalizarRegistro() {
-            location.reload();
-        }
-
-        function fetchGuestsData() {
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-                .then(response => response.text())
-                .then(csv => csvToJSON(csv))
-                .then(data => {
-                    guestsData = data;
-                    updateMesasCompletaColor();
-                    updateGuestList();
-                    updateSeats();
-                })
-                .catch(error => console.error('Error fetching guest data:', error));
-        }
-
-        function csvToJSON(csv) {
-            const lines = csv.split('\n');
-            const result = {};
-
-            for (let i = 1; i < lines.length; i++) {
-                const obj = {};
-                const currentline = lines[i].split(',');
-                if (currentline.length < 20) continue;
-
-                obj['Correo'] = currentline[0]?.trim();
-                obj['Nombre'] = currentline[3]?.trim();
-                obj['Apellido'] = currentline[4]?.trim();
-                obj['Mesa'] = currentline[19]?.trim();
-
-                obj['Nombre Acompanante 1'] = currentline[9]?.trim();
-                obj['Nombre Acompanante 2'] = currentline[11]?.trim();
-                obj['Nombre Acompanante 3'] = currentline[13]?.trim();
-                obj['Nombre Acompanante 4'] = currentline[15]?.trim();
-                obj['Nombre Acompanante 5'] = currentline[17]?.trim();
-
-                if (obj['Mesa']) {
-                    if (!result[obj['Mesa']]) {
-                        result[obj['Mesa']] = [];
-                    }
-                    result[obj['Mesa']].push(obj);
-                }
-            }
-            return result;
-        }
-
-        function updateMesasCompletaColor() {
-            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
-
-            Object.keys(guestsData).forEach(mesaLabel => {
-                const guests = guestsData[mesaLabel];
-                let totalGuests = 0;
-
-                let maxCapacity = getMesaCapacity(mesaLabel);
-
-                guests.forEach(guest => {
-                    totalGuests++;
-                    if (guest['Nombre Acompanante 1']) totalGuests++;
-                    if (guest['Nombre Acompanante 2']) totalGuests++;
-                    if (guest['Nombre Acompanante 3']) totalGuests++;
-                    if (guest['Nombre Acompanante 4']) totalGuests++;
-                    if (guest['Nombre Acompanante 5']) totalGuests++;
-                });
-
-                if (totalGuests >= maxCapacity) {
-                    const mesaConfig = siteConfig?.mesas?.find(m => (m.label || `Mesa ${m.number}`) === mesaLabel);
-                    let mesaId = null;
-                    if (mesaConfig) {
-                        mesaId = `mesa${mesaConfig.number}`;
-                    } else if (mesaLabel.startsWith('Mesa ')) {
-                        const mesaNumber = mesaLabel.split(' ')[1];
-                        mesaId = `mesa${mesaNumber}`;
-                    }
-                    if (mesaId) {
-                        const mesaElement = document.getElementById(mesaId);
-                        if (mesaElement) {
-                            mesaElement.classList.add('completa');
-                        }
-                    }
-                }
-            });
-        }
-
-        function getMesaCapacity(mesaLabel) {
-            if (!siteConfig || !Array.isArray(siteConfig.mesas)) {
-                return siteConfig?.defaultCapacity || 10;
-            }
-            const mesaConfig = siteConfig.mesas.find(mesa => {
-                const label = mesa.label || `Mesa ${mesa.number}`;
-                if (label === mesaLabel) return true;
-                if (mesaLabel.startsWith('Mesa ')) {
-                    return `Mesa ${mesa.number}` === mesaLabel;
-                }
-                return false;
-            });
-            if (mesaConfig && typeof mesaConfig.capacity === 'number') {
-                return mesaConfig.capacity;
-            }
-            return siteConfig.defaultCapacity || 10;
-        }
-
-        function showGuests(mesa, event) {
-            const tooltip = document.getElementById('tooltip');
-            if (!tooltip) return;
-            let content = 'No hay invitados registrados en esta mesa.';
-            if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa].map(guest => {
-                    let fullName = `${guest.Nombre || ''} ${guest.Apellido || ''}`.trim();
-                    const acompanantes = [];
-                    if (guest['Nombre Acompanante 1']) acompanantes.push(guest['Nombre Acompanante 1']);
-                    if (guest['Nombre Acompanante 2']) acompanantes.push(guest['Nombre Acompanante 2']);
-                    if (guest['Nombre Acompanante 3']) acompanantes.push(guest['Nombre Acompanante 3']);
-                    if (guest['Nombre Acompanante 4']) acompanantes.push(guest['Nombre Acompanante 4']);
-                    if (guest['Nombre Acompanante 5']) acompanantes.push(guest['Nombre Acompanante 5']);
-                    if (acompanantes.length > 0) {
-                        fullName += ` (+${acompanantes.join(', ')})`;
-                    }
-                    return fullName;
-                }).join(', ');
-                content = guestNames || content;
-            }
-            tooltip.textContent = content;
-            tooltip.style.display = 'block';
-
-            let x = event?.pageX;
-            let y = event?.pageY;
-            const target = event?.currentTarget || event?.target;
-            if ((!x || !y) && target) {
-                const rect = target.getBoundingClientRect();
-                x = rect.left + window.scrollX + rect.width / 2;
-                y = rect.top + window.scrollY + rect.height / 2;
-            }
-            tooltip.style.left = `${x}px`;
-            tooltip.style.top = `${y}px`;
-        }
-
-        function hideGuests() {
-            const tooltip = document.getElementById('tooltip');
-            if (!tooltip) return;
-            tooltip.style.display = 'none';
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            ensureSingleHero();
             try {
                 siteConfig = await loadConfig();
-                applyConfig(siteConfig);
+                document.getElementById('passwordHint').textContent = siteConfig?.admin?.passwordHint || '';
+                updateLocalConfigBadge();
+                updateFileAccessUI();
             } catch (error) {
-                console.error('No se pudo inicializar la configuración', error);
-                const subtitleElement = document.getElementById('siteSubtitle');
-                if (subtitleElement) {
-                    subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
+                console.error(error);
+                const status = document.getElementById('loginStatus');
+                if (status) {
+                    status.textContent = 'No se pudo cargar config.json. Verifica que el archivo exista.';
+                    estado.classList.add ( ' status--error ' )
+ ;
+                    estado.estilo.visualización = ' flex ' ;
+​
                 }
             }
         });
-    </script>
-</body>
-</html>
+
+        document.getElementById ( ' loginForm' ). addEventListener ( 'submit' , async event => {
+            evento.prevenirPredeterminado ( );
+            const contraseñaInput = documento . getElementById ( 'contraseña de administrador' );
+            const status = document.getElementById ( ' loginStatus' )
+ ;
+            estado.estilo.mostrar = ' ninguno ' ;
+​
+
+            if (!siteConfig? .admin ? .passwordHash ) {
+                showStatus(status, 'No hay contraseña configurada. Verifica config.json.', 'error');
+                devolver ;
+            }
+
+            intentar {
+                const hash = await hashPassword (passwordInput. value );
+ 
+                if ( hash === siteConfig.admin.passwordHash ) {
+                    document.getElementById ( ' loginCard' ) . hidden = true ;
+                    document.getElementById ( ' editorCard' ) . hidden = false ;
+                    poblarFormulariosGenerales ();
+                    renderMesaTable ();
+                    renderZoneTable ();
+                    actualizarInsigniaConfiguraciónLocal ();
+                } demás {
+                    showStatus(status, 'Contraseña incorrecta.', 'error');
+                }
+            } catch (error) {
+                consola.error (error
+ ) ;
+                showStatus(status, 'Ocurrió un error al verificar la contraseña.', 'error');
+            }
+        });
+
+        document.getElementById ( 'addMesaBtn' ) .addEventListener( ' click ' , addMesa);
+        document.getElementById ( ' addZoneBtn ' ). addEventListener( ' click ' , addZone);
+        document.getElementById ( ' saveConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar guardarConfiguración ();
+ 
+            if ( supportsFileSystemAccess () && lastFileHandle) {
+                esperar volver a guardar el último archivo ();
+ 
+            }
+        });
+        document.getElementById ( ' downloadConfigBtn ' ) . addEventListener ( 'click' , event => {
+            evento.prevenirPredeterminado ( );
+            descargarConfiguración ();
+        });
+        document.getElementById ( ' writeConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar guardarConfiguraciónEnDisco ();
+ 
+        });
+        document.getElementById ( ' importConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar importarConfiguraciónDesdeArchivo ();
+ 
+        });
+        document.getElementById ( ' importConfigInput' ). addEventListener ( 'change' , async event => {
+            const [ archivo] = evento.objetivo.archivos ;
+            si (archivo) {
+                esperar aplicarConfiguraciónImportada (archivo);
+ 
+            }
+        });
+        document.getElementById ( ' resetConfigBtn ' ). addEventListener ( 'click' , event = > {
+            evento.prevenirPredeterminado ( );
+            if (confirm('Esto eliminará la configuración personalizada guardada en este navegador. ¿Deseas continuar?')) {
+                restablecerConfiguración ();
+            }
+        });
+    </script>​​
+
+</body>​​
+</html>​​
