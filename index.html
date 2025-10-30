@@ -732,6 +732,7 @@
         let siteConfig = null;
 
         const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec';
+        const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
         const SUBMISSION_POLL_INTERVAL = 3000;
         const SUBMISSION_MAX_WAIT = 20000;
         const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
@@ -759,6 +760,12 @@
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .trim();
+        }
+
+        function appendCacheBuster(url) {
+            if (!url) return '';
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}_=${Date.now()}`;
         }
 
         function getValueFromGuest(guest, candidateKeys) {
@@ -903,6 +910,27 @@
             return counts;
         }
 
+        function createReservationFormData(payload) {
+            const formData = new FormData();
+            const safePayload = payload ?? {};
+            formData.append('payload', JSON.stringify(safePayload));
+
+            Object.entries(safePayload).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
+                }
+
+                if (typeof value === 'object') {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, value);
+                }
+            });
+
+            formData.append('submittedAt', new Date().toISOString());
+            return formData;
+        }
+
         async function submitReservation(scriptUrl, payload) {
             if (!scriptUrl) {
                 throw new Error('reservation_missing_endpoint');
@@ -911,25 +939,61 @@
             const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
             const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
 
-            try {
+            const sendRequest = async (mode) => {
                 const options = {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=UTF-8'
-                    },
-                    body: JSON.stringify(payload ?? {}),
-                    keepalive: true
+                    mode,
+                    body: createReservationFormData(payload)
                 };
+
                 if (controller) {
                     options.signal = controller.signal;
                 }
-                await fetch(scriptUrl, options);
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    throw new Error('reservation_timeout');
+
+                if (mode === 'cors') {
+                    options.headers = { 'Accept': 'application/json' };
+                } else {
+                    options.keepalive = true;
                 }
-                throw error;
+
+                const response = await fetch(scriptUrl, options);
+
+                if (mode === 'cors') {
+                    if (!response || !response.ok) {
+                        const status = response ? response.status : 'unknown';
+                        throw new Error(`reservation_http_${status}`);
+                    }
+                    return response;
+                }
+
+                return null;
+            };
+
+            try {
+                try {
+                    await sendRequest('cors');
+                } catch (error) {
+                    if (error && error.name === 'AbortError') {
+                        throw new Error('reservation_timeout');
+                    }
+
+                    const message = typeof error?.message === 'string' ? error.message : '';
+                    const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
+                    const isHttpError = message.startsWith('reservation_http_');
+
+                    if (!isLikelyCorsIssue || isHttpError) {
+                        throw error;
+                    }
+
+                    try {
+                        await sendRequest('no-cors');
+                    } catch (fallbackError) {
+                        if (fallbackError && fallbackError.name === 'AbortError') {
+                            throw new Error('reservation_timeout');
+                        }
+                        throw fallbackError;
+                    }
+                }
             } finally {
                 if (timeoutId) {
                     clearTimeout(timeoutId);
@@ -1109,8 +1173,11 @@
         }
 
         function startDataFetchInterval() {
+            stopDataFetchInterval();
             dataFetchInterval = setInterval(() => {
-                fetchGuestsData();
+                fetchGuestsData().catch(error => {
+                    console.warn('No se pudo refrescar la lista de invitados en segundo plano.', error);
+                });
             }, 5000);
         }
 
@@ -1154,7 +1221,9 @@
             document.getElementById(`screen${currentScreen}`).classList.add('active');
 
             if (currentScreen === 4) {
-                fetchGuestsData();
+                fetchGuestsData().catch(error => {
+                    console.warn('No se pudo refrescar la lista de invitados al cargar el resumen.', error);
+                });
                 startDataFetchInterval();
             } else {
                 stopDataFetchInterval();
@@ -1444,21 +1513,24 @@
             location.reload();
         }
 
-        function fetchGuestsData() {
-            return fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
-                .then(response => response.text())
-                .then(csv => csvToJSON(csv))
-                .then(data => {
-                    guestsData = data;
-                    updateMesasCompletaColor();
-                    updateGuestList();
-                    updateSeats();
-                    return data;
-                })
-                .catch(error => {
-                    console.error('Error fetching guest data:', error);
-                    throw error;
-                });
+        async function fetchGuestsData() {
+            try {
+                const response = await fetch(appendCacheBuster(GUESTS_SHEET_CSV_URL), { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`sheet_fetch_${response.status}`);
+                }
+
+                const csv = await response.text();
+                const data = csvToJSON(csv);
+                guestsData = data;
+                updateMesasCompletaColor();
+                updateGuestList();
+                updateSeats();
+                return data;
+            } catch (error) {
+                console.error('Error fetching guest data:', error);
+                throw error;
+            }
         }
 
         function parseCSVLine(line) {
