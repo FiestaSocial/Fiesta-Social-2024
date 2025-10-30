@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+    <rect width="100%" height="100%" fill="#0f172a" />
+    <line x1="0.00" y1="0" x2="0.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="0.00" x2="1600" y2="0.00" stroke="#2d364b" stroke-width="2" />
+    <text x="8.00" y="32" fill="#94a3b8" font-size="28">0%</text>
+    <text x="16" y="36.00" fill="#94a3b8" font-size="28">0%</text>
+    <line x1="160.00" y1="0" x2="160.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="100.00" x2="1600" y2="100.00" stroke="#2d364b" stroke-width="2" />
+    <text x="168.00" y="32" fill="#94a3b8" font-size="28">10%</text>
+    <text x="16" y="136.00" fill="#94a3b8" font-size="28">10%</text>
+    <line x1="320.00" y1="0" x2="320.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="200.00" x2="1600" y2="200.00" stroke="#2d364b" stroke-width="2" />
+    <text x="328.00" y="32" fill="#94a3b8" font-size="28">20%</text>
+    <text x="16" y="236.00" fill="#94a3b8" font-size="28">20%</text>
+    <line x1="480.00" y1="0" x2="480.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="300.00" x2="1600" y2="300.00" stroke="#2d364b" stroke-width="2" />
+    <text x="488.00" y="32" fill="#94a3b8" font-size="28">30%</text>
+    <text x="16" y="336.00" fill="#94a3b8" font-size="28">30%</text>
+    <line x1="640.00" y1="0" x2="640.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="400.00" x2="1600" y2="400.00" stroke="#2d364b" stroke-width="2" />
+    <text x="648.00" y="32" fill="#94a3b8" font-size="28">40%</text>
+    <text x="16" y="436.00" fill="#94a3b8" font-size="28">40%</text>
+    <line x1="800.00" y1="0" x2="800.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="500.00" x2="1600" y2="500.00" stroke="#2d364b" stroke-width="2" />
+    <text x="808.00" y="32" fill="#94a3b8" font-size="28">50%</text>
+    <text x="16" y="536.00" fill="#94a3b8" font-size="28">50%</text>
+    <line x1="960.00" y1="0" x2="960.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="600.00" x2="1600" y2="600.00" stroke="#2d364b" stroke-width="2" />
+    <text x="968.00" y="32" fill="#94a3b8" font-size="28">60%</text>
+    <text x="16" y="636.00" fill="#94a3b8" font-size="28">60%</text>
+    <line x1="1120.00" y1="0" x2="1120.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="700.00" x2="1600" y2="700.00" stroke="#2d364b" stroke-width="2" />
+    <text x="1128.00" y="32" fill="#94a3b8" font-size="28">70%</text>
+    <text x="16" y="736.00" fill="#94a3b8" font-size="28">70%</text>
+    <line x1="1280.00" y1="0" x2="1280.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="800.00" x2="1600" y2="800.00" stroke="#2d364b" stroke-width="2" />
+    <text x="1288.00" y="32" fill="#94a3b8" font-size="28">80%</text>
+    <text x="16" y="836.00" fill="#94a3b8" font-size="28">80%</text>
+    <line x1="1440.00" y1="0" x2="1440.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="900.00" x2="1600" y2="900.00" stroke="#2d364b" stroke-width="2" />
+    <text x="1448.00" y="32" fill="#94a3b8" font-size="28">90%</text>
+    <text x="16" y="936.00" fill="#94a3b8" font-size="28">90%</text>
+    <line x1="1600.00" y1="0" x2="1600.00" y2="1000" stroke="#2d364b" stroke-width="2" />
+    <line x1="0" y1="1000.00" x2="1600" y2="1000.00" stroke="#2d364b" stroke-width="2" />
+    <text x="1608.00" y="32" fill="#94a3b8" font-size="28">100%</text>
+    <text x="16" y="1036.00" fill="#94a3b8" font-size="28">100%</text>
+    <g transform="translate(192.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">1</text>
+        <title>Mesa 1 (x: 12%, y: 18%)</title>
+    </g>
+    <g transform="translate(384.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">2</text>
+        <title>Mesa 2 (x: 24%, y: 18%)</title>
+    </g>
+    <g transform="translate(576.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">3</text>
+        <title>Mesa 3 (x: 36%, y: 18%)</title>
+    </g>
+    <g transform="translate(704.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">4</text>
+        <title>Mesa 4 (x: 44%, y: 18%)</title>
+    </g>
+    <g transform="translate(192.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">5</text>
+        <title>Mesa 5 (x: 12%, y: 34%)</title>
+    </g>
+    <g transform="translate(384.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">6</text>
+        <title>Mesa 6 (x: 24%, y: 34%)</title>
+    </g>
+    <g transform="translate(576.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">7</text>
+        <title>Mesa 7 (x: 36%, y: 34%)</title>
+    </g>
+    <g transform="translate(704.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">8</text>
+        <title>Mesa 8 (x: 44%, y: 34%)</title>
+    </g>
+    <g transform="translate(192.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">9</text>
+        <title>Mesa 9 (x: 12%, y: 50%)</title>
+    </g>
+    <g transform="translate(384.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">10</text>
+        <title>Mesa 10 (x: 24%, y: 50%)</title>
+    </g>
+    <g transform="translate(576.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">11</text>
+        <title>Mesa 11 (x: 36%, y: 50%)</title>
+    </g>
+    <g transform="translate(704.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">12</text>
+        <title>Mesa 12 (x: 44%, y: 50%)</title>
+    </g>
+    <g transform="translate(192.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">13</text>
+        <title>Mesa 13 (x: 12%, y: 66%)</title>
+    </g>
+    <g transform="translate(384.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">14</text>
+        <title>Mesa 14 (x: 24%, y: 66%)</title>
+    </g>
+    <g transform="translate(576.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">15</text>
+        <title>Mesa 15 (x: 36%, y: 66%)</title>
+    </g>
+    <g transform="translate(704.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">16</text>
+        <title>Mesa 16 (x: 44%, y: 66%)</title>
+    </g>
+    <g transform="translate(128.00,100.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">17</text>
+        <title>Mesa 17 (x: 8%, y: 10%)</title>
+    </g>
+    <g transform="translate(128.00,740.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">18</text>
+        <title>Mesa 18 (x: 8%, y: 74%)</title>
+    </g>
+    <g transform="translate(896.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">19</text>
+        <title>Mesa 19 (x: 56%, y: 18%)</title>
+    </g>
+    <g transform="translate(1088.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">20</text>
+        <title>Mesa 20 (x: 68%, y: 18%)</title>
+    </g>
+    <g transform="translate(1280.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">21</text>
+        <title>Mesa 21 (x: 80%, y: 18%)</title>
+    </g>
+    <g transform="translate(1472.00,180.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">22</text>
+        <title>Mesa 22 (x: 92%, y: 18%)</title>
+    </g>
+    <g transform="translate(896.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">23</text>
+        <title>Mesa 23 (x: 56%, y: 34%)</title>
+    </g>
+    <g transform="translate(1088.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">24</text>
+        <title>Mesa 24 (x: 68%, y: 34%)</title>
+    </g>
+    <g transform="translate(1280.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">25</text>
+        <title>Mesa 25 (x: 80%, y: 34%)</title>
+    </g>
+    <g transform="translate(1472.00,340.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">26</text>
+        <title>Mesa 26 (x: 92%, y: 34%)</title>
+    </g>
+    <g transform="translate(896.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">27</text>
+        <title>Mesa 27 (x: 56%, y: 50%)</title>
+    </g>
+    <g transform="translate(1088.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">28</text>
+        <title>Mesa 28 (x: 68%, y: 50%)</title>
+    </g>
+    <g transform="translate(1280.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">29</text>
+        <title>Mesa 29 (x: 80%, y: 50%)</title>
+    </g>
+    <g transform="translate(1472.00,500.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">30</text>
+        <title>Mesa 30 (x: 92%, y: 50%)</title>
+    </g>
+    <g transform="translate(896.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">31</text>
+        <title>Mesa 31 (x: 56%, y: 66%)</title>
+    </g>
+    <g transform="translate(1088.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">32</text>
+        <title>Mesa 32 (x: 68%, y: 66%)</title>
+    </g>
+    <g transform="translate(1280.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">33</text>
+        <title>Mesa 33 (x: 80%, y: 66%)</title>
+    </g>
+    <g transform="translate(1472.00,660.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">34</text>
+        <title>Mesa 34 (x: 92%, y: 66%)</title>
+    </g>
+    <g transform="translate(1536.00,100.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">35</text>
+        <title>Mesa 35 (x: 96%, y: 10%)</title>
+    </g>
+    <g transform="translate(1536.00,740.00)">
+        <circle r="36" fill="#0b66ff" stroke="#e2e8f0" stroke-width="4" opacity="0.92" />
+        <text text-anchor="middle" dominant-baseline="central" font-size="30" fill="#ffffff" font-weight="700">36</text>
+        <title>Mesa 36 (x: 96%, y: 74%)</title>
+    </g>
+    <g transform="translate(1180,80)">
+        <rect width="320" height="200" rx="24" fill="rgba(15,32,60,0.9)" stroke="#6366f1" stroke-width="3" />
+        <text x="24" y="48" fill="#e2e8f0" font-size="32" font-weight="700">Plano de coordenadas</text>
+        <text x="24" y="96" fill="#cbd5f5" font-size="24">• Eje X: 0% → 100% (izq → der)</text>
+        <text x="24" y="132" fill="#cbd5f5" font-size="24">• Eje Y: 0% → 100% (arriba → abajo)</text>
+        <text x="24" y="168" fill="#cbd5f5" font-size="24">• Círculos: mesas actuales</text>
+    </g>
+</svg>
