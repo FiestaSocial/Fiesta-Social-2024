@@ -960,3 +960,1309 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #0b66ff;
+            --color-primary-dark: #084dcc;
+            --color-secondary: #f39c12;
+            --color-background: #0f172a;
+            --color-surface: #ffffff;
+            --color-muted: #64748b;
+            --color-border: #e2e8f0;
+            --color-success: #22c55e;
+            --color-danger: #ef4444;
+            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.25);
+            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.18);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.45), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.35), transparent 55%),
+                        linear-gradient(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
+            color: #0f172a;
+            padding: 40px 16px 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        h1, h2, h3 {
+            color: #0f172a;
+            margin: 0 0 12px 0;
+        }
+
+        p {
+            margin: 0 0 16px;
+            color: var(--color-muted);
+            line-height: 1.6;
+        }
+
+        .container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 32px 32px 40px;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
+            pointer-events: none;
+        }
+
+        .container.active {
+            display: block;
+            animation: fadeIn 0.45s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-card {
+            display: grid;
+            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
+        }
+
+        .hero-card__content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-card__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(11, 102, 255, 0.1);
+            color: var(--color-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 12px;
+        }
+
+        .hero-card__title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero-card__description {
+            font-size: 16px;
+            color: rgba(15, 23, 42, 0.8);
+            margin-bottom: 24px;
+        }
+
+        .hero-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-card__media {
+            margin: 0;
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-card__media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
+        }
+
+        .hero-card__media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .section-description {
+            font-size: 15px;
+            color: rgba(15, 23, 42, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: rgba(15, 23, 42, 0.85);
+            font-size: 14px;
+        }
+
+        input, select {
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            font-size: 15px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+            background: #f8fafc;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: rgba(11, 102, 255, 0.8);
+            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
+        }
+
+        input:invalid, select:invalid {
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .button--primary {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
+        }
+
+        .button--primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .button--ghost {
+            background: rgba(15, 23, 42, 0.04);
+            color: var(--color-primary);
+        }
+
+        .button--ghost:hover {
+            background: rgba(15, 23, 42, 0.1);
+        }
+
+        .navigation-buttons {
+            margin-top: 32px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .salon-wrapper {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+            align-items: start;
+        }
+
+        .salon-summary {
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            position: sticky;
+            top: 32px;
+        }
+
+        .salon-summary h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .salon-summary p {
+            margin-bottom: 12px;
+            color: rgba(15, 23, 42, 0.75);
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(15, 23, 42, 0.8);
+        }
+
+        .legend-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .legend-swatch--available {
+            background: var(--color-primary);
+        }
+
+        .legend-swatch--full {
+            background: var(--color-danger);
+        }
+
+        .legend-swatch--selected {
+            background: var(--color-secondary);
+        }
+
+        .salon-map {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+            overflow: hidden;
+        }
+
+        .map-zone {
+            position: absolute;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #fff;
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        .map-zone--dance {
+            left: 50%;
+            top: 45%;
+            transform: translate(-50%, -50%);
+            background: rgba(34, 197, 94, 0.85);
+        }
+
+        .map-zone--stage {
+            left: 4%;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left center;
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--entrance {
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--dj {
+            bottom: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--dessert {
+            right: 3%;
+            width: 24px;
+            text-align: center;
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+            padding: 12px 6px;
+        }
+
+        .map-zone--dessert-left {
+            top: 25%;
+        }
+
+        .map-zone--dessert-right {
+            bottom: 25%;
+        }
+
+        .mesa {
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--color-primary);
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
+            transform: translate(-50%, -50%);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .mesa:hover,
+        .mesa:focus {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
+            outline: none;
+        }
+
+        .mesa.completa {
+            background: var(--color-danger);
+            box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3);
+        }
+
+        .mesa.seleccionada {
+            background: var(--color-secondary);
+            box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35);
+        }
+
+        .table-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .table-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: var(--radius-md);
+            background: rgba(248, 250, 252, 0.9);
+            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+            display: none;
+        }
+
+        #seatsContainer {
+            position: absolute;
+            inset: 0;
+        }
+
+        .table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
+        }
+
+        #seatsContainer .seat {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--color-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        #seatsContainer .seat.occupied {
+            background: var(--color-danger);
+        }
+
+        #guestList {
+            min-height: 180px;
+            background: rgba(248, 250, 252, 0.85);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+            font-size: 14px;
+            display: grid;
+            gap: 6px;
+        }
+
+        #guestList strong {
+            color: rgba(15, 23, 42, 0.9);
+        }
+
+        #acompanantesForm {
+            display: grid;
+            gap: 16px;
+        }
+
+        #acompanantesForm h3 {
+            margin-top: 24px;
+        }
+
+        #acompananteCantidad {
+            transition: opacity 0.2s ease;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.88);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            max-width: 280px;
+            line-height: 1.4;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 100;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 12px;
+        }
+
+        .modal-content p {
+            color: rgba(15, 23, 42, 0.75);
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 24px 12px 48px;
+            }
+
+            .salon-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .salon-summary {
+                position: relative;
+                top: auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-card {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation-buttons {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .navigation-buttons .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="screen1" class="container active">
+            <div class="hero-card">
+                <div class="hero-card__content">
+                    <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
+                    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
+                    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
+                    <div class="hero-card__actions">
+                        <button class="button button--primary" onclick="nextScreen(2)">Comenzar registro</button>
+                        <a class="button button--ghost" href="admin.html">Administración</a>
+                    </div>
+                </div>
+                <figure class="hero-card__media">
+                    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
+                </figure>
+            </div>
+        </section>
+
+        <section id="screen2" class="container">
+            <h2>Datos personales</h2>
+            <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
+            <form id="guestForm" class="form-grid">
+                <div class="form-field">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="form-field">
+                    <label for="grado">Grado</label>
+                    <select id="grado" name="grado" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Cnel.">Cnel.</option>
+                        <option value="Tte. Cnel.">Tte. Cnel.</option>
+                        <option value="May.">May.</option>
+                        <option value="Cap.">Cap.</option>
+                        <option value="Tte. 1°">Tte. 1°</option>
+                        <option value="Tte. 2°">Tte. 2°</option>
+                        <option value="Alf.">Alf.</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="escalafon">Escalafón</label>
+                    <select id="escalafon" name="escalafon" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Av.">(Av.)</option>
+                        <option value="Nav.">(Nav.)</option>
+                        <option value="Esp.">(Esp.)</option>
+                        <option value="T.P.">(T.P.)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-field">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+                <div class="form-field">
+                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
+                    <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
+                </div>
+                <div class="form-field">
+                    <label for="acompanante">¿Asiste con acompañante?</label>
+                    <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </div>
+                <div class="form-field" id="acompananteCantidad" style="display:none;">
+                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="menu">Menú</label>
+                    <select id="menu" name="menu" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select>
+                </div>
+                <input type="hidden" id="mesa" name="mesa">
+            </form>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(1)">Anterior</button>
+                <button class="button button--primary" onclick="nextScreen()">Siguiente</button>
+            </div>
+        </section>
+
+        <section id="screen3" class="container">
+            <h2>Información de acompañantes</h2>
+            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
+            <form id="acompanantesForm"></form>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(2)">Anterior</button>
+                <button class="button button--primary" onclick="nextScreen(4)">Siguiente</button>
+            </div>
+        </section>
+
+        <section id="screen4" class="container">
+            <h2>Selecciona tu mesa</h2>
+            <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
+            <div class="salon-wrapper">
+                <aside class="salon-summary">
+                    <h3>Resumen del salón</h3>
+                    <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
+                    <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
+                    <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
+                    <div class="legend">
+                        <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
+                        <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
+                        <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
+                    </div>
+                </aside>
+                <div class="salon-map" id="salonMap">
+                    <div class="map-zone map-zone--dance">Pista de baile</div>
+                    <div class="map-zone map-zone--stage">Estado Mayor</div>
+                    <div class="map-zone map-zone--entrance">Entrada / Piscina</div>
+                    <div class="map-zone map-zone--dj">DJ</div>
+                    <div class="map-zone map-zone--dessert map-zone--dessert-left">Postres</div>
+                    <div class="map-zone map-zone--dessert map-zone--dessert-right">Postres</div>
+                </div>
+            </div>
+            <div class="table-details">
+                <div class="table-container">
+                    <div class="table" id="mesaText">Mesa</div>
+                    <div id="seatsContainer"></div>
+                </div>
+                <div>
+                    <h3>Invitados registrados en esta mesa</h3>
+                    <div id="guestList">Selecciona una mesa para ver los invitados.</div>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(3)">Anterior</button>
+                <button class="button button--primary" onclick="submitForm()">Enviar</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Registro completo</h2>
+            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
+            <button class="button button--primary" onclick="finalizarRegistro()">Finalizar</button>
+        </div>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let currentScreen = 1;
+        let guestsData = {};
+        let dataFetchInterval;
+        let siteConfig = null;
+
+        async function loadConfig() {
+            let storedConfig = null;
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    storedConfig = localStorage.getItem('fiestaConfig');
+                    if (storedConfig) {
+                        storedConfig = JSON.parse(storedConfig);
+                    }
+                } catch (error) {
+                    console.warn('No se pudo leer la configuración almacenada localmente.', error);
+                    storedConfig = null;
+                }
+            }
+
+            if (storedConfig) {
+                return storedConfig;
+            }
+
+            const response = await fetch('config.json?_=' + Date.now());
+            if (!response.ok) {
+                throw new Error('No se pudo cargar la configuración');
+            }
+            return await response.json();
+        }
+
+        function applyConfig(config) {
+            if (!config) return;
+            document.title = config.siteTitle || document.title;
+            const titleHeading = document.getElementById('siteTitleHeading');
+            const subtitleElement = document.getElementById('siteSubtitle');
+            const descriptionElement = document.getElementById('siteDescription');
+            const heroImage = document.getElementById('heroImage');
+
+            if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
+            if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
+            if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
+            if (heroImage && config.heroImage) heroImage.src = config.heroImage;
+
+            if (Array.isArray(config.mesas)) {
+                config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
+            }
+
+            renderTables(config.mesas || []);
+            updateSummary(config.mesas || []);
+        }
+
+        function updateSummary(mesas) {
+            const totalMesasCounter = document.getElementById('totalMesasCounter');
+            const capacidadTotalCounter = document.getElementById('capacidadTotalCounter');
+
+            if (totalMesasCounter) totalMesasCounter.textContent = mesas.length;
+            if (capacidadTotalCounter) {
+                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
+                capacidadTotalCounter.textContent = totalCapacity;
+            }
+        }
+
+        function renderTables(mesas) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
+            salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
+
+            mesas.forEach(mesa => {
+                const mesaElement = document.createElement('button');
+                mesaElement.type = 'button';
+                mesaElement.className = 'mesa';
+                mesaElement.id = `mesa${mesa.number}`;
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                mesaElement.dataset.label = label;
+                mesaElement.dataset.capacity = mesa.capacity ?? siteConfig?.defaultCapacity ?? 0;
+                mesaElement.style.left = `${mesa.position?.x ?? 0}%`;
+                mesaElement.style.top = `${mesa.position?.y ?? 0}%`;
+                mesaElement.textContent = mesa.number ?? label;
+                mesaElement.setAttribute('aria-label', `${label} (capacidad ${mesaElement.dataset.capacity})`);
+                mesaElement.addEventListener('click', () => selectTable(mesa));
+                mesaElement.addEventListener('mouseover', event => showGuests(label, event));
+                mesaElement.addEventListener('focus', event => showGuests(label, event));
+                mesaElement.addEventListener('mouseleave', hideGuests);
+                mesaElement.addEventListener('blur', hideGuests);
+                salonMap.appendChild(mesaElement);
+            });
+
+            updateMesasCompletaColor();
+        }
+
+        function startDataFetchInterval() {
+            dataFetchInterval = setInterval(() => {
+                fetchGuestsData();
+            }, 5000);
+        }
+
+        function stopDataFetchInterval() {
+            clearInterval(dataFetchInterval);
+        }
+
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    let invalidFields = validateForm('guestForm');
+                    if (invalidFields.length > 0) {
+                        alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
+                        return;
+                    }
+                    let acompanante = document.getElementById('acompanante').value;
+                    if (acompanante === 'si') {
+                        let cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value;
+                        if (!cantidadAcompanantes) {
+                            alert('Por favor, seleccione la cantidad de acompañantes.');
+                            return;
+                        }
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
+                    }
+                } else if (currentScreen === 3) {
+                    let invalidFields = validateForm('acompanantesForm');
+                    if (invalidFields.length > 0) {
+                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
+                        return;
+                    }
+                    nextScreenNumber = 4;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
+                }
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+
+            if (currentScreen === 4) {
+                fetchGuestsData();
+                startDataFetchInterval();
+            } else {
+                stopDataFetchInterval();
+            }
+        }
+
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
+            if (!form) return [];
+            let invalidFields = [];
+            let elements = form.querySelectorAll('input, select');
+            elements.forEach(function(element) {
+                if (!element.checkValidity()) {
+                    let label = form.querySelector(`label[for="${element.id}"]`);
+                    let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
+                    invalidFields.push(fieldName.trim());
+                }
+            });
+            return invalidFields;
+        }
+
+        function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById('acompanante').value === 'no') {
+                screen = 2;
+            }
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            stopDataFetchInterval();
+        }
+
+        function toggleAcompanante() {
+            let acompanante = document.getElementById('acompanante').value;
+            let acompananteCantidad = document.getElementById('cantidadAcompanantes');
+            let acompananteCantidadContainer = document.getElementById('acompananteCantidad');
+            if (acompanante === 'si') {
+                acompananteCantidadContainer.style.display = 'block';
+                acompananteCantidadContainer.style.opacity = '1';
+                acompananteCantidad.setAttribute('required', 'required');
+            } else {
+                acompananteCantidadContainer.style.opacity = '0';
+                acompananteCantidadContainer.style.display = 'none';
+                acompananteCantidad.removeAttribute('required');
+                acompananteCantidad.value = '';
+            }
+        }
+
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById('acompanantesForm');
+            acompanantesForm.innerHTML = '';
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += `
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <h3>Acompañante ${i}</h3>
+                            <label for="nombreAcompanante${i}">Nombre</label>
+                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="menuAcompanante${i}">Menú</label>
+                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                                <option value="" selected>Seleccionar</option>
+                                <option value="normal">Normal</option>
+                                <option value="vegetariano">Vegetariano</option>
+                                <option value="vegano">Vegano</option>
+                                <option value="celiaco">Celíaco</option>
+                            </select>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function selectTable(mesaConfig) {
+            if (!mesaConfig) return;
+            const label = mesaConfig.label || `Mesa ${mesaConfig.number}`;
+            const mesaInput = document.getElementById('mesa');
+            mesaInput.value = label;
+
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
+            const mesaElement = document.getElementById(`mesa${mesaConfig.number}`);
+            if (mesaElement) {
+                mesaElement.classList.add('seleccionada');
+            }
+
+            const summaryLabel = document.getElementById('mesaSeleccionadaLabel');
+            if (summaryLabel) {
+                summaryLabel.textContent = label;
+            }
+
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.style.display = 'block';
+            }
+
+            updateMesaText();
+        }
+
+        function updateMesaText() {
+            const mesaInput = document.getElementById('mesa');
+            const mesaText = document.getElementById('mesaText');
+            const selectedMesa = mesaInput.value;
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa;
+            }
+            updateSeats();
+            updateGuestList();
+        }
+
+        function updateSeats() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+            const seatsContainer = document.getElementById('seatsContainer');
+            if (!seatsContainer) return;
+
+            let maxCapacity = getMesaCapacity(selectedMesa);
+            seatsContainer.innerHTML = '';
+
+            for (let i = 1; i <= maxCapacity; i++) {
+                let seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.dataset.seat = i;
+                seatsContainer.appendChild(seat);
+            }
+
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50;
+            const centerY = 50;
+            const radius = 38;
+
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
+            });
+
+            if (selectedMesa && guestsData[selectedMesa]) {
+                let totalGuests = 0;
+                guestsData[selectedMesa].forEach(guest => {
+                    const guestAndAcompanantes = [guest];
+                    if (guest['Nombre Acompanante 1']) guestAndAcompanantes.push(guest['Nombre Acompanante 1']);
+                    if (guest['Nombre Acompanante 2']) guestAndAcompanantes.push(guest['Nombre Acompanante 2']);
+                    if (guest['Nombre Acompanante 3']) guestAndAcompanantes.push(guest['Nombre Acompanante 3']);
+                    if (guest['Nombre Acompanante 4']) guestAndAcompanantes.push(guest['Nombre Acompanante 4']);
+                    if (guest['Nombre Acompanante 5']) guestAndAcompanantes.push(guest['Nombre Acompanante 5']);
+
+                    guestAndAcompanantes.forEach(() => {
+                        if (totalGuests < maxCapacity) {
+                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                            if (seat) {
+                                seat.classList.add('occupied');
+                            }
+                            totalGuests++;
+                        }
+                    });
+                });
+            }
+        }
+
+        function updateGuestList() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+            const guestList = document.getElementById('guestList');
+            if (!guestList) return;
+
+            guestList.innerHTML = '';
+
+            if (selectedMesa && guestsData[selectedMesa]) {
+                const guests = guestsData[selectedMesa];
+
+                guests.forEach(guest => {
+                    const nombreCompleto = `${guest['Nombre'] || 'Nombre no disponible'} ${guest['Apellido'] || 'Apellido no disponible'}`;
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
+
+                    if (guest['Nombre Acompanante 1']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 1']}</div>`;
+                    if (guest['Nombre Acompanante 2']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 2']}</div>`;
+                    if (guest['Nombre Acompanante 3']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 3']}</div>`;
+                    if (guest['Nombre Acompanante 4']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 4']}</div>`;
+                    if (guest['Nombre Acompanante 5']) guestList.innerHTML += `<div>${guest['Nombre Acompanante 5']}</div>`;
+                });
+            } else {
+                guestList.innerHTML = 'No hay invitados registrados en esta mesa.';
+            }
+        }
+
+        function submitForm() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+
+            let maxCapacity = getMesaCapacity(selectedMesa);
+
+            let totalGuests = 0;
+            if (selectedMesa && guestsData[selectedMesa]) {
+                guestsData[selectedMesa].forEach(guest => {
+                    totalGuests++;
+                    if (guest['Nombre Acompanante 1']) totalGuests++;
+                    if (guest['Nombre Acompanante 2']) totalGuests++;
+                    if (guest['Nombre Acompanante 3']) totalGuests++;
+                    if (guest['Nombre Acompanante 4']) totalGuests++;
+                    if (guest['Nombre Acompanante 5']) totalGuests++;
+                });
+            }
+
+            const cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value || 0;
+            const totalNuevosGuests = 1 + parseInt(cantidadAcompanantes);
+
+            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
+                alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
+                return;
+            }
+
+            let guestForm = document.getElementById('guestForm');
+            let acompanantesForm = document.getElementById('acompanantesForm');
+
+            if (guestForm.checkValidity() && acompanantesForm.checkValidity()) {
+                const formData = new FormData(guestForm);
+                const acompanantesData = new FormData(acompanantesForm);
+                const acompanantes = [];
+
+                acompanantesData.forEach((value, key) => {
+                    if (key.includes('nombreAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        acompanantes[index].nombre = value;
+                    } else if (key.includes('menuAcompanante')) {
+                        const index = parseInt(key.replace(/\D/g, '')) - 1;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        acompanantes[index].menu = value;
+                    }
+                });
+
+                const data = {
+                    correo: formData.get('correo'),
+                    grado: formData.get('grado'),
+                    escalafon: formData.get('escalafon'),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    cedula: formData.get('cedula'),
+                    acompanante: formData.get('acompanante'),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menu: formData.get('menu'),
+                    acompanantes: acompanantes,
+                    mesa: formData.get('mesa')
+                };
+
+                fetch('https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                }).then(response => response.text())
+                  .then(result => {
+                      console.log(result);
+                      showConfirmation();
+                      fetchGuestsData();
+                  }).catch(error => {
+                      alert('Error: ' + error);
+                  });
+            } else {
+                alert('Por favor, complete todos los campos requeridos.');
+            }
+        }
+
+        function showConfirmation() {
+            const mesaConfirmada = document.getElementById('mesa').value;
+            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            const current = document.getElementById(`screen${currentScreen}`);
+            if (current) current.classList.remove('active');
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
+            stopDataFetchInterval();
+        }
+
+        function finalizarRegistro() {
+            location.reload();
+        }
+
+        function fetchGuestsData() {
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv')
+                .then(response => response.text())
+                .then(csv => csvToJSON(csv))
+                .then(data => {
+                    guestsData = data;
+                    updateMesasCompletaColor();
+                    updateGuestList();
+                    updateSeats();
+                })
+                .catch(error => console.error('Error fetching guest data:', error));
+        }
+
+        function csvToJSON(csv) {
+            const lines = csv.split('\n');
+            const result = {};
+
+            for (let i = 1; i < lines.length; i++) {
+                const obj = {};
+                const currentline = lines[i].split(',');
+                if (currentline.length < 20) continue;
+
+                obj['Correo'] = currentline[0]?.trim();
+                obj['Nombre'] = currentline[3]?.trim();
+                obj['Apellido'] = currentline[4]?.trim();
+                obj['Mesa'] = currentline[19]?.trim();
+
+                obj['Nombre Acompanante 1'] = currentline[9]?.trim();
+                obj['Nombre Acompanante 2'] = currentline[11]?.trim();
+                obj['Nombre Acompanante 3'] = currentline[13]?.trim();
+                obj['Nombre Acompanante 4'] = currentline[15]?.trim();
+                obj['Nombre Acompanante 5'] = currentline[17]?.trim();
+
+                if (obj['Mesa']) {
+                    if (!result[obj['Mesa']]) {
+                        result[obj['Mesa']] = [];
+                    }
+                    result[obj['Mesa']].push(obj);
+                }
+            }
+            return result;
+        }
+
+        function updateMesasCompletaColor() {
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
+
+            Object.keys(guestsData).forEach(mesaLabel => {
+                const guests = guestsData[mesaLabel];
+                let totalGuests = 0;
+
+                let maxCapacity = getMesaCapacity(mesaLabel);
+
+                guests.forEach(guest => {
+                    totalGuests++;
+                    if (guest['Nombre Acompanante 1']) totalGuests++;
+                    if (guest['Nombre Acompanante 2']) totalGuests++;
+                    if (guest['Nombre Acompanante 3']) totalGuests++;
+                    if (guest['Nombre Acompanante 4']) totalGuests++;
+                    if (guest['Nombre Acompanante 5']) totalGuests++;
+                });
+
+                if (totalGuests >= maxCapacity) {
+                    const mesaConfig = siteConfig?.mesas?.find(m => (m.label || `Mesa ${m.number}`) === mesaLabel);
+                    let mesaId = null;
+                    if (mesaConfig) {
+                        mesaId = `mesa${mesaConfig.number}`;
+                    } else if (mesaLabel.startsWith('Mesa ')) {
+                        const mesaNumber = mesaLabel.split(' ')[1];
+                        mesaId = `mesa${mesaNumber}`;
+                    }
+                    if (mesaId) {
+                        const mesaElement = document.getElementById(mesaId);
+                        if (mesaElement) {
+                            mesaElement.classList.add('completa');
+                        }
+                    }
+                }
+            });
+        }
+
+        function getMesaCapacity(mesaLabel) {
+            if (!siteConfig || !Array.isArray(siteConfig.mesas)) {
+                return siteConfig?.defaultCapacity || 10;
+            }
+            const mesaConfig = siteConfig.mesas.find(mesa => {
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                if (label === mesaLabel) return true;
+                if (mesaLabel.startsWith('Mesa ')) {
+                    return `Mesa ${mesa.number}` === mesaLabel;
+                }
+                return false;
+            });
+            if (mesaConfig && typeof mesaConfig.capacity === 'number') {
+                return mesaConfig.capacity;
+            }
+            return siteConfig.defaultCapacity || 10;
+        }
+
+        function showGuests(mesa, event) {
+            const tooltip = document.getElementById('tooltip');
+            if (!tooltip) return;
+            let content = 'No hay invitados registrados en esta mesa.';
+            if (guestsData[mesa]) {
+                const guestNames = guestsData[mesa].map(guest => {
+                    let fullName = `${guest.Nombre || ''} ${guest.Apellido || ''}`.trim();
+                    const acompanantes = [];
+                    if (guest['Nombre Acompanante 1']) acompanantes.push(guest['Nombre Acompanante 1']);
+                    if (guest['Nombre Acompanante 2']) acompanantes.push(guest['Nombre Acompanante 2']);
+                    if (guest['Nombre Acompanante 3']) acompanantes.push(guest['Nombre Acompanante 3']);
+                    if (guest['Nombre Acompanante 4']) acompanantes.push(guest['Nombre Acompanante 4']);
+                    if (guest['Nombre Acompanante 5']) acompanantes.push(guest['Nombre Acompanante 5']);
+                    if (acompanantes.length > 0) {
+                        fullName += ` (+${acompanantes.join(', ')})`;
+                    }
+                    return fullName;
+                }).join(', ');
+                content = guestNames || content;
+            }
+            tooltip.textContent = content;
+            tooltip.style.display = 'block';
+
+            let x = event?.pageX;
+            let y = event?.pageY;
+            const target = event?.currentTarget || event?.target;
+            if ((!x || !y) && target) {
+                const rect = target.getBoundingClientRect();
+                x = rect.left + window.scrollX + rect.width / 2;
+                y = rect.top + window.scrollY + rect.height / 2;
+            }
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function hideGuests() {
+            const tooltip = document.getElementById('tooltip');
+            if (!tooltip) return;
+            tooltip.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                siteConfig = await loadConfig();
+                applyConfig(siteConfig);
+            } catch (error) {
+                console.error('No se pudo inicializar la configuración', error);
+                const subtitleElement = document.getElementById('siteSubtitle');
+                if (subtitleElement) {
+                    subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
