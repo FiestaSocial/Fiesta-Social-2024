@@ -737,6 +737,16 @@
         let dataFetchInterval;
         let siteConfig = null;
 
+        function ensureSingleHero() {
+            const heroSection = document.getElementById('screen1');
+            if (!heroSection) return;
+            const heroCards = heroSection.querySelectorAll('.hero-card');
+            heroCards.forEach((card, index) => {
+                if (index === 0) return;
+                card.remove();
+            });
+        }
+
         async function loadConfig() {
             let storedConfig = null;
             if (typeof localStorage !== 'undefined') {
@@ -764,6 +774,7 @@
 
         function applyConfig(config) {
             if (!config) return;
+            ensureSingleHero();
             document.title = config.siteTitle || document.title;
             const titleHeading = document.getElementById('siteTitleHeading');
             const subtitleElement = document.getElementById('siteSubtitle');
@@ -1290,6 +1301,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
+            ensureSingleHero();
             try {
                 siteConfig = await loadConfig();
                 applyConfig(siteConfig);
