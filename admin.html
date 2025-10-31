@@ -337,7 +337,7 @@
             <p>Administra el contenido del sitio sin editar código. Ingresa la contraseña para desbloquear las configuraciones.</p>
             < form id = "loginForm" > 
                 < div >
-                    <label for="adminPassword">Contraseña</label>
+                    <labelfor="adminPassword">Contraseña</label> 
                     < input type = "password" id = "adminPassword" autocomplete = "current-password" required >    
                     < p class = "hint" id = " passwordHint " > </p>  
                 </div>​​
@@ -353,7 +353,7 @@
             < div class = "card__header" > 
                 < div >
                     <h2>Configuración del evento</h2>
-                    <p class="hint" id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
+                    <pclass="hint"id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>  
                 </div>​​
                 < div class = "toolbar" > 
                     < button class = "button button--primary" id = " saveConfigBtn" > Guardar cambios </button>  
@@ -379,7 +379,7 @@
                         < input type = "text" id = "siteSubtitleInput" required >   
                     </div>​​
                     < div >
-                        <label for="siteDescriptionInput">Descripción breve</label>
+                        <labelfor="siteDescriptionInput">Descripción breve</label> 
                         < textarea id = " siteDescriptionInput " required > </textarea>  
                     </div>​​
                     < div >
@@ -389,7 +389,7 @@
                     < div >
                         < label for = "reservationScriptInput" > URL de Google Apps Script </label> 
                         < input type = "url" id = "reservationScriptInput" placeholder = "https://script.google.com/macros/s/..." >   
-                        <p class="hint">Publica el Apps Script como aplicación web (Deploy &gt; Manage deployments &gt; Web app, acceso: cualquiera con el enlace), copia la URL resultante y pégala aquí. Acepta tanto <code>doPost</code> como <code>doGet</code>, añade la cabecera <code>Access-Control-Allow-Origin: *</code> en la respuesta y lee los datos con <code>JSON.parse(e.parameter.payload || e.postData.contents)</code> para guardarlos en la hoja.</p>
+                        <pclass="hint">Publica el Apps Script como aplicación web (Deploy > Manage deployments > Web app, acceso: cualquiera con el enlace), copia la URL resultante y pégala aquí. Acepta tanto <code>doPost</code> como <code>doGet</code>, añade la cabecera <code>Access-Control-Allow-Origin: *</code> en la respuesta y lee los datos con <code>JSON.parse(e.parameter.payload || e.postData.contents)</code> para guardarlos en la hoja.</p> 
                         < detalles clase = "panel-de-sugerencia" > 
                             <summary>Ejemplo completo compatible</summary>
 <pre><code>const SHEET_ID = 'REEMPLAZA_CON_EL_ID_DE_TU_HOJA';
@@ -511,7 +511,7 @@ función normalizarCompañeros(crudo) {
         .split('|')
         .map(item = > item.trim())
         .filter(Booleano)
-        .map(nombre =&gt; ({ nombre, menu: '' }));
+        .map(nombre => ({ nombre, menu: '' }));
     }
   }
 
@@ -602,7 +602,7 @@ función construirRespuesta(carga útil) {
                         < div class = "hint-panel" > 
                             <p><strong>Pasos para verificar la conexión</strong></p>
                             <ol>​​
-                                <li>En Google Apps Script abre <em>Deploy ▸ Manage deployments</em>, crea una versión nueva del Web App y copia la URL pública mostrada; debe lucir como <code>https://script.google.com/macros/s/&lt;ID&gt;/exec</code>.</li>
+                                <li>En Google Apps Script abre <em>Deploy ▸ Manage deployments</em>, crea una versión nueva del Web App y copia la URL pública mostrada; debe lucir como <code>https://script.google.com/macros/s/<ID>/exec</code>.</li>
                                 <li>Pega esa URL en el campo anterior y pulsa <strong>Guardar cambios</strong>. Si el botón “Guardar en config.json” está activo, úsalo para persistir el valor en el archivo.</li>
                                 <li>En Apps Script, confirma que tu código publicado incluye <code>doPost(e)</code> (y opcionalmente <code>doGet(e)</code>) como en el ejemplo y que ambos devuelven la respuesta con cabeceras CORS.</li>
                                 <li>Desde Apps Script abre <em>View ▸ Logs</em> o utiliza <code>Execution log</code> para verificar si llegan solicitudes después de cada prueba. Los registros deben mostrar el JSON recibido.</li>
@@ -612,7 +612,7 @@ función construirRespuesta(carga útil) {
                         </div>​​
                     </div>​​
                     < div >
-                        <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
+                        <labelfor="defaultCapacityInput">Capacidad predeterminada por mesa</label> 
                         < input type = "number" id = "defaultCapacityInput" min = "1" step = "1" required >     
                     </div>​​
                 </form>​​
@@ -623,12 +623,12 @@ función construirRespuesta(carga útil) {
                         < input type = "text" id = "passwordHintInput" >  
                     </div>​​
                     < div >
-                        <label for="newPasswordInput">Nueva contraseña (opcional)</label>
+                        <labelfor="newPasswordInput">Nueva contraseña (opcional)</label> 
                         < input type = "password" id = "newPasswordInput" autocomplete = "new-password" >   
-                        <p class="hint">Se almacenará un hash SHA-256, nunca la contraseña en texto plano.</p>
+                        <pclass="hint">Se almacenará un hash SHA-256, nunca la contraseña en texto plano.</p> 
                     </div>​​
                     < div >
-                        <label for="confirmPasswordInput">Confirmar nueva contraseña</label>
+                        <labelfor="confirmPasswordInput">Confirmar nueva contraseña</label> 
                         < input type = "password" id = "confirmPasswordInput" autocomplete = "new-password" >   
                     </div>​​
                     < div class = "badge" id = " localConfigBadge " > </div>  
@@ -665,7 +665,7 @@ función construirRespuesta(carga útil) {
                 </div>​​
             </div>​​
 
-            <p class="hint">Modifica el texto y la posición (0-100%) de elementos como la pista de baile, entrada o postres.</p>
+            <pclass="hint">Modifica el texto y la posición (0-100%) de elementos como la pista de baile, entrada o postres.</p> 
 
             < div style = "overflow-x: auto;" > 
                 < tabla >
@@ -724,7 +724,8 @@ función construirRespuesta(carga útil) {
             const respuesta = await fetch ( 'config.json?_=' + Date . now ());
  
             if (!response.ok ) {
-                throw new Error('No se pudo cargar config.json');
+                thrownewError('No se pudo cargar config.json');
+  
             }
             usingLocalOverride = false ;
             return await response.json ()
