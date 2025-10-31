@@ -1,2675 +1,1366 @@
-<!DOCTYPE html >
-< html lang = "es" > 
-< encabezado >
-    < meta charset = "UTF-8" > 
-    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
-    <title> Fiesta Social 2024 </title>​​
-    < estilo >
-        /* Estilos CSS */
-        cuerpo {
-            font-family : 'Arial' , sans-serif;
-            color de fondo : #f4f6f8 ;
-            color : #333 ;
-            margen : 0 ;
-            relleno : 20px ;
-            pantalla : flexible;
-            dirección flexible : columna;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            altura mínima : 100vh ;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiesta Social 2024</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #0b66ff;
+            --color-primary-dark: #084dcc;
+            --color-secondary: #f39c12;
+            --color-background: #0f172a;
+            --color-surface: #ffffff;
+            --color-muted: #64748b;
+            --color-border: #e2e8f0;
+            --color-success: #22c55e;
+            --color-danger: #ef4444;
+            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.25);
+            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.18);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
         }
-        .banner {
-            color de fondo : #2c3e50 ;
-            altura : 70px ;
-            ancho : 100% ;
-            margen inferior : 20px ;
+
+        * {
+            box-sizing: border-box;
         }
-        .contenedor {
-            mostrar : ninguna;
-            alineación del texto : centro;
-            relleno : 30px ;
-            color de fondo : #ffffff ;
-            borde-radio : 10px ;
-            box-shadow : 0 4px 12px rgba ( 0 , 0 , 0 , 0.1 );
-   
-            ancho máximo : 800px ;
-            ancho : 100% ;
-            margen : 20px auto;
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.45), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.35), transparent 55%),
+                        linear-gradient(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
+            color: #0f172a;
+            padding: 40px 16px 60px;
+            display: flex;
+            justify-content: center;
         }
-        .activo {
-            pantalla : bloque;
+
+        main {
+            width: 100%;
+            max-width: 1100px;
         }
-        .botones-de-navegación {
-            pantalla : flexible;
-            justificar-contenido : centro;
-            margen superior : 20px ;
+
+        h1, h2, h3 {
+            color: #0f172a;
+            margin: 0 0 12px 0;
         }
-        .navigation-buttons botón {
- 
-            margen : 0 10px ;
- 
-            color de fondo : #3498db ;
-            borde : ninguno;
-            relleno : 15px 30px ;
- 
-            color : blanco;
-            cursor : puntero;
-            tamaño de fuente : 18px ;
-            borde-radio : 5px ;
-            transición : background-color 0.3s ease;
+
+        p {
+            margin: 0 0 16px;
+            color: var(--color-muted);
+            line-height: 1.6;
         }
-        .navigation-buttons botón :hover {
- 
-            color de fondo : #2980b9 ;
+
+        .container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 32px 32px 40px;
+            box-shadow: var(--shadow-lg);
+            display: none;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
         }
-        etiqueta , entrada , selección {
-            pantalla : bloque;
-            ancho : 100% ;
-            margen : 15px 0 ;
- 
+
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
+            pointer-events: none;
         }
-        entrada , seleccionar {
-            relleno : 12px ;
-            borde : 1px sólido #ced4da ;
-            borde-radio : 5px ;
+
+        .container.active {
+            display: block;
+            animation: fadeIn 0.45s ease;
         }
-        entrada : no válida , selección : no válida {
-            color de borde : #e74c3c ;
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .salón-contenedor {
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : espacio-entre;
-            borde : 2px sólido #333 ;
-            relleno : 20px ;
-            margen superior : 20px ;
-            espacio : 20px ;
-            posición : relativa;
-            ancho : 100% ;
-            ancho máximo : 1000px ;
+
+        .hero-card {
+            display: grid;
+            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
         }
-        .tablas {
-            visualización : cuadrícula;
-            columnas-de-plantilla-de-cuadrícula : repetir ( 5 , 1 fr);
-            espacio : 20px ;
-            posición : relativa;
+
+        .hero-card__content {
+            position: relative;
+            z-index: 1;
         }
+
+        .hero-card__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(11, 102, 255, 0.1);
+            color: var(--color-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 12px;
+        }
+
+        .hero-card__title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero-card__description {
+            font-size: 16px;
+            color: rgba(15, 23, 42, 0.8);
+            margin-bottom: 24px;
+        }
+
+        .hero-card__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-card__media {
+            margin: 0;
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-card__media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
+        }
+
+        .hero-card__media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .section-description {
+            font-size: 15px;
+            color: rgba(15, 23, 42, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: rgba(15, 23, 42, 0.85);
+            font-size: 14px;
+        }
+
+        input, select {
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            font-size: 15px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+            background: #f8fafc;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: rgba(11, 102, 255, 0.8);
+            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
+        }
+
+        input:invalid, select:invalid {
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .button--primary {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
+        }
+
+        .button--primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .button--ghost {
+            background: rgba(15, 23, 42, 0.04);
+            color: var(--color-primary);
+        }
+
+        .button--ghost:hover {
+            background: rgba(15, 23, 42, 0.1);
+        }
+
+        .navigation-buttons {
+            margin-top: 32px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .salon-wrapper {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+            align-items: start;
+        }
+
+        .salon-summary {
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            position: sticky;
+            top: 32px;
+        }
+
+        .salon-summary h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .salon-summary p {
+            margin-bottom: 12px;
+            color: rgba(15, 23, 42, 0.75);
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(15, 23, 42, 0.8);
+        }
+
+        .legend-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .legend-swatch--available {
+            background: var(--color-primary);
+        }
+
+        .legend-swatch--full {
+            background: var(--color-danger);
+        }
+
+        .legend-swatch--selected {
+            background: var(--color-secondary);
+        }
+
+        .salon-map {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+            overflow: hidden;
+        }
+
+        .map-zone {
+            position: absolute;
+            left: calc(var(--zone-x, 50) * 1%);
+            top: calc(var(--zone-y, 50) * 1%);
+            transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
+            transform-origin: var(--zone-origin, center);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #fff;
+            background: rgba(15, 23, 42, 0.7);
+            pointer-events: none;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        .map-zone--dance {
+            background: rgba(34, 197, 94, 0.85);
+        }
+
+        .map-zone--stage {
+            --zone-tx: 0%;
+            --zone-ty: -50%;
+            --zone-rotate: -90deg;
+            --zone-origin: left center;
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--entrance {
+            --zone-ty: 0%;
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--dj {
+            --zone-ty: -100%;
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--dessert {
+            width: 24px;
+            text-align: center;
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+            padding: 12px 6px;
+            background: rgba(59, 130, 246, 0.9);
+        }
+
+        .map-zone--dessert-left {
+            --zone-tx: -50%;
+        }
+
+        .map-zone--dessert-right {
+            --zone-tx: -50%;
+        }
+
         .mesa {
-            ancho : 40px ;
-            altura : 40px ;
-            radio de borde : 50% ;
-            color de fondo : #3498db ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            transición : background-color 0.3s ease;
-            cursor : puntero;
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--color-primary);
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
+            transform: translate(-50%, -50%);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            z-index: 2;
         }
-        .completo .tabla {
-            color de fondo : #e74c3c ;
+
+        .mesa:hover,
+        .mesa:focus {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
+            outline: none;
         }
+
+        .mesa.completa {
+            background: var(--color-danger);
+            box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3);
+        }
+
         .mesa.seleccionada {
-            color de fondo : #f39c12 ;
+            background: var(--color-secondary);
+            box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35);
         }
-        /* Ajustes para evitar superposiciones */
-        .pista {
-            ancho : 80px ;
-            altura : 180px ;
-            color de fondo : #28a745 ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 16px ;
-            grosor de fuente : negrita;
-            margen : 0 20px ;
- 
+
+        .table-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
         }
-        .estado-mayor {
-            ancho : 25px ;
-            altura : 150px ;
-            color de fondo : #007bff ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            izquierda : 50% ;
-            superior : 55px ;
-            transformar : traslaciónX ( -300% );
-            modo de escritura : vertical-rl;
-            orientación del texto : mixta;
+
+        .table-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: var(--radius-md);
+            background: rgba(248, 250, 252, 0.9);
+            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+            display: none;
         }
-        Prohibido {
-            ancho : 135px ;
-            altura : 25px ;
-            color de fondo : #007bff ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            izquierda : 50% ;
-            superior : 10px ;
-            transformar : traslaciónX (-50 % );
+
+        #seatsContainer {
+            position: absolute;
+            inset: 0;
         }
-        .dj {
-            ancho : 100px ;
-            altura : 25px ;
-            color de fondo : #007bff ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            izquierda : 50% ;
-            abajo : 5px ;
-            transformar : traslaciónX (-50 % );
+
+        .table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
         }
-        .postres {
-            ancho : 20px ;
-            altura : 80px ;
-            color de fondo : #007bff ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            derecha : 40% ;
-            parte superior : 50% ;
-            transformar : traslaciónY ( -105% );
-            modo de escritura : vertical-rl;
-            orientación del texto : mixta;
+
+        #seatsContainer .seat {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--color-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
-        .postres2 {
-            ancho : 20px ;
-            altura : 80px ;
-            color de fondo : #007bff ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 14px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            derecha : 40% ;
-            parte superior : 50% ;
-            transformar : traslaciónY ( 20% );
-            modo de escritura : vertical-rl;
-            orientación del texto : mixta;
+
+        #seatsContainer .seat.occupied {
+            background: var(--color-danger);
         }
+
+        #guestList {
+            min-height: 180px;
+            background: rgba(248, 250, 252, 0.85);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+            font-size: 14px;
+            display: grid;
+            gap: 6px;
+        }
+
+        #guestList strong {
+            color: rgba(15, 23, 42, 0.9);
+        }
+
+        #acompanantesForm {
+            display: grid;
+            gap: 16px;
+        }
+
+        #acompanantesForm h3 {
+            margin-top: 24px;
+        }
+
+        #acompananteCantidad {
+            transition: opacity 0.2s ease;
+        }
+
         .tooltip {
-            posición : absoluta;
-            color de fondo : #333 ;
-            color : #fff ;
-            relleno : 5px 10px ;
- 
-            borde-radio : 5px ;
-            mostrar : ninguna;
-            índice z : 10 ;
-            tamaño de fuente : 14px ;
-        }
-        #listadeinvitados {
-            visualización : cuadrícula;
-            columnas-de-plantilla-de-cuadrícula : repetir ( 2 , 1 fr);
-            espacio : 10px ;
-            ancho : 100% ;
-            altura : automática;
-            relleno : 10px ;
-            borde : 1px sólido #ced4da ;
-            borde-radio : 5px ;
-            color de fondo : #f8f9fa ;
-            desbordamiento : oculto;
-        }
-        .contenedor-tabla {
-            posición : relativa;
-            ancho : 300px ;
-            altura : 300px ;
-            margen : 30px auto;
-            mostrar : ninguna;
-        }
-        .mesa {
-            ancho : 100px ;
-            altura : 100px ;
-            radio de borde : 50% ;
-            color de fondo : #3498db ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            tamaño de fuente : 20px ;
-            grosor de fuente : negrita;
-            posición : absoluta;
-            parte superior : 50% ;
-            izquierda : 50% ;
-            transformar : trasladar (-50 % , -50% );
-        }
-        .asiento {
-            ancho : 40px ;
-            altura : 40px ;
-            radio de borde : 50% ;
-            color de fondo : #28a745 ;
-            posición : absoluta;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : blanco;
-            grosor de fuente : negrita;
-            cursor : puntero;
-            transición : background-color 0.3s ease;
-        }
-        .asiento .ocupado {
-            color de fondo : #e74c3c ;
-        }
-    </style>​​
-</head>​​
-< cuerpo >
-    < div clase = "banner" > </ div > 
-    < div id = "screen1" class = "container active" >  
-        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
-        <p>¡Estamos encantados de tenerte aquí!</p>
-        <imgsrc="Imagen de bienvenida.png"alt="Imagen de bienvenida"style="max-width: 100%; height: auto; border-radius: 10px;">   
-        < div class = "navigation-buttons" > 
-            < button onclick = "nextScreen(2 ) " > Iniciar </button> 
-        </div>​​
-    </div>​​
-
-    < div id = "screen2" class = "container" >  
-        <h2>Datos Personales</h2>
-        < form id = "guestForm" > 
-            <labelfor="correo">Correo:</label> 
-            < input type = "email" id = " correo " name = " correo " required > <br> <br>    
-
-            < etiqueta para = "grado" > Grado: </ etiqueta > 
-            <selectid="grado"name="grado"required>   
-                < option value = " " selected > Seleccionar </option>​  
-                < option value = "Cnel. " > Cnel . </option> 
-                < option value = "Tte. Cnel." > Tte . Cnel. </option> 
-                < option value = "May. " > Mayo . </option> 
-                < option value = "Cap. " > Capacidad . </option> 
-                < option value = "Tte. 1°" > Tte . 1 ° </option> 
-                < option value = "Tte . 2°" > Tte. 2 ° </option> 
-                < option value = " Alf." > Alf . </option> 
-            </select> <br> <br>​​​​​​
-
-            <labelfor="escalafon">Escalafón:</label> 
-            < select id = "escalafón" name = "escalafón" required >   
-                < option value = " " selected > Seleccionar </option>​  
-                < option value = "Apagado." > ( Apagado. ) </option> 
-                < option value = " Nav." > (Nav. ) </option> 
-                < option value = "Esp." > ( Esp .) </option> 
-                < option value = " TP" > (TP ) </option> 
-            </select> <br> <br>​​​​​​
-
-            <labelfor="nombre">Nombre:</label> 
-            < input type = "text" id = " nombre " name = " nombre " required > <br> <br>    
-
-            <labelfor="apellido">Apellido:</label> 
-            < input type = "text" id = " apellido " name = " apellido " required > <br> <br>    
-
-            <labelfor="cedula">Cédula de Identidad: (Complete el campo con puntos y guión) Ej. 1.111.111-1</label> 
-            < input type = "text" id = "cedula" name = "cedula" required pattern = "^\d\.\d{3}\.\d{3}-\d$" title = " El formato debe ser 0.000.000-0. Ejemplo : 4.646.789-2" > <br> <br>      
-
-            <labelfor="acompanante">¿Asiste con acompañante?</label> 
-            <selectid="acompanante"name="acompanante"requiredonchange="toggleAcompanante()">    
-                < option value = " " selected > Seleccionar </option>​  
-                < option value = " no " > No </option> 
-                < valor de opción = " si " > Sí </option> 
-            </select> <br> <br>​​​​​​
-
-            <divid="acompananteCantidad"style="display:none;">  
-                <labelfor="cantidadAcompanantes">¿Cuántos acompañantes?</label> 
-                <selectid="cantidadAcompanantes"name="cantidadAcompanantes">  
-                    < option value = " " selected > Seleccionar </option>​  
-                    < option value = " 1 " > 1 </option> 
-                    < option value = " 2 " > 2 </option> 
-                    < option value = " 3 " > 3 </option> 
-                    < option value = " 4 " > 4 </option> 
-                    < option value = " 5 " > 5 </option> 
-                </select> <br> <br>​​​​​​
-            </div>​​
-
-            < label for = "menu " > Menú : </label> 
-            < select id = "menu" name = "menu" required >   
-                < option value = " " selected > Seleccionar </option>​  
-                < option value = " normal " > Normal </option> 
-                < option value = " vegetariano " > Vegetariano </option> 
-                < option value = " vegano " > Vegano </option> 
-                < option value = " celiaco " > Celíaco </option> 
-            </select> <br> <br>​​​​​​
-            < input type = "hidden" id = "mesa" name = "mesa" >   
-        </form>​​
-        < div class = "navigation-buttons" > 
-            < button onclick = " prevScreen(1) " > Anterior </button> 
-            < button onclick = "nextScreen( ) " > Siguiente </button> 
-        </div>​​
-    </div>​​
-
-    < div id = "screen3" class = "container" >  
-        <h2>Información de los Acompañantes</h2>
-        < form id = " acompanantesForm " > </form> 
-        < div class = "navigation-buttons" > 
-            < button onclick = " prevScreen(2) " > Anterior </button> 
-            < button onclick = "nextScreen(4 ) " > Siguiente </button> 
-        </div>​​
-    </div>​​
-
-    < div id = "screen4" class = "container" >  
-        <h2>Selección de Mesa</h2>
-        < div class = "salon-container" > 
-            < div class = "mesas" id = " mesasIzquierda " > </div>  
-            <divclass="pista">PISTA DE BAILE</div> 
-            <divclass="estado-mayor">ESTADO MAYOR</div> 
-            < div class = " entrada" > ENTRADA/ PISCINA </div> 
-            < div class = " dj " > DJ </div> 
-            < div class = "postre" > POSTRES </ div > 
-            <divclass="postres2">POSTRES</div> 
-            < div class = " mesas" id = " mesasDerecha" > </div>  
-        </div>​​
-        < div class = "table-container" > 
-            < div class = "table" id = " mesaText " > Mesa </div>  
-            <!-- Los asientos se generarán dinámicamente -->
-            < div id = " seatsContainer " > </div> 
-        </div>​​
-        < div class = "navigation-buttons" > 
-            < button onclick = " prevScreen(3) " > Anterior </button> 
-            < button onclick = " submitForm() " > Enviar </button> 
-        </div>​​
-        < div >
-            <h3>Invitados Registrados en esta Mesa:</h3>
-            < div id = " guestList " > </div> 
-        </div>​​
-    </div>​​
-
-    < div id = "confirmationModal" class = "container" style = "display:none;" >   
-        <h2> Registro completo </h2>
-        <p>Se ha registrado en la <strongid="mesaConfirmada"></strong></p> 
-        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
-        < button onclick = " finalizarRegistro () " > Finalizar </button> 
-    </div>​​
-
-    < div clase = "banner" > </ div > 
-    < div id = " tooltip " class = "tooltip " > </div>  
-
-    < script >
-        Sea pantallaActual = 1 ;
-        let guestsData = {}; // Datos de invitados y acompañantes
-        sea ​​dataFetchInterval;
-
-        función startDataFetchInterval ( ) {
- 
-            dataFetchInterval = setInterval ( () => {
-                obtenerDatosDeInvitados ();
-            }, 5000); // Actualiza cada 5 segundos
+            position: absolute;
+            background: rgba(15, 23, 42, 0.88);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            max-width: 280px;
+            line-height: 1.4;
+            z-index: 50;
+            pointer-events: none;
         }
 
-        función stopDataFetchInterval ( ) {
- 
-            clearInterval (dataFetchInterval);
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 100;
         }
 
-        función siguientePantalla ( númeroSiguientePantalla ) {
- 
-            if (nextScreenNumber === undefined ) {
-                si (pantallaActual === 2 ) {
-                    let invalidFields = validateForm ( 'guestForm' );
-                    if (invalidFields.length > 0 ) {
-                        alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                        devolver ;
-                    }
-                    let acompanante = documento . getElementById ( "acompañante" ). valor ;
-                    if (acompanante === "si") {
-                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
-                        if (!cantidadAcompanantes) {
-                            alert('Por favor, seleccione la cantidad de acompañantes.');
-                            devolver ;
-                        }
-                        generateAcompanantesForm(cantidadAcompanantes);
-                        número de pantalla siguiente = 3 ;
-                    } demás {
-                        número de pantalla siguiente = 4 ;
-                    }
-                } else if (currentScreen === 3 ) {
- 
-                    let invalidFields = validateForm ( 'acompanantesForm' );
-                    if (invalidFields.length > 0 ) {
-                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
-                        devolver ;
-                    }
-                    número de pantalla siguiente = 4 ;
-                } demás {
-                    númeroDePantallaSiguiente = pantallaActual + 1 ;
-                }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 12px;
+        }
+
+        .modal-content p {
+            color: rgba(15, 23, 42, 0.75);
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 24px 12px 48px;
             }
-            document.getElementById ( `screen ${currentScreen }
- ` ) .classList.remove ( ' active ' ) ;
-            pantallaActual = númeroDePantallaSiguiente;
-            document.getElementById ( `screen ${currentScreen } `
- ) .classList.add ( ' active ' ) ;
 
-            // Si estamos en la pantalla de selección de mesa, cargar los datos y iniciar el intervalo
-            si (pantallaActual === 4 ) {
-                fetchGuestsData(); // Obtener datos inicialmente
-                startDataFetchInterval (); // Intervalo de inicio
-            } demás {
-                stopDataFetchInterval(); // Detener intervalo si salimos de la pantalla 4
+            .salon-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .salon-summary {
+                position: relative;
+                top: auto;
             }
         }
 
-        función validarFormulario ( idFormulario ) {
- 
-            let form = document.getElementById ( formId )
- ;
-            sea ​​invalidFields = [];
-            let elements = form.querySelectorAll ( ' input, select' );
-            elementos.forEach ( function ( elemento )
- {
-                if (!element.checkValidity ( )) {
-                    let label = form.querySelector ( ` label[for=" ${element.id} "]` );
-                    let fieldName = label ? label.textContent.replace ( ' :' ,
- ' ' ) : element.name || element.id ;
-                    camposInválidos.push ( nombreCampo);
-                }
-            });
-            Devuelve campos no válidos;
-        }
-
-        función prevScreen ( pantalla ) {
- 
-            if (currentScreen === 4 && document.getElementById ( " acompanante" ). value === "no" ) {
-                pantalla = 2 ;
+        @media (max-width: 600px) {
+            .hero-card {
+                grid-template-columns: 1fr;
             }
-            document.getElementById ( `screen ${currentScreen }
- ` ) .classList.remove ( ' active ' ) ;
-            pantallaActual = pantalla;
-            document.getElementById ( `screen ${currentScreen } `
- ) .classList.add ( ' active ' ) ;
-            stopDataFetchInterval(); // Detener intervalo al regresar
-        }
 
-        función alternarAcompañante ( ) {
- 
-            let acompanante = documento . getElementById ( "acompañante" ). valor ;
-            let acompananteCantidad = document.getElementById("cantidadAcompanantes");
-            let acompananteCantidadContainer = document.getElementById("acompananteCantidad");
-            if (acompanante === "si") {
-                acompananteCantidadContainer.style.display = "
- block " ;​
-                acompananteCantidad.setAttribute ( " required " , "required" );
-            } demás {
-                acompananteCantidadContainer.style.display = " none "
- ;​
-                acompananteCantidad.removeAttribute("required");
+            .navigation-buttons {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .navigation-buttons .button {
+                width: 100%;
             }
         }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="screen1" class="container active">
+            <div class="hero-card">
+                <div class="hero-card__content">
+                    <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
+                    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
+                    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
+                    <div class="hero-card__actions">
+                        <button class="button button--primary" onclick="nextScreen(2)">Comenzar registro</button>
+                        <a class="button button--ghost" href="admin.html">Administración</a>
+                    </div>
+                </div>
+                <figure class="hero-card__media">
+                    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
+                </figure>
+            </div>
+        </section>
 
-        functiongenerateAcompanantesForm(cantidad) {
- 
-            formulario de carta adjunta = documento . getElementById ( "acompanantesForm" );
-            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
-            for (let i = 1; i <= cantidad; i++) {
-                acompañantesForm. HTML interno += `
-                    <h3>Acompañante ${i}</h3>
-                    <label for="nombreAcompanante${i}">Nombre:</label>
-                    <input type="text" id="nombreAcompañante ${i} " name="nombreAcompañante ${i} " required><br><br>
-                    <label for="menuAcompanante${i}">Menú:</label>
-                    <select id="menuAcompanante ${i} " name="menuAcompanante ${i} " required>
+        <section id="screen2" class="container">
+            <h2>Datos personales</h2>
+            <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
+            <form id="guestForm" class="form-grid">
+                <div class="form-field">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="form-field">
+                    <label for="grado">Grado</label>
+                    <select id="grado" name="grado" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Cnel.">Cnel.</option>
+                        <option value="Tte. Cnel.">Tte. Cnel.</option>
+                        <option value="May.">May.</option>
+                        <option value="Cap.">Cap.</option>
+                        <option value="Tte. 1°">Tte. 1°</option>
+                        <option value="Tte. 2°">Tte. 2°</option>
+                        <option value="Alf.">Alf.</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="escalafon">Escalafón</label>
+                    <select id="escalafon" name="escalafon" required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="Av.">(Av.)</option>
+                        <option value="Nav.">(Nav.)</option>
+                        <option value="Esp.">(Esp.)</option>
+                        <option value="T.P.">(T.P.)</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-field">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+                <div class="form-field">
+                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
+                    <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
+                </div>
+                <div class="form-field">
+                    <label for="acompanante">¿Asiste con acompañante?</label>
+                    <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="no">No</option>
+                        <option value="si">Sí</option>
+                    </select>
+                </div>
+                <div class="form-field" id="acompananteCantidad" style="display:none;">
+                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                        <option value="" selected>Seleccionar</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="menu">Menú</label>
+                    <select id="menu" name="menu" required>
                         <option value="" selected>Seleccionar</option>
                         <option value="normal">Normal</option>
                         <option value="vegetariano">Vegetariano</option>
                         <option value="vegano">Vegano</option>
                         <option value="celiaco">Celíaco</option>
-                    </select><br><br>` ;
-            }
-        }
-
-        función seleccionarTabla ( númeroTabla ) {
- 
-            const mesaInput = document.getElementById ( " mesa" )
- ;
-            mesaInput.value = `Mesa ${tableNumber } ` ;
-
-            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' seleccionada' ) )
- ;
-            document.getElementById ( `table ${tableNumber } `
- ) .classList.add ( ' selected ' ) ;
-
-            // Mostrar la representación de la mesa
-            document.querySelector ( ' . table-container' ) . style.display = ' block ' ;
-
-            actualizarMesaText ();
-        }
-
-        función actualizarMesaTexto ( ) {
- 
-            const mesaInput = document.getElementById ( " mesa" )
- ;
-            const mesaText = document.getElementById ( "mesaText" )
- ;
-            const selectedMesa = mesaInput.value ;
-            if (mesaText && selectedMesa) {
-                mesaText.textContent = selectedMesa ;
-            }
-            actualizarAsientos ();
-            actualizarListaDeInvitados ();
-        }
-
-        función actualizarAsientos ( ) {
- 
-            const mesaInput = document.getElementById ( " mesa" )
- ;
-            const selectedMesa = mesaInput.value ;
-            const seatsContainer = document.getElementById ( ' seatsContainer' )
- ;
-
-            // Definir la capacidad máxima de la mesa
-            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
-
-            // Eliminar asientos existentes
-            asientosContainer.innerHTML = ' '
- ;
-
-            // Generar asientos dinámicamente
-            for ( let i = 1 ; i <= maxCapacity; i++) {
-                let seat = document.createElement ( ' div ' )
- ;
-                asiento.classList.add ( ' asiento ' )
- ;
-                asiento.conjunto de datos.asiento = i;
-                asientosContenedor.appendChild (asiento)
- ;
-            }
-
-            // Posicionar los asientos en forma de círculo alrededor de la mesa
-            const asientos = document.querySelectorAll ( '.seat' ) ;
-            const centroX = 50 ;
-            const centroY = 50 ;
-            radio constante = 40 ;
-
-            asientos.forEach ( ( asiento, índice ) = > {
-                ángulo constante = (índice / asientos. longitud ) * ( 2 * Math . PI );
-                constante x = centroX + radio * Math.cos ( ángulo)
- ;
-                constante y = centroY + radio * Math.sin ( ángulo )
- ;
-                asiento.estilo.posición = ' absoluta '
- ;​
-                asiento.estilo.izquierda = ` $ { x } % `
- ;
-                seat.style.top = `${y}%`;
-                asiento.estilo.transformación = ' translate (-50 % , -50%) ' ;
-            });
-
-            // Ocupar asientos según los datos de invitados
-            if (selectedMesa && guestsData[selectedMesa]) {
-                sea ​​totalInvitados = 0 ;
-
-                guestData[selectedMesa] .forEach ( invitado => {
-                    const invitadoYacompañantes = [invitado];
-                    if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
-                    if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
-                    if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
-                    if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
-                    if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
-
-                    invitadoYAcompañantes. paraCada ( ( _, índiceDeAsiento ) => {
-                        Si (total de invitados < capacidad máxima) {
-                            const seat = document.querySelector ( `.seat[data-seat=" ${totalGuests + 1 } " ]` )
- ;
-                            si (asiento) {
-                                asiento.classList.add ( ' ocupado ' )
- ;
-                            }
-                            totalInvitados++;
-                        }
-                    });
-                });
-            }
-        }
-
-        función actualizarListaDeInvitados ( ) {
- 
-            const mesaInput = document.getElementById ( " mesa" )
- ;
-            const selectedMesa = mesaInput.value ;
-            const guestList = document.getElementById ( " guestList" )
- ;
-
-            guestList.innerHTML = " "
- ;
-
-            if (selectedMesa && guestsData[selectedMesa]) {
-                const invitados = datosInvitados[mesaSeleccionada];
-
-                invitados.forEach ( invitado = > {
-                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'}${guest["Apellido"] || 'Apellido no disponible'}`;
- 
-                    lista de invitados. internalHTML += `<div><strong> ${fullname} </strong></div>` ;
-
-                    if (guest[ "FirstName 1" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 1" ]} </div>` ;
-                    if (guest[ "FirstName 2" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 2" ]} </div>` ;
-                    if (guest[ "FirstName 3" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 3" ]} </div>` ;
-                    if (guest[ "FirstName 4" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 4" ]} </div>` ;
-                    if (guest[ "FirstName 5" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 5" ]} </div>` ;
-                });
-            } demás {
-                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
-            }
-        }
-
-        función enviarFormulario ( ) {
- 
-            const mesaInput = document.getElementById ( " mesa" )
- ;
-            const selectedMesa = mesaInput.value ;
-
-            // Definir la capacidad máxima de la mesa
-            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
-
-            sea ​​totalInvitados = 0 ;
-            if (selectedMesa && guestsData[selectedMesa]) {
-                guestData[selectedMesa] .forEach ( invitado => {
-                    totalGuests++; // Contar al invitado principal
-                    if (invitado[ "Nombre del acompañante 1" ]) totalInvitados++;
-                    if (invitado[ "Nombre del acompañante 2" ]) totalInvitados++;
-                    if (invitado[ "Nombre del acompañante 3" ]) totalInvitados++;
-                    if (guest[ "Nombre del acompañante 4" ]) totalGuests++;
-                    if (guest[ "MatchName 5" ]) totalGuests++;
-                });
-            }
-
-            const cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value || 0;
-            const totalNuevosGuests = 1 + parseInt(cantidadAcompanantes); // Invitado principal + acompañantes
-
-            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
-                alert("Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.");
-                devolver ;
-            }
-
-            let guestForm = document.getElementById ( " guestForm" );
-            formulario de carta adjunta = documento . getElementById ( "acompanantesForm" );
-
-            if ( guestForm.checkValidity ( ) && acompanantesForm.checkValidity ()) {
-                const formData = nuevo FormData (guestForm);
- 
-                const acompanantesData = new FormData (acompanantesForm);
- 
-                constante acompañante = [];
-
-                acompanantesData.forEach ( ( value , key ) => {
-                    if (key.includes ( 'nombreAcompañante' ) ) {
-                        const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
-                    } else if (key.includes ( ' menuAcompanante' )) {
- 
-                        const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
-                        if (!acompanantes[index]) acompanantes[index] = {};
-                        if (key.includes ( ' menuAcompanante' )) acompanantes[index] .menu = value;
-                    }
-                });
-
-                const datos = {
-                    correo: formData.get('correo'),
-                    grado : formData.get ( ' grado' ),
-                    escalafón : formData. get ( 'escalafón' ),
-                    nombre: formData.get('nombre'),
-                    apellido: formData.get('apellido'),
-                    horario : formData.get ( ' horario' ),
-                    compañero : formData.get ( ' compañero' ),
-                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                    menú : formData.get ( ' menú' ),
-                    acompanantes: acompanantes,
-                    mesa : formData.get ( ' mesa' )
-                };
-
-                obtener ( 'https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec' , {
-                    método : 'POST' ,
-                    cuerpo : JSON.stringify ( datos
- )
-                }). entonces ( respuesta => respuesta. texto ())
-                  . entonces ( resultado => {
-                      consola.log ( resultado );
-                      mostrarConfirmación ();
-                      fetchGuestsData(); // Actualizar datos inmediatamente
-                  }). catch ( error => {
-                      alerta ( 'Error: ' + error);
-                  });
-            } demás {
-                alert("Por favor, complete todos los campos requeridos.");
-            }
-        }
-
-        función mostrarConfirmación ( ) {
- 
-            const mesaConfirmada = document.getElementById ( ' mesa' ) .
- value ;
-            documento . getElementById ( 'mesaConfirmada' ). textContent = mesaConfirmada;
-            document.getElementById ( `screen ${currentScreen }
- ` ) .classList.remove ( ' active ' ) ;
-            document.getElementById ( ' confirmationModal' ) . style.display = ' block '
- ;
-            stopDataFetchInterval(); // Detener intervalo al mostrar confirmación
-        }
-
-        función finalizarRegistro ( ) {
- 
-            // Recargar la página
-            ubicación.recargar ( );
-        }
-
-        función obtenerDatosDeInvitados ( ) {
- 
-            obtener ( 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv' )
-                . entonces ( respuesta => respuesta.texto ()
- )
-                . entonces ( csv => csvToJSON (csv))
- 
-                . entonces ( datos => {
-                    datosInvitados = datos;
-                    console.log ( "Datos de los invitados: " , guestData)
- ;
-                    updateMesasCompletaColor(); // Actualizar el estado de las mesas
-                    updateGuestList(); // Actualizar la lista de invitados
-                    updateSeats(); // Actualizar los asientos en la representación de la mesa
-                })
-                .catch ( error => console.error ( ' Error al obtener los datos del invitado:' , error ));
- 
-        }
-
-        función csvToJSON ( csv ) {
- 
-            const líneas = csv.split ( " \n" );
-            const resultado = {};
-            const encabezados = líneas[ 0 ] .split ( "," );
-
-            for ( let i = 1 ; i < lines. length ; i++) {
-                const obj = {};
-                const líneaActual = líneas[i] .split ( "," );
-
-                obj["Correo"] = currentline[0].trim();
-                obj["Nombre"] = currentline[3].trim();
-                obj["Apellido"] = currentline[4].trim();
-                obj[ "Mesa" ] = currentline[ 19 ] .trim ();
-
-                obj["Nombre Acompanante 1"] = currentline[9].trim();
-                obj["Nombre Acompanante 2"] = currentline[11].trim();
-                obj["Nombre Acompanante 3"] = currentline[13].trim();
-                obj["Nombre Acompanante 4"] = currentline[15].trim();
-                obj["Nombre Acompanante 5"] = currentline[17].trim();
-
-                if (obj[ "Mesa" ]) {
-                    if (!result[obj[ "Mesa" ]]) {
-                        resultado[obj[ "Mesa" ]] = [];
-                    }
-                    resultado[obj[ "Mesa" ]]. push (obj);
-                }
-            }
-            devolver resultado;
-        }
-
-        función actualizarMesasCompletaColor ( ) {
- 
-            // Limpiar todas las clases 'completa' antes de actualizar
-            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' completa' ) )
- ;
-
-            Objeto . claves (datosInvitados). para cada ( mesa => {
-                const invitados = datosInvitados[mesa];
-                sea ​​totalInvitados = 0 ;
-
-                // Definir la capacidad máxima de la mesa
-                sea ​​maxCapacity = getMesaCapacity (mesa);
-
-                invitados.forEach ( invitado = > {
-                    totalGuests++; // Contar al invitado principal
-                    if (invitado[ "Nombre del acompañante 1" ]) totalInvitados++;
-                    if (invitado[ "Nombre del acompañante 2" ]) totalInvitados++;
-                    if (invitado[ "Nombre del acompañante 3" ]) totalInvitados++;
-                    if (guest[ "Nombre del acompañante 4" ]) totalGuests++;
-                    if (guest[ "MatchName 5" ]) totalGuests++;
-                });
-
-                Si (total de invitados >= capacidad máxima) {
-                    const número de mesa = mesa. dividir ( ' ' )[ 1 ];
-                    si (mesaNumber) {
-                        const mesaElement = documento . getElementById ( `mesa ${mesaNumber} ` );
-                        si (mesaElement) {
-                            mesaElement.classList.add ( ' completa ' )
- ;
-                        }
-                    }
-                }
-            });
-        }
-
-        función getMesaCapacity ( mesa ) {
- 
-            interruptor (mesa) {
-                caso 'Tabla 4' :
- 
-                    devolver 11 ;
- 
-                caso 'Tabla 1' :
- 
-                caso 'Tabla 16' :
- 
-                caso 'Tabla 9' :
- 
-                caso 'Tabla 5' :
- 
-                caso 'Tabla 17' :
- 
-                caso 'Tabla 18' :
- 
-                caso 'Tabla 22' :
- 
-                caso 'Tabla 30' :
- 
-                caso 'Tabla 29' :
- 
-                caso 'Tabla 24' :
- 
-                caso 'Tabla 36' :
- 
-                    devolver 8 ;
- 
-                por defecto :
-                    devolver 10 ;
- 
-            }
-        }
-
-        función mostrarInvitados ( mesa, evento ) {
- 
-            const tooltip = document.getElementById ( " tooltip" )
- ;
-            if (guestsData[mesa]) {
-                const guestNames = guestsData[mesa] .map ( guest => {
-                    sea ​​fullName = ` ${guest.Name} ${guest.LastName} ` ;
- 
-                    if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
-                    if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
-                    if (guest["Nombre Acompanante 3"]) fullName += `, ${guest["Nombre Acompanante 3"]}`;
-                    if (guest["Nombre Acompanante 4"]) fullName += `, ${guest["Nombre Acompanante 4"]}`;
-                    if (guest["Nombre Acompanante 5"]) fullName += `, ${guest["Nombre Acompanante 5"]}`;
-                    devolver nombre completo;
-                }). unirse ( ", " );
-                información sobre herramientas. contenido de texto = nombres de invitados;
-                tooltip.style.display = "
- block " ;​
-                tooltip.style.left = event.pageX + ' px ' ;
-​
-                tooltip.style.top = event.pageY + ' px ' ;
-​
-            } demás {
-                tooltip.textContent = "No hay invitados registrados en esta mesa.";
-                tooltip.style.display = "
- block " ;​
-                tooltip.style.left = event.pageX + ' px ' ;
-​
-                tooltip.style.top = event.pageY + ' px ' ;
-​
-            }
-        }
-
-        función ocultarInvitados ( ) {
- 
-            const tooltip = document.getElementById ( " tooltip" )
- ;
-            tooltip.style.display = " none " ;
-​
-        }
-
-        // Inicializar las mesas al cargar la página
-        document.addEventListener ( ' DOMContentLoaded' , () = > {
-            const mesasIzquierda = document.getElementById ( ' mesasIzquierda' )
- ;
-            const mesasDerecha = document.getElementById ( ' mesasDerecha' )
- ;
-
-            // Disposición de las mesas izquierdas
-            const leftTables = [
-                { número : 1 , fila : 1 , columna : 2 },
-                { número : 2 , fila : 1 , columna : 3 },
-                { número : 3 , fila : 1 , columna : 4 },
-                { número : 4 , fila : 1 , columna : 5 },
-                { número : 5 , fila : 2 , columna : 2 },
-                { número : 6 , fila : 2 , columna : 3 },
-                { número : 7 , fila : 2 , columna : 4 },
-                { número : 8 , fila : 2 , columna : 5 },
-                { número : 9 , fila : 3 , columna : 2 },
-                { número : 10 , fila : 3 , columna : 3 },
-                { número : 11 , fila : 3 , columna : 4 },
-                { número : 12 , fila : 3 , columna : 5 },
-                { número : 13 , fila : 4 , columna : 2 },
-                { número : 14 , fila : 4 , columna : 3 },
-                { número : 15 , fila : 4 , columna : 4 },
-                { número : 16 , fila : 4 , columna : 5 },
-            ];
-
-            leftTables.forEach ( table = > {
-                let mesaDiv = document.createElement ( ' div ' )
- ;
-                mesaDiv.classList.add ( ' mesa ' )
- ;
-                mesaDiv.id = `mesa $ { table.number} ` ;
-                mesaDiv. contenido de texto = tabla. número ;
-                mesaDiv.onclick = () => selectTable (
- table.number ) ; 
-                mesaDiv.onmouseover = ( event ) => showGuests ( ` Mesa ${table.number} ` , event);
- 
-                mesaDiv.onmouseout = ocultarInvitados
- ;
-                // Posicionar en el grid
-                mesaDiv.style.gridRow = table.row ;​​​
-                mesaDiv.style.gridColumn = table.column ;
-​​​
-                mesasIzquierda.appendChild (mesaDiv)
- ;
-            });
-
-            // Mesas 17 y 18 separadas del resto
-            let mesa17 = document.createElement ( ' div ' );
-            mesa17.classList.add ( ' mesa '
- ) ;
-            mesa17.id = ' mesa17' ;
-            mesa17.textContent = '17 ' ;
-            mesa17.onclick = () => selectTable ( 17 ) ;
- 
-            mesa17.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 17' , evento);
- 
-            mesa17.onmouseout = ocultarInvitados ;
-            mesa17.style.position = '
- absolute ' ;​
-            mesa17.style.top = '10 %
- ' ;​
-            mesa17.style.left = ' 0 ' ;
-​
-            mesasIzquierda.appendChild (mesa17)
- ;
-
-            let mesa18 = document.createElement ( ' div ' );
-            mesa18.classList.add ( ' mesa '
- ) ;
-            mesa18.id = 'mesa18 ' ;
-            mesa18.textContent = '18 ' ;
-            mesa18.onclick = () => selectTable ( 18 ) ;
- 
-            mesa18.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 18' , evento);
- 
-            mesa18.onmouseout = ocultarInvitados
- ;
-            mesa18.style.position = '
- absolute ' ;​
-            mesa18.style.top = '70 %
- ' ;​
-            mesa18.style.left = ' 0 ' ;
-​
-            mesasIzquierda.appendChild (mesa18)
- ;
-
-            // Disposición de las mesas derechas
-            const rightTables = [
-                { número : 19 , fila : 1 , columna : 1 },
-                { número : 20 , fila : 1 , columna : 2 },
-                { número : 21 , fila : 1 , columna : 3 },
-                { número : 22 , fila : 1 , columna : 4 },
-                { número : 23 , fila : 2 , columna : 1 },
-                { número : 24 , fila : 2 , columna : 2 },
-                { número : 25 , fila : 2 , columna : 3 },
-                { número : 26 , fila : 2 , columna : 4 },
-                { número : 27 , fila : 3 , columna : 1 },
-                { número : 28 , fila : 3 , columna : 2 },
-                { número : 29 , fila : 3 , columna : 3 },
-                { número : 30 , fila : 3 , columna : 4 },
-                { número : 31 , fila : 4 , columna : 1 },
-                { número : 32 , fila : 4 , columna : 2 },
-                { número : 33 , fila : 4 , columna : 3 },
-                { número : 34 , fila : 4 , columna : 4 },
-            ];
-
-            TablasDerechas.paraCada ( tabla = >
- {
-                let mesaDiv = document.createElement ( ' div ' )
- ;
-                mesaDiv.classList.add ( ' mesa ' )
- ;
-                mesaDiv.id = `mesa $ { table.number} ` ;
-                mesaDiv. contenido de texto = tabla. número ;
-                mesaDiv.onclick = () => selectTable (
- table.number ) ; 
-                mesaDiv.onmouseover = ( event ) => showGuests ( ` Mesa ${table.number} ` , event);
- 
-                mesaDiv.onmouseout = ocultarInvitados
- ;
-                // Posicionar en el grid
-                mesaDiv.style.gridRow = table.row ;​​​
-                mesaDiv.style.gridColumn = table.column ;
-​​​
-                mesasDerecha.appendChild (mesaDiv)
- ;
-            });
-
-            // Mesas 35 y 36 con alineación individual
-            let mesa35 = document.createElement ( ' div ' );
-            mesa35.classList.add ( ' mesa '
- ) ;
-            mesa35.id = ' mesa35' ;
-            mesa35.textContent = '35 ' ;
-            mesa35.onclick = () => selectTable ( 35 ) ;
- 
-            mesa35.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 35' , evento);
- 
-            mesa35.onmouseout = ocultarInvitados
- ;
-            mesa35.style.position = '
- absolute ' ;​
-            mesa35.style.top = '10
- % ' ;​
-            mesa35.style.right = ' 0 '
- ;​
-            mesasDerecha.appendChild (mesa35)
- ;
-
-            let mesa36 = document.createElement ( ' div ' );
-            mesa36.classList.add ( ' mesa '
- ) ;
-            mesa36.id = ' mesa36' ;
-            mesa36.textContent = '36 ' ;
-            mesa36.onclick = () => selectTable ( 36 ) ;
- 
-            mesa36.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 36' , evento);
- 
-            mesa36.onmouseout = ocultarInvitados ;
-            mesa36.style.position = '
- absolute ' ;​
-            mesa36.style.top = '70 %
- ' ;​
-            mesa36.style.right = ' 0 '
- ;​
-            mesasDerecha.appendChild (mesa36)
- ;
-        });
-    </script>​​
-</body>​​
-</html>​​
-<!DOCTYPE html >
-< html lang = "es" > 
-< encabezado >
-    < meta charset = "UTF-8" > 
-    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
-    <title> Fiesta Social 2024 </title>​​
-    < link rel = "preconnect" href = "https://fonts.googleapis.com" >  
-    < link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin >   
-    < link href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel = "stylesheet" >  
-    < estilo >
-        :raíz {
-            --color-primary : #0b66ff ;
-            --color-primary-dark : #084dcc ;
-            --color-secundario : #f39c12 ;
-            --color-background : #0f172a ;
-            --color-surface : #ffffff ;
-            --color-muted : #64748b ;
-            --color-border : #e2e8f0 ;
-            --color-success : #22c55e ;
-            --color-danger : #ef4444 ;
-            --shadow-lg : 0 24px 60px rgba ( 15 , 23 , 42 , 0.25 );
-   
-            --shadow-md : 0 14px 35px rgba ( 15 , 23 , 42 , 0.18 );
-   
-            --radius-lg : 28px ;
-            --radius-md : 18px ;
-            --radius-sm : 12px ;
-        }
-
-        * {
-            tamaño de caja : caja con borde;
-        }
-
-        cuerpo {
-            margen : 0 ;
-            altura mínima : 100vh ;
-            font-family : 'Poppins' , 'Segoe UI' , sans-serif;
-            fondo : degradado radial (círculo en la parte superior izquierda, rgba ( 59 , 130 , 246 , 0.45 ), transparente 55% ),
-                        gradiente radial (círculo en la parte inferior derecha, rgba ( 234 , 179 , 8 , 0.35 ), transparente 55% ),
-                        gradiente-lineal ( 135deg , #0f172a , #1e293b 45% , #0f172a 90% );
-  
-            color : #0f172a ;
-            relleno : 40px 16px 60px ;
-  
-            pantalla : flexible;
-            justificar-contenido : centro;
-        }
-
-        principal {
-            ancho : 100% ;
-            ancho máximo : 1100px ;
-        }
-
-        h1 , h2 , h3 {
-            color : #0f172a ;
-            margen : 0 0 12px 0 ;
-   
-        }
-
-        pag {
-            margen : 0 0 16px ;
-  
-            color : var (--color-muted);
-            altura de línea : 1.6 ;
-        }
-
-        .contenedor {
-            fondo : var (--color-surface);
-            radio-borde : var (--radius-lg);
-            relleno : 32px 32px 40px ;
-  
-            box-shadow : var (--shadow-lg);
-            mostrar : ninguna;
-            margen inferior : 32px ;
-            posición : relativa;
-            desbordamiento : oculto;
-        }
-
-        .contenedor ::después {
-            contenido : "" ;
-            posición : absoluta;
-            recuadro : 0 ;
-            fondo : degradado radial (círculo en la parte superior derecha, rgba ( 11 , 102 , 255 , 0.08 ), transparente 55% );
-            eventos de puntero : ninguno;
-        }
-
-        .contenedor .activo {
-            pantalla : bloque;
-            animación : fadeIn 0.45s ease;
-        }
-
-        @keyframes fadeIn {
-            de {
-                opacidad : 0 ;
-                transformar : traslaciónY ( 10px );
-            }
-            a {
-                opacidad : 1 ;
-                transformar : traslaciónY ( 0 );
-            }
-        }
-
-        .hero-card {
-            visualización : cuadrícula;
-            espacio : 32px ;
-            grid-template-columns : repetir (auto-ajuste, minmax ( 280px , 1fr ));
-            alinear elementos : centro;
-        }
-
-        .hero-card__content {
-            posición : relativa;
-            índice z : 1 ;
-        }
-
-        .hero-card__eyebrow {
-            pantalla : inline-flex;
-            alinear elementos : centro;
-            espacio : 8px ;
-            relleno : 6px 14px ;
- 
-            radio de borde : 999px ;
-            fondo : rgba ( 11 , 102 , 255 , 0.1 );
-            color: var(--color-primary);
-            peso de la fuente : 600 ;
-            transformación de texto : mayúsculas;
-            espaciado entre letras : 0,08em ;
-            tamaño de fuente : 12px ;
-        }
-
-        .hero-card__title {
-            tamaño-de-fuente : clamp ( 32px , 5vw , 48px );
-            peso de la fuente : 700 ;
-            margen inferior : 16px ;
-        }
-
-        .hero-card__description {
-            tamaño de fuente : 16px ;
-            color : rgba ( 15 , 23 , 42 , 0.8 );
-            margen inferior : 24px ;
-        }
-
-        .hero-card__actions {
-            pantalla : flexible;
-            flex-wrap : envolver;
-            espacio : 12px ;
-        }
-
-        .hero-card__media {
-            margen : 0 ;
-            posición : relativa;
-            radio-borde : var (--radius-md);
-            desbordamiento : oculto;
-            box-shadow : var (--shadow-md);
-        }
-
-        .hero-card__media ::después {
-            contenido : "" ;
-            posición : absoluta;
-            recuadro : 0 ;
-            fondo : gradiente lineal ( 135deg , rgba ( 15 , 23 , 42 , 0.15 ), rgba ( 15 , 23 , 42 , 0.05 ));
-        }
-
-        .hero-card__media img {
- 
-            ancho : 100% ;
-            altura : 100% ;
-            ajuste-objeto : cubrir;
-            pantalla : bloque;
-        }
-
-        .section-description {
-            tamaño de fuente : 15px ;
-            color : rgba ( 15 , 23 , 42 , 0.7 );
-            margen inferior : 24px ;
-        }
-
-        .form-grid {
-            visualización : cuadrícula;
-            grid-template-columns : repetir (auto-ajuste, minmax ( 240px , 1fr ));
-            espacio : 20px ;
-        }
-
-        .form-field {
-            pantalla : flexible;
-            dirección flexible : columna;
-            espacio : 8px ;
-        }
-
-        etiqueta {
-            peso de la fuente : 600 ;
-            color : rgba ( 15 , 23 , 42 , 0.85 );
-            tamaño de fuente : 14px ;
-        }
-
-        entrada , seleccionar {
-            relleno : 12px 14px ;
- 
-            radio-frontera : var (--radius-sm);
-            borde : var sólida de 1px (--borde de color);
-            tamaño de fuente : 15px ;
-            transición : borde con suavizado de 0,2 segundos , sombra de caja con suavizado de 0,2 segundos ;
-            fondo : #f8fafc ;
-        }
-
-        entrada :enfoque , selección :enfoque {
-            esquema : ninguno;
-            color-border : rgba ( 11 , 102 , 255 , 0.8 );
-            box-shadow : 0 0 0 4px rgba ( 11 , 102 , 255 , 0.12 );
-    
-        }
-
-        entrada : no válida , selección : no válida {
-            color de borde : rgba ( 239 , 68 , 68 , 0.6 );
-        }
-
-        .botón {
-            pantalla : inline-flex;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            espacio : 8px ;
-            borde : ninguno;
-            radio de borde : 999px ;
-            relleno : 12px 24px ;
- 
-            tamaño de fuente : 15px ;
-            peso de la fuente : 600 ;
-            cursor : puntero;
-            transición : transformación 0.2s ease, sombra de caja 0.2s ease;
-            decoración de texto : ninguna;
-        }
-
-        .botón--primario {
-            fondo : var (--color-primary);
-            color : #fff ;
-            box-shadow : 0 16px 30px rgba ( 11 , 102 , 255 , 0.25 );
-   
-        }
-
-        .button--primary :hover {
-            fondo : var (--color-primary-dark);
-            transformar : traslaciónY ( -1px );
-        }
-
-        .botón--fantasma {
-            fondo : rgba ( 15 , 23 , 42 , 0.04 );
-            color: var(--color-primary);
-        }
-
-        .botón--fantasma :hover {
-            fondo : rgba ( 15 , 23 , 42 , 0.1 );
-        }
-
-        .botones-de-navegación {
-            margen superior : 32px ;
-            pantalla : flexible;
-            justificar-contenido : flex-end;
-            espacio : 16px ;
-        }
-
-        .salon-wrapper {
-            visualización : cuadrícula;
-            columnas de plantilla de cuadrícula : 260px 1 fr;
- 
-            espacio : 28px ;
-            margen inferior : 32px ;
-            alinear elementos : inicio;
-        }
-
-        .salon-summary {
-            fondo : rgba ( 248 , 250 , 252 , 0.9 );
-            radio-borde : var (--radius-md);
-            relleno : 20px ;
-            box-shadow : 0 8px 24px rgba ( 15 , 23 , 42 , 0.08 );
-   
-            posición : fija;
-            superior : 32px ;
-        }
-
-        .salon-summary h3 {
- 
-            tamaño de fuente : 18px ;
-            margen inferior : 12px ;
-        }
-
-        .salon-summary p {
- 
-            margen inferior : 12px ;
-            color : rgba ( 15 , 23 , 42 , 0.75 );
-        }
-
-        .leyenda {
-            pantalla : flexible;
-            dirección flexible : columna;
-            espacio : 8px ;
-            margen superior : 12px ;
-        }
-
-        .leyenda span {
- 
-            pantalla : inline-flex;
-            alinear elementos : centro;
-            espacio : 8px ;
-            tamaño de fuente : 14px ;
-            color : rgba ( 15 , 23 , 42 , 0.8 );
-        }
-
-        .leyenda-muestra {
-            ancho : 16px ;
-            altura : 16px ;
-            borde-radio : 4px ;
-            mostrar : bloque en línea;
-        }
-
-        .legend-swatch--available {
-            fondo : var (--color-primary);
-        }
-
-        .legend-swatch--full {
-            fondo : var (--color-peligro);
-        }
-
-        .legend-swatch--selected {
-            fondo : var (--color-secondary);
-        }
-
-        .mapa-de-salones {
-            posición : relativa;
-            ancho : 100% ;
-            relación de aspecto : 16 / 9 ;
-            fondo : gradiente lineal ( 135deg , rgba ( 226 , 232 , 240 , 0.8 ), rgba ( 203 , 213 , 225 , 0.6 ));
-            radio-borde : var (--radius-md);
-            box-shadow : 0 20px 40px rgba ( 15 , 23 , 42 , 0.18 );
-   
-            desbordamiento : oculto;
-        }
-
-        .map-zone {
-            posición : absoluta;
-            izquierda : calc ( var (--zone-x, 50 ) * 1% );
-            top: calc(var(--zone-y, 50) * 1%);
-            transformar : trasladar ( var (--zone-tx, -50% ), var (--zone-ty, -50% )) rotar ( var (--zone-rotate, 0deg ));
-            transformar-origen : var (--origen-zona, centro);
-            relleno : 6px 16px ;
- 
-            radio de borde : 999px ;
-            tamaño de fuente : 12px ;
-            peso de la fuente : 600 ;
-            transformación de texto : mayúsculas;
-            espaciado entre letras : 0,08em ;
-            color : #fff ;
-            fondo : rgba ( 15 , 23 , 42 , 0.7 );
-            eventos de puntero : ninguno;
-            índice z : 1 ;
-            espacio en blanco : ahora
-        }
-
-        .map-zone--dance {
-            fondo : rgba ( 34 , 197 , 94 , 0.85 );
-        }
-
-        .map-zone--stage {
-            --zone-tx : 0% ;
-            --zona-ty : - 50% ;
-            --rotación-zona : -90 grados ;
-            --zone-origin : centro izquierda;
-            fondo : rgba ( 59 , 130 , 246 , 0.9 );
-        }
-
-        .map-zone--entrance {
-            --tipo-de-zona : 0% ;
-            fondo : rgba ( 59 , 130 , 246 , 0.9 );
-        }
-
-        .map-zone--dj {
-            --tipo-zona : -100% ;
-            fondo : rgba ( 59 , 130 , 246 , 0.9 );
-        }
-
-        .map-zone--dessert {
-            ancho : 24px ;
-            alineación del texto : centro;
-            modo de escritura : vertical-rl;
-            espaciado entre letras : 0,2em ;
-            relleno : 12px 6px ;
- 
-            fondo : rgba ( 59 , 130 , 246 , 0.9 );
-        }
-
-        .map-zone--dessert-left {
-            --zone-tx : - 50% ;
-        }
-
-        .map-zone--dessert-right {
-            --zone-tx : - 50% ;
-        }
-
-        .mesa {
-            posición : absoluta;
-            ancho : 52px ;
-            altura : 52px ;
-            borde-radio : 16px ;
-            fondo : var (--color-primary);
-            color : #fff ;
-            peso de la fuente : 600 ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            box-shadow : 0 10px 22px rgba ( 11 , 102 , 255 , 0.22 );
-   
-            transformar : trasladar (-50 % , -50% );
-            borde : ninguno;
-            cursor : puntero;
-            transición : transformación 0.2s de suavizado, sombra de caja 0.2s de suavizado, fondo 0.2s de suavizado;
-            índice z : 2 ;
-        }
-
-        .table :hover ,
-        .mesa :focus {
-            transformar : trasladar (-50 % , -50% ) escalar ( 1.05 );
-            box-shadow : 0 14px 30px rgba ( 11 , 102 , 255 , 0.3 );
-   
-            esquema : ninguno;
-        }
-
-        .completo .tabla {
-            fondo : var (--color-peligro);
-            box-shadow : 0 12px 26px rgba ( 239 , 68 , 68 , 0.3 );
-   
-        }
-
-        .mesa.seleccionada {
-            fondo : var (--color-secondary);
-            box-shadow : 0 14px 32px rgba ( 243 , 156 , 18 , 0.35 );
-   
-        }
-
-        .detalles-tabla {
-            visualización : cuadrícula;
-            grid-template-columns : repetir (auto-ajuste, minmax ( 260px , 1fr ));
-            espacio : 24px ;
-            margen inferior : 24px ;
-        }
-
-        .contenedor-tabla {
-            posición : relativa;
-            ancho : 100% ;
-            relleno superior : 100% ;
-            radio-borde : var (--radius-md);
-            fondo : rgba ( 248 , 250 , 252 , 0.9 );
-            box-shadow : inset 0 0 0 1px rgba ( 15 , 23 , 42 , 0.08 );
-    
-            mostrar : ninguna;
-        }
-
-        #contenedor de asientos {
-            posición : absoluta;
-            recuadro : 0 ;
-        }
-
-        .mesa {
-            posición : absoluta;
-            parte superior : 50% ;
-            izquierda : 50% ;
-            transformar : trasladar (-50 % , -50% );
-            ancho : 120px ;
-            altura : 120px ;
-            radio de borde : 50% ;
-            fondo : var (--color-primary);
-            color : #fff ;
-            tamaño de fuente : 18px ;
-            peso de la fuente : 600 ;
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            box-shadow : 0 12px 28px rgba ( 11 , 102 , 255 , 0.25 );
-   
-        }
-
-        #contenedor de asientos .asiento {
- 
-            ancho : 42px ;
-            altura : 42px ;
-            borde-radio : 12px ;
-            fondo : var (--color-success);
-            pantalla : flexible;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            color : #fff ;
-            peso de la fuente : 600 ;
-            transición : transformación 0.2s ease, fondo 0.2s ease;
-        }
-
-        #seatsContainer .seat .occupied {
- 
-            fondo : var (--color-peligro);
-        }
-
-        #listadeinvitados {
-            altura mínima : 180px ;
-            fondo : rgba ( 248 , 250 , 252 , 0.85 );
-            radio-borde : var (--radius-md);
-            relleno : 20px ;
-            box-shadow : inset 0 0 0 1px rgba ( 15 , 23 , 42 , 0.08 );
-    
-            tamaño de fuente : 14px ;
-            visualización : cuadrícula;
-            espacio : 6px ;
-        }
-
-        #lista de invitados fuerte {
- 
-            color : rgba ( 15 , 23 , 42 , 0.9 );
-        }
-
-        #formulario de acompañantes {
-            visualización : cuadrícula;
-            espacio : 16px ;
-        }
-
-        #escortsForm h3 {
- 
-            margen superior : 24px ;
-        }
-
-        #acompananteCantidad {
-            transición : opacidad 0.2s suavidad;
-        }
-
-        .tooltip {
-            posición : absoluta;
-            fondo : rgba ( 15 , 23 , 42 , 0.88 );
-            color : #fff ;
-            relleno : 10px 14px ;
- 
-            radio-frontera : var (--radius-sm);
-            tamaño de fuente : 13px ;
-            mostrar : ninguna;
-            ancho máximo : 280px ;
-            altura de línea : 1.4 ;
-            índice z : 50 ;
-            eventos de puntero : ninguno;
-        }
-
-        .modal-overlay {
-            posición : fija;
-            recuadro : 0 ;
-            fondo : rgba ( 15 , 23 , 42 , 0.65 );
-            mostrar : ninguna;
-            alinear elementos : centro;
-            justificar-contenido : centro;
-            relleno : 24px ;
-            índice z : 100 ;
-        }
-
-        .modal-overlay .active {
-            pantalla : flexible;
-        }
-
-        .modal-content {
-            fondo : #fff ;
-            radio-borde : var (--radius-lg);
-            relleno : 32px ;
-            ancho máximo : 420px ;
-            alineación del texto : centro;
-            box-shadow : var (--shadow-lg);
-        }
-
-        .modal-content h2 {
- 
-            margen inferior : 12px ;
-        }
-
-        .modal-content p {
- 
-            color : rgba ( 15 , 23 , 42 , 0.75 );
-            margen inferior : 24px ;
-        }
-
-        @media ( max-width : 900px ) {
-            cuerpo {
-                relleno : 24px 12px 48px ;
-  
-            }
-
-            .salon-wrapper {
-                columnas de plantilla de cuadrícula : 1 fr;
-            }
-
-            .salon-summary {
-                posición : relativa;
-                arriba : coche;
-            }
-        }
-
-        @media ( max-width : 600px ) {
-            .hero-card {
-                columnas de plantilla de cuadrícula : 1 fr;
-            }
-
-            .botones-de-navegación {
-                flex-direction : columna-inversa;
-                alinear elementos : estirar;
-            }
-
-            .botones-de-navegación .botón {
- 
-                ancho : 100% ;
-            }
-        }
-    </style>​​
-</head>​​
-< cuerpo >
-    < principal >
-        < sección id = "screen1" class = "container active" >  
-            < div class = "hero-card" > 
-                < div class = "hero-card__content" > 
-                    < span class = "hero-card__eyebrow" id = " siteSubtitle" > Registro oficial de invitados </span>  
-                    < h1 class = "hero-card__title" id = "siteTitleHeading" > Fiesta Social 2024 </h1>  
-                    <pclass="hero-card__description"id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>  
-                    < div class = "hero-card__actions" > 
-                        < button class = "button button--primary" onclick = " nextScreen(2)" > Comenzar registro </button>  
-                        <a class="button button--ghost" href="admin.html"> Administración </a>​​​​​​​​​​  
-                    </div>​​
-                </div>​​
-                < figura clase = "hero-card__media" > 
-                    <imgid="heroImage"src="Imagen de bienvenida.png"alt="Celebración en el salón principal">   
-                </ figura >
-            </div>​​
-        </ sección >
-
-        < sección id = "screen2" class = "container" >  
-            <h2>Datos personales</h2>
-            <pclass="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p> 
-            < form id = "guestForm" class = "form-grid" >  
-                < div class = "form-field" > 
-                    <labelfor="correo">Correo</label> 
-                    < input type = "email" id = "correo" name = "correo" required >    
-                </div>​​
-                < div class = "form-field" > 
-                    < etiqueta para = "grado" > Grado </ etiqueta > 
-                    <selectid="grado"name="grado"required>   
-                        < option value = " " selected > Seleccionar </option>​  
-                        < option value = "Cnel. " > Cnel . </option> 
-                        < option value = "Tte. Cnel." > Tte . Cnel. </option> 
-                        < option value = "May. " > Mayo . </option> 
-                        < option value = "Cap. " > Capacidad . </option> 
-                        < option value = "Tte. 1°" > Tte . 1 ° </option> 
-                        < option value = "Tte . 2°" > Tte. 2 ° </option> 
-                        < option value = " Alf." > Alf . </option> 
-                    </select>​​
-                </div>​​
-                < div class = "form-field" > 
-                    <labelfor="escalafon">Escalafón</label> 
-                    < select id = "escalafón" name = "escalafón" required >   
-                        < option value = " " selected > Seleccionar </option>​  
-                        < option value = "Apagado." > ( Apagado. ) </option> 
-                        < option value = " Nav." > (Nav. ) </option> 
-                        < option value = "Esp." > ( Esp .) </option> 
-                        < option value = " TP" > (TP ) </option> 
-                    </select>​​
-                </div>​​
-                < div class = "form-field" > 
-                    <labelfor="nombre">Nombre</label> 
-                    < input type = "text" id = "nombre" name = "nombre" required >    
-                </div>​​
-                < div class = "form-field" > 
-                    <labelfor="apellido">Apellido</label> 
-                    < input type = "text" id = "apellido" name = "apellido" required >    
-                </div>​​
-                < div class = "form-field" > 
-                    <labelfor="cedula">Cédula de Identidad (formato 0.000.000-0)</label> 
-                    <inputtype="text"id="cedula"name="cedula"requiredpattern="^\d\.\d{3}\.\d{3}-\d$"title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">      
-                </div>​​
-                < div class = "form-field" > 
-                    <labelfor="acompanante">¿Asiste con acompañante?</label> 
-                    <selectid="acompanante"name="acompanante"requiredonchange="toggleAcompanante()">    
-                        < option value = " " selected > Seleccionar </option>​  
-                        < option value = " no " > No </option> 
-                        < valor de opción = " si " > Sí </option> 
-                    </select>​​
-                </div>​​
-                < div class = "form-field" id = "acompañanteCantidad" style = "display:none;" >   
-                    <labelfor="cantidadAcompanantes">¿Cuántos acompañantes?</label> 
-                    <selectid="cantidadAcompanantes"name="cantidadAcompanantes">  
-                        < option value = " " selected > Seleccionar </option>​  
-                        < option value = " 1 " > 1 </option> 
-                        < option value = " 2 " > 2 </option> 
-                        < option value = " 3 " > 3 </option> 
-                        < option value = " 4 " > 4 </option> 
-                        < option value = " 5 " > 5 </option> 
-                    </select>​​
-                </div>​​
-                < div class = "form-field" > 
-                    < label for = " menu " > Menú </label> 
-                    < select id = "menu" name = "menu" required >   
-                        < option value = " " selected > Seleccionar </option>​  
-                        < option value = " normal " > Normal </option> 
-                        < option value = " vegetariano " > Vegetariano </option> 
-                        < option value = " vegano " > Vegano </option> 
-                        < option value = " celiaco " > Celíaco </option> 
-                    </select>​​
-                </div>​​
-                < input type = "hidden" id = "mesa" name = "mesa" >   
-            </form>​​
-            < div class = "navigation-buttons" > 
-                < button class = " button button--ghost" onclick = "prevScreen(1) " > Anterior </button>  
-                < button class = "button button--primary" onclick = " nextScreen() " > Siguiente </button>  
-            </div>​​
-        </ sección >
-
-        < sección id = "screen3" class = "container" >  
+                    </select>
+                </div>
+                <input type="hidden" id="mesa" name="mesa">
+            </form>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(1)">Anterior</button>
+                <button class="button button--primary" onclick="nextScreen()">Siguiente</button>
+            </div>
+        </section>
+
+        <section id="screen3" class="container">
             <h2>Información de acompañantes</h2>
-            <pclass="section-description">Agrega los datos de cada invitado adicional.</p> 
-            < form id = " acompanantesForm " > </form> 
-            < div class = "navigation-buttons" > 
-                < button class = " button button--ghost" onclick = "prevScreen(2) " > Anterior </button>  
-                < button class = "button button--primary" onclick = " nextScreen (4)" > Siguiente </button>  
-            </div>​​
-        </ sección >
+            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
+            <form id="acompanantesForm"></form>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(2)">Anterior</button>
+                <button class="button button--primary" onclick="nextScreen(4)">Siguiente</button>
+            </div>
+        </section>
 
-        < sección id = "screen4" class = "container" >  
+        <section id="screen4" class="container">
             <h2>Selecciona tu mesa</h2>
-            <pclass="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p> 
-            < div class = "salon-wrapper" > 
-                < aside class = "salon-summary" > 
+            <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
+            <div class="salon-wrapper">
+                <aside class="salon-summary">
                     <h3>Resumen del salón</h3>
-                    <p><strong>Mesas disponibles:</strong><spanid="totalMesasCounter">--</span></p>  
-                    <p><strong>Capacidad total:</strong><spanid="capacidadTotalCounter">--</span> invitados</p>  
-                    <p><strong>Mesa seleccionada:</strong><spanid="mesaSeleccionadaLabel">Sin seleccionar</span></p>  
-                    < div class = "legend" > 
-                        <span> < span class = "legend-swatch legend - swatch -- available " > </span> Disponible </span> 
-                        <span> < span class = "legend-swatch legend - swatch -- full " > </span> Completa </span> 
-                        Seleccionada​​​​​​​​​​​​​​​ 
-                    </div>​​
-                </aparte>​​
-                < div class = " salon-map" id = " salonMap" > </div>  
-            </div>​​
-            < div class = "table-details" > 
-                < div class = "table-container" > 
-                    < div class = "table" id = " mesaText " > Mesa </div>  
-                    < div id = " seatsContainer " > </div> 
-                </div>​​
-                < div >
+                    <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
+                    <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
+                    <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
+                    <div class="legend">
+                        <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
+                        <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
+                        <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
+                    </div>
+                </aside>
+                <div class="salon-map" id="salonMap"></div>
+            </div>
+            <div class="table-details">
+                <div class="table-container">
+                    <div class="table" id="mesaText">Mesa</div>
+                    <div id="seatsContainer"></div>
+                </div>
+                <div>
                     <h3>Invitados registrados en esta mesa</h3>
-                    <divid="guestList">Selecciona una mesa para ver los invitados.</div> 
-                </div>​​
-            </div>​​
-            < div class = "navigation-buttons" > 
-                < button class = " button button--ghost" onclick = "prevScreen(3) " > Anterior </button>  
-                < button id = "submitReservationBtn" class = "button button--primary" onclick = " submitForm() " > Enviar </button>   
-            </div>​​
-        </ sección >
-    </main>​​
+                    <div id="guestList">Selecciona una mesa para ver los invitados.</div>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button class="button button--ghost" onclick="prevScreen(3)">Anterior</button>
+                <button id="submitReservationBtn" class="button button--primary" onclick="submitForm()">Enviar</button>
+            </div>
+        </section>
+    </main>
 
-    < div id = "confirmationModal" class = "modal-overlay" >  
-        < div class = "modal-content" > 
-            <h2> Registro completo </h2>
-            <p>Tu reserva se guardó en <strongid="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p> 
-            < button class = "button button--primary" onclick = "finalizarRegistro ( ) " > Finalizar </button>  
-        </div>​​
-    </div>​​
+    <div id="confirmationModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Registro completo</h2>
+            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
+            <button class="button button--primary" onclick="finalizarRegistro()">Finalizar</button>
+        </div>
+    </div>
 
-    < div id = " tooltip " class = "tooltip " > </div>  
+    <div id="tooltip" class="tooltip"></div>
 
-    < script >
-        Sea pantallaActual = 1 ;
-        sea ​​guestsData = {};
-        sea ​​dataFetchInterval;
-        sea ​​siteConfig = null ;
+    <script>
+        let currentScreen = 1;
+        let guestsData = {};
+        let dataFetchInterval;
+        let siteConfig = null;
 
-        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzEV--nEAc-bDlaLCzR7m7n8VuXZR0iyuHgcqUQ35MGOCmkXjTs3oOEfpvIK9lmjDyu/exec' ;
- 
-        const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv' ;
- 
-        constante SUBMISSION_POLL_INTERVAL = 3000 ;
- 
-        const SUBMISSION_MAX_WAIT = 20000 ;
- 
-        constACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
- 
-        constEMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
- 
-        constCEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
- 
-        constNOMBRE_KEYS = ['nombre', 'nombres'];
- 
-        constAPELLIDO_KEYS = ['apellido', 'apellidos'];
- 
+        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzEV--nEAc-bDlaLCzR7m7n8VuXZR0iyuHgcqUQ35MGOCmkXjTs3oOEfpvIK9lmjDyu/exec';
+        const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
+        const SUBMISSION_POLL_INTERVAL = 3000;
+        const SUBMISSION_MAX_WAIT = 20000;
+        const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
+        const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
+        const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
+        const NOMBRE_KEYS = ['nombre', 'nombres'];
+        const APELLIDO_KEYS = ['apellido', 'apellidos'];
 
-        sea ​​reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT ;
+        let reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT;
 
-        const ZONAS_PREDETERMINADAS = [
- 
-            { id : 'dance' , label : 'Pista de baile' , className : 'map-zone--dance' , position : { x : 50 , y : 45 } },
-            { id : 'stage' , label : 'Estado Mayor' , className : 'map-zone--stage' , position : { x : 6 , y : 50 } },
-            { id : 'entrance' , label : 'Entrada / Piscina' , className : 'map-zone--entrance' , position : { x : 50 , y : 6 } },
-            { id : 'dj' , label : 'DJ' , className : 'map-zone--dj' , position : { x : 50 , y : 94 } },
-            { id : 'dessertLeft' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-left' , position : { x : 92 , y : 28 } },
-            { id : 'dessertRight' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-right' , position : { x : 92 , y : 72 } }
+        const DEFAULT_ZONES = [
+            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
+            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
+            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
+            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
+            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
+            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
         ];
 
-        función normalizarCadena ( valor ) {
- 
-            Si (valor === indefinido || valor === nulo ) devolver '' ;
- 
-            valor
- de retorno
-                .toString ( )
-                .normalizar ( 'NFD '
- )
-                .reemplazar ( /[\u0300-\u036f]/g , ' ' )
-                .toLowerCase (
- )
-                . recortar ();
+        function normalizeString(value) {
+            if (value === undefined || value === null) return '';
+            return value
+                .toString()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim();
         }
 
-        función appendCacheBuster ( url ) {
- 
-            if (!url) return '' ;
- 
-            const separador = url.includes ( '?' ) ? '&' : '?' ;
-            return ` ${url} ${separator} _= ${ Date .now()} ` ;
- 
+        function appendCacheBuster(url) {
+            if (!url) return '';
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}_=${Date.now()}`;
         }
 
-        función obtenerValorDeInvitado ( invitado, clavesCandidatas ) {
- 
-            if (!guest || typeof guest !== 'object' ) return '' ;
- 
-            const candidatosNormalizados = clavesCandidatos.map ( cadenaNormalizada);
-            for ( const key of Object . keys (guest)) {
- 
-                const clave normalizada = normalizarCadena (clave);
-                const índiceCandidato = candidatosNormalizados.indexOf (claveNormalizada)
- ;
-                si (candidateIndex !== - 1 ) {
-                    const valor = invitado[clave];
-                    if (value !== undefined && value !== null && value !== '' ) {
-                        valor de retorno ;
+        function getValueFromGuest(guest, candidateKeys) {
+            if (!guest || typeof guest !== 'object') return '';
+            const normalizedCandidates = candidateKeys.map(normalizeString);
+            for (const key of Object.keys(guest)) {
+                const normalizedKey = normalizeString(key);
+                const candidateIndex = normalizedCandidates.indexOf(normalizedKey);
+                if (candidateIndex !== -1) {
+                    const value = guest[key];
+                    if (value !== undefined && value !== null && value !== '') {
+                        return value;
                     }
                 }
             }
-            devolver '' ;
- 
+            return '';
         }
 
-        función extraerNombresCompañeros ( invitado ) {
- 
-            if (!guest || typeof guest !== 'object' ) return [];
-            Devuelve Object.keys ( invitado )
- 
-                .filter ( key => normalizeString ( key) .startsWith ( ACOMPANANTE_NAME_PREFIX ))
- 
-                . map ( key => guest[key])
-                .filter ( value => value !== undefined && value !== null && value !== '' );
+        function extractCompanionNames(guest) {
+            if (!guest || typeof guest !== 'object') return [];
+            return Object.keys(guest)
+                .filter(key => normalizeString(key).startsWith(ACOMPANANTE_NAME_PREFIX))
+                .map(key => guest[key])
+                .filter(value => value !== undefined && value !== null && value !== '');
         }
 
-        función contarAsientosInvitados ( invitado ) {
- 
-            const compañeros = extraerNombresCompañeros (invitado);
-            Devuelve 1 + compañeros.longitud ;
- 
+        function countGuestSeats(guest) {
+            const companions = extractCompanionNames(guest);
+            return 1 + companions.length;
         }
 
-        función obtenerNombreCompletoInvitado ( invitado ) {
- 
-            const nombre = getValueFromGuest (guest, NOMBRE_KEYS );
-            const apellido = getValueFromGuest (guest, APELLIDO_KEYS );
+        function getGuestFullName(guest) {
+            const nombre = getValueFromGuest(guest, NOMBRE_KEYS);
+            const apellido = getValueFromGuest(guest, APELLIDO_KEYS);
             return [nombre, apellido].filter(Boolean).join(' ').trim();
         }
 
-        función obtenerCorreoElectrónicoInvitado ( invitado ) {
- 
-            devolver getValueFromGuest (guest, EMAIL_KEYS );
- 
+        function getGuestEmail(guest) {
+            return getValueFromGuest(guest, EMAIL_KEYS);
         }
 
-        función obtenerCédulaInvitado ( invitado ) {
- 
-            devolver getValueFromGuest (guest, CEDULA_KEYS );
- 
+        function getGuestCedula(guest) {
+            return getValueFromGuest(guest, CEDULA_KEYS);
         }
 
-        función guestMatchesFingerprint ( invitado, huella digital ) {
- 
-            if (!guest || !fingerprint) return false ;
- 
-            const cédulaInvitado = normalizarCadena ( obtenerCédulaInvitado (invitado));
-            if (fingerprint.normalizedCedula && cedulaGuest && cedulaGuest === fingerprint.normalizedCedula ) {
-                Devuelve verdadero ;
- 
+        function guestMatchesFingerprint(guest, fingerprint) {
+            if (!guest || !fingerprint) return false;
+            const cedulaGuest = normalizeString(getGuestCedula(guest));
+            if (fingerprint.normalizedCedula && cedulaGuest && cedulaGuest === fingerprint.normalizedCedula) {
+                return true;
             }
-            const correoInvitado = normalizarCadena ( obtenerCorreoInvitado (invitado));
-            if (fingerprint.normalizedCorreo && correoGuest && correoGuest === fingerprint.normalizedCorreo ) {
-                Devuelve verdadero ;
- 
+            const correoGuest = normalizeString(getGuestEmail(guest));
+            if (fingerprint.normalizedCorreo && correoGuest && correoGuest === fingerprint.normalizedCorreo) {
+                return true;
             }
-            const nombreInvitado = normalizarCadena ( obtenerNombreCompletoInvitado (invitado));
-            if (fingerprint.normalizedNombreCompleto && nombreGuest && nombreGuest === fingerprint.normalizedNombreCompleto ) {
-                Devuelve verdadero ;
- 
+            const nombreGuest = normalizeString(getGuestFullName(guest));
+            if (fingerprint.normalizedNombreCompleto && nombreGuest && nombreGuest === fingerprint.normalizedNombreCompleto) {
+                return true;
             }
-            devolver falso ;
- 
+            return false;
         }
 
-        función crearHuellaDeReserva ( datos ) {
- 
-            devolver {
-                tabla : fecha. tabla ,
-                cédula normalizada : normalizarCadena (datos.cédula ),
+        function createReservationFingerprint(data) {
+            return {
+                mesa: data.mesa,
+                normalizedCedula: normalizeString(data.cedula),
                 normalizedCorreo: normalizeString(data.correo),
-                normalizedNombreCompleto: normalizeString(`${data.nombre || ''}${data.apellido || ''}`),
- 
-                rawSchedule : datos.schedule ,
+                normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`),
+                rawCedula: data.cedula,
                 rawCorreo: data.correo,
-                rawNombreCompleto: `${data.nombre || ''}${data.apellido || ''}`.trim()
- 
+                rawNombreCompleto: `${data.nombre || ''} ${data.apellido || ''}`.trim()
             };
         }
 
-        función retardo ( ms ) {
- 
-            devolver nueva Promesa ( resolver => setTimeout (resuelve, ms));
-   
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        función asíncrona confirmarReservaPersistente ( huella digital, huéspedesBase ) {
-  
-            const baselineMatches = (baselineGuests || []). filter ( guest => guestMatchesFingerprint (guest, fingerprint));
- 
-            const baselineCounts = buildFingerprintCountMap (baselineMatches);
+        async function confirmReservationPersisted(fingerprint, baselineGuests) {
+            const baselineMatches = (baselineGuests || []).filter(guest => guestMatchesFingerprint(guest, fingerprint));
+            const baselineCounts = buildFingerprintCountMap(baselineMatches);
 
-            const intentoVerificación = async ( ) => {
- 
-                intentar {
-                    esperar obtener datos de invitados ();
- 
+            const attemptVerification = async () => {
+                try {
+                    await fetchGuestsData();
                 } catch (error) {
                     console.warn('No se pudo refrescar la lista de invitados durante la verificación.', error);
                 }
 
-                const mesaGuests = getGuestsForMesa (fingerprint. mesa );
-                const currentMatches = mesaGuests.filter ( guest => guestMatchesFingerprint (guest, fingerprint));
- 
+                const mesaGuests = getGuestsForMesa(fingerprint.mesa);
+                const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
 
-                if (currentMatches.length === 0 ) {
-                    devolver falso ;
- 
+                if (currentMatches.length === 0) {
+                    return false;
                 }
 
-                if (currentMatches.length > baselineMatches.length ) {
-                    Devuelve verdadero ;
- 
+                if (currentMatches.length > baselineMatches.length) {
+                    return true;
                 }
 
-                const currentCounts = buildFingerprintCountMap (currentMatches);
-                for ( const [key, count] of currentCounts. entries ()) {
-                    const baselineCount = baselineCounts.get ( key ) || 0 ;
-                    si (recuento > recuentoBase) {
-                        Devuelve verdadero ;
- 
+                const currentCounts = buildFingerprintCountMap(currentMatches);
+                for (const [key, count] of currentCounts.entries()) {
+                    const baselineCount = baselineCounts.get(key) || 0;
+                    if (count > baselineCount) {
+                        return true;
                     }
                 }
 
-                devolver falso ;
- 
+                return false;
             };
 
-            const deadline = Date.now
- ( ) + SUBMISSION_MAX_WAIT ;
+            const deadline = Date.now() + SUBMISSION_MAX_WAIT;
 
-            if ( await attemptVerification ()) {
- 
-                Devuelve verdadero ;
- 
+            if (await attemptVerification()) {
+                return true;
             }
 
-            mientras ( Fecha.ahora () < fecha límite
- ) {
-                esperar retraso ( INTERVALO_DE_ENCUESTA_DE_SUSCRIPCIÓN );
- 
-                if ( await attemptVerification ()) {
- 
-                    Devuelve verdadero ;
- 
+            while (Date.now() < deadline) {
+                await delay(SUBMISSION_POLL_INTERVAL);
+                if (await attemptVerification()) {
+                    return true;
                 }
             }
 
-            lanzar nuevo Error ( 'reserva_no_encontrada' );
-  
+            throw new Error('reservation_not_found');
         }
 
-        función crearClaveDeHuellaDelInvitado ( invitado ) {
- 
-            Si (!invitado) devolver '' ;
- 
-            const cédula = normalizarCadena ( obtenerCédulaInvitada (invitado));
-            const correo = normalizeString ( getGuestEmail (guest));
-            const nombre = normalizeString ( getGuestFullName (guest));
+        function createGuestFingerprintKey(guest) {
+            if (!guest) return '';
+            const cedula = normalizeString(getGuestCedula(guest));
+            const correo = normalizeString(getGuestEmail(guest));
+            const nombre = normalizeString(getGuestFullName(guest));
             return [cedula, correo, nombre].filter(Boolean).join('|');
         }
 
-        función construirMapaDeHuellasFilmables ( invitados ) {
- 
-            const counts = new Map ();
- 
-            (invitados || []). forEach ( invitado => {
-                const key = crearClaveDeHuellaDelInvitado (invitado) || '__en blanco__' ;
-                counts.set (key, (counts.get ( key ) || 0 ) + 1 );
+        function buildFingerprintCountMap(guests) {
+            const counts = new Map();
+            (guests || []).forEach(guest => {
+                const key = createGuestFingerprintKey(guest) || '__blank__';
+                counts.set(key, (counts.get(key) || 0) + 1);
             });
-            recuentos de retorno ;
+            return counts;
         }
 
-        función crearDatosFormularioReserva ( carga útil, enviadoEn ) {
- 
-            const formData = nuevo FormData ();
- 
+        function createReservationFormData(payload, submittedAt) {
+            const formData = new FormData();
             const safePayload = payload ?? {};
-            formData.append ( ' payload ' , JSON.stringify (safePayload)
- ) ;
+            formData.append('payload', JSON.stringify(safePayload));
 
-            Objeto . entradas (carga útil segura). para cada ( ( [clave, valor] ) => {
-                if (value === undefined || value === null ) {
-                    devolver ;
+            Object.entries(safePayload).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
                 }
 
-                if ( typeof value === 'object' ) {
-                    formData.append (key, JSON.stringify (value
- ) ) ;
-                } demás {
-                    formData.append (clave , valor);
+                if (typeof value === 'object') {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, value);
                 }
             });
 
-            formData.append ( 'submittedAt' , submittedAt ) ;
-            devolver datos del formulario;
+            formData.append('submittedAt', submittedAt);
+            return formData;
         }
 
-        función crearCadenaDeConsultaDeReserva ( carga útil, enviadoEn ) {
- 
+        function createReservationQueryString(payload, submittedAt) {
             const safePayload = payload ?? {};
-            const params = new URLSearchParams ();
- 
-            params.append ( ' payload ' , JSON.stringify (safePayload ) );
+            const params = new URLSearchParams();
+            params.append('payload', JSON.stringify(safePayload));
 
-            Objeto . entradas (carga útil segura). para cada ( ( [clave, valor] ) => {
-                if (value === undefined || value === null ) {
-                    devolver ;
+            Object.entries(safePayload).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
                 }
 
-                if ( typeof value === 'object' ) {
-                    params.append (key, JSON.stringify (value
- ) ) ;
-                } demás {
-                    parámetros.append ( clave , valor);
+                if (typeof value === 'object') {
+                    params.append(key, JSON.stringify(value));
+                } else {
+                    params.append(key, value);
                 }
             });
 
-            params.append ( 'submittedAt' , submittedAt ) ;
-            return params.toString ( );
+            params.append('submittedAt', submittedAt);
+            return params.toString();
         }
 
-        función asíncrona enviarReserva ( scriptUrl, payload ) {
-  
+        async function submitReservation(scriptUrl, payload) {
             if (!scriptUrl) {
-                lanzar nuevo Error ( 'reservation_missing_endpoint' );
-  
+                throw new Error('reservation_missing_endpoint');
             }
 
-            const submittedAt = new Date (). toISOString ();
- 
-            const controller = typeof AbortController !== 'undefined' ? new AbortController () : null ;
-  
-            const timeoutId = controller ? setTimeout ( () => controller.abort (), SUBMISSION_MAX_WAIT ) : null ;
+            const submittedAt = new Date().toISOString();
+            const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+            const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
 
-            const sendRequest = async ( mode ) => {
- 
-                const opciones = {
-                    método : 'POST' ,
-                    modo,
-                    cuerpo : crearFormularioDeReserva (carga útil, enviadoEn)
+            const sendRequest = async (mode) => {
+                const options = {
+                    method: 'POST',
+                    mode,
+                    body: createReservationFormData(payload, submittedAt)
                 };
 
-                si (controlador) {
-                    opciones.señal = controlador.señal ;
-​
+                if (controller) {
+                    options.signal = controller.signal;
                 }
 
-                if (mode === 'cors' ) {
-                    opciones.encabezados = { 'Aceptar' : 'application/json' } ;
-                } demás {
-                    opciones.keepalive = true ;
-​
+                if (mode === 'cors') {
+                    options.headers = { 'Accept': 'application/json' };
+                } else {
+                    options.keepalive = true;
                 }
 
-                const respuesta = esperar obtener (scriptUrl, opciones);
- 
+                const response = await fetch(scriptUrl, options);
 
-                if (mode === 'cors' ) {
-                    if (!response || !response.ok ) {
-                        const status = response ? response. status : 'unknown' ;
-                        lanzar nuevo Error ( `reservation_http_ ${status} ` );
-  
+                if (mode === 'cors') {
+                    if (!response || !response.ok) {
+                        const status = response ? response.status : 'unknown';
+                        throw new Error(`reservation_http_${status}`);
                     }
-                    devolver respuesta;
+                    return response;
                 }
 
-                devolver nulo ;
- 
+                return null;
             };
 
-            const submitWithGet = async ( ) => {
- 
-                const queryString = createReservationQueryString (payload, submittedAt);
-                const separador = scriptUrl.includes ( '?' ) ? '&' : '?' ;
-                const targetUrl = ` ${scriptUrl} ${separator} ${queryString} ` ;
+            const submitWithGet = async () => {
+                const queryString = createReservationQueryString(payload, submittedAt);
+                const separator = scriptUrl.includes('?') ? '&' : '?';
+                const targetUrl = `${scriptUrl}${separator}${queryString}`;
 
-                const intento = async ( modo ) => {
- 
-                    const opciones = {
-                        método : 'GET' ,
-                        modo,
-                        caché : 'sin almacenamiento'
+                const attempt = async (mode) => {
+                    const options = {
+                        method: 'GET',
+                        mode,
+                        cache: 'no-store'
                     };
 
-                    si (controlador) {
-                        opciones.señal = controlador.señal ;
-​
+                    if (controller) {
+                        options.signal = controller.signal;
                     }
 
-                    const respuesta = esperar obtener (urlObjetivo, opciones);
- 
-                    if (mode === 'cors' ) {
-                        if (!response || !response.ok ) {
-                            const status = response ? response. status : 'unknown' ;
-                            lanzar nuevo Error ( `reservation_http_get_ ${status} ` );
-  
+                    const response = await fetch(targetUrl, options);
+                    if (mode === 'cors') {
+                        if (!response || !response.ok) {
+                            const status = response ? response.status : 'unknown';
+                            throw new Error(`reservation_http_get_${status}`);
                         }
                     }
                 };
 
-                intentar {
-                    esperar intento ( 'cors' );
- 
+                try {
+                    await attempt('cors');
                 } catch (error) {
-                    if (error && error.name === ' AbortError' ) {
-                        lanzar nuevo Error ( 'reservation_timeout' );
-  
+                    if (error && error.name === 'AbortError') {
+                        throw new Error('reservation_timeout');
                     }
 
-                    const mensaje = typeof error? .mensaje === 'string' ? error.mensaje : ' ' ;
-                    const isHttpError = message.startsWith ( ' reservation_http_get_' );
+                    const message = typeof error?.message === 'string' ? error.message : '';
+                    const isHttpError = message.startsWith('reservation_http_get_');
 
-                    if (!isHttpError && (error?. name === 'TypeError' || message. includes ( 'Failed to fetch' ))) {
-                        esperar intento ( 'no-cors' );
- 
-                    } demás {
-                        lanzar error;
+                    if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
+                        await attempt('no-cors');
+                    } else {
+                        throw error;
                     }
                 }
             };
 
-            intentar {
-                intentar {
-                    esperar enviar solicitud ( 'cors' );
- 
+            try {
+                try {
+                    await sendRequest('cors');
                 } catch (error) {
-                    if (error && error.name === ' AbortError' ) {
-                        lanzar nuevo Error ( 'reservation_timeout' );
-  
+                    if (error && error.name === 'AbortError') {
+                        throw new Error('reservation_timeout');
                     }
 
-                    const mensaje = typeof error? .mensaje === 'string' ? error.mensaje : ' ' ;
-                    const isLikelyCorsIssue = error? .name === 'TypeError' || message.includes ( 'Failed to fetch' );
-                    const isHttpError = message.startsWith ( ' reservation_http_' );
+                    const message = typeof error?.message === 'string' ? error.message : '';
+                    const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
+                    const isHttpError = message.startsWith('reservation_http_');
 
-                    if (message === 'reservation_http_405' ) {
-                        esperar enviarConObtener ();
- 
-                        devolver ;
+                    if (message === 'reservation_http_405') {
+                        await submitWithGet();
+                        return;
                     }
 
                     if (!isLikelyCorsIssue || isHttpError) {
-                        lanzar error;
+                        throw error;
                     }
 
-                    intentar {
-                        espere enviarRequest ( 'no-cors' );
- 
+                    try {
+                        await sendRequest('no-cors');
                     } catch (fallbackError) {
-                        if (fallbackError && fallbackError.name === ' AbortError' ) {
-                            lanzar nuevo Error ( 'reservation_timeout' );
-  
+                        if (fallbackError && fallbackError.name === 'AbortError') {
+                            throw new Error('reservation_timeout');
                         }
 
-                        const fallbackMessage = typeof fallbackError? .message === 'string' ? fallbackError.message : ' ' ;
-                        if (fallbackMessage === 'reservation_http_405' ) {
-                            esperar enviarConObtener ();
- 
-                            devolver ;
+                        const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
+                        if (fallbackMessage === 'reservation_http_405') {
+                            await submitWithGet();
+                            return;
                         }
-                        lanzar fallbackError;
+                        throw fallbackError;
                     }
                 }
-            } finalmente {
-                si (timeoutId) {
-                    clearTimeout (ID de tiempo de espera);
+            } finally {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
                 }
             }
         }
 
-        función setSubmissionState ( isSubmitting ) {
- 
-            const submitButton = document.getElementById ( ' submitReservationBtn' )
- ;
-            if (!submitButton) return ;
-            si (esEnviando) {
-                if (
- ! submitButton.dataset.originalLabel ) {
-                    submitButton.dataset.originalLabel = submitButton.textContent ;
-​​​
+        function setSubmissionState(isSubmitting) {
+            const submitButton = document.getElementById('submitReservationBtn');
+            if (!submitButton) return;
+            if (isSubmitting) {
+                if (!submitButton.dataset.originalLabel) {
+                    submitButton.dataset.originalLabel = submitButton.textContent;
                 }
-                botón de envío.deshabilitado = verdadero ;
-                submitButton.textContent = 'Enviando... ' ;
-            } demás {
-                botón de envío.deshabilitado = falso ;
-                if ( submitButton.dataset.originalLabel ) {
-​
-                    submitButton.textContent = submitButton.dataset.originalLabel ;​​​
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+            } else {
+                submitButton.disabled = false;
+                if (submitButton.dataset.originalLabel) {
+                    submitButton.textContent = submitButton.dataset.originalLabel;
                 }
             }
         }
 
-        función obtenerInvitadosParaMesa ( etiqueta ) {
- 
+        function getGuestsForMesa(label) {
             if (!label) return [];
-            Si (guestsData[label]) devolver guestData[label];
-            const etiqueta normalizada = normalizarCadena (etiqueta);
-            const matchingKey = Object.keys (guestsData).find ( key = > normalizeString ( key) === normalizedLabel);
- 
-            devolver claveCoincidente ? datosInvitados[claveCoincidente] : [];
+            if (guestsData[label]) return guestsData[label];
+            const normalizedLabel = normalizeString(label);
+            const matchingKey = Object.keys(guestsData).find(key => normalizeString(key) === normalizedLabel);
+            return matchingKey ? guestsData[matchingKey] : [];
         }
 
-        función asegurarHéroeÚnico ( ) {
- 
-            const heroSection = document.getElementById ( ' screen1' )
- ;
-            Si (!heroSection) devolver ;
-            const heroCards = heroSection.querySelectorAll ( ' .hero-card' );
-            heroCards.forEach ( ( card, index ) = > {
-                Si (índice === 0 ) devolver ;
-                tarjeta.remove ()
- ;
+        function ensureSingleHero() {
+            const heroSection = document.getElementById('screen1');
+            if (!heroSection) return;
+            const heroCards = heroSection.querySelectorAll('.hero-card');
+            heroCards.forEach((card, index) => {
+                if (index === 0) return;
+                card.remove();
             });
         }
 
-        función enforceInitialScreen ( ) {
- 
-            const contenedores = document.querySelectorAll ( '.container' ) ;
-            contenedores.forEach ( ( sección, índice ) = > {
-                si (índice === 0 ) {
-                    sección.classList.add ( ' active ' )
- ;
-                } demás {
-                    sección.classList.remove ( ' active ' )
- ;
+        function enforceInitialScreen() {
+            const containers = document.querySelectorAll('.container');
+            containers.forEach((section, index) => {
+                if (index === 0) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
                 }
             });
-            pantallaActual = 1 ;
+            currentScreen = 1;
         }
 
-        función asíncrona cargarConfiguración ( ) {
-  
-            sea ​​storedConfig = null ;
-            if ( typeof localStorage !== 'undefined' ) {
- 
-                intentar {
-                    almacenadoConfig = almacenamiento local . getItem ( 'fiestaConfig' );
-                    si (configuración almacenada) {
-                        storedConfig = JSON.parse ( storedConfig );
+        async function loadConfig() {
+            let storedConfig = null;
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    storedConfig = localStorage.getItem('fiestaConfig');
+                    if (storedConfig) {
+                        storedConfig = JSON.parse(storedConfig);
                     }
                 } catch (error) {
                     console.warn('No se pudo leer la configuración almacenada localmente.', error);
-                    storedConfig = null ;
+                    storedConfig = null;
                 }
             }
 
-            si (configuración almacenada) {
-                devolver configuración almacenada;
+            if (storedConfig) {
+                return storedConfig;
             }
 
-            const respuesta = await fetch ( 'config.json?_=' + Date . now ());
- 
-            if (!response.ok ) {
-                thrownewError('No se pudo cargar la configuración');
-  
+            const response = await fetch('config.json?_=' + Date.now());
+            if (!response.ok) {
+                throw new Error('No se pudo cargar la configuración');
             }
-            return await response.json ()
- ; 
+            return await response.json();
         }
 
-        función aplicarConfiguración ( config ) {
- 
-            Si (!config) devolver ;
-            asegurarHéroeÚnico ();
+        function applyConfig(config) {
+            if (!config) return;
+            ensureSingleHero();
             reservationScriptUrl = config.reservationScriptUrl
-                || config. integraciones ?. reservationScriptUrl
-                || PUNTO_FINAL_DE_RESERVA_PREDETERMINADO ;
-            documento.título = config.siteTitle || documento.título ;
-​​​​
-            const titleHeading = document.getElementById ( ' siteTitleHeading' );
-            const subtitleElement = document.getElementById ( 'siteSubtitle' )
- ;
-            elemento de descripción constante = documento . getElementById ( 'descripción del sitio' );
-            const heroImage = document.getElementById ( ' heroImage' )
- ;
+                || config.integrations?.reservationScriptUrl
+                || DEFAULT_RESERVATION_ENDPOINT;
+            document.title = config.siteTitle || document.title;
+            const titleHeading = document.getElementById('siteTitleHeading');
+            const subtitleElement = document.getElementById('siteSubtitle');
+            const descriptionElement = document.getElementById('siteDescription');
+            const heroImage = document.getElementById('heroImage');
 
-            if (titleHeading) titleHeading.textContent = config.siteTitle || ' Fiesta Social' ;
-            if ( subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados' ;
-            if ( descriptionElement) descriptionElement.textContent = config.siteDescription || '' ;
-            if (heroImage && config.heroImage ) heroImage.src = config.heroImage ;
+            if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
+            if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
+            if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
+            if (heroImage && config.heroImage) heroImage.src = config.heroImage;
 
-            if ( Array . isArray ( config. tables )) {
-                config.mesas.sort ( ( a, b ) => ( a.number || 0 ) - ( b.number || 0 ) )
- ;
+            if (Array.isArray(config.mesas)) {
+                config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
             }
 
-            if ( ! Array.isArray ( config.zones ) ||
- config.zones.length === 0 ) {​
-                config.zones = ZONAS_PREDETERMINADAS.map ( zona = > (
- {​
-                    id : zona.id ,
-                    etiqueta : zona. etiqueta ,
-                    className : zone.className ,
-                    posición : { ... zona.posición }
+            if (!Array.isArray(config.zones) || config.zones.length === 0) {
+                config.zones = DEFAULT_ZONES.map(zone => ({
+                    id: zone.id,
+                    label: zone.label,
+                    className: zone.className,
+                    position: { ...zone.position }
                 }));
             }
 
-            renderZones ( zonas de configuración );
-            renderTables (config. mesas || []);
-            actualizarResumen ( mesas de configuración || []);
+            renderZones(config.zones);
+            renderTables(config.mesas || []);
+            updateSummary(config.mesas || []);
         }
 
-        función actualizarResumen ( mesas ) {
- 
-            const totalMesasCounter = document.getElementById ( ' totalMesasCounter' )
- ;
-            const capacidadTotalCounter = document.getElementById ( ' capacidadTotalCounter' )
- ;
+        function updateSummary(mesas) {
+            const totalMesasCounter = document.getElementById('totalMesasCounter');
+            const capacidadTotalCounter = document.getElementById('capacidadTotalCounter');
 
-            if (totalMesasCounter) totalMesasCounter.textContent =
- mesas.length ;
-            si (TotalCounter) {
-                const capacidadTotal = mesas.reduce ( ( acc, mesa ) => acc + (mesa.capacity ?? siteConfig? .defaultCapacity ?? 0 ), 0 );
-                capacidadTotalCounter. contenido de texto = capacidad total;
+            if (totalMesasCounter) totalMesasCounter.textContent = mesas.length;
+            if (capacidadTotalCounter) {
+                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
+                capacidadTotalCounter.textContent = totalCapacity;
             }
         }
 
-        función renderZones ( zonas ) {
- 
-            const hallMap = document.getElementById ( ' roomMap' )
- ;
-            Si (!salonMap) devolver ;
+        function renderZones(zones) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
 
-            salonMap.querySelectorAll ( ' . map-zone' ). forEach ( zoneElement => zoneElement.remove ( ) );
+            salonMap.querySelectorAll('.map-zone').forEach(zoneElement => zoneElement.remove());
 
-            const sourceZones = Array.isArray ( zones
- ) && zones.length ? zones : DEFAULT_ZONES ;
+            const sourceZones = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
 
-            sourceZones.forEach ( zone = > {
-                const zoneElement = document.createElement ( 'div' )
- ;
-                zoneElement.className = [ 'map-zone' , zone.className || '' ] .filter ( Boolean ) .join ( ' ' ) .trim ()
- ;
-                elemento de zona. contenido de texto = zona. etiqueta || '' ;
-                zoneElement.dataset.zoneId = zone.id || ' ' ;
-​​
+            sourceZones.forEach(zone => {
+                const zoneElement = document.createElement('div');
+                zoneElement.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
+                zoneElement.textContent = zone.label || '';
+                zoneElement.dataset.zoneId = zone.id || '';
 
-                const posX = parseFloat (zona. posición ?. x );
-                const posY = parseFloat (zona. posición ?. y );
-                const safeX = Number.isNaN ( posX ) ? 0 : Math.min ( Math.max ( posX, 0 ) , 100 )
- ;
-                constsafeY = Número . esNaN (posY)? 0 : Matemáticas . min ( Math . max (posY, 0 ), 100 );
-                zoneElement.style.setProperty ( '--zone-x' , safeX )
- ;
-                zoneElement.style.setProperty ( ' -- zone-y' , safeY)
- ;
+                const posX = parseFloat(zone.position?.x);
+                const posY = parseFloat(zone.position?.y);
+                const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
+                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
+                zoneElement.style.setProperty('--zone-x', safeX);
+                zoneElement.style.setProperty('--zone-y', safeY);
 
-                salónMapa. appendChild ( elemento de área );
+                salonMap.appendChild(zoneElement);
             });
         }
 
-        función renderTables ( mesas ) {
- 
-            const hallMap = document.getElementById ( ' roomMap' )
- ;
-            Si (!salonMap) devolver ;
+        function renderTables(mesas) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
             salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
 
-            tablas.forEach ( tabla = > {
-                const mesaElement = document.createElement ( 'button' )
- ;
-                mesaElement.type = ' button' ;
-                mesaElement. nombre de clase = 'mesa' ;
-                mesaElement. id = `mesa ${mesa.número} ` ;
-                const label = mesa.label || `Mesa ${mesa.number} ` ;
-                mesaElement.dataset.label =
- label ;​
-                mesaElement.dataset.capacity = mesa.capacity ??
- siteConfig ? .defaultCapacity ?? 0 ;​
-                tableElement.style.left = ` $ {
- table.position ? .x ?? 0 } % ` ;
+            mesas.forEach(mesa => {
+                const mesaElement = document.createElement('button');
+                mesaElement.type = 'button';
+                mesaElement.className = 'mesa';
+                mesaElement.id = `mesa${mesa.number}`;
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                mesaElement.dataset.label = label;
+                mesaElement.dataset.capacity = mesa.capacity ?? siteConfig?.defaultCapacity ?? 0;
+                mesaElement.style.left = `${mesa.position?.x ?? 0}%`;
                 mesaElement.style.top = `${mesa.position?.y ?? 0}%`;
-                tableElement.textContent = table.number ?? label
- ;
-                mesaElement.setAttribute ( 'aria-label' , ` $ {label} (Capacidad ${mesaElement.dataset.capacity} )` );
-                mesaElement.addEventListener ( 'click' , () => selectTable ( mesa));
- 
-                mesaElement.addEventListener ( 'mouseover' , event = > showGuests (label, event));
- 
-                mesaElement.addEventListener ( 'focus' , event => showGuests ( label , event));
- 
-                mesaElement.addEventListener ( 'mouseleave' , hideGuests);
-                mesaElement.addEventListener ( ' blur ' , hideGuests);
-                salonMap.appendChild (tableElement)
- ;
+                mesaElement.textContent = mesa.number ?? label;
+                mesaElement.setAttribute('aria-label', `${label} (capacidad ${mesaElement.dataset.capacity})`);
+                mesaElement.addEventListener('click', () => selectTable(mesa));
+                mesaElement.addEventListener('mouseover', event => showGuests(label, event));
+                mesaElement.addEventListener('focus', event => showGuests(label, event));
+                mesaElement.addEventListener('mouseleave', hideGuests);
+                mesaElement.addEventListener('blur', hideGuests);
+                salonMap.appendChild(mesaElement);
             });
 
-            actualizarMesasCompletaColor ();
+            updateMesasCompletaColor();
         }
 
-        función startDataFetchInterval ( ) {
- 
-            detenerIntervaloDeObtenciónDeDatos ();
-            dataFetchInterval = setInterval ( () => {
-                fetchGuestsData (). catch ( error => {
+        function startDataFetchInterval() {
+            stopDataFetchInterval();
+            dataFetchInterval = setInterval(() => {
+                fetchGuestsData().catch(error => {
                     console.warn('No se pudo refrescar la lista de invitados en segundo plano.', error);
                 });
-            }, 5000 );
+            }, 5000);
         }
 
-        función stopDataFetchInterval ( ) {
- 
-            clearInterval (dataFetchInterval);
+        function stopDataFetchInterval() {
+            clearInterval(dataFetchInterval);
         }
 
-        función siguientePantalla ( númeroSiguientePantalla ) {
- 
-            if (nextScreenNumber === undefined ) {
-                si (pantallaActual === 2 ) {
-                    let invalidFields = validateForm ( 'guestForm' );
-                    if (invalidFields.length > 0 ) {
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
+                    let invalidFields = validateForm('guestForm');
+                    if (invalidFields.length > 0) {
                         alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                        devolver ;
+                        return;
                     }
-                    let acompanante = documento . getElementById ( 'acompañante' ). valor ;
+                    let acompanante = document.getElementById('acompanante').value;
                     if (acompanante === 'si') {
                         let cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value;
                         if (!cantidadAcompanantes) {
                             alert('Por favor, seleccione la cantidad de acompañantes.');
-                            devolver ;
+                            return;
                         }
                         generateAcompanantesForm(cantidadAcompanantes);
-                        número de pantalla siguiente = 3 ;
-                    } demás {
-                        número de pantalla siguiente = 4 ;
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
                     }
-                } else if (currentScreen === 3 ) {
- 
-                    let invalidFields = validateForm ( 'acompanantesForm' );
-                    if (invalidFields.length > 0 ) {
+                } else if (currentScreen === 3) {
+                    let invalidFields = validateForm('acompanantesForm');
+                    if (invalidFields.length > 0) {
                         alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
-                        devolver ;
+                        return;
                     }
-                    número de pantalla siguiente = 4 ;
-                } demás {
-                    númeroDePantallaSiguiente = pantallaActual + 1 ;
+                    nextScreenNumber = 4;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
                 }
             }
-            document.getElementById ( `screen ${currentScreen }
- ` ) .classList.remove ( ' active ' ) ;
-            pantallaActual = númeroDePantallaSiguiente;
-            document.getElementById ( `screen ${currentScreen } `
- ) .classList.add ( ' active ' ) ;
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = nextScreenNumber;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
 
-            si (pantallaActual === 4 ) {
-                fetchGuestsData (). catch ( error => {
+            if (currentScreen === 4) {
+                fetchGuestsData().catch(error => {
                     console.warn('No se pudo refrescar la lista de invitados al cargar el resumen.', error);
                 });
-                iniciarIntervaloDeObtenciónDeDatos ();
-            } demás {
-                detenerIntervaloDeObtenciónDeDatos ();
+                startDataFetchInterval();
+            } else {
+                stopDataFetchInterval();
             }
         }
 
-        función validarFormulario ( idFormulario ) {
- 
-            let form = document.getElementById ( formId )
- ;
+        function validateForm(formId) {
+            let form = document.getElementById(formId);
             if (!form) return [];
-            sea ​​invalidFields = [];
-            let elements = form.querySelectorAll ( ' input, select' );
-            elementos.forEach ( function ( elemento )
- {
-                if (!element.checkValidity ( )) {
-                    let label = form.querySelector ( ` label[for=" ${element.id} "]` );
-                    let fieldName = label ? label.textContent.replace ( ' :' ,
- ' ' ) : element.name || element.id ;
-                    invalidFields.push ( fieldName.trim ())
- ;
+            let invalidFields = [];
+            let elements = form.querySelectorAll('input, select');
+            elements.forEach(function(element) {
+                if (!element.checkValidity()) {
+                    let label = form.querySelector(`label[for="${element.id}"]`);
+                    let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
+                    invalidFields.push(fieldName.trim());
                 }
             });
-            Devuelve campos no válidos;
+            return invalidFields;
         }
 
-        función prevScreen ( pantalla ) {
- 
-            if (currentScreen === 4 && document.getElementById ( ' acompanante' ). value === 'no' ) {
-                pantalla = 2 ;
+        function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById('acompanante').value === 'no') {
+                screen = 2;
             }
-            document.getElementById ( `screen ${currentScreen }
- ` ) .classList.remove ( ' active ' ) ;
-            pantallaActual = pantalla;
-            document.getElementById ( `screen ${currentScreen } `
- ) .classList.add ( ' active ' ) ;
-            detenerIntervaloDeObtenciónDeDatos ();
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screen;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            stopDataFetchInterval();
         }
 
-        función alternarAcompañante ( ) {
- 
-            let acompanante = documento . getElementById ( 'acompañante' ). valor ;
+        function toggleAcompanante() {
+            let acompanante = document.getElementById('acompanante').value;
             let acompananteCantidad = document.getElementById('cantidadAcompanantes');
             let acompananteCantidadContainer = document.getElementById('acompananteCantidad');
             if (acompanante === 'si') {
-                acompananteCantidadContainer.style.display = '
- block ' ;​
-                acompananteCantidadContainer.style.opacity = '
- 1 ' ;​
-                acompananteCantidad.setAttribute ( ' required ' , 'required' );
-            } demás {
-                acompananteCantidadContainer.style.opacity = ' 0
- ' ;​
-                acompananteCantidadContainer.style.display = ' none '
- ;​
+                acompananteCantidadContainer.style.display = 'block';
+                acompananteCantidadContainer.style.opacity = '1';
+                acompananteCantidad.setAttribute('required', 'required');
+            } else {
+                acompananteCantidadContainer.style.opacity = '0';
+                acompananteCantidadContainer.style.display = 'none';
                 acompananteCantidad.removeAttribute('required');
                 acompananteCantidad.value = '';
             }
         }
 
-        functiongenerateAcompanantesForm(cantidad) {
- 
-            formulario de carta adjunta = documento . getElementById ( 'acompanantesForm' );
-            acompanantesForm.innerHTML = ' ' ;
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById('acompanantesForm');
+            acompanantesForm.innerHTML = '';
             for (let i = 1; i <= cantidad; i++) {
-                acompañantesForm. HTML interno += `
+                acompanantesForm.innerHTML += `
                     <div class="form-grid">
                         <div class="form-field">
                             <h3>Acompañante ${i}</h3>
                             <label for="nombreAcompanante${i}">Nombre</label>
-                            <input type="text" id="nombreAcompañante ${i} " name="nombreAcompañante ${i} " required>
+                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
                         </div>
                         <div class="form-field">
                             <label for="menuAcompanante${i}">Menú</label>
-                            <select id="menuAcompanante ${i} " name="menuAcompanante ${i} " required>
+                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
                                 <option value="" selected>Seleccionar</option>
                                 <option value="normal">Normal</option>
                                 <option value="vegetariano">Vegetariano</option>
@@ -2677,493 +1368,418 @@
                                 <option value="celiaco">Celíaco</option>
                             </select>
                         </div>
-                    </div>` ;
+                    </div>`;
             }
         }
 
-        función seleccionarTabla ( mesaConfig ) {
- 
-            Si (!mesaConfig) devolver ;
-            const label = mesaConfig.label || `Mesa ${mesaConfig.number} ` ;
-            const mesaInput = document.getElementById ( ' mesa' )
- ;
-            mesaInput.value = etiqueta ;
+        function selectTable(mesaConfig) {
+            if (!mesaConfig) return;
+            const label = mesaConfig.label || `Mesa ${mesaConfig.number}`;
+            const mesaInput = document.getElementById('mesa');
+            mesaInput.value = label;
 
-            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' seleccionada' ) )
- ;
-            const mesaElement = document.getElementById ( ` mesa ${mesaConfig.number} ` )
- ;
-            si (mesaElement) {
-                tableElement.classList.add ( '
- selected ' ) ;
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
+            const mesaElement = document.getElementById(`mesa${mesaConfig.number}`);
+            if (mesaElement) {
+                mesaElement.classList.add('seleccionada');
             }
 
-            const summaryLabel = document.getElementById ( 'mesaSeleccionadaLabel' )
- ;
-            si (etiqueta de resumen) {
-                etiqueta resumida. contenido de texto = etiqueta;
+            const summaryLabel = document.getElementById('mesaSeleccionadaLabel');
+            if (summaryLabel) {
+                summaryLabel.textContent = label;
             }
 
-            const tableContainer = document.querySelector ( ' . table-container' )
- ;
-            si (contenedor de tabla) {
-                tableContainer.style.display = ' block ' ;​
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.style.display = 'block';
             }
 
-            actualizarMesaText ();
+            updateMesaText();
         }
 
-        función actualizarMesaTexto ( ) {
- 
-            const mesaInput = document.getElementById ( ' mesa' )
- ;
-            const mesaText = document.getElementById ( 'mesaText' )
- ;
-            const selectedMesa = mesaInput.value ;
+        function updateMesaText() {
+            const mesaInput = document.getElementById('mesa');
+            const mesaText = document.getElementById('mesaText');
+            const selectedMesa = mesaInput.value;
             if (mesaText && selectedMesa) {
-                mesaText.textContent = selectedMesa ;
+                mesaText.textContent = selectedMesa;
             }
-            actualizarAsientos ();
-            actualizarListaDeInvitados ();
+            updateSeats();
+            updateGuestList();
         }
 
-        función actualizarAsientos ( ) {
- 
-            const mesaInput = document.getElementById ( ' mesa' )
- ;
-            const selectedMesa = mesaInput.value ;
-            const seatsContainer = document.getElementById ( ' seatsContainer' )
- ;
-            Si (!contenedorDeAsientos) devolver ;
+        function updateSeats() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+            const seatsContainer = document.getElementById('seatsContainer');
+            if (!seatsContainer) return;
 
-            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
-            asientosContainer.innerHTML = ' '
- ;
+            let maxCapacity = getMesaCapacity(selectedMesa);
+            seatsContainer.innerHTML = '';
 
-            for ( let i = 1 ; i <= maxCapacity; i++) {
-                let seat = document.createElement ( ' div ' )
- ;
-                asiento.classList.add ( ' asiento ' )
- ;
-                asiento.conjunto de datos.asiento = i;
-                asientosContenedor.appendChild (asiento)
- ;
+            for (let i = 1; i <= maxCapacity; i++) {
+                let seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.dataset.seat = i;
+                seatsContainer.appendChild(seat);
             }
 
-            const asientos = document.querySelectorAll ( '.seat' ) ;
-            const centroX = 50 ;
-            const centroY = 50 ;
-            radio constante = 38 ;
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50;
+            const centerY = 50;
+            const radius = 38;
 
-            asientos.forEach ( ( asiento, índice ) = > {
-                ángulo constante = (índice / asientos. longitud ) * ( 2 * Math . PI );
-                constante x = centroX + radio * Math.cos ( ángulo)
- ;
-                constante y = centroY + radio * Math.sin ( ángulo )
- ;
-                asiento.estilo.posición = ' absoluta '
- ;​
-                asiento.estilo.izquierda = ` $ { x } % `
- ;
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
                 seat.style.top = `${y}%`;
-                asiento.estilo.transformación = ' translate (-50 % , -50%) ' ;
+                seat.style.transform = 'translate(-50%, -50%)';
             });
 
-            const mesaGuests = obtenerGuestsParaMesa (mesaSeleccionada);
-            if (selectedMesa && mesaGuests.length ) {
-                sea ​​totalInvitados = 0 ;
-                mesaGuests.forEach ( invitado = > {
-                    const asientosNecesarios = contarAsientosParaInvitados (invitado);
-                    for ( let i = 0 ; i < seatsNeeded; i++) {
-                        Si (total de invitados < capacidad máxima) {
-                            const seat = document.querySelector ( `.seat[data-seat=" ${totalGuests + 1 } " ]` )
- ;
-                            si (asiento) {
-                                asiento.classList.add ( ' ocupado ' )
- ;
+            const mesaGuests = getGuestsForMesa(selectedMesa);
+            if (selectedMesa && mesaGuests.length) {
+                let totalGuests = 0;
+                mesaGuests.forEach(guest => {
+                    const seatsNeeded = countGuestSeats(guest);
+                    for (let i = 0; i < seatsNeeded; i++) {
+                        if (totalGuests < maxCapacity) {
+                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                            if (seat) {
+                                seat.classList.add('occupied');
                             }
-                            totalInvitados++;
+                            totalGuests++;
                         }
                     }
                 });
             }
         }
 
-        función actualizarListaDeInvitados ( ) {
- 
-            const mesaInput = document.getElementById ( ' mesa' )
- ;
-            const selectedMesa = mesaInput.value ;
-            const guestList = document.getElementById ( ' guestList' )
- ;
-            Si (!listaDeInvitados) terminar ;
+        function updateGuestList() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+            const guestList = document.getElementById('guestList');
+            if (!guestList) return;
 
-            guestList.innerHTML = ' '
- ;
+            guestList.innerHTML = '';
 
-            const invitados = obtenerInvitadosParaMesa (mesaseleccionada);
-            if (selectedMesa && guests.length ) {
+            const guests = getGuestsForMesa(selectedMesa);
+            if (selectedMesa && guests.length) {
 
-                invitados.forEach ( invitado = > {
+                guests.forEach(guest => {
                     const nombreCompleto = getGuestFullName(guest) || 'Nombre no disponible';
-                    lista de invitados. internalHTML += `<div><strong> ${fullname} </strong></div>` ;
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
 
-                    extraerNombresCompañeros (invitado).paraCada ( nombre = > {
-                        lista de invitados. internalHTML += `<div> ${número} </div>` ;
+                    extractCompanionNames(guest).forEach(nombre => {
+                        guestList.innerHTML += `<div>${nombre}</div>`;
                     });
                 });
-            } demás {
+            } else {
                 guestList.innerHTML = 'No hay invitados registrados en esta mesa.';
             }
         }
 
-        función asíncrona enviarFormulario ( ) {
-  
-            const mesaInput = document.getElementById ( ' mesa' )
- ;
-            const selectedMesa = mesaInput.value ;
+        async function submitForm() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
 
-            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
+            let maxCapacity = getMesaCapacity(selectedMesa);
 
-            sea ​​totalInvitados = 0 ;
-            const mesaGuests = obtenerGuestsParaMesa (mesaSeleccionada);
-            const baselineGuests = Array.isArray (mesaGuests) ? mesaGuests.slice () : []
- ;
-            if (selectedMesa && mesaGuests.length ) {
-                mesaGuests.forEach ( invitado = > {
-                    totalInvitados += contarAsientosInvitados (invitado);
+            let totalGuests = 0;
+            const mesaGuests = getGuestsForMesa(selectedMesa);
+            const baselineGuests = Array.isArray(mesaGuests) ? mesaGuests.slice() : [];
+            if (selectedMesa && mesaGuests.length) {
+                mesaGuests.forEach(guest => {
+                    totalGuests += countGuestSeats(guest);
                 });
             }
 
             const cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value || 0;
             const acompanantesCount = parseInt(cantidadAcompanantes, 10) || 0;
-            const totalNuevosInvitados = 1 + contadorAsistentes;
+            const totalNuevosGuests = 1 + acompanantesCount;
 
             if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
                 alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
-                devolver ;
+                return;
             }
 
-            let guestForm = document.getElementById ( ' guestForm' );
-            formulario de carta adjunta = documento . getElementById ( 'acompanantesForm' );
+            let guestForm = document.getElementById('guestForm');
+            let acompanantesForm = document.getElementById('acompanantesForm');
 
-            if (! ( guestForm.checkValidity ( ) && acompanantesForm.checkValidity ())) {
+            if (!(guestForm.checkValidity() && acompanantesForm.checkValidity())) {
                 alert('Por favor, complete todos los campos requeridos.');
-                devolver ;
+                return;
             }
 
-            const formData = nuevo FormData (guestForm);
- 
-            const acompanantesData = new FormData (acompanantesForm);
- 
-            constante acompañante = [];
+            const formData = new FormData(guestForm);
+            const acompanantesData = new FormData(acompanantesForm);
+            const acompanantes = [];
 
-            acompanantesData.forEach ( ( value , key ) => {
-                if (key.includes ( 'nombreAcompañante' ) ) {
-                    const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
+            acompanantesData.forEach((value, key) => {
+                if (key.includes('nombreAcompanante')) {
+                    const index = parseInt(key.replace(/\D/g, '')) - 1;
                     if (!acompanantes[index]) acompanantes[index] = {};
                     acompanantes[index].nombre = value;
-                } else if (key.includes ( ' menuAcompanante' )) {
- 
-                    const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
+                } else if (key.includes('menuAcompanante')) {
+                    const index = parseInt(key.replace(/\D/g, '')) - 1;
                     if (!acompanantes[index]) acompanantes[index] = {};
-                    acompañantes[índice].menú = valor;
+                    acompanantes[index].menu = value;
                 }
             });
 
-            const datos = {
+            const data = {
                 correo: formData.get('correo'),
-                grado : formData.get ( ' grado' ),
-                escalafón : formData. get ( 'escalafón' ),
+                grado: formData.get('grado'),
+                escalafon: formData.get('escalafon'),
                 nombre: formData.get('nombre'),
                 apellido: formData.get('apellido'),
-                horario : formData.get ( ' horario' ),
-                compañero : formData.get ( ' compañero' ),
+                cedula: formData.get('cedula'),
+                acompanante: formData.get('acompanante'),
                 cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                menú : formData.get ( ' menú' ),
+                menu: formData.get('menu'),
                 acompanantes: acompanantes,
-                mesa : formData.get ( ' mesa' )
+                mesa: formData.get('mesa')
             };
 
-            const huella digital = crearHuellaDeReserva (datos);
+            const fingerprint = createReservationFingerprint(data);
 
             if (!reservationScriptUrl) {
                 alert('No se encontró la dirección del servicio de reservas. Verifique la configuración.');
-                devolver ;
+                return;
             }
 
-            establecerEstadoDeEnvío ( verdadero );
+            setSubmissionState(true);
 
-            intentar {
-                esperar enviarReserva (urlScriptReserva, datos);
- 
-                esperar confirmarReservaPersistente (huella digital, huéspedes de referencia);
- 
-                mostrarConfirmación ();
+            try {
+                await submitReservation(reservationScriptUrl, data);
+                await confirmReservationPersisted(fingerprint, baselineGuests);
+                showConfirmation();
             } catch (error) {
                 console.error('Error al registrar la reserva:', error);
-                if (error && error.message === ' reservation_not_found' ) {
+                if (error && error.message === 'reservation_not_found') {
                     alert('No pudimos confirmar tu reserva en la hoja de cálculo. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
-                } else if (error && error.message === ' reservation_timeout' ) {
- 
+                } else if (error && error.message === 'reservation_timeout') {
                     alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
-                } else if (error && error.message === ' reservation_missing_endpoint' ) {
- 
+                } else if (error && error.message === 'reservation_missing_endpoint') {
                     alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
-                } demás {
+                } else {
                     alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
                 }
-            } finalmente {
-                establecerEstadoDeEnvío ( falso );
+            } finally {
+                setSubmissionState(false);
             }
         }
 
-        función mostrarConfirmación ( ) {
- 
-            const mesaConfirmada = document.getElementById ( ' mesa' ) .
- value ;
-            documento . getElementById ( 'mesaConfirmada' ). textContent = mesaConfirmada;
-            const current = document.getElementById ( ` screen ${currentScreen} ` )
- ;
-            if (current) current.classList.remove ( ' active ' )
- ;
-            const modal = document.getElementById ( ' confirmationModal' )
- ;
-            si (modal) {
-                modal.classList.add ( ' active ' )
- ;
-                modal.style.display = ' flex '
- ;​
+        function showConfirmation() {
+            const mesaConfirmada = document.getElementById('mesa').value;
+            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
+            const current = document.getElementById(`screen${currentScreen}`);
+            if (current) current.classList.remove('active');
+            const modal = document.getElementById('confirmationModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.display = 'flex';
             }
-            detenerIntervaloDeObtenciónDeDatos ();
+            stopDataFetchInterval();
         }
 
-        función finalizarRegistro ( ) {
- 
-            ubicación.recargar ( );
+        function finalizarRegistro() {
+            location.reload();
         }
 
-        función asíncrona obtenerDatosInvitados ( ) {
-  
-            intentar {
-                const respuesta = await fetch ( appendCacheBuster ( GUESTS_SHEET_CSV_URL ), { cache : 'no-store' });
- 
-                if (!response.ok ) {
-                    lanzar nuevo Error ( `sheet_fetch_ ${response.status} ` );
-  
+        async function fetchGuestsData() {
+            try {
+                const response = await fetch(appendCacheBuster(GUESTS_SHEET_CSV_URL), { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`sheet_fetch_${response.status}`);
                 }
 
-                const csv = await response.text ()
- ;
-                const data = csvToJSON (csv);
-                datosInvitados = datos;
-                actualizarMesasCompletaColor ();
-                actualizarListaDeInvitados ();
-                actualizarAsientos ();
-                devolver datos;
+                const csv = await response.text();
+                const data = csvToJSON(csv);
+                guestsData = data;
+                updateMesasCompletaColor();
+                updateGuestList();
+                updateSeats();
+                return data;
             } catch (error) {
-                console.error ( 'Error al obtener los datos del invitado:' , error );
-                lanzar error;
+                console.error('Error fetching guest data:', error);
+                throw error;
             }
         }
 
-        función parseCSVLine ( línea ) {
- 
-            const resultado = [];
-            sea ​​actual = '' ;
-            sea ​​insideQuotes = false ;
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let insideQuotes = false;
 
-            for ( let i = 0 ; i < line. length ; i++) {
-                const char = línea[i];
-                if (char === '"' ) {
-                    if (insideQuotes && line[i + 1 ] === '"' ) {
-                        actual += '' ;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    if (insideQuotes && line[i + 1] === '"') {
+                        current += '"';
                         i++;
-                    } demás {
+                    } else {
                         insideQuotes = !insideQuotes;
                     }
                 } else if (char === ',' && !insideQuotes) {
- 
-                    resultado. push (actual);
-                    actual = '' ;
-                } demás {
-                    actual += carácter;
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
                 }
             }
-            resultado. push (actual);
+            result.push(current);
 
-            devolver resultado;
+            return result;
         }
 
-        función csvToJSON ( csv ) {
- 
+        function csvToJSON(csv) {
             if (!csv) return {};
-            const sanitized = csv.replace ( /\r\n/g , '\n' ). replace ( /\r/g , '\n' );
-            const lines = sanitized.split ( ' \n' ). filter ( line => line.trim () !== '' )
- ;
-            if (lines.length === 0 ) return { };
+            const sanitized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            const lines = sanitized.split('\n').filter(line => line.trim() !== '');
+            if (lines.length === 0) return {};
 
-            const encabezados = parseCSVLine (líneas[ 0 ]);
-            const encabezados normalizados = encabezados.map ( encabezado = > encabezado.trim ());
-            const normalizedHeaderKeys = normalizedHeaders.map ( normalizeString);
+            const headers = parseCSVLine(lines[0]);
+            const normalizedHeaders = headers.map(header => header.trim());
+            const normalizedHeaderKeys = normalizedHeaders.map(normalizeString);
 
-            const resultado = {};
+            const result = {};
 
-            for ( let i = 1 ; i < lines. length ; i++) {
-                const valores = parseCSVLine (líneas[i]);
-                if (values.every ( value => value
- === undefined || value === null || value.trim () === '' ) ) continue ;
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.every(value => value === undefined || value === null || value.trim() === '')) continue;
 
-                entrada constante = {};
-                normalizedHeaders.forEach ( ( header, index ) = > {
-                    entrada[encabezado] = (valores[índice] ?? '' ) .trim ();
+                const entry = {};
+                normalizedHeaders.forEach((header, index) => {
+                    entry[header] = (values[index] ?? '').trim();
                 });
 
-                const mesaIndex = normalizedHeaderKeys.indexOf ( ' mesa' );
-                sea ​​mesaLabel = '' ;
-                if (mesaIndex !== - 1 ) {
-                    mesaLabel = (valores[mesaIndex] ?? '' ). recortar ();
+                const mesaIndex = normalizedHeaderKeys.indexOf('mesa');
+                let mesaLabel = '';
+                if (mesaIndex !== -1) {
+                    mesaLabel = (values[mesaIndex] ?? '').trim();
                 }
                 if (!mesaLabel) {
-                    const mesaKey = Object.keys (entry) .find ( key => normalizeString (key) === 'mesa' ) ;
- 
-                    si (clave de tabla) {
-                        etiquetaTabla = entrada[claveTabla];
+                    const mesaKey = Object.keys(entry).find(key => normalizeString(key) === 'mesa');
+                    if (mesaKey) {
+                        mesaLabel = entry[mesaKey];
                     }
                 }
 
-                Si (!mesaLabel) continuar ;
+                if (!mesaLabel) continue;
 
                 if (!result[mesaLabel]) {
-                    resultado[mesaLabel] = [];
+                    result[mesaLabel] = [];
                 }
-                resultado[mesaLabel] .push (entrada);
+                result[mesaLabel].push(entry);
             }
 
-            devolver resultado;
+            return result;
         }
 
-        función actualizarMesasCompletaColor ( ) {
- 
-            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' completa' ) )
- ;
+        function updateMesasCompletaColor() {
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
 
-            Objeto . claves (datosInvitados). para cada ( etiquetaMesa => {
-                const invitados = datosInvitados[etiquetaMesa];
-                sea ​​totalInvitados = 0 ;
+            Object.keys(guestsData).forEach(mesaLabel => {
+                const guests = guestsData[mesaLabel];
+                let totalGuests = 0;
 
-                sea ​​maxCapacity = getMesaCapacity (mesaLabel);
+                let maxCapacity = getMesaCapacity(mesaLabel);
 
-                invitados.forEach ( invitado = > {
-                    totalInvitados += contarAsientosInvitados (invitado);
+                guests.forEach(guest => {
+                    totalGuests += countGuestSeats(guest);
                 });
 
-                Si (total de invitados >= capacidad máxima) {
-                    const mesaConfig = siteConfig?. mesas ?. find ( m => (m. label || `Mesa ${m.number} ` ) === mesaLabel);
-                    sea ​​mesaId = null ;
-                    si (mesaConfig) {
-                        mesaId = `mesa ${mesaConfig.number} ` ;
-                    } else if ( mesaLabel.startsWith ( 'Mesa' )) {
- 
-                        const mesaNumber = mesaLabel.split ( ' ' )[ 1 ];
-                        tableId = `tabla ${tableNumber} ` ;
+                if (totalGuests >= maxCapacity) {
+                    const mesaConfig = siteConfig?.mesas?.find(m => (m.label || `Mesa ${m.number}`) === mesaLabel);
+                    let mesaId = null;
+                    if (mesaConfig) {
+                        mesaId = `mesa${mesaConfig.number}`;
+                    } else if (mesaLabel.startsWith('Mesa ')) {
+                        const mesaNumber = mesaLabel.split(' ')[1];
+                        mesaId = `mesa${mesaNumber}`;
                     }
-                    si (mesaId) {
-                        const mesaElement = document.getElementById (mesaId)
- ;
-                        si (mesaElement) {
-                            mesaElement.classList.add ( ' completa ' )
- ;
+                    if (mesaId) {
+                        const mesaElement = document.getElementById(mesaId);
+                        if (mesaElement) {
+                            mesaElement.classList.add('completa');
                         }
                     }
                 }
             });
         }
 
-        función getMesaCapacity ( mesaLabel ) {
- 
-            if (!siteConfig || ! Array.isArray ( siteConfig.mesas ) ) {
-                return siteConfig? .defaultCapacity || 10 ;
+        function getMesaCapacity(mesaLabel) {
+            if (!siteConfig || !Array.isArray(siteConfig.mesas)) {
+                return siteConfig?.defaultCapacity || 10;
             }
-            const mesaConfig = siteConfig.mesas.find ( mesa = > {
-                const label = mesa.label || `Mesa ${mesa.number} ` ;
-                Si (etiqueta === mesaLabel) devolver verdadero ;
- 
-                if (mesaLabel.startsWith ( ' Mesa' )) {
-                    return `Mesa ${mesa.number} ` === mesaLabel;
- 
+            const mesaConfig = siteConfig.mesas.find(mesa => {
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                if (label === mesaLabel) return true;
+                if (mesaLabel.startsWith('Mesa ')) {
+                    return `Mesa ${mesa.number}` === mesaLabel;
                 }
-                devolver falso ;
- 
+                return false;
             });
-            if ( mesaConfig && typeof mesaConfig.capacity === 'number' ) {
-                Devuelve mesaConfig.capacidad ;
-​
+            if (mesaConfig && typeof mesaConfig.capacity === 'number') {
+                return mesaConfig.capacity;
             }
-            return siteConfig.defaultCapacity || 10 ;
-​
+            return siteConfig.defaultCapacity || 10;
         }
 
-        función mostrarInvitados ( mesa, evento ) {
- 
-            const tooltip = document.getElementById ( ' tooltip' )
- ;
-            Si (!tooltip) salir ;
+        function showGuests(mesa, event) {
+            const tooltip = document.getElementById('tooltip');
+            if (!tooltip) return;
             let content = 'No hay invitados registrados en esta mesa.';
-            const mesaGuests = obtenerGuestsParaMesa (mesa);
-            if (mesaGuests.length ) {
-                const guestNames = mesaGuests.map ( guest = > {
-                    sea ​​nombreCompleto = obtenerNombreCompletoInvitado (invitado);
-                    const acompañantes = extraerNombresDeAcompañantes (invitado);
-                    if (companions.length > 0 ) {
-                        nombreCompleto += ` (+ ${acompañantes.join( ', ' )} )` ;
+            const mesaGuests = getGuestsForMesa(mesa);
+            if (mesaGuests.length) {
+                const guestNames = mesaGuests.map(guest => {
+                    let fullName = getGuestFullName(guest);
+                    const acompanantes = extractCompanionNames(guest);
+                    if (acompanantes.length > 0) {
+                        fullName += ` (+${acompanantes.join(', ')})`;
                     }
                     return fullName || 'Invitado';
-                }). unirse ( ', ' );
-                contenido = nombresDeInvitados || contenido;
+                }).join(', ');
+                content = guestNames || content;
             }
-            tooltip.textContent = contenido;
-            tooltip.style.display = ' block ' ;
-​
+            tooltip.textContent = content;
+            tooltip.style.display = 'block';
 
-            Sea x = evento?. páginaX ;
-            Sea y = evento?. páginaY ;
-            const objetivo = evento? .objetivoActual || evento? .objetivo ;
-            si ((!x || !y) && objetivo) {
-                const rect = target.getBoundingClientRect ( );
-                x = rect. izquierda + ventana . desplazamientoX + rect. ancho / 2 ;
-y                 = rect.top + window.scrollY + rect.height / 2 ;
-​
+            let x = event?.pageX;
+            let y = event?.pageY;
+            const target = event?.currentTarget || event?.target;
+            if ((!x || !y) && target) {
+                const rect = target.getBoundingClientRect();
+                x = rect.left + window.scrollX + rect.width / 2;
+                y = rect.top + window.scrollY + rect.height / 2;
             }
-            tooltip.style.left = ` $ { x } px` ;
+            tooltip.style.left = `${x}px`;
             tooltip.style.top = `${y}px`;
         }
 
-        función ocultarInvitados ( ) {
- 
-            const tooltip = document.getElementById ( ' tooltip' )
- ;
-            Si (!tooltip) salir ;
-            tooltip.style.display = ' none '
- ;​
+        function hideGuests() {
+            const tooltip = document.getElementById('tooltip');
+            if (!tooltip) return;
+            tooltip.style.display = 'none';
         }
 
-        document.addEventListener ( ' DOMContentLoaded' , async ( ) => {
-            aplicarPantallaInicial ();
-            asegurarHéroeÚnico ();
-            intentar {
-                siteConfig = await loadConfig ();
- 
-                aplicarConfiguración (configuraciónSitio);
+        document.addEventListener('DOMContentLoaded', async () => {
+            enforceInitialScreen();
+            ensureSingleHero();
+            try {
+                siteConfig = await loadConfig();
+                applyConfig(siteConfig);
             } catch (error) {
                 console.error('No se pudo inicializar la configuración', error);
-                const subtitleElement = document.getElementById ( 'siteSubtitle' )
- ;
-                si (elemento de subtítulo) {
+                const subtitleElement = document.getElementById('siteSubtitle');
+                if (subtitleElement) {
                     subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
                 }
             }
         });
-    </script>​​
-</body>​​
+    </script>
+</body>
 </html>
