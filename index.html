@@ -4,6 +4,1113 @@
     < meta charset = "UTF-8" > 
     < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
     <title> Fiesta Social 2024 </title>​​
+    < estilo >
+        /* Estilos CSS */
+        cuerpo {
+            font-family : 'Arial' , sans-serif;
+            color de fondo : #f4f6f8 ;
+            color : #333 ;
+            margen : 0 ;
+            relleno : 20px ;
+            pantalla : flexible;
+            dirección flexible : columna;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            altura mínima : 100vh ;
+        }
+        .banner {
+            color de fondo : #2c3e50 ;
+            altura : 70px ;
+            ancho : 100% ;
+            margen inferior : 20px ;
+        }
+        .contenedor {
+            mostrar : ninguna;
+            alineación del texto : centro;
+            relleno : 30px ;
+            color de fondo : #ffffff ;
+            borde-radio : 10px ;
+            box-shadow : 0 4px 12px rgba ( 0 , 0 , 0 , 0.1 );
+   
+            ancho máximo : 800px ;
+            ancho : 100% ;
+            margen : 20px auto;
+        }
+        .activo {
+            pantalla : bloque;
+        }
+        .botones-de-navegación {
+            pantalla : flexible;
+            justificar-contenido : centro;
+            margen superior : 20px ;
+        }
+        .navigation-buttons botón {
+ 
+            margen : 0 10px ;
+ 
+            color de fondo : #3498db ;
+            borde : ninguno;
+            relleno : 15px 30px ;
+ 
+            color : blanco;
+            cursor : puntero;
+            tamaño de fuente : 18px ;
+            borde-radio : 5px ;
+            transición : background-color 0.3s ease;
+        }
+        .navigation-buttons botón :hover {
+ 
+            color de fondo : #2980b9 ;
+        }
+        etiqueta , entrada , selección {
+            pantalla : bloque;
+            ancho : 100% ;
+            margen : 15px 0 ;
+ 
+        }
+        entrada , seleccionar {
+            relleno : 12px ;
+            borde : 1px sólido #ced4da ;
+            borde-radio : 5px ;
+        }
+        entrada : no válida , selección : no válida {
+            color de borde : #e74c3c ;
+        }
+        .salón-contenedor {
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : espacio-entre;
+            borde : 2px sólido #333 ;
+            relleno : 20px ;
+            margen superior : 20px ;
+            espacio : 20px ;
+            posición : relativa;
+            ancho : 100% ;
+            ancho máximo : 1000px ;
+        }
+        .tablas {
+            visualización : cuadrícula;
+            columnas-de-plantilla-de-cuadrícula : repetir ( 5 , 1 fr);
+            espacio : 20px ;
+            posición : relativa;
+        }
+        .mesa {
+            ancho : 40px ;
+            altura : 40px ;
+            radio de borde : 50% ;
+            color de fondo : #3498db ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            transición : background-color 0.3s ease;
+            cursor : puntero;
+        }
+        .completo .tabla {
+            color de fondo : #e74c3c ;
+        }
+        .mesa.seleccionada {
+            color de fondo : #f39c12 ;
+        }
+        /* Ajustes para evitar superposiciones */
+        .pista {
+            ancho : 80px ;
+            altura : 180px ;
+            color de fondo : #28a745 ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 16px ;
+            grosor de fuente : negrita;
+            margen : 0 20px ;
+ 
+        }
+        .estado-mayor {
+            ancho : 25px ;
+            altura : 150px ;
+            color de fondo : #007bff ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            izquierda : 50% ;
+            superior : 55px ;
+            transformar : traslaciónX ( -300% );
+            modo de escritura : vertical-rl;
+            orientación del texto : mixta;
+        }
+        Prohibido {
+            ancho : 135px ;
+            altura : 25px ;
+            color de fondo : #007bff ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            izquierda : 50% ;
+            superior : 10px ;
+            transformar : traslaciónX (-50 % );
+        }
+        .dj {
+            ancho : 100px ;
+            altura : 25px ;
+            color de fondo : #007bff ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            izquierda : 50% ;
+            abajo : 5px ;
+            transformar : traslaciónX (-50 % );
+        }
+        .postres {
+            ancho : 20px ;
+            altura : 80px ;
+            color de fondo : #007bff ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            derecha : 40% ;
+            parte superior : 50% ;
+            transformar : traslaciónY ( -105% );
+            modo de escritura : vertical-rl;
+            orientación del texto : mixta;
+        }
+        .postres2 {
+            ancho : 20px ;
+            altura : 80px ;
+            color de fondo : #007bff ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 14px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            derecha : 40% ;
+            parte superior : 50% ;
+            transformar : traslaciónY ( 20% );
+            modo de escritura : vertical-rl;
+            orientación del texto : mixta;
+        }
+        .tooltip {
+            posición : absoluta;
+            color de fondo : #333 ;
+            color : #fff ;
+            relleno : 5px 10px ;
+ 
+            borde-radio : 5px ;
+            mostrar : ninguna;
+            índice z : 10 ;
+            tamaño de fuente : 14px ;
+        }
+        #listadeinvitados {
+            visualización : cuadrícula;
+            columnas-de-plantilla-de-cuadrícula : repetir ( 2 , 1 fr);
+            espacio : 10px ;
+            ancho : 100% ;
+            altura : automática;
+            relleno : 10px ;
+            borde : 1px sólido #ced4da ;
+            borde-radio : 5px ;
+            color de fondo : #f8f9fa ;
+            desbordamiento : oculto;
+        }
+        .contenedor-tabla {
+            posición : relativa;
+            ancho : 300px ;
+            altura : 300px ;
+            margen : 30px auto;
+            mostrar : ninguna;
+        }
+        .mesa {
+            ancho : 100px ;
+            altura : 100px ;
+            radio de borde : 50% ;
+            color de fondo : #3498db ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            tamaño de fuente : 20px ;
+            grosor de fuente : negrita;
+            posición : absoluta;
+            parte superior : 50% ;
+            izquierda : 50% ;
+            transformar : trasladar (-50 % , -50% );
+        }
+        .asiento {
+            ancho : 40px ;
+            altura : 40px ;
+            radio de borde : 50% ;
+            color de fondo : #28a745 ;
+            posición : absoluta;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : blanco;
+            grosor de fuente : negrita;
+            cursor : puntero;
+            transición : background-color 0.3s ease;
+        }
+        .asiento .ocupado {
+            color de fondo : #e74c3c ;
+        }
+    </style>​​
+</head>​​
+< cuerpo >
+    < div clase = "banner" > </ div > 
+    < div id = "screen1" class = "container active" >  
+        <h1>Bienvenido al asistente web para la Fiesta Social 2024.</h1>
+        <p>¡Estamos encantados de tenerte aquí!</p>
+        <imgsrc="Imagen de bienvenida.png"alt="Imagen de bienvenida"style="max-width: 100%; height: auto; border-radius: 10px;">   
+        < div class = "navigation-buttons" > 
+            < button onclick = "nextScreen(2 ) " > Iniciar </button> 
+        </div>​​
+    </div>​​
+
+    < div id = "screen2" class = "container" >  
+        <h2>Datos Personales</h2>
+        < form id = "guestForm" > 
+            <labelfor="correo">Correo:</label> 
+            < input type = "email" id = " correo " name = " correo " required > <br> <br>    
+
+            < etiqueta para = "grado" > Grado: </ etiqueta > 
+            <selectid="grado"name="grado"required>   
+                < option value = " " selected > Seleccionar </option>​  
+                < option value = "Cnel. " > Cnel . </option> 
+                < option value = "Tte. Cnel." > Tte . Cnel. </option> 
+                < option value = "May. " > Mayo . </option> 
+                < option value = "Cap. " > Capacidad . </option> 
+                < option value = "Tte. 1°" > Tte . 1 ° </option> 
+                < option value = "Tte . 2°" > Tte. 2 ° </option> 
+                < option value = " Alf." > Alf . </option> 
+            </select> <br> <br>​​​​​​
+
+            <labelfor="escalafon">Escalafón:</label> 
+            < select id = "escalafón" name = "escalafón" required >   
+                < option value = " " selected > Seleccionar </option>​  
+                < option value = "Apagado." > ( Apagado. ) </option> 
+                < option value = " Nav." > (Nav. ) </option> 
+                < option value = "Esp." > ( Esp .) </option> 
+                < option value = " TP" > (TP ) </option> 
+            </select> <br> <br>​​​​​​
+
+            <labelfor="nombre">Nombre:</label> 
+            < input type = "text" id = " nombre " name = " nombre " required > <br> <br>    
+
+            <labelfor="apellido">Apellido:</label> 
+            < input type = "text" id = " apellido " name = " apellido " required > <br> <br>    
+
+            <labelfor="cedula">Cédula de Identidad: (Complete el campo con puntos y guión) Ej. 1.111.111-1</label> 
+            < input type = "text" id = "cedula" name = "cedula" required pattern = "^\d\.\d{3}\.\d{3}-\d$" title = " El formato debe ser 0.000.000-0. Ejemplo : 4.646.789-2" > <br> <br>      
+
+            <labelfor="acompanante">¿Asiste con acompañante?</label> 
+            <selectid="acompanante"name="acompanante"requiredonchange="toggleAcompanante()">    
+                < option value = " " selected > Seleccionar </option>​  
+                < option value = " no " > No </option> 
+                < valor de opción = " si " > Sí </option> 
+            </select> <br> <br>​​​​​​
+
+            <divid="acompananteCantidad"style="display:none;">  
+                <labelfor="cantidadAcompanantes">¿Cuántos acompañantes?</label> 
+                <selectid="cantidadAcompanantes"name="cantidadAcompanantes">  
+                    < option value = " " selected > Seleccionar </option>​  
+                    < option value = " 1 " > 1 </option> 
+                    < option value = " 2 " > 2 </option> 
+                    < option value = " 3 " > 3 </option> 
+                    < option value = " 4 " > 4 </option> 
+                    < option value = " 5 " > 5 </option> 
+                </select> <br> <br>​​​​​​
+            </div>​​
+
+            < label for = "menu " > Menú : </label> 
+            < select id = "menu" name = "menu" required >   
+                < option value = " " selected > Seleccionar </option>​  
+                < option value = " normal " > Normal </option> 
+                < option value = " vegetariano " > Vegetariano </option> 
+                < option value = " vegano " > Vegano </option> 
+                < option value = " celiaco " > Celíaco </option> 
+            </select> <br> <br>​​​​​​
+            < input type = "hidden" id = "mesa" name = "mesa" >   
+        </form>​​
+        < div class = "navigation-buttons" > 
+            < button onclick = " prevScreen(1) " > Anterior </button> 
+            < button onclick = "nextScreen( ) " > Siguiente </button> 
+        </div>​​
+    </div>​​
+
+    < div id = "screen3" class = "container" >  
+        <h2>Información de los Acompañantes</h2>
+        < form id = " acompanantesForm " > </form> 
+        < div class = "navigation-buttons" > 
+            < button onclick = " prevScreen(2) " > Anterior </button> 
+            < button onclick = "nextScreen(4 ) " > Siguiente </button> 
+        </div>​​
+    </div>​​
+
+    < div id = "screen4" class = "container" >  
+        <h2>Selección de Mesa</h2>
+        < div class = "salon-container" > 
+            < div class = "mesas" id = " mesasIzquierda " > </div>  
+            <divclass="pista">PISTA DE BAILE</div> 
+            <divclass="estado-mayor">ESTADO MAYOR</div> 
+            < div class = " entrada" > ENTRADA/ PISCINA </div> 
+            < div class = " dj " > DJ </div> 
+            < div class = "postre" > POSTRES </ div > 
+            <divclass="postres2">POSTRES</div> 
+            < div class = " mesas" id = " mesasDerecha" > </div>  
+        </div>​​
+        < div class = "table-container" > 
+            < div class = "table" id = " mesaText " > Mesa </div>  
+            <!-- Los asientos se generarán dinámicamente -->
+            < div id = " seatsContainer " > </div> 
+        </div>​​
+        < div class = "navigation-buttons" > 
+            < button onclick = " prevScreen(3) " > Anterior </button> 
+            < button onclick = " submitForm() " > Enviar </button> 
+        </div>​​
+        < div >
+            <h3>Invitados Registrados en esta Mesa:</h3>
+            < div id = " guestList " > </div> 
+        </div>​​
+    </div>​​
+
+    < div id = "confirmationModal" class = "container" style = "display:none;" >   
+        <h2> Registro completo </h2>
+        <p>Se ha registrado en la <strongid="mesaConfirmada"></strong></p> 
+        <p>Si quiere realizar un cambio comuníquese con la Secc. Contable de la B.A. III.</p>
+        < button onclick = " finalizarRegistro () " > Finalizar </button> 
+    </div>​​
+
+    < div clase = "banner" > </ div > 
+    < div id = " tooltip " class = "tooltip " > </div>  
+
+    < script >
+        Sea pantallaActual = 1 ;
+        let guestsData = {}; // Datos de invitados y acompañantes
+        sea ​​dataFetchInterval;
+
+        función startDataFetchInterval ( ) {
+ 
+            dataFetchInterval = setInterval ( () => {
+                obtenerDatosDeInvitados ();
+            }, 5000); // Actualiza cada 5 segundos
+        }
+
+        función stopDataFetchInterval ( ) {
+ 
+            clearInterval (dataFetchInterval);
+        }
+
+        función siguientePantalla ( númeroSiguientePantalla ) {
+ 
+            if (nextScreenNumber === undefined ) {
+                si (pantallaActual === 2 ) {
+                    let invalidFields = validateForm ( 'guestForm' );
+                    if (invalidFields.length > 0 ) {
+                        alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
+                        devolver ;
+                    }
+                    let acompanante = documento . getElementById ( "acompañante" ). valor ;
+                    if (acompanante === "si") {
+                        let cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value;
+                        if (!cantidadAcompanantes) {
+                            alert('Por favor, seleccione la cantidad de acompañantes.');
+                            devolver ;
+                        }
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        número de pantalla siguiente = 3 ;
+                    } demás {
+                        número de pantalla siguiente = 4 ;
+                    }
+                } else if (currentScreen === 3 ) {
+ 
+                    let invalidFields = validateForm ( 'acompanantesForm' );
+                    if (invalidFields.length > 0 ) {
+                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
+                        devolver ;
+                    }
+                    número de pantalla siguiente = 4 ;
+                } demás {
+                    númeroDePantallaSiguiente = pantallaActual + 1 ;
+                }
+            }
+            document.getElementById ( `screen ${currentScreen }
+ ` ) .classList.remove ( ' active ' ) ;
+            pantallaActual = númeroDePantallaSiguiente;
+            document.getElementById ( `screen ${currentScreen } `
+ ) .classList.add ( ' active ' ) ;
+
+            // Si estamos en la pantalla de selección de mesa, cargar los datos y iniciar el intervalo
+            si (pantallaActual === 4 ) {
+                fetchGuestsData(); // Obtener datos inicialmente
+                startDataFetchInterval (); // Intervalo de inicio
+            } demás {
+                stopDataFetchInterval(); // Detener intervalo si salimos de la pantalla 4
+            }
+        }
+
+        función validarFormulario ( idFormulario ) {
+ 
+            let form = document.getElementById ( formId )
+ ;
+            sea ​​invalidFields = [];
+            let elements = form.querySelectorAll ( ' input, select' );
+            elementos.forEach ( function ( elemento )
+ {
+                if (!element.checkValidity ( )) {
+                    let label = form.querySelector ( ` label[for=" ${element.id} "]` );
+                    let fieldName = label ? label.textContent.replace ( ' :' ,
+ ' ' ) : element.name || element.id ;
+                    camposInválidos.push ( nombreCampo);
+                }
+            });
+            Devuelve campos no válidos;
+        }
+
+        función prevScreen ( pantalla ) {
+ 
+            if (currentScreen === 4 && document.getElementById ( " acompanante" ). value === "no" ) {
+                pantalla = 2 ;
+            }
+            document.getElementById ( `screen ${currentScreen }
+ ` ) .classList.remove ( ' active ' ) ;
+            pantallaActual = pantalla;
+            document.getElementById ( `screen ${currentScreen } `
+ ) .classList.add ( ' active ' ) ;
+            stopDataFetchInterval(); // Detener intervalo al regresar
+        }
+
+        función alternarAcompañante ( ) {
+ 
+            let acompanante = documento . getElementById ( "acompañante" ). valor ;
+            let acompananteCantidad = document.getElementById("cantidadAcompanantes");
+            let acompananteCantidadContainer = document.getElementById("acompananteCantidad");
+            if (acompanante === "si") {
+                acompananteCantidadContainer.style.display = "
+ block " ;​
+                acompananteCantidad.setAttribute ( " required " , "required" );
+            } demás {
+                acompananteCantidadContainer.style.display = " none "
+ ;​
+                acompananteCantidad.removeAttribute("required");
+            }
+        }
+
+        functiongenerateAcompanantesForm(cantidad) {
+ 
+            formulario de carta adjunta = documento . getElementById ( "acompanantesForm" );
+            acompanantesForm.innerHTML = ''; // Limpiar entradas anteriores
+            for (let i = 1; i <= cantidad; i++) {
+                acompañantesForm. HTML interno += `
+                    <h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre:</label>
+                    <input type="text" id="nombreAcompañante ${i} " name="nombreAcompañante ${i} " required><br><br>
+                    <label for="menuAcompanante${i}">Menú:</label>
+                    <select id="menuAcompanante ${i} " name="menuAcompanante ${i} " required>
+                        <option value="" selected>Seleccionar</option>
+                        <option value="normal">Normal</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
+                    </select><br><br>` ;
+            }
+        }
+
+        función seleccionarTabla ( númeroTabla ) {
+ 
+            const mesaInput = document.getElementById ( " mesa" )
+ ;
+            mesaInput.value = `Mesa ${tableNumber } ` ;
+
+            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' seleccionada' ) )
+ ;
+            document.getElementById ( `table ${tableNumber } `
+ ) .classList.add ( ' selected ' ) ;
+
+            // Mostrar la representación de la mesa
+            document.querySelector ( ' . table-container' ) . style.display = ' block ' ;
+
+            actualizarMesaText ();
+        }
+
+        función actualizarMesaTexto ( ) {
+ 
+            const mesaInput = document.getElementById ( " mesa" )
+ ;
+            const mesaText = document.getElementById ( "mesaText" )
+ ;
+            const selectedMesa = mesaInput.value ;
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa ;
+            }
+            actualizarAsientos ();
+            actualizarListaDeInvitados ();
+        }
+
+        función actualizarAsientos ( ) {
+ 
+            const mesaInput = document.getElementById ( " mesa" )
+ ;
+            const selectedMesa = mesaInput.value ;
+            const seatsContainer = document.getElementById ( ' seatsContainer' )
+ ;
+
+            // Definir la capacidad máxima de la mesa
+            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
+
+            // Eliminar asientos existentes
+            asientosContainer.innerHTML = ' '
+ ;
+
+            // Generar asientos dinámicamente
+            for ( let i = 1 ; i <= maxCapacity; i++) {
+                let seat = document.createElement ( ' div ' )
+ ;
+                asiento.classList.add ( ' asiento ' )
+ ;
+                asiento.conjunto de datos.asiento = i;
+                asientosContenedor.appendChild (asiento)
+ ;
+            }
+
+            // Posicionar los asientos en forma de círculo alrededor de la mesa
+            const asientos = document.querySelectorAll ( '.seat' ) ;
+            const centroX = 50 ;
+            const centroY = 50 ;
+            radio constante = 40 ;
+
+            asientos.forEach ( ( asiento, índice ) = > {
+                ángulo constante = (índice / asientos. longitud ) * ( 2 * Math . PI );
+                constante x = centroX + radio * Math.cos ( ángulo)
+ ;
+                constante y = centroY + radio * Math.sin ( ángulo )
+ ;
+                asiento.estilo.posición = ' absoluta '
+ ;​
+                asiento.estilo.izquierda = ` $ { x } % `
+ ;
+                seat.style.top = `${y}%`;
+                asiento.estilo.transformación = ' translate (-50 % , -50%) ' ;
+            });
+
+            // Ocupar asientos según los datos de invitados
+            if (selectedMesa && guestsData[selectedMesa]) {
+                sea ​​totalInvitados = 0 ;
+
+                guestData[selectedMesa] .forEach ( invitado => {
+                    const invitadoYacompañantes = [invitado];
+                    if (guest["Nombre Acompanante 1"]) guestAndAcompanantes.push(guest["Nombre Acompanante 1"]);
+                    if (guest["Nombre Acompanante 2"]) guestAndAcompanantes.push(guest["Nombre Acompanante 2"]);
+                    if (guest["Nombre Acompanante 3"]) guestAndAcompanantes.push(guest["Nombre Acompanante 3"]);
+                    if (guest["Nombre Acompanante 4"]) guestAndAcompanantes.push(guest["Nombre Acompanante 4"]);
+                    if (guest["Nombre Acompanante 5"]) guestAndAcompanantes.push(guest["Nombre Acompanante 5"]);
+
+                    invitadoYAcompañantes. paraCada ( ( _, índiceDeAsiento ) => {
+                        Si (total de invitados < capacidad máxima) {
+                            const seat = document.querySelector ( `.seat[data-seat=" ${totalGuests + 1 } " ]` )
+ ;
+                            si (asiento) {
+                                asiento.classList.add ( ' ocupado ' )
+ ;
+                            }
+                            totalInvitados++;
+                        }
+                    });
+                });
+            }
+        }
+
+        función actualizarListaDeInvitados ( ) {
+ 
+            const mesaInput = document.getElementById ( " mesa" )
+ ;
+            const selectedMesa = mesaInput.value ;
+            const guestList = document.getElementById ( " guestList" )
+ ;
+
+            guestList.innerHTML = " "
+ ;
+
+            if (selectedMesa && guestsData[selectedMesa]) {
+                const invitados = datosInvitados[mesaSeleccionada];
+
+                invitados.forEach ( invitado = > {
+                    const nombreCompleto = `${guest["Nombre"] || 'Nombre no disponible'}${guest["Apellido"] || 'Apellido no disponible'}`;
+ 
+                    lista de invitados. internalHTML += `<div><strong> ${fullname} </strong></div>` ;
+
+                    if (guest[ "FirstName 1" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 1" ]} </div>` ;
+                    if (guest[ "FirstName 2" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 2" ]} </div>` ;
+                    if (guest[ "FirstName 3" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 3" ]} </div>` ;
+                    if (guest[ "FirstName 4" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 4" ]} </div>` ;
+                    if (guest[ "FirstName 5" ]) guestList.innerHTML + = `<div> ${guest[ "First Name 5" ]} </div>` ;
+                });
+            } demás {
+                guestList.innerHTML = "No hay invitados registrados en esta mesa.";
+            }
+        }
+
+        función enviarFormulario ( ) {
+ 
+            const mesaInput = document.getElementById ( " mesa" )
+ ;
+            const selectedMesa = mesaInput.value ;
+
+            // Definir la capacidad máxima de la mesa
+            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
+
+            sea ​​totalInvitados = 0 ;
+            if (selectedMesa && guestsData[selectedMesa]) {
+                guestData[selectedMesa] .forEach ( invitado => {
+                    totalGuests++; // Contar al invitado principal
+                    if (invitado[ "Nombre del acompañante 1" ]) totalInvitados++;
+                    if (invitado[ "Nombre del acompañante 2" ]) totalInvitados++;
+                    if (invitado[ "Nombre del acompañante 3" ]) totalInvitados++;
+                    if (guest[ "Nombre del acompañante 4" ]) totalGuests++;
+                    if (guest[ "MatchName 5" ]) totalGuests++;
+                });
+            }
+
+            const cantidadAcompanantes = document.getElementById("cantidadAcompanantes").value || 0;
+            const totalNuevosGuests = 1 + parseInt(cantidadAcompanantes); // Invitado principal + acompañantes
+
+            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
+                alert("Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.");
+                devolver ;
+            }
+
+            let guestForm = document.getElementById ( " guestForm" );
+            formulario de carta adjunta = documento . getElementById ( "acompanantesForm" );
+
+            if ( guestForm.checkValidity ( ) && acompanantesForm.checkValidity ()) {
+                const formData = nuevo FormData (guestForm);
+ 
+                const acompanantesData = new FormData (acompanantesForm);
+ 
+                constante acompañante = [];
+
+                acompanantesData.forEach ( ( value , key ) => {
+                    if (key.includes ( 'nombreAcompañante' ) ) {
+                        const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes('nombreAcompanante')) acompanantes[index].nombre = value;
+                    } else if (key.includes ( ' menuAcompanante' )) {
+ 
+                        const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
+                        if (!acompanantes[index]) acompanantes[index] = {};
+                        if (key.includes ( ' menuAcompanante' )) acompanantes[index] .menu = value;
+                    }
+                });
+
+                const datos = {
+                    correo: formData.get('correo'),
+                    grado : formData.get ( ' grado' ),
+                    escalafón : formData. get ( 'escalafón' ),
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    horario : formData.get ( ' horario' ),
+                    compañero : formData.get ( ' compañero' ),
+                    cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                    menú : formData.get ( ' menú' ),
+                    acompanantes: acompanantes,
+                    mesa : formData.get ( ' mesa' )
+                };
+
+                obtener ( 'https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec' , {
+                    método : 'POST' ,
+                    cuerpo : JSON.stringify ( datos
+ )
+                }). entonces ( respuesta => respuesta. texto ())
+                  . entonces ( resultado => {
+                      consola.log ( resultado );
+                      mostrarConfirmación ();
+                      fetchGuestsData(); // Actualizar datos inmediatamente
+                  }). catch ( error => {
+                      alerta ( 'Error: ' + error);
+                  });
+            } demás {
+                alert("Por favor, complete todos los campos requeridos.");
+            }
+        }
+
+        función mostrarConfirmación ( ) {
+ 
+            const mesaConfirmada = document.getElementById ( ' mesa' ) .
+ value ;
+            documento . getElementById ( 'mesaConfirmada' ). textContent = mesaConfirmada;
+            document.getElementById ( `screen ${currentScreen }
+ ` ) .classList.remove ( ' active ' ) ;
+            document.getElementById ( ' confirmationModal' ) . style.display = ' block '
+ ;
+            stopDataFetchInterval(); // Detener intervalo al mostrar confirmación
+        }
+
+        función finalizarRegistro ( ) {
+ 
+            // Recargar la página
+            ubicación.recargar ( );
+        }
+
+        función obtenerDatosDeInvitados ( ) {
+ 
+            obtener ( 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv' )
+                . entonces ( respuesta => respuesta.texto ()
+ )
+                . entonces ( csv => csvToJSON (csv))
+ 
+                . entonces ( datos => {
+                    datosInvitados = datos;
+                    console.log ( "Datos de los invitados: " , guestData)
+ ;
+                    updateMesasCompletaColor(); // Actualizar el estado de las mesas
+                    updateGuestList(); // Actualizar la lista de invitados
+                    updateSeats(); // Actualizar los asientos en la representación de la mesa
+                })
+                .catch ( error => console.error ( ' Error al obtener los datos del invitado:' , error ));
+ 
+        }
+
+        función csvToJSON ( csv ) {
+ 
+            const líneas = csv.split ( " \n" );
+            const resultado = {};
+            const encabezados = líneas[ 0 ] .split ( "," );
+
+            for ( let i = 1 ; i < lines. length ; i++) {
+                const obj = {};
+                const líneaActual = líneas[i] .split ( "," );
+
+                obj["Correo"] = currentline[0].trim();
+                obj["Nombre"] = currentline[3].trim();
+                obj["Apellido"] = currentline[4].trim();
+                obj[ "Mesa" ] = currentline[ 19 ] .trim ();
+
+                obj["Nombre Acompanante 1"] = currentline[9].trim();
+                obj["Nombre Acompanante 2"] = currentline[11].trim();
+                obj["Nombre Acompanante 3"] = currentline[13].trim();
+                obj["Nombre Acompanante 4"] = currentline[15].trim();
+                obj["Nombre Acompanante 5"] = currentline[17].trim();
+
+                if (obj[ "Mesa" ]) {
+                    if (!result[obj[ "Mesa" ]]) {
+                        resultado[obj[ "Mesa" ]] = [];
+                    }
+                    resultado[obj[ "Mesa" ]]. push (obj);
+                }
+            }
+            devolver resultado;
+        }
+
+        función actualizarMesasCompletaColor ( ) {
+ 
+            // Limpiar todas las clases 'completa' antes de actualizar
+            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' completa' ) )
+ ;
+
+            Objeto . claves (datosInvitados). para cada ( mesa => {
+                const invitados = datosInvitados[mesa];
+                sea ​​totalInvitados = 0 ;
+
+                // Definir la capacidad máxima de la mesa
+                sea ​​maxCapacity = getMesaCapacity (mesa);
+
+                invitados.forEach ( invitado = > {
+                    totalGuests++; // Contar al invitado principal
+                    if (invitado[ "Nombre del acompañante 1" ]) totalInvitados++;
+                    if (invitado[ "Nombre del acompañante 2" ]) totalInvitados++;
+                    if (invitado[ "Nombre del acompañante 3" ]) totalInvitados++;
+                    if (guest[ "Nombre del acompañante 4" ]) totalGuests++;
+                    if (guest[ "MatchName 5" ]) totalGuests++;
+                });
+
+                Si (total de invitados >= capacidad máxima) {
+                    const número de mesa = mesa. dividir ( ' ' )[ 1 ];
+                    si (mesaNumber) {
+                        const mesaElement = documento . getElementById ( `mesa ${mesaNumber} ` );
+                        si (mesaElement) {
+                            mesaElement.classList.add ( ' completa ' )
+ ;
+                        }
+                    }
+                }
+            });
+        }
+
+        función getMesaCapacity ( mesa ) {
+ 
+            interruptor (mesa) {
+                caso 'Tabla 4' :
+ 
+                    devolver 11 ;
+ 
+                caso 'Tabla 1' :
+ 
+                caso 'Tabla 16' :
+ 
+                caso 'Tabla 9' :
+ 
+                caso 'Tabla 5' :
+ 
+                caso 'Tabla 17' :
+ 
+                caso 'Tabla 18' :
+ 
+                caso 'Tabla 22' :
+ 
+                caso 'Tabla 30' :
+ 
+                caso 'Tabla 29' :
+ 
+                caso 'Tabla 24' :
+ 
+                caso 'Tabla 36' :
+ 
+                    devolver 8 ;
+ 
+                por defecto :
+                    devolver 10 ;
+ 
+            }
+        }
+
+        función mostrarInvitados ( mesa, evento ) {
+ 
+            const tooltip = document.getElementById ( " tooltip" )
+ ;
+            if (guestsData[mesa]) {
+                const guestNames = guestsData[mesa] .map ( guest => {
+                    sea ​​fullName = ` ${guest.Name} ${guest.LastName} ` ;
+ 
+                    if (guest["Nombre Acompanante 1"]) fullName += `, ${guest["Nombre Acompanante 1"]}`;
+                    if (guest["Nombre Acompanante 2"]) fullName += `, ${guest["Nombre Acompanante 2"]}`;
+                    if (guest["Nombre Acompanante 3"]) fullName += `, ${guest["Nombre Acompanante 3"]}`;
+                    if (guest["Nombre Acompanante 4"]) fullName += `, ${guest["Nombre Acompanante 4"]}`;
+                    if (guest["Nombre Acompanante 5"]) fullName += `, ${guest["Nombre Acompanante 5"]}`;
+                    devolver nombre completo;
+                }). unirse ( ", " );
+                información sobre herramientas. contenido de texto = nombres de invitados;
+                tooltip.style.display = "
+ block " ;​
+                tooltip.style.left = event.pageX + ' px ' ;
+​
+                tooltip.style.top = event.pageY + ' px ' ;
+​
+            } demás {
+                tooltip.textContent = "No hay invitados registrados en esta mesa.";
+                tooltip.style.display = "
+ block " ;​
+                tooltip.style.left = event.pageX + ' px ' ;
+​
+                tooltip.style.top = event.pageY + ' px ' ;
+​
+            }
+        }
+
+        función ocultarInvitados ( ) {
+ 
+            const tooltip = document.getElementById ( " tooltip" )
+ ;
+            tooltip.style.display = " none " ;
+​
+        }
+
+        // Inicializar las mesas al cargar la página
+        document.addEventListener ( ' DOMContentLoaded' , () = > {
+            const mesasIzquierda = document.getElementById ( ' mesasIzquierda' )
+ ;
+            const mesasDerecha = document.getElementById ( ' mesasDerecha' )
+ ;
+
+            // Disposición de las mesas izquierdas
+            const leftTables = [
+                { número : 1 , fila : 1 , columna : 2 },
+                { número : 2 , fila : 1 , columna : 3 },
+                { número : 3 , fila : 1 , columna : 4 },
+                { número : 4 , fila : 1 , columna : 5 },
+                { número : 5 , fila : 2 , columna : 2 },
+                { número : 6 , fila : 2 , columna : 3 },
+                { número : 7 , fila : 2 , columna : 4 },
+                { número : 8 , fila : 2 , columna : 5 },
+                { número : 9 , fila : 3 , columna : 2 },
+                { número : 10 , fila : 3 , columna : 3 },
+                { número : 11 , fila : 3 , columna : 4 },
+                { número : 12 , fila : 3 , columna : 5 },
+                { número : 13 , fila : 4 , columna : 2 },
+                { número : 14 , fila : 4 , columna : 3 },
+                { número : 15 , fila : 4 , columna : 4 },
+                { número : 16 , fila : 4 , columna : 5 },
+            ];
+
+            leftTables.forEach ( table = > {
+                let mesaDiv = document.createElement ( ' div ' )
+ ;
+                mesaDiv.classList.add ( ' mesa ' )
+ ;
+                mesaDiv.id = `mesa $ { table.number} ` ;
+                mesaDiv. contenido de texto = tabla. número ;
+                mesaDiv.onclick = () => selectTable (
+ table.number ) ; 
+                mesaDiv.onmouseover = ( event ) => showGuests ( ` Mesa ${table.number} ` , event);
+ 
+                mesaDiv.onmouseout = ocultarInvitados
+ ;
+                // Posicionar en el grid
+                mesaDiv.style.gridRow = table.row ;​​​
+                mesaDiv.style.gridColumn = table.column ;
+​​​
+                mesasIzquierda.appendChild (mesaDiv)
+ ;
+            });
+
+            // Mesas 17 y 18 separadas del resto
+            let mesa17 = document.createElement ( ' div ' );
+            mesa17.classList.add ( ' mesa '
+ ) ;
+            mesa17.id = ' mesa17' ;
+            mesa17.textContent = '17 ' ;
+            mesa17.onclick = () => selectTable ( 17 ) ;
+ 
+            mesa17.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 17' , evento);
+ 
+            mesa17.onmouseout = ocultarInvitados ;
+            mesa17.style.position = '
+ absolute ' ;​
+            mesa17.style.top = '10 %
+ ' ;​
+            mesa17.style.left = ' 0 ' ;
+​
+            mesasIzquierda.appendChild (mesa17)
+ ;
+
+            let mesa18 = document.createElement ( ' div ' );
+            mesa18.classList.add ( ' mesa '
+ ) ;
+            mesa18.id = 'mesa18 ' ;
+            mesa18.textContent = '18 ' ;
+            mesa18.onclick = () => selectTable ( 18 ) ;
+ 
+            mesa18.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 18' , evento);
+ 
+            mesa18.onmouseout = ocultarInvitados
+ ;
+            mesa18.style.position = '
+ absolute ' ;​
+            mesa18.style.top = '70 %
+ ' ;​
+            mesa18.style.left = ' 0 ' ;
+​
+            mesasIzquierda.appendChild (mesa18)
+ ;
+
+            // Disposición de las mesas derechas
+            const rightTables = [
+                { número : 19 , fila : 1 , columna : 1 },
+                { número : 20 , fila : 1 , columna : 2 },
+                { número : 21 , fila : 1 , columna : 3 },
+                { número : 22 , fila : 1 , columna : 4 },
+                { número : 23 , fila : 2 , columna : 1 },
+                { número : 24 , fila : 2 , columna : 2 },
+                { número : 25 , fila : 2 , columna : 3 },
+                { número : 26 , fila : 2 , columna : 4 },
+                { número : 27 , fila : 3 , columna : 1 },
+                { número : 28 , fila : 3 , columna : 2 },
+                { número : 29 , fila : 3 , columna : 3 },
+                { número : 30 , fila : 3 , columna : 4 },
+                { número : 31 , fila : 4 , columna : 1 },
+                { número : 32 , fila : 4 , columna : 2 },
+                { número : 33 , fila : 4 , columna : 3 },
+                { número : 34 , fila : 4 , columna : 4 },
+            ];
+
+            TablasDerechas.paraCada ( tabla = >
+ {
+                let mesaDiv = document.createElement ( ' div ' )
+ ;
+                mesaDiv.classList.add ( ' mesa ' )
+ ;
+                mesaDiv.id = `mesa $ { table.number} ` ;
+                mesaDiv. contenido de texto = tabla. número ;
+                mesaDiv.onclick = () => selectTable (
+ table.number ) ; 
+                mesaDiv.onmouseover = ( event ) => showGuests ( ` Mesa ${table.number} ` , event);
+ 
+                mesaDiv.onmouseout = ocultarInvitados
+ ;
+                // Posicionar en el grid
+                mesaDiv.style.gridRow = table.row ;​​​
+                mesaDiv.style.gridColumn = table.column ;
+​​​
+                mesasDerecha.appendChild (mesaDiv)
+ ;
+            });
+
+            // Mesas 35 y 36 con alineación individual
+            let mesa35 = document.createElement ( ' div ' );
+            mesa35.classList.add ( ' mesa '
+ ) ;
+            mesa35.id = ' mesa35' ;
+            mesa35.textContent = '35 ' ;
+            mesa35.onclick = () => selectTable ( 35 ) ;
+ 
+            mesa35.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 35' , evento);
+ 
+            mesa35.onmouseout = ocultarInvitados
+ ;
+            mesa35.style.position = '
+ absolute ' ;​
+            mesa35.style.top = '10
+ % ' ;​
+            mesa35.style.right = ' 0 '
+ ;​
+            mesasDerecha.appendChild (mesa35)
+ ;
+
+            let mesa36 = document.createElement ( ' div ' );
+            mesa36.classList.add ( ' mesa '
+ ) ;
+            mesa36.id = ' mesa36' ;
+            mesa36.textContent = '36 ' ;
+            mesa36.onclick = () => selectTable ( 36 ) ;
+ 
+            mesa36.onmouseover = ( evento ) => mostrarInvitados ( 'Mesa 36' , evento);
+ 
+            mesa36.onmouseout = ocultarInvitados ;
+            mesa36.style.position = '
+ absolute ' ;​
+            mesa36.style.top = '70 %
+ ' ;​
+            mesa36.style.right = ' 0 '
+ ;​
+            mesasDerecha.appendChild (mesa36)
+ ;
+        });
+    </script>​​
+</body>​​
+</html>​​
+<!DOCTYPE html >
+< html lang = "es" > 
+< encabezado >
+    < meta charset = "UTF-8" > 
+    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
+    <title> Fiesta Social 2024 </title>​​
     < link rel = "preconnect" href = "https://fonts.googleapis.com" >  
     < link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin >   
     < link href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel = "stylesheet" >  
@@ -768,7 +1875,7 @@
         sea ​​dataFetchInterval;
         sea ​​siteConfig = null ;
 
-        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyYTbMoX5Z1uNCXMOD124Ea6V1g_5ZwIQIFivgYxytBJ-DClWYQkpUJifP0PS0Diqo6/exec' ;
+        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzEV--nEAc-bDlaLCzR7m7n8VuXZR0iyuHgcqUQ35MGOCmkXjTs3oOEfpvIK9lmjDyu/exec' ;
  
         const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv' ;
  
