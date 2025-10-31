@@ -4,7 +4,7 @@
   "siteDescription":"Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.", 
   "heroImage":"Imagen de bienvenida.png", 
   "capacidad predeterminada" : 10 , 
-  "reservationScriptUrl" : "https://script.google.com/macros/s/AKfycbyYTbMoX5Z1uNCXMOD124Ea6V1g_5ZwIQIFivgYxytBJ-DClWYQkpUJifP0PS0Diqo6/exec" , 
+  "reservationScriptUrl" : "https://script.google.com/macros/s/AKfycbzEV--nEAc-bDlaLCzR7m7n8VuXZR0iyuHgcqUQ35MGOCmkXjTs3oOEfpvIK9lmjDyu/exec" , 
   "admin" : { 
     "passwordHint":"Solicita la contraseña al comité organizador.", 
     "passwordHash" : "63cfef90450991c8eeaaa737130616f8896992fcb3d1025416f7d367946718c1" 
