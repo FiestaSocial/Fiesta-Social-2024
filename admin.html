@@ -1,416 +1,441 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html >
+< html lang = "es" > 
+< encabezado >
+    < meta charset = "UTF-8" > 
+    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
     <title>Panel de administración · Fiesta Social</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #0b66ff;
-            --color-primary-dark: #084dcc;
-            --color-surface: #ffffff;
-            --color-muted: #475569;
-            --color-border: #e2e8f0;
-            --color-success: #059669;
-            --color-danger: #ef4444;
-            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.18);
-            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.14);
-            --radius-lg: 28px;
-            --radius-md: 18px;
-            --radius-sm: 12px;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+    < link rel = "preconnect" href = "https://fonts.googleapis.com" >  
+    < link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin >   
+    < link href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel = "stylesheet" >  
+    < estilo >
+        :raíz {
+            --color-primary : #0b66ff ;
+            --color-primary-dark : #084dcc ;
+            --color-surface : #ffffff ;
+            --color-muted : #475569 ;
+            --color-border : #e2e8f0 ;
+            --color-success : #059669 ;
+            --color-danger : #ef4444 ;
+            --shadow-lg : 0 24px 60px rgba ( 15 , 23 , 42 , 0.18 );
+   
+            --shadow-md : 0 14px 35px rgba ( 15 , 23 , 42 , 0.14 );
+   
+            --radius-lg : 28px ;
+            --radius-md : 18px ;
+            --radius-sm : 12px ;
+            font-family : 'Poppins' , 'Segoe UI' , sans-serif;
         }
 
         * {
-            box-sizing: border-box;
+            tamaño de caja : caja con borde;
         }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.35), transparent 50%),
-                        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.25), transparent 55%),
-                        linear-gradient(135deg, #0f172a, #1e293b 60%, #0f172a);
-            color: #0f172a;
-            padding: 40px 16px 60px;
-            display: flex;
-            justify-content: center;
+        cuerpo {
+            margen : 0 ;
+            altura mínima : 100vh ;
+            fondo : degradado radial (círculo en la parte superior izquierda, rgba ( 59 , 130 , 246 , 0.35 ), transparente 50% ),
+                        gradiente radial (círculo en la parte inferior derecha, rgba ( 236 , 72 , 153 , 0.25 ), transparente 55% ),
+                        gradiente-lineal ( 135deg , #0f172a , #1e293b 60% , #0f172a );
+ 
+            color : #0f172a ;
+            relleno : 40px 16px 60px ;
+  
+            pantalla : flexible;
+            justificar-contenido : centro;
         }
 
-        main {
-            width: 100%;
-            max-width: 1100px;
-            display: grid;
-            gap: 24px;
+        principal {
+            ancho : 100% ;
+            ancho máximo : 1100px ;
+            visualización : cuadrícula;
+            espacio : 24px ;
         }
 
-        h1, h2, h3 {
-            margin: 0 0 16px;
-            color: #0f172a;
+        h1 , h2 , h3 {
+            margen : 0 0 16px ;
+  
+            color : #0f172a ;
         }
 
-        p {
-            margin: 0 0 16px;
-            color: var(--color-muted);
-            line-height: 1.6;
+        pag {
+            margen : 0 0 16px ;
+  
+            color : var (--color-muted);
+            altura de línea : 1.6 ;
         }
 
-        .card {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
+        .tarjeta {
+            fondo : var (--color-surface);
+            radio-borde : var (--radius-lg);
+            relleno : 32px ;
+            box-shadow : var (--shadow-lg);
+            posición : relativa;
+            desbordamiento : oculto;
         }
 
-        .card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
-            pointer-events: none;
+        .card ::después {
+            contenido : "" ;
+            posición : absoluta;
+            recuadro : 0 ;
+            fondo : degradado radial (círculo en la parte superior derecha, rgba ( 11 , 102 , 255 , 0.08 ), transparente 55% );
+            eventos de puntero : ninguno;
         }
 
         .card__header {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 24px;
+            pantalla : flexible;
+            flex-wrap : envolver;
+            alinear elementos : centro;
+            justificar-contenido : espacio-entre;
+            espacio : 16px ;
+            margen inferior : 24px ;
         }
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border-radius: 999px;
-            border: none;
-            padding: 12px 22px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
+        .botón {
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            espacio : 8px ;
+            radio de borde : 999px ;
+            borde : ninguno;
+            relleno : 12px 22px ;
+ 
+            peso de la fuente : 600 ;
+            cursor : puntero;
+            transición : transformación 0.2s ease, sombra de caja 0.2s ease;
+            decoración de texto : ninguna;
         }
 
-        .button[disabled] {
-            opacity: 0.55;
-            cursor: not-allowed;
-            box-shadow: none;
+        .botón [deshabilitado] {
+            opacidad : 0,55 ;
+            cursor : no permitido;
+            box-shadow : ninguna;
         }
 
-        .button--primary {
-            background: var(--color-primary);
-            color: #fff;
-            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
+        .botón--primario {
+            fondo : var (--color-primary);
+            color : #fff ;
+            box-shadow : 0 16px 30px rgba ( 11 , 102 , 255 , 0.25 );
+   
         }
 
-        .button--primary:hover {
-            background: var(--color-primary-dark);
-            transform: translateY(-1px);
+        .button--primary :hover {
+            fondo : var (--color-primary-dark);
+            transformar : traslaciónY ( -1px );
         }
 
-        .button--ghost {
-            background: rgba(15, 23, 42, 0.05);
+        .botón--fantasma {
+            fondo : rgba ( 15 , 23 , 42 , 0.05 );
             color: var(--color-primary);
         }
 
-        .button--ghost:hover {
-            background: rgba(15, 23, 42, 0.12);
+        .botón--fantasma :hover {
+            fondo : rgba ( 15 , 23 , 42 , 0.12 );
         }
 
-        .button--danger {
-            background: rgba(239, 68, 68, 0.12);
-            color: var(--color-danger);
+        .botón--peligro {
+            fondo : rgba ( 239 , 68 , 68 , 0.12 );
+            color : var (--color-danger);
         }
 
-        .button--danger:hover {
-            background: rgba(239, 68, 68, 0.2);
+        .botón--peligro :hover {
+            fondo : rgba ( 239 , 68 , 68 , 0.2 );
         }
 
-        form {
-            display: grid;
-            gap: 20px;
+        forma {
+            visualización : cuadrícula;
+            espacio : 20px ;
         }
 
-        label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 6px;
+        etiqueta {
+            peso de la fuente : 600 ;
+            pantalla : bloque;
+            margen inferior : 6px ;
         }
 
-        input, textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-            font-size: 15px;
-            background: #f8fafc;
-            transition: border 0.2s ease, box-shadow 0.2s ease;
+        entrada , área de texto {
+            ancho : 100% ;
+            relleno : 12px 14px ;
+ 
+            radio-frontera : var (--radius-sm);
+            borde : var sólida de 1px (--borde de color);
+            tamaño de fuente : 15px ;
+            fondo : #f8fafc ;
+            transición : borde con suavizado de 0,2 segundos , sombra de caja con suavizado de 0,2 segundos ;
         }
 
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: rgba(11, 102, 255, 0.8);
-            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
+        input :focus , textarea :focus {
+            esquema : ninguno;
+            color-border : rgba ( 11 , 102 , 255 , 0.8 );
+            box-shadow : 0 0 0 4px rgba ( 11 , 102 , 255 , 0.12 );
+    
         }
 
-        textarea {
-            min-height: 120px;
-            resize: vertical;
+        área de texto {
+            altura mínima : 120px ;
+            redimensionar : vertical;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+        mesa {
+            ancho : 100% ;
+            colapso fronterizo : colapso;
+            radio-borde : var (--radius-md);
+            desbordamiento : oculto;
+            box-shadow : var (--shadow-md);
         }
 
-        thead {
-            background: rgba(15, 23, 42, 0.05);
+        anuncio {
+            fondo : rgba ( 15 , 23 , 42 , 0.05 );
         }
 
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 14px;
+        th , td {
+            relleno : 14px 16px ;
+ 
+            alineación del texto : izquierda;
+            tamaño de fuente : 14px ;
         }
 
-        tbody tr:nth-child(even) {
-            background: rgba(148, 163, 184, 0.12);
+        tbody tr :nth-child (par) {
+ 
+            fondo : rgba ( 148 , 163 , 184 , 0.12 );
         }
 
-        tbody tr:hover {
-            background: rgba(11, 102, 255, 0.08);
+        tbody tr :hover {
+ 
+            fondo : rgba ( 11 , 102 , 255 , 0.08 );
         }
 
-        td input {
-            padding: 10px 12px;
-            font-size: 14px;
+        td entrada {
+ 
+            relleno : 10px 12px ;
+ 
+            tamaño de fuente : 14px ;
         }
 
         .grid-two {
-            display: grid;
-            gap: 24px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            visualización : cuadrícula;
+            espacio : 24px ;
+            grid-template-columns : repetir (auto-ajuste, minmax ( 280px , 1fr ));
         }
 
-        .hint {
-            font-size: 13px;
-            color: rgba(148, 163, 184, 1);
+        .pista {
+            tamaño de fuente : 13px ;
+            color : rgba ( 148 , 163 , 184 , 1 );
         }
 
-        .hint-panel {
-            font-size: 13px;
-            color: rgba(148, 163, 184, 1);
-            background: rgba(148, 163, 184, 0.12);
-            border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            margin-top: 12px;
+        .panel-de-sugerencias {
+            tamaño de fuente : 13px ;
+            color : rgba ( 148 , 163 , 184 , 1 );
+            fondo : rgba ( 148 , 163 , 184 , 0.12 );
+            radio-frontera : var (--radius-sm);
+            relleno : 12px 16px ;
+ 
+            margen superior : 12px ;
         }
 
         .hint-panel summary {
-            cursor: pointer;
-            font-weight: 600;
-            color: #0f172a;
+ 
+            cursor : puntero;
+            peso de la fuente : 600 ;
+            color : #0f172a ;
         }
 
         .hint-panel pre {
-            margin: 12px 0 0;
-            padding: 12px;
-            border-radius: var(--radius-sm);
-            background: #0f172a;
-            color: #e2e8f0;
-            overflow-x: auto;
-            font-size: 12px;
-            line-height: 1.5;
+            margen : 12px 0 0 ;
+  
+            relleno : 12px ;
+            radio-frontera : var (--radius-sm);
+            fondo : #0f172a ;
+            color : #e2e8f0 ;
+            desbordamiento-x : automático;
+            tamaño de fuente : 12px ;
+            altura de línea : 1.5 ;
         }
 
-        .hint-panel code {
-            font-family: 'Fira Code', 'Source Code Pro', monospace;
+        .hint-panel código {
+ 
+            font-family : 'Fira Code' , 'Source Code Pro' , monospace;
         }
 
-        .status {
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 500;
-            display: none;
-            align-items: center;
-            gap: 8px;
+        .estado {
+            relleno : 12px 16px ;
+ 
+            radio-frontera : var (--radius-sm);
+            tamaño de fuente : 14px ;
+            peso de la fuente : 500 ;
+            mostrar : ninguna;
+            alinear elementos : centro;
+            espacio : 8px ;
         }
 
         .status--success {
-            background: rgba(5, 150, 105, 0.12);
-            color: var(--color-success);
+            fondo : rgba ( 5 , 150 , 105 , 0.12 );
+            color : var (--color-success);
         }
 
         .status--error {
-            background: rgba(239, 68, 68, 0.12);
-            color: var(--color-danger);
+            fondo : rgba ( 239 , 68 , 68 , 0.12 );
+            color : var (--color-danger);
         }
 
         .toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
+            pantalla : flexible;
+            flex-wrap : envolver;
+            espacio : 12px ;
+            alinear elementos : centro;
         }
 
-        .table-actions {
-            display: flex;
-            gap: 8px;
+        .acciones-tabla {
+            pantalla : flexible;
+            espacio : 8px ;
         }
 
         .table-actions .button {
-            padding: 8px 14px;
+ 
+            relleno : 8px 14px ;
+ 
         }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.06);
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(15, 23, 42, 0.7);
+        .insignia {
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            espacio : 6px ;
+            relleno : 6px 12px ;
+ 
+            radio de borde : 999px ;
+            fondo : rgba ( 15 , 23 , 42 , 0.06 );
+            tamaño de fuente : 13px ;
+            peso de la fuente : 500 ;
+            color : rgba ( 15 , 23 , 42 , 0.7 );
         }
 
-        @media (max-width: 720px) {
-            body {
-                padding: 24px 12px 48px;
+        @media ( max-width : 720px ) {
+            cuerpo {
+                relleno : 24px 12px 48px ;
+  
             }
 
             .toolbar {
-                flex-direction: column;
-                align-items: stretch;
+                dirección flexible : columna;
+                alinear elementos : estirar;
             }
 
             .toolbar .button {
-                width: 100%;
+ 
+                ancho : 100% ;
             }
 
-            .table-actions {
-                flex-direction: column;
+            .acciones-tabla {
+                dirección flexible : columna;
             }
         }
-    </style>
-</head>
-<body>
-    <main>
-        <section class="card" id="loginCard">
+    </style>​​
+</head>​​
+< cuerpo >
+    < principal >
+        < section class = "card" id = "loginCard" >  
             <h1>Panel de administración</h1>
             <p>Administra el contenido del sitio sin editar código. Ingresa la contraseña para desbloquear las configuraciones.</p>
-            <form id="loginForm">
-                <div>
+            < form id = "loginForm" > 
+                < div >
                     <label for="adminPassword">Contraseña</label>
-                    <input type="password" id="adminPassword" autocomplete="current-password" required>
-                    <p class="hint" id="passwordHint"></p>
-                </div>
-                <div class="toolbar">
-                    <button type="submit" class="button button--primary">Ingresar</button>
-                    <a href="index.html" class="button button--ghost">Volver al sitio</a>
-                </div>
-                <div class="status status--error" id="loginStatus"></div>
-            </form>
-        </section>
+                    < input type = "password" id = "adminPassword" autocomplete = "current-password" required >    
+                    < p class = "hint" id = " passwordHint " > </p>  
+                </div>​​
+                < div class = "toolbar" > 
+                    < button type = " submit " class = "button button--primary " > Ingresar </button>  
+                    <a href="index.html" class="button button--ghost"> Volver al sitio </a>​​​​​​​​  
+                </div>​​
+                < div class = "status status--error" id = " loginStatus " > </div>  
+            </form>​​
+        </ sección >
 
-        <section class="card" id="editorCard" hidden>
-            <div class="card__header">
-                <div>
+        < section class = "card" id = "editorCard" hidden >   
+            < div class = "card__header" > 
+                < div >
                     <h2>Configuración del evento</h2>
                     <p class="hint" id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
-                </div>
-                <div class="toolbar">
-                    <button class="button button--primary" id="saveConfigBtn">Guardar cambios</button>
-                    <button class="button button--ghost" id="writeConfigBtn">Guardar en config.json</button>
-                    <button class="button button--ghost" id="importConfigBtn">Importar JSON</button>
-                    <button class="button button--ghost" id="downloadConfigBtn">Descargar copia</button>
-                    <button class="button button--danger" id="resetConfigBtn">Restablecer valores</button>
-                </div>
-            </div>
+                </div>​​
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " saveConfigBtn" > Guardar cambios </button>  
+                    < button class = "button button--ghost" id = "writeConfigBtn" > Guardar en config.json </button>  
+                    < button class = "button button--ghost" id = " importConfigBtn" > Importar JSON </button>  
+                    < button class = "button button--ghost" id = " downloadConfigBtn" > Descargar copia </button>  
+                    < button class = "button button--danger" id = " resetConfigBtn " > Restablecer valores </button>  
+                </div>​​
+            </div>​​
 
-            <div class="status status--success" id="saveStatus"></div>
+            < div class = " status status--success" id = " saveStatus" > </div>  
 
-            <input type="file" id="importConfigInput" accept="application/json" style="display:none" aria-hidden="true">
+            < input type = "file" id = "importConfigInput" accept = "application/json" style = "display:none" aria-hidden = "true" >     
 
-            <div class="grid-two">
-                <form id="generalSettingsForm">
-                    <div>
-                        <label for="siteTitleInput">Título del sitio</label>
-                        <input type="text" id="siteTitleInput" required>
-                    </div>
-                    <div>
-                        <label for="siteSubtitleInput">Subtítulo</label>
-                        <input type="text" id="siteSubtitleInput" required>
-                    </div>
-                    <div>
+            < div class = "grid-two" > 
+                < form id = "generalSettingsForm" > 
+                    < div >
+                        < label for = "siteTitleInput" > Título del sitio </label> 
+                        < input type = "text" id = "siteTitleInput" required >   
+                    </div>​​
+                    < div >
+                        < label for = " siteSubtitleInput " > Subtítulo </label> 
+                        < input type = "text" id = "siteSubtitleInput" required >   
+                    </div>​​
+                    < div >
                         <label for="siteDescriptionInput">Descripción breve</label>
-                        <textarea id="siteDescriptionInput" required></textarea>
-                    </div>
-                    <div>
-                        <label for="heroImageInput">Imagen principal (ruta o URL)</label>
-                        <input type="text" id="heroImageInput" placeholder="Imagen de bienvenida.png">
-                    </div>
-                    <div>
-                        <label for="reservationScriptInput">URL de Google Apps Script</label>
-                        <input type="url" id="reservationScriptInput" placeholder="https://script.google.com/macros/s/...">
+                        < textarea id = " siteDescriptionInput " required > </textarea>  
+                    </div>​​
+                    < div >
+                        < label for = "heroImageInput" > Imagen principal (ruta o URL ) </label> 
+                        < input type = "text" id = "heroImageInput" placeholder = "Imagen de bienvenida.png" >   
+                    </div>​​
+                    < div >
+                        < label for = "reservationScriptInput" > URL de Google Apps Script </label> 
+                        < input type = "url" id = "reservationScriptInput" placeholder = "https://script.google.com/macros/s/..." >   
                         <p class="hint">Publica el Apps Script como aplicación web (Deploy &gt; Manage deployments &gt; Web app, acceso: cualquiera con el enlace), copia la URL resultante y pégala aquí. Acepta tanto <code>doPost</code> como <code>doGet</code>, añade la cabecera <code>Access-Control-Allow-Origin: *</code> en la respuesta y lee los datos con <code>JSON.parse(e.parameter.payload || e.postData.contents)</code> para guardarlos en la hoja.</p>
-                        <details class="hint-panel">
+                        < detalles clase = "panel-de-sugerencia" > 
                             <summary>Ejemplo completo compatible</summary>
 <pre><code>const SHEET_ID = 'REEMPLAZA_CON_EL_ID_DE_TU_HOJA';
 const SHEET_NAME = 'Datos de Invitados';
-const MAX_COMPANIONS = 5;
+constante MAX_COMPAÑEROS = 5;
 
-const HEADER_ROW = (() => {
-  const base = [
+const FILA_DE_CABEZADO = (() => {
+  constante base = [
     'Fecha (servidor)',
     'Fecha enviada (cliente)',
-    'Mesa',
-    'Grado',
+    'Colina baja',
+    'Calificación',
     'Escalafón',
     'Nombre',
     'Apellido',
-    'Cédula',
+    'Votación',
     'Correo',
     'Menú titular',
     '¿Acompañante?',
     'Cantidad de acompañantes'
   ];
 
-  for (let i = 1; i &lt;= MAX_COMPANIONS; i++) {
+  para (sea i = 1; i < = MAX_COMPAÑEROS; i++) {
     base.push(`Acompañante ${i} - Nombre`);
     base.push(`Acompañante ${i} - Menú`);
   }
 
   base.push('JSON original');
-  return base;
+  base de retorno;
 })();
 
-function doPost(e) {
-  return handleSubmission(e);
+función hacerPost(e) {
+  devolver handleSubmission(e);
 }
 
-function doGet(e) {
-  return handleSubmission(e);
+función doGet(e) {
+  devolver handleSubmission(e);
 }
 
-function handleSubmission(e) {
-  try {
+función manejarEnvío(e) {
+  intentar {
     const data = parsePayload(e);
-    const sheet = resolveSheet();
-    ensureHeader(sheet);
-    const row = buildRow(data);
-    sheet.appendRow(row);
+    const hoja = resolverHoja();
+    asegurarEncabezado(hoja);
+    const fila = construirFila(datos);
+    hoja.appendRow(fila);
     return buildResponse({ success: true });
   } catch (error) {
     console.error('Error al guardar la reserva', error);
@@ -418,126 +443,126 @@ function handleSubmission(e) {
   }
 }
 
-function parsePayload(e) {
+función parsePayload(e) {
   if (!e) throw new Error('Solicitud vacía');
 
-  const raw = (e.parameter &amp;&amp; e.parameter.payload) || (e.postData &amp;&amp; e.postData.contents) || '{}';
+  const raw = (e.parameter && e.parameter.payload ) || (e.postData && e.postData.contents ) || '{}';
   const data = JSON.parse(raw);
 
-  if (e.parameter) {
-    Object.keys(e.parameter).forEach(key =&gt; {
-      if (key === 'payload') return;
+  si (e.parámetro) {
+    Objeto.keys(e.parameter).forEach(key = > {
+      Si (clave === 'carga útil') regresar;
       if (data[key] === undefined) {
-        data[key] = tryParse(e.parameter[key]);
+        datos[clave] = intentarParse(e.parámetro[clave]);
       }
     });
   }
 
-  if (!data.submittedAt &amp;&amp; e.parameter &amp;&amp; e.parameter.submittedAt) {
-    data.submittedAt = e.parameter.submittedAt;
+if   (!data.submittedAt && e.parameter && e.parameter.submittedAt ) {
+    datos.enviadoAt = e.parameter.enviadoAt;
   }
 
   data.acompanantes = normalizeCompanions(
-    data.acompanantes !== undefined ? data.acompanantes : tryParse(e?.parameter?.acompanantes)
+    datos.acompanantes !== indefinido ? datos.acompanantes : tryParse(e?.parámetro?.acompanantes)
   );
 
-  return data;
+  devolver datos;
 }
 
-function tryParse(value) {
-  if (value === undefined || value === null) return '';
-  if (typeof value !== 'string') return value;
+función tryParse(value) {
+  Si (valor === indefinido || valor === nulo) devolver '';
+  Si (el tipo de valor no es 'string') devolver valor;
 
-  const trimmed = value.trim();
-  if (!trimmed) return '';
+  const recortado = valor.recortar();
+  Si (!recortado) devolver '';
 
-  if (trimmed === 'true') return true;
-  if (trimmed === 'false') return false;
+  Si (trimmed === 'true') devolver verdadero;
+  Si (trimmed === 'false') devolver falso;
 
   if (!isNaN(trimmed)) {
     const numeric = Number(trimmed);
-    if (!isNaN(numeric)) return numeric;
+    Si (!esNaN(numérico)) devolver numérico;
   }
 
-  if ((trimmed.startsWith('{') &amp;&amp; trimmed.endsWith('}')) || (trimmed.startsWith('[') &amp;&amp; trimmed.endsWith(']'))) {
-    try {
+  if ((trimmed.startsWith('{') & & trimmed.endsWith('}')) || (trimmed.startsWith('[') & & trimmed.endsWith(']'))) {
+    intentar {
       return JSON.parse(trimmed);
     } catch (error) {
       // ignoramos errores de parseo
     }
   }
 
-  return trimmed;
+  devolver recortado;
 }
 
-function normalizeCompanions(raw) {
-  let companions = [];
+función normalizarCompañeros(crudo) {
+  sea ​​compañeros = [];
 
   if (Array.isArray(raw)) {
-    companions = raw;
-  } else if (raw &amp;&amp; typeof raw === 'string') {
-    try {
-      const parsed = JSON.parse(raw);
+    compañeros = crudo;
+  } else if (raw && typeof raw === 'string') {
+    intentar {
+      const parse = JSON.parse(raw);
       if (Array.isArray(parsed)) {
-        companions = parsed;
+        compañeros = analizados;
       }
     } catch (error) {
-      companions = raw
+      compañeros = crudo
         .split('|')
-        .map(item =&gt; item.trim())
-        .filter(Boolean)
+        .map(item = > item.trim())
+        .filter(Booleano)
         .map(nombre =&gt; ({ nombre, menu: '' }));
     }
   }
 
-  return companions
-    .filter(Boolean)
-    .map(entry =&gt; {
+  compañeros de regreso
+    .filter(Booleano)
+    .map(entry = > {
       if (typeof entry === 'string') {
-        return { nombre: entry, menu: '' };
+        devolver { nombre: entrada, menú: '' };
       }
       if (typeof entry === 'object') {
-        return {
+        devolver {
           nombre: sanitizeText(entry.nombre),
-          menu: sanitizeText(entry.menu)
+          menú: sanitizarTexto(entrada.menú)
         };
       }
-      return { nombre: sanitizeText(entry), menu: '' };
+      devolver { nombre: sanitizeText(entry), menú: '' };
     })
     .slice(0, MAX_COMPANIONS);
 }
 
-function sanitizeText(value) {
-  if (value === undefined || value === null) return '';
+función sanitizarTexto(valor) {
+  Si (valor === indefinido || valor === nulo) devolver '';
   return value.toString().trim();
 }
 
-function resolveSheet() {
-  const spreadsheet = SHEET_ID
-    ? SpreadsheetApp.openById(SHEET_ID)
+función resolverHoja() {
+  const hoja de cálculo = ID_HOJA
+    ¿SpreadsheetApp.openById(SHEET_ID)
     : SpreadsheetApp.getActive();
 
-  if (!spreadsheet) {
+  si (!hoja de cálculo) {
     throw new Error('No se pudo abrir la hoja de cálculo');
   }
 
-  if (SHEET_NAME) {
+  si (NOMBRE_DE_LA_HOJA) {
     const target = spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
-    return target;
+    objetivo de retorno;
   }
 
-  return spreadsheet.getActiveSheet();
+  Devuelve spreadsheet.getActiveSheet();
 }
 
-function ensureHeader(sheet) {
-  if (sheet.getLastRow() &gt; 0) return;
-  sheet.appendRow(HEADER_ROW);
+función asegurarEncabezado(hoja) {
+  Si (sheet.getLastRow() > 0) terminar;
+  hoja.appendRow(FILA_DE_CABEZADO);
 }
 
-function buildRow(data) {
+función construirFila(datos) {
   const companions = Array.isArray(data.acompanantes) ? data.acompanantes : [];
-  const row = [
-    new Date(),
+  fila constante = [
+    nueva Fecha(),
     sanitizeText(data.submittedAt),
     sanitizeText(data.mesa),
     sanitizeText(data.grado),
@@ -546,645 +571,773 @@ function buildRow(data) {
     sanitizeText(data.apellido),
     sanitizeText(data.cedula),
     sanitizeText(data.correo),
-    sanitizeText(data.menu),
-    sanitizeText(data.acompanante),
+    sanitizarTexto(data.menu),
+    sanitizeText(data.acompante),
     sanitizeText(data.cantidadAcompanantes)
   ];
 
-  companions.forEach(companion =&gt; {
-    row.push(sanitizeText(companion.nombre));
-    row.push(sanitizeText(companion.menu));
+  compañeros.paraCada(compañero = > {
+    fila.push(sanitizeText(compañero.nombre));
+    fila.push(sanitizeText(companion.menu));
   });
 
-  for (let i = companions.length; i &lt; MAX_COMPANIONS; i++) {
-    row.push('');
-    row.push('');
+  for (let i = companions.length; i < MAX_COMPANIONS; i++) {
+    fila.push('');
+    fila.push('');
   }
 
-  row.push(JSON.stringify(data));
-  return row;
+  fila.push(JSON.stringify(datos));
+  devolver fila;
 }
 
-function buildResponse(payload) {
-  return ContentService
+función construirRespuesta(carga útil) {
+  Devuelve ContentService
     .createTextOutput(JSON.stringify(payload))
     .setMimeType(ContentService.MimeType.JSON)
     .setHeader('Access-Control-Allow-Origin', '*')
     .setHeader('Access-Control-Allow-Headers', 'Content-Type')
     .setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-}</code></pre>
-                        </details>
-                    </div>
-                    <div>
+} </ code > </ pre >
+                        </ detalles >
+                        < div class = "hint-panel" > 
+                            <p><strong>Pasos para verificar la conexión</strong></p>
+                            <ol>​​
+                                <li>En Google Apps Script abre <em>Deploy ▸ Manage deployments</em>, crea una versión nueva del Web App y copia la URL pública mostrada; debe lucir como <code>https://script.google.com/macros/s/&lt;ID&gt;/exec</code>.</li>
+                                <li>Pega esa URL en el campo anterior y pulsa <strong>Guardar cambios</strong>. Si el botón “Guardar en config.json” está activo, úsalo para persistir el valor en el archivo.</li>
+                                <li>En Apps Script, confirma que tu código publicado incluye <code>doPost(e)</code> (y opcionalmente <code>doGet(e)</code>) como en el ejemplo y que ambos devuelven la respuesta con cabeceras CORS.</li>
+                                <li>Desde Apps Script abre <em>View ▸ Logs</em> o utiliza <code>Execution log</code> para verificar si llegan solicitudes después de cada prueba. Los registros deben mostrar el JSON recibido.</li>
+                                <li>Envía una reserva de prueba en el sitio público; luego actualiza la hoja “Datos de Invitados” y comprueba que aparece una fila con la fecha del servidor más reciente.</li>
+                                <li>Si no se agrega la fila, revisa la pestaña Network de las herramientas de desarrollador del navegador y anota el estatus HTTP de la solicitud. Compáralo con los logs del Script para detectar bloqueos de permisos o errores de parseo.</li>
+                            </ol>​​
+                        </div>​​
+                    </div>​​
+                    < div >
                         <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
-                        <input type="number" id="defaultCapacityInput" min="1" step="1" required>
-                    </div>
-                </form>
+                        < input type = "number" id = "defaultCapacityInput" min = "1" step = "1" required >     
+                    </div>​​
+                </form>​​
 
-                <form id="securityForm">
-                    <div>
-                        <label for="passwordHintInput">Pista de contraseña</label>
-                        <input type="text" id="passwordHintInput">
-                    </div>
-                    <div>
+                < form id = "securityForm" > 
+                    < div >
+                        < label for = "passwordHintInput" > Pista de contraseña </label> 
+                        < input type = "text" id = "passwordHintInput" >  
+                    </div>​​
+                    < div >
                         <label for="newPasswordInput">Nueva contraseña (opcional)</label>
-                        <input type="password" id="newPasswordInput" autocomplete="new-password">
+                        < input type = "password" id = "newPasswordInput" autocomplete = "new-password" >   
                         <p class="hint">Se almacenará un hash SHA-256, nunca la contraseña en texto plano.</p>
-                    </div>
-                    <div>
+                    </div>​​
+                    < div >
                         <label for="confirmPasswordInput">Confirmar nueva contraseña</label>
-                        <input type="password" id="confirmPasswordInput" autocomplete="new-password">
-                    </div>
-                    <div class="badge" id="localConfigBadge"></div>
-                </form>
-            </div>
+                        < input type = "password" id = "confirmPasswordInput" autocomplete = "new-password" >   
+                    </div>​​
+                    < div class = "badge" id = " localConfigBadge " > </div>  
+                </form>​​
+            </div>​​
 
-            <div class="card__header" style="margin-top: 32px;">
+            < div class = "card__header" style = "margin-top: 32px;" >  
                 <h3>Mesas del salón</h3>
-                <div class="toolbar">
-                    <button class="button button--primary" id="addMesaBtn">Agregar mesa</button>
-                </div>
-            </div>
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " addMesaBtn" > Agregar mesa </button>  
+                </div>​​
+            </div>​​
 
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
+            < div style = "overflow-x: auto;" > 
+                < tabla >
+                    < anuncio >
+                        < tr >
+                            <th> # </th>​​​​
                             <th>Etiqueta</th>
                             <th>Capacidad</th>
                             <th>Posición X (%)</th>
                             <th>Posición Y (%)</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="mesasTableBody"></tbody>
-                </table>
-            </div>
+                            <th> </th>​​​​
+                        </tr>​​
+                    </ anuncio >
+                    < tbody id = " mesasTableBody " > </tbody> 
+                </ tabla >
+            </div>​​
 
-            <div class="card__header" style="margin-top: 40px;">
+            < div class = "card__header" style = "margin-top: 40px;" >  
                 <h3>Zonas del salón</h3>
-                <div class="toolbar">
-                    <button class="button button--primary" id="addZoneBtn">Agregar zona</button>
-                </div>
-            </div>
+                < div class = "toolbar" > 
+                    < button class = "button button--primary" id = " addZoneBtn" > Agregar zona </button>  
+                </div>​​
+            </div>​​
 
             <p class="hint">Modifica el texto y la posición (0-100%) de elementos como la pista de baile, entrada o postres.</p>
 
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Identificador</th>
-                            <th>Etiqueta visible</th>
-                            <th>Clases CSS</th>
+            < div style = "overflow-x: auto;" > 
+                < tabla >
+                    < anuncio >
+                        < tr >
+                            <th> Identificador </th>
+                            <th> Etiqueta visible </th>
+                            <th> Clases CSS </th>​​​
                             <th>Posición X (%)</th>
                             <th>Posición Y (%)</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="zonesTableBody"></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+                            <th> </th>​​​​
+                        </tr>​​
+                    </ anuncio >
+                    < tbody id = " zonesTableBody " > </tbody> 
+                </ tabla >
+            </div>​​
+        </ sección >
+    </main>​​
 
-    <script>
-        let siteConfig = null;
-        let usingLocalOverride = false;
-        let lastFileHandle = null;
+    < script >
+        sea ​​siteConfig = null ;
+        sea ​​usingLocalOverride = false ;
+        sea ​​últimoManejadorDeArchivo = nulo ;
 
-        const DEFAULT_ZONES = [
-            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
-            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
-            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
-            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
-            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
-            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+        const ZONAS_PREDETERMINADAS = [
+ 
+            { id : 'dance' , label : 'Pista de baile' , className : 'map-zone--dance' , position : { x : 50 , y : 45 } },
+            { id : 'stage' , label : 'Estado Mayor' , className : 'map-zone--stage' , position : { x : 6 , y : 50 } },
+            { id : 'entrance' , label : 'Entrada / Piscina' , className : 'map-zone--entrance' , position : { x : 50 , y : 6 } },
+            { id : 'dj' , label : 'DJ' , className : 'map-zone--dj' , position : { x : 50 , y : 94 } },
+            { id : 'dessertLeft' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-left' , position : { x : 92 , y : 28 } },
+            { id : 'dessertRight' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-right' , position : { x : 92 , y : 72 } }
         ];
 
-        async function loadConfig() {
-            let storedConfig = null;
-            if (typeof localStorage !== 'undefined') {
-                try {
-                    storedConfig = localStorage.getItem('fiestaConfig');
-                    if (storedConfig) {
-                        storedConfig = JSON.parse(storedConfig);
-                        usingLocalOverride = true;
+        función asíncrona cargarConfiguración ( ) {
+  
+            sea ​​storedConfig = null ;
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                intentar {
+                    almacenadoConfig = almacenamiento local . getItem ( 'fiestaConfig' );
+                    si (configuración almacenada) {
+                        storedConfig = JSON.parse ( storedConfig );
+                        usingLocalOverride = true ;
                     }
                 } catch (error) {
                     console.warn('No se pudo leer la configuración almacenada.', error);
-                    storedConfig = null;
+                    storedConfig = null ;
                 }
             }
 
-            if (storedConfig) {
-                return storedConfig;
+            si (configuración almacenada) {
+                devolver configuración almacenada;
             }
 
-            const response = await fetch('config.json?_=' + Date.now());
-            if (!response.ok) {
+            const respuesta = await fetch ( 'config.json?_=' + Date . now ());
+ 
+            if (!response.ok ) {
                 throw new Error('No se pudo cargar config.json');
             }
-            usingLocalOverride = false;
-            return await response.json();
+            usingLocalOverride = false ;
+            return await response.json ()
+ ; 
         }
 
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        función asíncrona hashPassword ( contraseña ) {
+  
+            codificador constante = nuevo TextEncoder ();
+ 
+            const data = encoder.encode ( password);
+            const hashBuffer = await crypto.subtle.digest( ' SHA - 256' , data );
+            return Array.from ( new Uint8Array ( hashBuffer )). map ( b => b.toString ( 16 ) .padStart ( 2 , '0' )). join ( ' ' );
+  
         }
 
-        function showStatus(element, message, type = 'success') {
-            if (!element) return;
-            element.textContent = message;
-            element.classList.remove('status--success', 'status--error');
-            element.classList.add(type === 'success' ? 'status--success' : 'status--error');
-            element.style.display = 'flex';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 3200);
+        función mostrarEstado ( elemento, mensaje, tipo = 'éxito' ) {
+ 
+            Si (!elemento) devolver ;
+            elemento.textContent = mensaje ;
+            elemento.classList.remove ( ' status --success' , 'status--error ' )
+ ;
+            elemento.classList.add (type === 'success' ? ' status--success' : 'status--error ' ) ;
+            elemento.style.display = ' flex '
+ ;​
+            setTimeout ( () => {
+                elemento.style.display = ' none '
+ ;​
+            }, 3200 );
         }
 
-        function clampPercentage(value) {
-            const number = parseFloat(value);
-            if (Number.isNaN(number)) {
-                return 0;
+        función porcentajeClamp ( valor ) {
+ 
+            const número = parseFloat (valor);
+            if ( Number . isNaN (number)) {
+                devolver 0 ;
+ 
             }
-            return Math.min(Math.max(number, 0), 100);
+            return Math.min ( Math.max (
+ number , 0 ) , 100 ) ; 
         }
 
-        function ensureZonesStructure() {
+        función asegurarEstructuraZonas ( ) {
+ 
             if (!siteConfig) {
                 siteConfig = {};
             }
 
-            if (!Array.isArray(siteConfig.zones) || siteConfig.zones.length === 0) {
-                siteConfig.zones = DEFAULT_ZONES.map(zone => ({
-                    id: zone.id,
-                    label: zone.label,
-                    className: zone.className,
-                    position: {
-                        x: clampPercentage(zone.position?.x ?? 0),
-                        y: clampPercentage(zone.position?.y ?? 0)
+            if ( ! Array.isArray ( siteConfig.zones ) || siteConfig.zones.length === 0 ) {
+​
+                siteConfig.zones = DEFAULT_ZONES.map ( zone = > ( {
+​
+                    id : zona.id ,
+                    etiqueta : zona. etiqueta ,
+                    className : zone.className ,
+                    posición : {
+                        x : porcentajeDeAjuste (zona. posición ?. x ?? 0 ),
+                        y : porcentajeDeAjuste (zona. posición ?. y ?? 0 )
                     }
                 }));
-            } else {
-                siteConfig.zones = siteConfig.zones.map(zone => ({
-                    id: zone?.id || '',
-                    label: zone?.label || '',
-                    className: zone?.className || '',
-                    position: {
-                        x: clampPercentage(zone?.position?.x ?? 0),
-                        y: clampPercentage(zone?.position?.y ?? 0)
+            } demás {
+                siteConfig.zones = siteConfig.zones.map ( zone = > (
+ {​
+                    id : zona?. id || '' ,
+                    etiqueta : zona?. etiqueta || '' ,
+                    className : zone?. className || '' ,
+                    posición : {
+                        x : porcentajeDeAjuste (zona?. posición ?. x ?? 0 ),
+                        y : porcentajeDeAjuste (zona?. posición ?. y ?? 0 )
                     }
                 }));
             }
         }
 
-        function populateGeneralForms() {
-            document.getElementById('siteTitleInput').value = siteConfig.siteTitle || '';
-            document.getElementById('siteSubtitleInput').value = siteConfig.siteSubtitle || '';
-            document.getElementById('siteDescriptionInput').value = siteConfig.siteDescription || '';
-            document.getElementById('heroImageInput').value = siteConfig.heroImage || '';
-            document.getElementById('reservationScriptInput').value = siteConfig.reservationScriptUrl || '';
-            document.getElementById('defaultCapacityInput').value = siteConfig.defaultCapacity || 10;
+        función poblarFormulariosGenerales ( ) {
+ 
+            document.getElementById ( ' siteTitleInput' )
+ . value = siteConfig.siteTitle || '' ;
+            document.getElementById ( ' siteSubtitleInput' )
+ . value = siteConfig.siteSubtitle || '' ;
+            document.getElementById ( ' siteDescriptionInput' )
+ . value = siteConfig.siteDescription || '' ;
+            document.getElementById ( ' heroImageInput' ). value = siteConfig.heroImage || ' '
+ ;
+            document.getElementById ( ' reservationScriptInput ' ). value = siteConfig.reservationScriptUrl || '' ;
+            document.getElementById ( ' defaultCapacityInput ' ). value = siteConfig.defaultCapacity || 10 ;
 
-            const hintInput = document.getElementById('passwordHintInput');
-            hintInput.value = siteConfig?.admin?.passwordHint || '';
+            const hintInput = document.getElementById ( ' passwordHintInput' )
+ ;
+            hintInput.value = siteConfig? .admin ? .passwordHint || '' ;
         }
 
-        function renderMesaTable() {
-            const tbody = document.getElementById('mesasTableBody');
-            tbody.innerHTML = '';
+        función renderMesaTable ( ) {
+ 
+            const tbody = document.getElementById ( ' mesasTableBody' )
+ ;
+            tbody.innerHTML = ' ' ;
 
-            if (!Array.isArray(siteConfig.mesas)) {
-                siteConfig.mesas = [];
+            if (! Array.isArray ( siteConfig.tables ) ) {
+                siteConfig. mesas = [];
             }
 
-            siteConfig.mesas.forEach((mesa, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="number" min="1" step="1" value="${mesa.number ?? ''}" data-field="number" aria-label="Número de mesa"></td>
-                    <td><input type="text" value="${mesa.label || ''}" data-field="label" aria-label="Etiqueta de mesa"></td>
-                    <td><input type="number" min="1" step="1" value="${mesa.capacity ?? siteConfig.defaultCapacity ?? 10}" data-field="capacity" aria-label="Capacidad de mesa"></td>
-                    <td><input type="number" step="0.1" min="0" max="100" value="${mesa.position?.x ?? 0}" data-field="posX" aria-label="Posición horizontal"></td>
-                    <td><input type="number" step="0.1" min="0" max="100" value="${mesa.position?.y ?? 0}" data-field="posY" aria-label="Posición vertical"></td>
+            siteConfig.mesas.forEach ( ( mesa , index ) = > {
+                const fila = document.createElement ( ' tr ' )
+ ;
+                fila.innerHTML = `
+​
+                    <td><input type="number" min="1" step="1" value=" ${mesa.number ?? '' } " data-field="number" aria-label="Número de mesa"></td>
+                    <td><input type="text" value=" ${mesa.label || '' } " data-field="label" aria-label="Etiqueta de mesa"></td>
+                    <td><input type="number" min="1" step="1" value=" ${mesa.capacity ?? siteConfig.defaultCapacity ?? 10 } " data-field="capacity" aria-label="Capacidad de mesa"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${mesa.position?.x ?? 0 } " data-field="posX" aria-label="Posición horizontal"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${mesa.position?.y ?? 0 } " data-field="posY" aria-label="Posición vertical"></td>
                     <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
-                `;
+                ` ;
 
-                row.querySelector('[data-field="number"]').addEventListener('input', event => {
-                    siteConfig.mesas[index].number = parseInt(event.target.value, 10) || 0;
+                fila.querySelector ( '[data-field="number"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [ index
+ ] .number = parseInt ( event.target.value , 10 ) || 0 ;
                 });
-                row.querySelector('[data-field="label"]').addEventListener('input', event => {
-                    siteConfig.mesas[index].label = event.target.value;
+                fila.querySelector ( '[data-field="label"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [ index ] .label = event.target.value ;
+​
                 });
-                row.querySelector('[data-field="capacity"]').addEventListener('input', event => {
-                    siteConfig.mesas[index].capacity = parseInt(event.target.value, 10) || siteConfig.defaultCapacity || 10;
+                fila.querySelector ( '[data-field="capacity"]' ). addEventListener ( 'input' , event = > {
+                    siteConfig.mesas [
+ index ] .capacity = parseInt ( event.target.value , 10 ) || siteConfig.defaultCapacity || 10 ;
                 });
-                row.querySelector('[data-field="posX"]').addEventListener('input', event => {
-                    const value = parseFloat(event.target.value);
-                    if (!siteConfig.mesas[index].position) siteConfig.mesas[index].position = { x: 0, y: 0 };
-                    siteConfig.mesas[index].position.x = isNaN(value) ? 0 : value;
+                fila.querySelector ( '[data-field="posX"]' ). addEventListener ( 'input' , event = > {
+                    const value = parseFloat ( event.target.value )
+ ;
+                    if ( !siteConfig.mesas [index] .position ) siteConfig.mesas [index] .position = { x : 0 , y : 0 };
+                    siteConfig. mesas [index]. position . x = isNaN (value) ? 0 : value;
                 });
-                row.querySelector('[data-field="posY"]').addEventListener('input', event => {
-                    const value = parseFloat(event.target.value);
-                    if (!siteConfig.mesas[index].position) siteConfig.mesas[index].position = { x: 0, y: 0 };
-                    siteConfig.mesas[index].position.y = isNaN(value) ? 0 : value;
+                fila.querySelector ( '[data-field="posY"]' ). addEventListener ( 'input' , event = > {
+                    const value = parseFloat ( event.target.value )
+ ;
+                    if ( !siteConfig.mesas [index] .position ) siteConfig.mesas [index] .position = { x : 0 , y : 0 };
+                    siteConfig. tablas [índice]. posición . y = esNaN (valor) ? 0 : valor;
                 });
-                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
-                    siteConfig.mesas.splice(index, 1);
-                    renderMesaTable();
+                fila.querySelector ( '[ data -action="remove"]' ). addEventListener ( 'click' , () => {
+                    siteConfig. mesas . splice (index, 1 );
+                    renderMesaTable ();
                 });
 
-                tbody.appendChild(row);
+                tbody.appendChild ( fila );
             });
         }
 
-        function renderZoneTable() {
-            const tbody = document.getElementById('zonesTableBody');
-            if (!tbody) return;
+        función renderZoneTable ( ) {
+ 
+            const tbody = document.getElementById ( ' zonesTableBody' )
+ ;
+            Si (!tbody) devolver ;
 
-            ensureZonesStructure();
-            tbody.innerHTML = '';
+            asegurarZonasEstructura ();
+            tbody.innerHTML = ' ' ;
 
-            siteConfig.zones.forEach((zone, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="text" value="${zone.id || ''}" data-field="id" aria-label="Identificador de la zona"></td>
-                    <td><input type="text" value="${zone.label || ''}" data-field="label" aria-label="Etiqueta visible de la zona"></td>
-                    <td><input type="text" value="${zone.className || ''}" data-field="className" aria-label="Clases CSS adicionales"></td>
-                    <td><input type="number" step="0.1" min="0" max="100" value="${zone.position?.x ?? 0}" data-field="posX" aria-label="Posición horizontal de la zona"></td>
-                    <td><input type="number" step="0.1" min="0" max="100" value="${zone.position?.y ?? 0}" data-field="posY" aria-label="Posición vertical de la zona"></td>
+            siteConfig.zones.forEach ( ( zona , índice ) = > {
+                const fila = document.createElement ( ' tr ' )
+ ;
+                fila.innerHTML = `
+​
+                    <td><input type="text" value=" ${zone.id || '' } " data-field="id" aria-label="Identificador de la zona"></td>
+                    <td><input type="text" value=" ${zone.label || '' } " data-field="label" aria-label="Etiqueta visible de la zona"></td>
+                    <td><input type="text" value=" ${zone.className || '' } " data-field="className" aria-label="Clases CSS adicionales"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${zone.position?.x ?? 0 } " data-field="posX" aria-label="Posición horizontal de la zona"></td>
+                    <td><input type="number" step="0.1" min="0" max="100" value=" ${zone.position?.y ?? 0 } " data-field="posY" aria-label="Posición vertical de la zona"></td>
                     <td class="table-actions"><button type="button" class="button button--danger" data-action="remove">Eliminar</button></td>
-                `;
+                ` ;
 
-                const idInput = row.querySelector('[data-field="id"]');
-                const labelInput = row.querySelector('[data-field="label"]');
-                const classInput = row.querySelector('[data-field="className"]');
-                const posXInput = row.querySelector('[data-field="posX"]');
-                const posYInput = row.querySelector('[data-field="posY"]');
-                const removeBtn = row.querySelector('[data-action="remove"]');
+                const idInput = row.querySelector ( ' [data-field="id"]' );
+                const labelInput = row.querySelector ( ' [data-field="label"]' );
+                const classInput = row.querySelector ( ' [data-field="className"]' );
+                const posXInput = row.querySelector ( ' [data-field="posX"]' );
+                const posYInput = row.querySelector ( ' [data-field="posY"]' );
+                const removeBtn = fila.querySelector ( ' [data-action="remove"]' );
 
-                idInput.addEventListener('input', event => {
-                    siteConfig.zones[index].id = event.target.value.trim();
+                idInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [ index
+ ] .id = event.target.value.trim ( ) ;​
                 });
 
-                labelInput.addEventListener('input', event => {
-                    siteConfig.zones[index].label = event.target.value;
+                labelInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [ index ] .label = event.target.value ;
+​
                 });
 
-                classInput.addEventListener('input', event => {
-                    siteConfig.zones[index].className = event.target.value;
+                classInput.addEventListener ( ' input' , event => {
+                    siteConfig.zones [
+ index ] .className = event.target.value ;​
                 });
 
-                posXInput.addEventListener('input', event => {
-                    const value = clampPercentage(event.target.value);
-                    siteConfig.zones[index].position.x = value;
-                    event.target.value = value;
+                posXInput.addEventListener ( ' input' , event => {
+                    const valor = clampPercentage (evento. objetivo . valor );
+                    siteConfig. zonas [índice]. posición . x = valor;
+                    evento.objetivo.valor = valor ;
+​
                 });
 
-                posYInput.addEventListener('input', event => {
-                    const value = clampPercentage(event.target.value);
-                    siteConfig.zones[index].position.y = value;
-                    event.target.value = value;
+                posYInput.addEventListener ( ' input' , event => {
+                    const valor = clampPercentage (evento. objetivo . valor );
+                    siteConfig. zonas [índice]. posición . y = valor;
+                    evento.objetivo.valor = valor ;
+​
                 });
 
-                removeBtn.addEventListener('click', () => {
-                    siteConfig.zones.splice(index, 1);
-                    renderZoneTable();
+                removeBtn.addEventListener ( 'click' , ( ) => {
+                    siteConfig.zones.splice (
+ index , 1 ) ;
+                    renderZoneTable ();
                 });
 
-                tbody.appendChild(row);
+                tbody.appendChild ( fila );
             });
         }
 
-        function updateLocalConfigBadge() {
-            const badge = document.getElementById('localConfigBadge');
-            if (!badge) return;
-            if (typeof localStorage === 'undefined') {
+        función actualizarInsigniaConfiguraciónLocal ( ) {
+ 
+            const badge = document.getElementById ( ' localConfigBadge' )
+ ;
+            Si (!insignia) devolver ;
+            if ( typeof localStorage === 'undefined' ) {
+ 
                 badge.textContent = 'El navegador no admite almacenamiento local para guardar cambios.';
-                return;
+                devolver ;
             }
-            if (usingLocalOverride) {
+            si (usandoLocalOverride) {
                 badge.textContent = 'Usando configuración almacenada en este navegador';
-            } else {
+            } demás {
                 badge.textContent = 'Usando configuración predeterminada de config.json';
             }
         }
 
-        function addMesa() {
-            const nextNumber = (siteConfig.mesas?.reduce((max, mesa) => Math.max(max, mesa.number || 0), 0) || 0) + 1;
-            const defaultCapacity = siteConfig.defaultCapacity || 10;
-            siteConfig.mesas.push({
-                number: nextNumber,
-                label: `Mesa ${nextNumber}`,
-                capacity: defaultCapacity,
-                position: { x: 50, y: 50 }
+        función addMesa ( ) {
+ 
+            const nextNumber = (siteConfig. mesas ?. reduce ( ( max, mesa ) => Math . max (max, mesa. number || 0 ), 0 ) || 0 ) + 1 ;
+ 
+            const defaultCapacity = siteConfig.defaultCapacity || 10 ;
+            siteConfig.mesas.push ( {​​
+                número : siguienteNúmero,
+                etiqueta : `Mesa ${nextNumber} ` ,
+                capacidad : capacidad predeterminada,
+                posición : { x : 50 , y : 50 }
             });
-            renderMesaTable();
+            renderMesaTable ();
         }
 
-        function addZone() {
-            ensureZonesStructure();
-            const uniqueId = `zona-${Math.random().toString(36).slice(2, 7)}`;
-            siteConfig.zones.push({
-                id: uniqueId,
+        función addZone ( ) {
+ 
+            asegurarZonasEstructura ();
+            const uniqueId = `zona- ${ Math.random ().toString( 36 ).slice( 2 , 7 )} ` ;
+            siteConfig.zones.push ( {
+​​
+                id : id único,
                 label: 'Nueva zona',
-                className: '',
-                position: { x: 50, y: 50 }
+                nombreDeClase : '' ,
+                posición : { x : 50 , y : 50 }
             });
-            renderZoneTable();
+            renderZoneTable ();
         }
 
-        async function saveConfiguration(options = {}) {
-            const { skipStatus = false } = options;
-            siteConfig.siteTitle = document.getElementById('siteTitleInput').value.trim();
-            siteConfig.siteSubtitle = document.getElementById('siteSubtitleInput').value.trim();
-            siteConfig.siteDescription = document.getElementById('siteDescriptionInput').value.trim();
-            siteConfig.heroImage = document.getElementById('heroImageInput').value.trim();
-            siteConfig.reservationScriptUrl = document.getElementById('reservationScriptInput').value.trim();
-            siteConfig.defaultCapacity = parseInt(document.getElementById('defaultCapacityInput').value, 10) || 10;
+        función asíncrona guardarConfiguración ( opciones = {} ) {
+  
+            const { skipStatus = false } = opciones;
+            siteConfig.siteTitle = document.getElementById ( ' siteTitleInput ' )
+ . value.trim ( ) ;
+            siteConfig.siteSubtitle = document.getElementById ( ' siteSubtitleInput ' ) . value.trim ( )
+ ;
+            siteConfig.siteDescription = document.getElementById ( ' siteDescriptionInput ' )
+ . value.trim ( ) ;
+            siteConfig.heroImage = document.getElementById ( ' heroImageInput ' )
+ . value.trim ( ) ;
+            siteConfig.reservationScriptUrl = document.getElementById ( ' reservationScriptInput ' )
+ . value.trim ( ) ;
+            siteConfig.defaultCapacity = parseInt ( document.getElementById ( 'defaultCapacityInput ' )
+ . value , 10 ) || 10 ;
 
-            if (!siteConfig.admin) siteConfig.admin = {};
-            siteConfig.admin.passwordHint = document.getElementById('passwordHintInput').value.trim();
+            if (!siteConfig.admin ) siteConfig.admin = {}
+ ;
+            siteConfig.admin.passwordHint = document.getElementById ( ' passwordHintInput ' ) . value.trim (
+ ) ;​​
 
-            const newPassword = document.getElementById('newPasswordInput').value;
-            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            const nuevaContraseña = document.getElementById ( ' newPasswordInput' ). value ;
+            const confirmPassword = document.getElementById ( ' confirmPasswordInput' ) . value ;
 
             if (newPassword || confirmPassword) {
                 if (newPassword !== confirmPassword) {
                     showStatus(document.getElementById('saveStatus'), 'Las contraseñas no coinciden.', 'error');
-                    return;
+                    devolver ;
                 }
-                siteConfig.admin.passwordHash = await hashPassword(newPassword);
+                siteConfig.admin.passwordHash = await hashPassword ( newPassword ) ;
+ 
             }
 
-            if (Array.isArray(siteConfig.mesas)) {
-                siteConfig.mesas = siteConfig.mesas
-                    .map(mesa => ({
-                        ...mesa,
-                        number: parseInt(mesa.number, 10) || 0,
-                        capacity: parseInt(mesa.capacity, 10) || siteConfig.defaultCapacity || 10,
-                        position: {
-                            x: parseFloat(mesa.position?.x) || 0,
-                            y: parseFloat(mesa.position?.y) || 0
+            if ( Array . isArray (siteConfig. tables )) {
+                siteConfig.mesas = siteConfig.mesas​
+                    . mapa ( mesa => ({
+                        ...colina baja,
+                        número : parseInt ( número de mesa , 10 ) || 0 ,
+                        capacidad : parseInt (mesa.capacidad , 10 ) || siteConfig.capacidadPredeterminada || 10 ,
+                        posición : {
+                            x : parseFloat ( posición de la mesa ?. x ) || 0 ,
+                            y : parseFloat ( posición de mesa. ?. y ) || 0
                         }
                     }))
-                    .sort((a, b) => (a.number || 0) - (b.number || 0));
+                    .sort ( ( a, b ) => ( a.number || 0 ) - (b.number || 0 ) )
+ ;
             }
 
-            ensureZonesStructure();
-            if (Array.isArray(siteConfig.zones)) {
-                siteConfig.zones = siteConfig.zones
-                    .map(zone => ({
-                        id: (zone.id || '').trim(),
-                        label: (zone.label || '').trim(),
-                        className: (zone.className || '').trim(),
-                        position: {
-                            x: clampPercentage(zone.position?.x ?? 0),
-                            y: clampPercentage(zone.position?.y ?? 0)
+            asegurarZonasEstructura ();
+            if ( Array . isArray (siteConfig. zones )) {
+                siteConfig. zonas = siteConfig. zonas
+                    .map ( zone => ( {
+                        id : (zone. id || '' ). trim (),
+                        etiqueta : (zona.etiqueta || ' ' ) .trim (),
+                        className : (zone.className || ' ' ) .trim (),
+                        posición : {
+                            x : porcentajeDeAjuste (zona. posición ?. x ?? 0 ),
+                            y : porcentajeDeAjuste (zona. posición ?. y ?? 0 )
                         }
                     }))
-                    .filter(zone => zone.id && zone.label);
+                    .filter ( zone = > zone.id && zone.label )
+ ;
             }
 
-            if (typeof localStorage !== 'undefined') {
-                localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
-                usingLocalOverride = true;
-            } else {
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                localStorage.setItem ( 'fiestaConfig' , JSON.stringify ( siteConfig ) )
+ ;
+                usingLocalOverride = true ;
+            } demás {
                 console.warn('localStorage no está disponible en este entorno.');
             }
-            document.getElementById('newPasswordInput').value = '';
-            document.getElementById('confirmPasswordInput').value = '';
-            updateLocalConfigBadge();
-            renderZoneTable();
+            document.getElementById ( ' newPasswordInput' ). value = ' ' ;
+            document.getElementById ( ' confirmPasswordInput' ). value = ' ' ;
+            actualizarInsigniaConfiguraciónLocal ();
+            renderZoneTable ();
             if (!skipStatus) {
                 showStatus(document.getElementById('saveStatus'), 'Cambios guardados correctamente.');
             }
-            return siteConfig;
+            devolver siteConfig;
         }
 
-        function downloadConfiguration() {
-            const blob = new Blob([JSON.stringify(siteConfig, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'config-fiesta-social.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+        función descargarConfiguración ( ) {
+ 
+            const blob = new Blob ([ JSON . stringify (siteConfig, null , 2 )], { type : 'application/json' });
+ 
+            const url = URL.createObjectURL ( blob );
+            const link = document.createElement ( ' a' )
+ ;
+            enlace.href = url
+ ;
+            enlace.descargar = 'config-fiesta-social.json ' ;
+            documento.cuerpo.appendChild ( enlace ) ;
+​
+            enlace.clic ( );
+            documento.cuerpo.eliminarHijo (
+ enlace ) ;​
+            URL.revocarObjetoURL (url
+ ) ;
         }
 
-        function resetConfiguration() {
-            if (typeof localStorage !== 'undefined') {
-                localStorage.removeItem('fiestaConfig');
+        función resetConfiguration ( ) {
+ 
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                localStorage.removeItem ( ' fiestaConfig' ) ;
             }
-            window.location.reload();
+            ventana.ubicación.recargar ( )
+ ;​​
         }
 
-        function supportsFileSystemAccess() {
-            return typeof window !== 'undefined' && 'showSaveFilePicker' in window && 'showOpenFilePicker' in window;
+        función admite el acceso al sistema de archivos ( ) {
+ 
+            return typeof window !== 'undefined' && 'showSaveFilePicker' in window && 'showOpenFilePicker' in window ;
+      
         }
 
-        async function saveConfigToDisk() {
-            try {
-                await saveConfiguration({ skipStatus: true });
-                if (!supportsFileSystemAccess()) {
+        función asíncrona guardarConfiguraciónEnDisco ( ) {
+  
+            intentar {
+                esperar guardarConfiguración ({ skipStatus : true });
+ 
+                if (! supportsFileSystemAccess ()) {
                     showStatus(document.getElementById('saveStatus'), 'Tu navegador no permite escribir archivos directamente. Usa "Descargar copia".', 'error');
-                    return;
+                    devolver ;
                 }
 
-                const fileHandle = await window.showSaveFilePicker({
-                    suggestedName: 'config.json',
-                    types: [
+                const fileHandle = await window.showSaveFilePicker (
+ { 
+                    nombre sugerido : 'config.json' ,
+                    tipos : [
                         {
                             description: 'Archivo de configuración JSON',
-                            accept: { 'application/json': ['.json'] }
+                            aceptar : { 'application/json' : [ '.json' ] }
                         }
                     ]
                 });
 
-                const writable = await fileHandle.createWritable();
-                await writable.write(JSON.stringify(siteConfig, null, 2));
-                await writable.close();
-                lastFileHandle = fileHandle;
-                showStatus(document.getElementById('saveStatus'), 'config.json actualizado en tu equipo.');
+                const escribible = await fileHandle.createWritable ( );
+                await writable.write ( JSON.stringify ( siteConfig, null , 2 ) )
+ ;
+                esperar a que sea escribible. cerrar ();
+                últimoManejadorDeArchivo = manejadorDeArchivo;
+                mostrarEstado ( document.getElementById ( ' saveStatus ' ), 'config.json actualizado en tu equipo.' );
             } catch (error) {
-                console.error(error);
+                consola.error (error
+ ) ;
                 showStatus(document.getElementById('saveStatus'), 'No se pudo guardar el archivo: ' + error.message, 'error');
             }
         }
 
-        async function reSaveLastFile() {
+        función asíncrona guardarÚltimoArchivo ( ) {
+  
             if (!lastFileHandle) {
-                await saveConfigToDisk();
-                return;
+                esperar guardarConfiguraciónEnDisco ();
+ 
+                devolver ;
             }
-            try {
-                const writable = await lastFileHandle.createWritable();
-                await writable.write(JSON.stringify(siteConfig, null, 2));
-                await writable.close();
+            intentar {
+                const escribible = await últimoManejadorArchivo.createWritable ( );
+                await writable.write ( JSON.stringify ( siteConfig, null , 2 ) )
+ ;
+                esperar a que sea escribible. cerrar ();
                 showStatus(document.getElementById('saveStatus'), 'config.json actualizado en el archivo previamente elegido.');
             } catch (error) {
-                console.error(error);
+                consola.error (error
+ ) ;
                 showStatus(document.getElementById('saveStatus'), 'No se pudo sobrescribir el archivo: ' + error.message, 'error');
             }
         }
 
-        async function importConfigurationFromFile() {
-            try {
-                if (supportsFileSystemAccess()) {
-                    const [handle] = await window.showOpenFilePicker({
-                        types: [
+        función asíncrona importarConfiguraciónDesdeArchivo ( ) {
+  
+            intentar {
+                if ( supportsFileSystemAccess ()) {
+                    const [handle] = await window.showOpenFilePicker ( {
+ 
+                        tipos : [
                             {
                                 description: 'Archivo de configuración JSON',
-                                accept: { 'application/json': ['.json'] }
+                                aceptar : { 'application/json' : [ '.json' ] }
                             }
                         ]
                     });
-                    const file = await handle.getFile();
-                    lastFileHandle = handle;
-                    await applyImportedConfig(file);
-                } else {
-                    const input = document.getElementById('importConfigInput');
-                    input.value = '';
-                    input.click();
+                    const archivo = await handle.getFile ( );
+                    últimoManejadorDeArchivo = manejador;
+                    esperar aplicarConfiguraciónImportada (archivo);
+ 
+                } demás {
+                    const input = document.getElementById ( ' importConfigInput' )
+ ;
+valor                     de entrada = '' ;
+                    entrada.click ()
+ ;
                 }
             } catch (error) {
-                console.error(error);
+                consola.error (error
+ ) ;
                 showStatus(document.getElementById('saveStatus'), 'No se pudo abrir el archivo: ' + error.message, 'error');
             }
         }
 
-        async function applyImportedConfig(file) {
-            try {
-                const text = await file.text();
-                const parsed = JSON.parse(text);
-                siteConfig = parsed;
-                populateGeneralForms();
-                renderMesaTable();
-                renderZoneTable();
-                if (typeof localStorage !== 'undefined') {
-                    localStorage.setItem('fiestaConfig', JSON.stringify(siteConfig));
-                    usingLocalOverride = true;
+        función asíncrona aplicarConfiguraciónImportada ( archivo ) {
+  
+            intentar {
+                const texto = await archivo.texto ( ) ;
+                const parsed = JSON.parse ( text)
+ ;
+                siteConfig = analizado;
+                poblarFormulariosGenerales ();
+                renderMesaTable ();
+                renderZoneTable ();
+                if ( typeof localStorage !== 'undefined' ) {
+ 
+                    localStorage.setItem ( 'fiestaConfig' , JSON.stringify ( siteConfig ) )
+ ;
+                    usingLocalOverride = true ;
                 }
-                updateLocalConfigBadge();
+                actualizarInsigniaConfiguraciónLocal ();
                 showStatus(document.getElementById('saveStatus'), 'Configuración importada correctamente.');
             } catch (error) {
-                console.error(error);
-                showStatus(document.getElementById('saveStatus'), 'Archivo inválido: ' + error.message, 'error');
+                consola.error (error
+ ) ;
+                mostrarEstado ( document.getElementById ( 'saveStatus' ) , 'Archivo inválido : ' + error.message , 'error' )
+ ;
             }
         }
 
-        function updateFileAccessUI() {
-            const writeBtn = document.getElementById('writeConfigBtn');
-            const importBtn = document.getElementById('importConfigBtn');
-            const fileAccessHint = document.getElementById('fileAccessHint');
+        función actualizarInterfazDeAccesoAArchivos ( ) {
+ 
+            const writeBtn = document.getElementById ( ' writeConfigBtn' );
+            const importBtn = document.getElementById ( ' importConfigBtn' );
+            const fileAccessHint = document.getElementById ( ' fileAccessHint' );
 
-            if (!writeBtn || !importBtn || !fileAccessHint) return;
+            if (!writeBtn || !importBtn || !fileAccessHint) retorno ;
 
-            if (supportsFileSystemAccess()) {
+            if ( supportsFileSystemAccess ()) {
                 fileAccessHint.textContent = 'Puedes guardar los cambios directamente sobre config.json usando los botones superiores.';
-                writeBtn.disabled = false;
-                importBtn.disabled = false;
-                writeBtn.removeAttribute('aria-disabled');
-                importBtn.removeAttribute('aria-disabled');
-                writeBtn.removeAttribute('title');
-                importBtn.removeAttribute('title');
-            } else {
+                writeBtn.disabled = false ;
+​
+                importBtn.disabled = false ;
+​
+                writeBtn.removeAttribute ( ' aria -disabled' );
+                importBtn.removeAttribute ( ' aria -disabled' );
+                writeBtn.removeAttribute ( ' title' );
+                importBtn.removeAttribute ( ' title' );
+            } demás {
                 writeBtn.title = 'Disponible solo en navegadores basados en Chromium bajo HTTPS.';
                 importBtn.title = 'Si no está disponible, utiliza el botón de importar inferior.';
                 fileAccessHint.textContent = 'Si tu navegador no permite editar archivos, usa "Descargar copia" y reemplaza config.json manualmente.';
-                writeBtn.disabled = true;
-                importBtn.disabled = false;
-                writeBtn.setAttribute('aria-disabled', 'true');
+                writeBtn.disabled = true ;
+​
+                importBtn.disabled = false ;
+​
+                writeBtn.setAttribute ( ' aria -disabled' , 'true' );
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                siteConfig = await loadConfig();
-                document.getElementById('passwordHint').textContent = siteConfig?.admin?.passwordHint || '';
-                updateLocalConfigBadge();
-                updateFileAccessUI();
+        document.addEventListener ( ' DOMContentLoaded' , async ( ) => {
+            intentar {
+                siteConfig = await loadConfig ();
+ 
+                documento . getElementById ( 'contraseñaHint' ). contenido de texto = configuración del sitio?. administrador ?. contraseñaSugerencia || '' ;
+                actualizarInsigniaConfiguraciónLocal ();
+                actualizarInterfazDeAccesoAArchivos ();
             } catch (error) {
-                console.error(error);
-                const status = document.getElementById('loginStatus');
-                if (status) {
+                consola.error (error
+ ) ;
+                const status = document.getElementById ( ' loginStatus' )
+ ;
+                si (estado) {
                     status.textContent = 'No se pudo cargar config.json. Verifica que el archivo exista.';
-                    status.classList.add('status--error');
-                    status.style.display = 'flex';
+                    estado.classList.add ( ' status--error ' )
+ ;
+                    estado.estilo.visualización = ' flex ' ;
+​
                 }
             }
         });
 
-        document.getElementById('loginForm').addEventListener('submit', async event => {
-            event.preventDefault();
-            const passwordInput = document.getElementById('adminPassword');
-            const status = document.getElementById('loginStatus');
-            status.style.display = 'none';
+        document.getElementById ( ' loginForm' ). addEventListener ( 'submit' , async event => {
+            evento.prevenirPredeterminado ( );
+            const contraseñaInput = documento . getElementById ( 'contraseña de administrador' );
+            const status = document.getElementById ( ' loginStatus' )
+ ;
+            estado.estilo.mostrar = ' ninguno ' ;
+​
 
-            if (!siteConfig?.admin?.passwordHash) {
+            if (!siteConfig? .admin ? .passwordHash ) {
                 showStatus(status, 'No hay contraseña configurada. Verifica config.json.', 'error');
-                return;
+                devolver ;
             }
 
-            try {
-                const hash = await hashPassword(passwordInput.value);
-                if (hash === siteConfig.admin.passwordHash) {
-                    document.getElementById('loginCard').hidden = true;
-                    document.getElementById('editorCard').hidden = false;
-                    populateGeneralForms();
-                    renderMesaTable();
-                    renderZoneTable();
-                    updateLocalConfigBadge();
-                } else {
+            intentar {
+                const hash = await hashPassword (passwordInput. value );
+ 
+                if ( hash === siteConfig.admin.passwordHash ) {
+                    document.getElementById ( ' loginCard' ) . hidden = true ;
+                    document.getElementById ( ' editorCard' ) . hidden = false ;
+                    poblarFormulariosGenerales ();
+                    renderMesaTable ();
+                    renderZoneTable ();
+                    actualizarInsigniaConfiguraciónLocal ();
+                } demás {
                     showStatus(status, 'Contraseña incorrecta.', 'error');
                 }
             } catch (error) {
-                console.error(error);
+                consola.error (error
+ ) ;
                 showStatus(status, 'Ocurrió un error al verificar la contraseña.', 'error');
             }
         });
 
-        document.getElementById('addMesaBtn').addEventListener('click', addMesa);
-        document.getElementById('addZoneBtn').addEventListener('click', addZone);
-        document.getElementById('saveConfigBtn').addEventListener('click', async event => {
-            event.preventDefault();
-            await saveConfiguration();
-            if (supportsFileSystemAccess() && lastFileHandle) {
-                await reSaveLastFile();
+        document.getElementById ( 'addMesaBtn' ) .addEventListener( ' click ' , addMesa);
+        document.getElementById ( ' addZoneBtn ' ). addEventListener( ' click ' , addZone);
+        document.getElementById ( ' saveConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar guardarConfiguración ();
+ 
+            if ( supportsFileSystemAccess () && lastFileHandle) {
+                esperar volver a guardar el último archivo ();
+ 
             }
         });
-        document.getElementById('downloadConfigBtn').addEventListener('click', event => {
-            event.preventDefault();
-            downloadConfiguration();
+        document.getElementById ( ' downloadConfigBtn ' ) . addEventListener ( 'click' , event => {
+            evento.prevenirPredeterminado ( );
+            descargarConfiguración ();
         });
-        document.getElementById('writeConfigBtn').addEventListener('click', async event => {
-            event.preventDefault();
-            await saveConfigToDisk();
+        document.getElementById ( ' writeConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar guardarConfiguraciónEnDisco ();
+ 
         });
-        document.getElementById('importConfigBtn').addEventListener('click', async event => {
-            event.preventDefault();
-            await importConfigurationFromFile();
+        document.getElementById ( ' importConfigBtn ' ). addEventListener ( 'click' , async event => {
+            evento.prevenirPredeterminado ( );
+            esperar importarConfiguraciónDesdeArchivo ();
+ 
         });
-        document.getElementById('importConfigInput').addEventListener('change', async event => {
-            const [file] = event.target.files;
-            if (file) {
-                await applyImportedConfig(file);
+        document.getElementById ( ' importConfigInput' ). addEventListener ( 'change' , async event => {
+            const [ archivo] = evento.objetivo.archivos ;
+            si (archivo) {
+                esperar aplicarConfiguraciónImportada (archivo);
+ 
             }
         });
-        document.getElementById('resetConfigBtn').addEventListener('click', event => {
-            event.preventDefault();
+        document.getElementById ( ' resetConfigBtn ' ). addEventListener ( 'click' , event = > {
+            evento.prevenirPredeterminado ( );
             if (confirm('Esto eliminará la configuración personalizada guardada en este navegador. ¿Deseas continuar?')) {
-                resetConfiguration();
+                restablecerConfiguración ();
             }
         });
-    </script>
+    </script>​​
 
-</body>
+</body>​​
 </html>
