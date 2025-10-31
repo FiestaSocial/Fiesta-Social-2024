@@ -1,1366 +1,1559 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiesta Social 2024</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #0b66ff;
-            --color-primary-dark: #084dcc;
-            --color-secondary: #f39c12;
-            --color-background: #0f172a;
-            --color-surface: #ffffff;
-            --color-muted: #64748b;
-            --color-border: #e2e8f0;
-            --color-success: #22c55e;
-            --color-danger: #ef4444;
-            --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.25);
-            --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.18);
-            --radius-lg: 28px;
-            --radius-md: 18px;
-            --radius-sm: 12px;
+<!DOCTYPE html >
+< html lang = "es" > 
+< encabezado >
+    < meta charset = "UTF-8" > 
+    < meta name = "viewport" content = "width=device-width, initial-scale=1.0" >  
+    <title> Fiesta Social 2024 </title>​​
+    < link rel = "preconnect" href = "https://fonts.googleapis.com" >  
+    < link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin >   
+    < link href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel = "stylesheet" >  
+    < estilo >
+        :raíz {
+            --color-primary : #0b66ff ;
+            --color-primary-dark : #084dcc ;
+            --color-secundario : #f39c12 ;
+            --color-background : #0f172a ;
+            --color-surface : #ffffff ;
+            --color-muted : #64748b ;
+            --color-border : #e2e8f0 ;
+            --color-success : #22c55e ;
+            --color-danger : #ef4444 ;
+            --shadow-lg : 0 24px 60px rgba ( 15 , 23 , 42 , 0.25 );
+   
+            --shadow-md : 0 14px 35px rgba ( 15 , 23 , 42 , 0.18 );
+   
+            --radius-lg : 28px ;
+            --radius-md : 18px ;
+            --radius-sm : 12px ;
         }
 
         * {
-            box-sizing: border-box;
+            tamaño de caja : caja con borde;
         }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.45), transparent 55%),
-                        radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.35), transparent 55%),
-                        linear-gradient(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
-            color: #0f172a;
-            padding: 40px 16px 60px;
-            display: flex;
-            justify-content: center;
+        cuerpo {
+            margen : 0 ;
+            altura mínima : 100vh ;
+            font-family : 'Poppins' , 'Segoe UI' , sans-serif;
+            fondo : degradado radial (círculo en la parte superior izquierda, rgba ( 59 , 130 , 246 , 0.45 ), transparente 55% ),
+                        gradiente radial (círculo en la parte inferior derecha, rgba ( 234 , 179 , 8 , 0.35 ), transparente 55% ),
+                        gradiente-lineal ( 135deg , #0f172a , #1e293b 45% , #0f172a 90% );
+  
+            color : #0f172a ;
+            relleno : 40px 16px 60px ;
+  
+            pantalla : flexible;
+            justificar-contenido : centro;
         }
 
-        main {
-            width: 100%;
-            max-width: 1100px;
+        principal {
+            ancho : 100% ;
+            ancho máximo : 1100px ;
         }
 
-        h1, h2, h3 {
-            color: #0f172a;
-            margin: 0 0 12px 0;
+        h1 , h2 , h3 {
+            color : #0f172a ;
+            margen : 0 0 12px 0 ;
+   
         }
 
-        p {
-            margin: 0 0 16px;
-            color: var(--color-muted);
-            line-height: 1.6;
+        pag {
+            margen : 0 0 16px ;
+  
+            color : var (--color-muted);
+            altura de línea : 1.6 ;
         }
 
-        .container {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: 32px 32px 40px;
-            box-shadow: var(--shadow-lg);
-            display: none;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
+        .contenedor {
+            fondo : var (--color-surface);
+            radio-borde : var (--radius-lg);
+            relleno : 32px 32px 40px ;
+  
+            box-shadow : var (--shadow-lg);
+            mostrar : ninguna;
+            margen inferior : 32px ;
+            posición : relativa;
+            desbordamiento : oculto;
         }
 
-        .container::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
-            pointer-events: none;
+        .contenedor ::después {
+            contenido : "" ;
+            posición : absoluta;
+            recuadro : 0 ;
+            fondo : degradado radial (círculo en la parte superior derecha, rgba ( 11 , 102 , 255 , 0.08 ), transparente 55% );
+            eventos de puntero : ninguno;
         }
 
-        .container.active {
-            display: block;
-            animation: fadeIn 0.45s ease;
+        .contenedor .activo {
+            pantalla : bloque;
+            animación : fadeIn 0.45s ease;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
+            de {
+                opacidad : 0 ;
+                transformar : traslaciónY ( 10px );
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            a {
+                opacidad : 1 ;
+                transformar : traslaciónY ( 0 );
             }
         }
 
         .hero-card {
-            display: grid;
-            gap: 32px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            align-items: center;
+            visualización : cuadrícula;
+            espacio : 32px ;
+            grid-template-columns : repetir (auto-ajuste, minmax ( 280px , 1fr ));
+            alinear elementos : centro;
         }
 
         .hero-card__content {
-            position: relative;
-            z-index: 1;
+            posición : relativa;
+            índice z : 1 ;
         }
 
         .hero-card__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background: rgba(11, 102, 255, 0.1);
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            espacio : 8px ;
+            relleno : 6px 14px ;
+ 
+            radio de borde : 999px ;
+            fondo : rgba ( 11 , 102 , 255 , 0.1 );
             color: var(--color-primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 12px;
+            peso de la fuente : 600 ;
+            transformación de texto : mayúsculas;
+            espaciado entre letras : 0,08em ;
+            tamaño de fuente : 12px ;
         }
 
         .hero-card__title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            margin-bottom: 16px;
+            tamaño-de-fuente : clamp ( 32px , 5vw , 48px );
+            peso de la fuente : 700 ;
+            margen inferior : 16px ;
         }
 
         .hero-card__description {
-            font-size: 16px;
-            color: rgba(15, 23, 42, 0.8);
-            margin-bottom: 24px;
+            tamaño de fuente : 16px ;
+            color : rgba ( 15 , 23 , 42 , 0.8 );
+            margen inferior : 24px ;
         }
 
         .hero-card__actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+            pantalla : flexible;
+            flex-wrap : envolver;
+            espacio : 12px ;
         }
 
         .hero-card__media {
-            margin: 0;
-            position: relative;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+            margen : 0 ;
+            posición : relativa;
+            radio-borde : var (--radius-md);
+            desbordamiento : oculto;
+            box-shadow : var (--shadow-md);
         }
 
-        .hero-card__media::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
+        .hero-card__media ::después {
+            contenido : "" ;
+            posición : absoluta;
+            recuadro : 0 ;
+            fondo : gradiente lineal ( 135deg , rgba ( 15 , 23 , 42 , 0.15 ), rgba ( 15 , 23 , 42 , 0.05 ));
         }
 
         .hero-card__media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+ 
+            ancho : 100% ;
+            altura : 100% ;
+            ajuste-objeto : cubrir;
+            pantalla : bloque;
         }
 
         .section-description {
-            font-size: 15px;
-            color: rgba(15, 23, 42, 0.7);
-            margin-bottom: 24px;
+            tamaño de fuente : 15px ;
+            color : rgba ( 15 , 23 , 42 , 0.7 );
+            margen inferior : 24px ;
         }
 
         .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            visualización : cuadrícula;
+            grid-template-columns : repetir (auto-ajuste, minmax ( 240px , 1fr ));
+            espacio : 20px ;
         }
 
         .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            pantalla : flexible;
+            dirección flexible : columna;
+            espacio : 8px ;
         }
 
-        label {
-            font-weight: 600;
-            color: rgba(15, 23, 42, 0.85);
-            font-size: 14px;
+        etiqueta {
+            peso de la fuente : 600 ;
+            color : rgba ( 15 , 23 , 42 , 0.85 );
+            tamaño de fuente : 14px ;
         }
 
-        input, select {
-            padding: 12px 14px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-            font-size: 15px;
-            transition: border 0.2s ease, box-shadow 0.2s ease;
-            background: #f8fafc;
+        entrada , seleccionar {
+            relleno : 12px 14px ;
+ 
+            radio-frontera : var (--radius-sm);
+            borde : var sólida de 1px (--borde de color);
+            tamaño de fuente : 15px ;
+            transición : borde con suavizado de 0,2 segundos , sombra de caja con suavizado de 0,2 segundos ;
+            fondo : #f8fafc ;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: rgba(11, 102, 255, 0.8);
-            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
+        entrada :enfoque , selección :enfoque {
+            esquema : ninguno;
+            color-border : rgba ( 11 , 102 , 255 , 0.8 );
+            box-shadow : 0 0 0 4px rgba ( 11 , 102 , 255 , 0.12 );
+    
         }
 
-        input:invalid, select:invalid {
-            border-color: rgba(239, 68, 68, 0.6);
+        entrada : no válida , selección : no válida {
+            color de borde : rgba ( 239 , 68 , 68 , 0.6 );
         }
 
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-            border-radius: 999px;
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
+        .botón {
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            espacio : 8px ;
+            borde : ninguno;
+            radio de borde : 999px ;
+            relleno : 12px 24px ;
+ 
+            tamaño de fuente : 15px ;
+            peso de la fuente : 600 ;
+            cursor : puntero;
+            transición : transformación 0.2s ease, sombra de caja 0.2s ease;
+            decoración de texto : ninguna;
         }
 
-        .button--primary {
-            background: var(--color-primary);
-            color: #fff;
-            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
+        .botón--primario {
+            fondo : var (--color-primary);
+            color : #fff ;
+            box-shadow : 0 16px 30px rgba ( 11 , 102 , 255 , 0.25 );
+   
         }
 
-        .button--primary:hover {
-            background: var(--color-primary-dark);
-            transform: translateY(-1px);
+        .button--primary :hover {
+            fondo : var (--color-primary-dark);
+            transformar : traslaciónY ( -1px );
         }
 
-        .button--ghost {
-            background: rgba(15, 23, 42, 0.04);
+        .botón--fantasma {
+            fondo : rgba ( 15 , 23 , 42 , 0.04 );
             color: var(--color-primary);
         }
 
-        .button--ghost:hover {
-            background: rgba(15, 23, 42, 0.1);
+        .botón--fantasma :hover {
+            fondo : rgba ( 15 , 23 , 42 , 0.1 );
         }
 
-        .navigation-buttons {
-            margin-top: 32px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
+        .botones-de-navegación {
+            margen superior : 32px ;
+            pantalla : flexible;
+            justificar-contenido : flex-end;
+            espacio : 16px ;
         }
 
         .salon-wrapper {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 28px;
-            margin-bottom: 32px;
-            align-items: start;
+            visualización : cuadrícula;
+            columnas de plantilla de cuadrícula : 260px 1 fr;
+ 
+            espacio : 28px ;
+            margen inferior : 32px ;
+            alinear elementos : inicio;
         }
 
         .salon-summary {
-            background: rgba(248, 250, 252, 0.9);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            position: sticky;
-            top: 32px;
+            fondo : rgba ( 248 , 250 , 252 , 0.9 );
+            radio-borde : var (--radius-md);
+            relleno : 20px ;
+            box-shadow : 0 8px 24px rgba ( 15 , 23 , 42 , 0.08 );
+   
+            posición : fija;
+            superior : 32px ;
         }
 
         .salon-summary h3 {
-            font-size: 18px;
-            margin-bottom: 12px;
+ 
+            tamaño de fuente : 18px ;
+            margen inferior : 12px ;
         }
 
         .salon-summary p {
-            margin-bottom: 12px;
-            color: rgba(15, 23, 42, 0.75);
+ 
+            margen inferior : 12px ;
+            color : rgba ( 15 , 23 , 42 , 0.75 );
         }
 
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
+        .leyenda {
+            pantalla : flexible;
+            dirección flexible : columna;
+            espacio : 8px ;
+            margen superior : 12px ;
         }
 
-        .legend span {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: rgba(15, 23, 42, 0.8);
+        .leyenda span {
+ 
+            pantalla : inline-flex;
+            alinear elementos : centro;
+            espacio : 8px ;
+            tamaño de fuente : 14px ;
+            color : rgba ( 15 , 23 , 42 , 0.8 );
         }
 
-        .legend-swatch {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            display: inline-block;
+        .leyenda-muestra {
+            ancho : 16px ;
+            altura : 16px ;
+            borde-radio : 4px ;
+            mostrar : bloque en línea;
         }
 
         .legend-swatch--available {
-            background: var(--color-primary);
+            fondo : var (--color-primary);
         }
 
         .legend-swatch--full {
-            background: var(--color-danger);
+            fondo : var (--color-peligro);
         }
 
         .legend-swatch--selected {
-            background: var(--color-secondary);
+            fondo : var (--color-secondary);
         }
 
-        .salon-map {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
-            overflow: hidden;
+        .mapa-de-salones {
+            posición : relativa;
+            ancho : 100% ;
+            relación de aspecto : 16 / 9 ;
+            fondo : gradiente lineal ( 135deg , rgba ( 226 , 232 , 240 , 0.8 ), rgba ( 203 , 213 , 225 , 0.6 ));
+            radio-borde : var (--radius-md);
+            box-shadow : 0 20px 40px rgba ( 15 , 23 , 42 , 0.18 );
+   
+            desbordamiento : oculto;
         }
 
         .map-zone {
-            position: absolute;
-            left: calc(var(--zone-x, 50) * 1%);
+            posición : absoluta;
+            izquierda : calc ( var (--zone-x, 50 ) * 1% );
             top: calc(var(--zone-y, 50) * 1%);
-            transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
-            transform-origin: var(--zone-origin, center);
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #fff;
-            background: rgba(15, 23, 42, 0.7);
-            pointer-events: none;
-            z-index: 1;
-            white-space: nowrap;
+            transformar : trasladar ( var (--zone-tx, -50% ), var (--zone-ty, -50% )) rotar ( var (--zone-rotate, 0deg ));
+            transformar-origen : var (--origen-zona, centro);
+            relleno : 6px 16px ;
+ 
+            radio de borde : 999px ;
+            tamaño de fuente : 12px ;
+            peso de la fuente : 600 ;
+            transformación de texto : mayúsculas;
+            espaciado entre letras : 0,08em ;
+            color : #fff ;
+            fondo : rgba ( 15 , 23 , 42 , 0.7 );
+            eventos de puntero : ninguno;
+            índice z : 1 ;
+            espacio en blanco : ahora
         }
 
         .map-zone--dance {
-            background: rgba(34, 197, 94, 0.85);
+            fondo : rgba ( 34 , 197 , 94 , 0.85 );
         }
 
         .map-zone--stage {
-            --zone-tx: 0%;
-            --zone-ty: -50%;
-            --zone-rotate: -90deg;
-            --zone-origin: left center;
-            background: rgba(59, 130, 246, 0.9);
+            --zone-tx : 0% ;
+            --zona-ty : - 50% ;
+            --rotación-zona : -90 grados ;
+            --zone-origin : centro izquierda;
+            fondo : rgba ( 59 , 130 , 246 , 0.9 );
         }
 
         .map-zone--entrance {
-            --zone-ty: 0%;
-            background: rgba(59, 130, 246, 0.9);
+            --tipo-de-zona : 0% ;
+            fondo : rgba ( 59 , 130 , 246 , 0.9 );
         }
 
         .map-zone--dj {
-            --zone-ty: -100%;
-            background: rgba(59, 130, 246, 0.9);
+            --tipo-zona : -100% ;
+            fondo : rgba ( 59 , 130 , 246 , 0.9 );
         }
 
         .map-zone--dessert {
-            width: 24px;
-            text-align: center;
-            writing-mode: vertical-rl;
-            letter-spacing: 0.2em;
-            padding: 12px 6px;
-            background: rgba(59, 130, 246, 0.9);
+            ancho : 24px ;
+            alineación del texto : centro;
+            modo de escritura : vertical-rl;
+            espaciado entre letras : 0,2em ;
+            relleno : 12px 6px ;
+ 
+            fondo : rgba ( 59 , 130 , 246 , 0.9 );
         }
 
         .map-zone--dessert-left {
-            --zone-tx: -50%;
+            --zone-tx : - 50% ;
         }
 
         .map-zone--dessert-right {
-            --zone-tx: -50%;
+            --zone-tx : - 50% ;
         }
 
         .mesa {
-            position: absolute;
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: var(--color-primary);
-            color: #fff;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
-            transform: translate(-50%, -50%);
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            z-index: 2;
+            posición : absoluta;
+            ancho : 52px ;
+            altura : 52px ;
+            borde-radio : 16px ;
+            fondo : var (--color-primary);
+            color : #fff ;
+            peso de la fuente : 600 ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            box-shadow : 0 10px 22px rgba ( 11 , 102 , 255 , 0.22 );
+   
+            transformar : trasladar (-50 % , -50% );
+            borde : ninguno;
+            cursor : puntero;
+            transición : transformación 0.2s de suavizado, sombra de caja 0.2s de suavizado, fondo 0.2s de suavizado;
+            índice z : 2 ;
         }
 
-        .mesa:hover,
-        .mesa:focus {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
-            outline: none;
+        .table :hover ,
+        .mesa :focus {
+            transformar : trasladar (-50 % , -50% ) escalar ( 1.05 );
+            box-shadow : 0 14px 30px rgba ( 11 , 102 , 255 , 0.3 );
+   
+            esquema : ninguno;
         }
 
-        .mesa.completa {
-            background: var(--color-danger);
-            box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3);
+        .completo .tabla {
+            fondo : var (--color-peligro);
+            box-shadow : 0 12px 26px rgba ( 239 , 68 , 68 , 0.3 );
+   
         }
 
         .mesa.seleccionada {
-            background: var(--color-secondary);
-            box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35);
+            fondo : var (--color-secondary);
+            box-shadow : 0 14px 32px rgba ( 243 , 156 , 18 , 0.35 );
+   
         }
 
-        .table-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-bottom: 24px;
+        .detalles-tabla {
+            visualización : cuadrícula;
+            grid-template-columns : repetir (auto-ajuste, minmax ( 260px , 1fr ));
+            espacio : 24px ;
+            margen inferior : 24px ;
         }
 
-        .table-container {
-            position: relative;
-            width: 100%;
-            padding-top: 100%;
-            border-radius: var(--radius-md);
-            background: rgba(248, 250, 252, 0.9);
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            display: none;
+        .contenedor-tabla {
+            posición : relativa;
+            ancho : 100% ;
+            relleno superior : 100% ;
+            radio-borde : var (--radius-md);
+            fondo : rgba ( 248 , 250 , 252 , 0.9 );
+            box-shadow : inset 0 0 0 1px rgba ( 15 , 23 , 42 , 0.08 );
+    
+            mostrar : ninguna;
         }
 
-        #seatsContainer {
-            position: absolute;
-            inset: 0;
+        #contenedor de asientos {
+            posición : absoluta;
+            recuadro : 0 ;
         }
 
-        .table {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            color: #fff;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
+        .mesa {
+            posición : absoluta;
+            parte superior : 50% ;
+            izquierda : 50% ;
+            transformar : trasladar (-50 % , -50% );
+            ancho : 120px ;
+            altura : 120px ;
+            radio de borde : 50% ;
+            fondo : var (--color-primary);
+            color : #fff ;
+            tamaño de fuente : 18px ;
+            peso de la fuente : 600 ;
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            box-shadow : 0 12px 28px rgba ( 11 , 102 , 255 , 0.25 );
+   
         }
 
-        #seatsContainer .seat {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: var(--color-success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 600;
-            transition: transform 0.2s ease, background 0.2s ease;
+        #contenedor de asientos .asiento {
+ 
+            ancho : 42px ;
+            altura : 42px ;
+            borde-radio : 12px ;
+            fondo : var (--color-success);
+            pantalla : flexible;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            color : #fff ;
+            peso de la fuente : 600 ;
+            transición : transformación 0.2s ease, fondo 0.2s ease;
         }
 
-        #seatsContainer .seat.occupied {
-            background: var(--color-danger);
+        #seatsContainer .seat .occupied {
+ 
+            fondo : var (--color-peligro);
         }
 
-        #guestList {
-            min-height: 180px;
-            background: rgba(248, 250, 252, 0.85);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            font-size: 14px;
-            display: grid;
-            gap: 6px;
+        #listadeinvitados {
+            altura mínima : 180px ;
+            fondo : rgba ( 248 , 250 , 252 , 0.85 );
+            radio-borde : var (--radius-md);
+            relleno : 20px ;
+            box-shadow : inset 0 0 0 1px rgba ( 15 , 23 , 42 , 0.08 );
+    
+            tamaño de fuente : 14px ;
+            visualización : cuadrícula;
+            espacio : 6px ;
         }
 
-        #guestList strong {
-            color: rgba(15, 23, 42, 0.9);
+        #lista de invitados fuerte {
+ 
+            color : rgba ( 15 , 23 , 42 , 0.9 );
         }
 
-        #acompanantesForm {
-            display: grid;
-            gap: 16px;
+        #formulario de acompañantes {
+            visualización : cuadrícula;
+            espacio : 16px ;
         }
 
-        #acompanantesForm h3 {
-            margin-top: 24px;
+        #escortsForm h3 {
+ 
+            margen superior : 24px ;
         }
 
         #acompananteCantidad {
-            transition: opacity 0.2s ease;
+            transición : opacidad 0.2s suavidad;
         }
 
         .tooltip {
-            position: absolute;
-            background: rgba(15, 23, 42, 0.88);
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            display: none;
-            max-width: 280px;
-            line-height: 1.4;
-            z-index: 50;
-            pointer-events: none;
+            posición : absoluta;
+            fondo : rgba ( 15 , 23 , 42 , 0.88 );
+            color : #fff ;
+            relleno : 10px 14px ;
+ 
+            radio-frontera : var (--radius-sm);
+            tamaño de fuente : 13px ;
+            mostrar : ninguna;
+            ancho máximo : 280px ;
+            altura de línea : 1.4 ;
+            índice z : 50 ;
+            eventos de puntero : ninguno;
         }
 
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            z-index: 100;
+            posición : fija;
+            recuadro : 0 ;
+            fondo : rgba ( 15 , 23 , 42 , 0.65 );
+            mostrar : ninguna;
+            alinear elementos : centro;
+            justificar-contenido : centro;
+            relleno : 24px ;
+            índice z : 100 ;
         }
 
-        .modal-overlay.active {
-            display: flex;
+        .modal-overlay .active {
+            pantalla : flexible;
         }
 
         .modal-content {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
+            fondo : #fff ;
+            radio-borde : var (--radius-lg);
+            relleno : 32px ;
+            ancho máximo : 420px ;
+            alineación del texto : centro;
+            box-shadow : var (--shadow-lg);
         }
 
         .modal-content h2 {
-            margin-bottom: 12px;
+ 
+            margen inferior : 12px ;
         }
 
         .modal-content p {
-            color: rgba(15, 23, 42, 0.75);
-            margin-bottom: 24px;
+ 
+            color : rgba ( 15 , 23 , 42 , 0.75 );
+            margen inferior : 24px ;
         }
 
-        @media (max-width: 900px) {
-            body {
-                padding: 24px 12px 48px;
+        @media ( max-width : 900px ) {
+            cuerpo {
+                relleno : 24px 12px 48px ;
+  
             }
 
             .salon-wrapper {
-                grid-template-columns: 1fr;
+                columnas de plantilla de cuadrícula : 1 fr;
             }
 
             .salon-summary {
-                position: relative;
-                top: auto;
+                posición : relativa;
+                arriba : coche;
             }
         }
 
-        @media (max-width: 600px) {
+        @media ( max-width : 600px ) {
             .hero-card {
-                grid-template-columns: 1fr;
+                columnas de plantilla de cuadrícula : 1 fr;
             }
 
-            .navigation-buttons {
-                flex-direction: column-reverse;
-                align-items: stretch;
+            .botones-de-navegación {
+                flex-direction : columna-inversa;
+                alinear elementos : estirar;
             }
 
-            .navigation-buttons .button {
-                width: 100%;
+            .botones-de-navegación .botón {
+ 
+                ancho : 100% ;
             }
         }
-    </style>
-</head>
-<body>
-    <main>
-        <section id="screen1" class="container active">
-            <div class="hero-card">
-                <div class="hero-card__content">
-                    <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
-                    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
+    </style>​​
+</head>​​
+< cuerpo >
+    < principal >
+        < sección id = "screen1" class = "container active" >  
+            < div class = "hero-card" > 
+                < div class = "hero-card__content" > 
+                    < span class = "hero-card__eyebrow" id = " siteSubtitle" > Registro oficial de invitados </span>  
+                    < h1 class = "hero-card__title" id = "siteTitleHeading" > Fiesta Social 2024 </h1>  
                     <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
-                    <div class="hero-card__actions">
-                        <button class="button button--primary" onclick="nextScreen(2)">Comenzar registro</button>
-                        <a class="button button--ghost" href="admin.html">Administración</a>
-                    </div>
-                </div>
-                <figure class="hero-card__media">
+                    < div class = "hero-card__actions" > 
+                        < button class = "button button--primary" onclick = " nextScreen(2)" > Comenzar registro </button>  
+                        <a class="button button--ghost" href="admin.html"> Administración </a>​​​​​​​​​​  
+                    </div>​​
+                </div>​​
+                < figura clase = "hero-card__media" > 
                     <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
-                </figure>
-            </div>
-        </section>
+                </ figura >
+            </div>​​
+        </ sección >
 
-        <section id="screen2" class="container">
+        < sección id = "screen2" class = "container" >  
             <h2>Datos personales</h2>
             <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
-            <form id="guestForm" class="form-grid">
-                <div class="form-field">
+            < form id = "guestForm" class = "form-grid" >  
+                < div class = "form-field" > 
                     <label for="correo">Correo</label>
-                    <input type="email" id="correo" name="correo" required>
-                </div>
-                <div class="form-field">
-                    <label for="grado">Grado</label>
-                    <select id="grado" name="grado" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Cnel.">Cnel.</option>
-                        <option value="Tte. Cnel.">Tte. Cnel.</option>
-                        <option value="May.">May.</option>
-                        <option value="Cap.">Cap.</option>
-                        <option value="Tte. 1°">Tte. 1°</option>
-                        <option value="Tte. 2°">Tte. 2°</option>
-                        <option value="Alf.">Alf.</option>
-                    </select>
-                </div>
-                <div class="form-field">
+                    < input type = "email" id = "correo" name = "correo" required >    
+                </div>​​
+                < div class = "form-field" > 
+                    < etiqueta para = "grado" > Grado </ etiqueta > 
+                    <selectid="grado"name="grado"required>   
+                        < option value = " " selected > Seleccionar </option>​  
+                        < option value = "Cnel. " > Cnel . </option> 
+                        < option value = "Tte. Cnel." > Tte . Cnel. </option> 
+                        < option value = "May. " > Mayo . </option> 
+                        < option value = "Cap. " > Capacidad . </option> 
+                        < option value = "Tte. 1°" > Tte . 1 ° </option> 
+                        < option value = "Tte . 2°" > Tte. 2 ° </option> 
+                        < option value = " Alf." > Alf . </option> 
+                    </select>​​
+                </div>​​
+                < div class = "form-field" > 
                     <label for="escalafon">Escalafón</label>
-                    <select id="escalafon" name="escalafon" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Av.">(Av.)</option>
-                        <option value="Nav.">(Nav.)</option>
-                        <option value="Esp.">(Esp.)</option>
-                        <option value="T.P.">(T.P.)</option>
-                    </select>
-                </div>
-                <div class="form-field">
+                    < select id = "escalafón" name = "escalafón" required >   
+                        < option value = " " selected > Seleccionar </option>​  
+                        < option value = "Apagado." > ( Apagado. ) </option> 
+                        < option value = " Nav." > (Nav. ) </option> 
+                        < option value = "Esp." > ( Esp .) </option> 
+                        < option value = " TP" > (TP ) </option> 
+                    </select>​​
+                </div>​​
+                < div class = "form-field" > 
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-field">
+                    < input type = "text" id = "nombre" name = "nombre" required >    
+                </div>​​
+                < div class = "form-field" > 
                     <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" required>
-                </div>
-                <div class="form-field">
+                    < input type = "text" id = "apellido" name = "apellido" required >    
+                </div>​​
+                < div class = "form-field" > 
                     <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
                     <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
-                </div>
-                <div class="form-field">
-                    <label for="acompanante">¿Asiste con acompañante?</label>
-                    <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                    </select>
-                </div>
-                <div class="form-field" id="acompananteCantidad" style="display:none;">
-                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="menu">Menú</label>
-                    <select id="menu" name="menu" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="normal">Normal</option>
-                        <option value="vegetariano">Vegetariano</option>
-                        <option value="vegano">Vegano</option>
-                        <option value="celiaco">Celíaco</option>
-                    </select>
-                </div>
-                <input type="hidden" id="mesa" name="mesa">
-            </form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(1)">Anterior</button>
-                <button class="button button--primary" onclick="nextScreen()">Siguiente</button>
-            </div>
-        </section>
+                </div>​​
+                < div class = "form-field" > 
+                    <labelfor="acompanante">¿Asiste con acompañante?</label> 
+                    <selectid="acompanante"name="acompanante"requiredonchange="toggleAcompanante()">    
+                        < option value = " " selected > Seleccionar </option>​  
+                        < option value = " no " > No </option> 
+                        < valor de opción = " si " > Sí </option> 
+                    </select>​​
+                </div>​​
+                < div class = "form-field" id = "acompañanteCantidad" style = "display:none;" >   
+                    <labelfor="cantidadAcompanantes">¿Cuántos acompañantes?</label> 
+                    <selectid="cantidadAcompanantes"name="cantidadAcompanantes">  
+                        < option value = " " selected > Seleccionar </option>​  
+                        < option value = " 1 " > 1 </option> 
+                        < option value = " 2 " > 2 </option> 
+                        < option value = " 3 " > 3 </option> 
+                        < option value = " 4 " > 4 </option> 
+                        < option value = " 5 " > 5 </option> 
+                    </select>​​
+                </div>​​
+                < div class = "form-field" > 
+                    < label for = " menu " > Menú </label> 
+                    < select id = "menu" name = "menu" required >   
+                        < option value = " " selected > Seleccionar </option>​  
+                        < option value = " normal " > Normal </option> 
+                        < option value = " vegetariano " > Vegetariano </option> 
+                        < option value = " vegano " > Vegano </option> 
+                        < option value = " celiaco " > Celíaco </option> 
+                    </select>​​
+                </div>​​
+                < input type = "hidden" id = "mesa" name = "mesa" >   
+            </form>​​
+            < div class = "navigation-buttons" > 
+                < button class = " button button--ghost" onclick = "prevScreen(1) " > Anterior </button>  
+                < button class = "button button--primary" onclick = " nextScreen() " > Siguiente </button>  
+            </div>​​
+        </ sección >
 
-        <section id="screen3" class="container">
+        < sección id = "screen3" class = "container" >  
             <h2>Información de acompañantes</h2>
             <p class="section-description">Agrega los datos de cada invitado adicional.</p>
-            <form id="acompanantesForm"></form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(2)">Anterior</button>
-                <button class="button button--primary" onclick="nextScreen(4)">Siguiente</button>
-            </div>
-        </section>
+            < form id = " acompanantesForm " > </form> 
+            < div class = "navigation-buttons" > 
+                < button class = " button button--ghost" onclick = "prevScreen(2) " > Anterior </button>  
+                < button class = "button button--primary" onclick = " nextScreen (4)" > Siguiente </button>  
+            </div>​​
+        </ sección >
 
-        <section id="screen4" class="container">
+        < sección id = "screen4" class = "container" >  
             <h2>Selecciona tu mesa</h2>
             <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
-            <div class="salon-wrapper">
-                <aside class="salon-summary">
+            < div class = "salon-wrapper" > 
+                < aside class = "salon-summary" > 
                     <h3>Resumen del salón</h3>
                     <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
                     <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
                     <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-                    <div class="legend">
-                        <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
-                        <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
-                        <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
-                    </div>
-                </aside>
-                <div class="salon-map" id="salonMap"></div>
-            </div>
-            <div class="table-details">
-                <div class="table-container">
-                    <div class="table" id="mesaText">Mesa</div>
-                    <div id="seatsContainer"></div>
-                </div>
-                <div>
+                    < div class = "legend" > 
+                        <span> < span class = "legend-swatch legend - swatch -- available " > </span> Disponible </span> 
+                        <span> < span class = "legend-swatch legend - swatch -- full " > </span> Completa </span> 
+                        Seleccionada​​​​​​​​​​​​​​​ 
+                    </div>​​
+                </aparte>​​
+                < div class = " salon-map" id = " salonMap" > </div>  
+            </div>​​
+            < div class = "table-details" > 
+                < div class = "table-container" > 
+                    < div class = "table" id = " mesaText " > Mesa </div>  
+                    < div id = " seatsContainer " > </div> 
+                </div>​​
+                < div >
                     <h3>Invitados registrados en esta mesa</h3>
                     <div id="guestList">Selecciona una mesa para ver los invitados.</div>
-                </div>
-            </div>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" onclick="prevScreen(3)">Anterior</button>
-                <button id="submitReservationBtn" class="button button--primary" onclick="submitForm()">Enviar</button>
-            </div>
-        </section>
-    </main>
+                </div>​​
+            </div>​​
+            < div class = "navigation-buttons" > 
+                < button class = " button button--ghost" onclick = "prevScreen(3) " > Anterior </button>  
+                < button id = "submitReservationBtn" class = "button button--primary" onclick = " submitForm() " > Enviar </button>   
+            </div>​​
+        </ sección >
+    </main>​​
 
-    <div id="confirmationModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Registro completo</h2>
+    < div id = "confirmationModal" class = "modal-overlay" >  
+        < div class = "modal-content" > 
+            <h2> Registro completo </h2>
             <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
-            <button class="button button--primary" onclick="finalizarRegistro()">Finalizar</button>
-        </div>
-    </div>
+            < button class = "button button--primary" onclick = "finalizarRegistro ( ) " > Finalizar </button>  
+        </div>​​
+    </div>​​
 
-    <div id="tooltip" class="tooltip"></div>
+    < div id = " tooltip " class = "tooltip " > </div>  
 
-    <script>
-        let currentScreen = 1;
-        let guestsData = {};
-        let dataFetchInterval;
-        let siteConfig = null;
+    < script >
+        Sea pantallaActual = 1 ;
+        sea ​​guestsData = {};
+        sea ​​dataFetchInterval;
+        sea ​​siteConfig = null ;
 
-        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwcpHM5QliyfsIf-lhxES1BnYNRSgtej8hQa2Lbs1ObOV13HAFKsx1p2vYbE1gCjD6V/exec';
-        const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
-        const SUBMISSION_POLL_INTERVAL = 3000;
-        const SUBMISSION_MAX_WAIT = 20000;
+        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyYTbMoX5Z1uNCXMOD124Ea6V1g_5ZwIQIFivgYxytBJ-DClWYQkpUJifP0PS0Diqo6/exec' ;
+ 
+        const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv' ;
+ 
+        constante SUBMISSION_POLL_INTERVAL = 3000 ;
+ 
+        const SUBMISSION_MAX_WAIT = 20000 ;
+ 
         const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
         const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
         const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
         const NOMBRE_KEYS = ['nombre', 'nombres'];
         const APELLIDO_KEYS = ['apellido', 'apellidos'];
 
-        let reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT;
+        sea ​​reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT ;
 
-        const DEFAULT_ZONES = [
-            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
-            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
-            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
-            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
-            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
-            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+        const ZONAS_PREDETERMINADAS = [
+ 
+            { id : 'dance' , label : 'Pista de baile' , className : 'map-zone--dance' , position : { x : 50 , y : 45 } },
+            { id : 'stage' , label : 'Estado Mayor' , className : 'map-zone--stage' , position : { x : 6 , y : 50 } },
+            { id : 'entrance' , label : 'Entrada / Piscina' , className : 'map-zone--entrance' , position : { x : 50 , y : 6 } },
+            { id : 'dj' , label : 'DJ' , className : 'map-zone--dj' , position : { x : 50 , y : 94 } },
+            { id : 'dessertLeft' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-left' , position : { x : 92 , y : 28 } },
+            { id : 'dessertRight' , label : 'Postres' , className : 'map-zone--dessert map-zone--dessert-right' , position : { x : 92 , y : 72 } }
         ];
 
-        function normalizeString(value) {
-            if (value === undefined || value === null) return '';
-            return value
-                .toString()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .toLowerCase()
-                .trim();
+        función normalizarCadena ( valor ) {
+ 
+            Si (valor === indefinido || valor === nulo ) devolver '' ;
+ 
+            valor
+ de retorno
+                .toString ( )
+                .normalizar ( 'NFD '
+ )
+                .reemplazar ( /[\u0300-\u036f]/g , ' ' )
+                .toLowerCase (
+ )
+                . recortar ();
         }
 
-        function appendCacheBuster(url) {
-            if (!url) return '';
-            const separator = url.includes('?') ? '&' : '?';
-            return `${url}${separator}_=${Date.now()}`;
+        función appendCacheBuster ( url ) {
+ 
+            if (!url) return '' ;
+ 
+            const separador = url.includes ( '?' ) ? '&' : '?' ;
+            return ` ${url} ${separator} _= ${ Date .now()} ` ;
+ 
         }
 
-        function getValueFromGuest(guest, candidateKeys) {
-            if (!guest || typeof guest !== 'object') return '';
-            const normalizedCandidates = candidateKeys.map(normalizeString);
-            for (const key of Object.keys(guest)) {
-                const normalizedKey = normalizeString(key);
-                const candidateIndex = normalizedCandidates.indexOf(normalizedKey);
-                if (candidateIndex !== -1) {
-                    const value = guest[key];
-                    if (value !== undefined && value !== null && value !== '') {
-                        return value;
+        función obtenerValorDeInvitado ( invitado, clavesCandidatas ) {
+ 
+            if (!guest || typeof guest !== 'object' ) return '' ;
+ 
+            const candidatosNormalizados = clavesCandidatos.map ( cadenaNormalizada);
+            for ( const key of Object . keys (guest)) {
+ 
+                const clave normalizada = normalizarCadena (clave);
+                const índiceCandidato = candidatosNormalizados.indexOf (claveNormalizada)
+ ;
+                si (candidateIndex !== - 1 ) {
+                    const valor = invitado[clave];
+                    if (value !== undefined && value !== null && value !== '' ) {
+                        valor de retorno ;
                     }
                 }
             }
-            return '';
+            devolver '' ;
+ 
         }
 
-        function extractCompanionNames(guest) {
-            if (!guest || typeof guest !== 'object') return [];
-            return Object.keys(guest)
-                .filter(key => normalizeString(key).startsWith(ACOMPANANTE_NAME_PREFIX))
-                .map(key => guest[key])
-                .filter(value => value !== undefined && value !== null && value !== '');
+        función extraerNombresCompañeros ( invitado ) {
+ 
+            if (!guest || typeof guest !== 'object' ) return [];
+            Devuelve Object.keys ( invitado )
+ 
+                .filter ( key => normalizeString ( key) .startsWith ( ACOMPANANTE_NAME_PREFIX ))
+ 
+                . map ( key => guest[key])
+                .filter ( value => value !== undefined && value !== null && value !== '' );
         }
 
-        function countGuestSeats(guest) {
-            const companions = extractCompanionNames(guest);
-            return 1 + companions.length;
+        función contarAsientosInvitados ( invitado ) {
+ 
+            const compañeros = extraerNombresCompañeros (invitado);
+            Devuelve 1 + compañeros.longitud ;
+ 
         }
 
-        function getGuestFullName(guest) {
-            const nombre = getValueFromGuest(guest, NOMBRE_KEYS);
-            const apellido = getValueFromGuest(guest, APELLIDO_KEYS);
+        función obtenerNombreCompletoInvitado ( invitado ) {
+ 
+            const nombre = getValueFromGuest (guest, NOMBRE_KEYS );
+            const apellido = getValueFromGuest (guest, APELLIDO_KEYS );
             return [nombre, apellido].filter(Boolean).join(' ').trim();
         }
 
-        function getGuestEmail(guest) {
-            return getValueFromGuest(guest, EMAIL_KEYS);
+        función obtenerCorreoElectrónicoInvitado ( invitado ) {
+ 
+            devolver getValueFromGuest (guest, EMAIL_KEYS );
+ 
         }
 
-        function getGuestCedula(guest) {
-            return getValueFromGuest(guest, CEDULA_KEYS);
+        función obtenerCédulaInvitado ( invitado ) {
+ 
+            devolver getValueFromGuest (guest, CEDULA_KEYS );
+ 
         }
 
-        function guestMatchesFingerprint(guest, fingerprint) {
-            if (!guest || !fingerprint) return false;
-            const cedulaGuest = normalizeString(getGuestCedula(guest));
-            if (fingerprint.normalizedCedula && cedulaGuest && cedulaGuest === fingerprint.normalizedCedula) {
-                return true;
+        función guestMatchesFingerprint ( invitado, huella digital ) {
+ 
+            if (!guest || !fingerprint) return false ;
+ 
+            const cédulaInvitado = normalizarCadena ( obtenerCédulaInvitado (invitado));
+            if (fingerprint.normalizedCedula && cedulaGuest && cedulaGuest === fingerprint.normalizedCedula ) {
+                Devuelve verdadero ;
+ 
             }
-            const correoGuest = normalizeString(getGuestEmail(guest));
-            if (fingerprint.normalizedCorreo && correoGuest && correoGuest === fingerprint.normalizedCorreo) {
-                return true;
+            const correoInvitado = normalizarCadena ( obtenerCorreoInvitado (invitado));
+            if (fingerprint.normalizedCorreo && correoGuest && correoGuest === fingerprint.normalizedCorreo ) {
+                Devuelve verdadero ;
+ 
             }
-            const nombreGuest = normalizeString(getGuestFullName(guest));
-            if (fingerprint.normalizedNombreCompleto && nombreGuest && nombreGuest === fingerprint.normalizedNombreCompleto) {
-                return true;
+            const nombreInvitado = normalizarCadena ( obtenerNombreCompletoInvitado (invitado));
+            if (fingerprint.normalizedNombreCompleto && nombreGuest && nombreGuest === fingerprint.normalizedNombreCompleto ) {
+                Devuelve verdadero ;
+ 
             }
-            return false;
+            devolver falso ;
+ 
         }
 
-        function createReservationFingerprint(data) {
-            return {
-                mesa: data.mesa,
-                normalizedCedula: normalizeString(data.cedula),
+        función crearHuellaDeReserva ( datos ) {
+ 
+            devolver {
+                tabla : fecha. tabla ,
+                cédula normalizada : normalizarCadena (datos.cédula ),
                 normalizedCorreo: normalizeString(data.correo),
                 normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`),
-                rawCedula: data.cedula,
+                rawSchedule : datos.schedule ,
                 rawCorreo: data.correo,
                 rawNombreCompleto: `${data.nombre || ''} ${data.apellido || ''}`.trim()
             };
         }
 
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+        función retardo ( ms ) {
+ 
+            devolver nueva Promesa ( resolver => setTimeout (resuelve, ms));
+   
         }
 
-        async function confirmReservationPersisted(fingerprint, baselineGuests) {
-            const baselineMatches = (baselineGuests || []).filter(guest => guestMatchesFingerprint(guest, fingerprint));
-            const baselineCounts = buildFingerprintCountMap(baselineMatches);
+        función asíncrona confirmarReservaPersistente ( huella digital, huéspedesBase ) {
+  
+            const baselineMatches = (baselineGuests || []). filter ( guest => guestMatchesFingerprint (guest, fingerprint));
+ 
+            const baselineCounts = buildFingerprintCountMap (baselineMatches);
 
-            const attemptVerification = async () => {
-                try {
-                    await fetchGuestsData();
+            const intentoVerificación = async ( ) => {
+ 
+                intentar {
+                    esperar obtener datos de invitados ();
+ 
                 } catch (error) {
                     console.warn('No se pudo refrescar la lista de invitados durante la verificación.', error);
                 }
 
-                const mesaGuests = getGuestsForMesa(fingerprint.mesa);
-                const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
+                const mesaGuests = getGuestsForMesa (fingerprint. mesa );
+                const currentMatches = mesaGuests.filter ( guest => guestMatchesFingerprint (guest, fingerprint));
+ 
 
-                if (currentMatches.length === 0) {
-                    return false;
+                if (currentMatches.length === 0 ) {
+                    devolver falso ;
+ 
                 }
 
-                if (currentMatches.length > baselineMatches.length) {
-                    return true;
+                if (currentMatches.length > baselineMatches.length ) {
+                    Devuelve verdadero ;
+ 
                 }
 
-                const currentCounts = buildFingerprintCountMap(currentMatches);
-                for (const [key, count] of currentCounts.entries()) {
-                    const baselineCount = baselineCounts.get(key) || 0;
-                    if (count > baselineCount) {
-                        return true;
+                const currentCounts = buildFingerprintCountMap (currentMatches);
+                for ( const [key, count] of currentCounts. entries ()) {
+                    const baselineCount = baselineCounts.get ( key ) || 0 ;
+                    si (recuento > recuentoBase) {
+                        Devuelve verdadero ;
+ 
                     }
                 }
 
-                return false;
+                devolver falso ;
+ 
             };
 
-            const deadline = Date.now() + SUBMISSION_MAX_WAIT;
+            const deadline = Date.now
+ ( ) + SUBMISSION_MAX_WAIT ;
 
-            if (await attemptVerification()) {
-                return true;
+            if ( await attemptVerification ()) {
+ 
+                Devuelve verdadero ;
+ 
             }
 
-            while (Date.now() < deadline) {
-                await delay(SUBMISSION_POLL_INTERVAL);
-                if (await attemptVerification()) {
-                    return true;
+            mientras ( Fecha.ahora () < fecha límite
+ ) {
+                esperar retraso ( INTERVALO_DE_ENCUESTA_DE_SUSCRIPCIÓN );
+ 
+                if ( await attemptVerification ()) {
+ 
+                    Devuelve verdadero ;
+ 
                 }
             }
 
-            throw new Error('reservation_not_found');
+            lanzar nuevo Error ( 'reserva_no_encontrada' );
+  
         }
 
-        function createGuestFingerprintKey(guest) {
-            if (!guest) return '';
-            const cedula = normalizeString(getGuestCedula(guest));
-            const correo = normalizeString(getGuestEmail(guest));
-            const nombre = normalizeString(getGuestFullName(guest));
+        función crearClaveDeHuellaDelInvitado ( invitado ) {
+ 
+            Si (!invitado) devolver '' ;
+ 
+            const cédula = normalizarCadena ( obtenerCédulaInvitada (invitado));
+            const correo = normalizeString ( getGuestEmail (guest));
+            const nombre = normalizeString ( getGuestFullName (guest));
             return [cedula, correo, nombre].filter(Boolean).join('|');
         }
 
-        function buildFingerprintCountMap(guests) {
-            const counts = new Map();
-            (guests || []).forEach(guest => {
-                const key = createGuestFingerprintKey(guest) || '__blank__';
-                counts.set(key, (counts.get(key) || 0) + 1);
+        función construirMapaDeHuellasFilmables ( invitados ) {
+ 
+            const counts = new Map ();
+ 
+            (invitados || []). forEach ( invitado => {
+                const key = crearClaveDeHuellaDelInvitado (invitado) || '__en blanco__' ;
+                counts.set (key, (counts.get ( key ) || 0 ) + 1 );
             });
-            return counts;
+            recuentos de retorno ;
         }
 
-        function createReservationFormData(payload, submittedAt) {
-            const formData = new FormData();
+        función crearDatosFormularioReserva ( carga útil, enviadoEn ) {
+ 
+            const formData = nuevo FormData ();
+ 
             const safePayload = payload ?? {};
-            formData.append('payload', JSON.stringify(safePayload));
+            formData.append ( ' payload ' , JSON.stringify (safePayload)
+ ) ;
 
-            Object.entries(safePayload).forEach(([key, value]) => {
-                if (value === undefined || value === null) {
-                    return;
+            Objeto . entradas (carga útil segura). para cada ( ( [clave, valor] ) => {
+                if (value === undefined || value === null ) {
+                    devolver ;
                 }
 
-                if (typeof value === 'object') {
-                    formData.append(key, JSON.stringify(value));
-                } else {
-                    formData.append(key, value);
+                if ( typeof value === 'object' ) {
+                    formData.append (key, JSON.stringify (value
+ ) ) ;
+                } demás {
+                    formData.append (clave , valor);
                 }
             });
 
-            formData.append('submittedAt', submittedAt);
-            return formData;
+            formData.append ( 'submittedAt' , submittedAt ) ;
+            devolver datos del formulario;
         }
 
-        function createReservationQueryString(payload, submittedAt) {
+        función crearCadenaDeConsultaDeReserva ( carga útil, enviadoEn ) {
+ 
             const safePayload = payload ?? {};
-            const params = new URLSearchParams();
-            params.append('payload', JSON.stringify(safePayload));
+            const params = new URLSearchParams ();
+ 
+            params.append ( ' payload ' , JSON.stringify (safePayload ) );
 
-            Object.entries(safePayload).forEach(([key, value]) => {
-                if (value === undefined || value === null) {
-                    return;
+            Objeto . entradas (carga útil segura). para cada ( ( [clave, valor] ) => {
+                if (value === undefined || value === null ) {
+                    devolver ;
                 }
 
-                if (typeof value === 'object') {
-                    params.append(key, JSON.stringify(value));
-                } else {
-                    params.append(key, value);
+                if ( typeof value === 'object' ) {
+                    params.append (key, JSON.stringify (value
+ ) ) ;
+                } demás {
+                    parámetros.append ( clave , valor);
                 }
             });
 
-            params.append('submittedAt', submittedAt);
-            return params.toString();
+            params.append ( 'submittedAt' , submittedAt ) ;
+            return params.toString ( );
         }
 
-        async function submitReservation(scriptUrl, payload) {
+        función asíncrona enviarReserva ( scriptUrl, payload ) {
+  
             if (!scriptUrl) {
-                throw new Error('reservation_missing_endpoint');
+                lanzar nuevo Error ( 'reservation_missing_endpoint' );
+  
             }
 
-            const submittedAt = new Date().toISOString();
-            const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-            const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
+            const submittedAt = new Date (). toISOString ();
+ 
+            const controller = typeof AbortController !== 'undefined' ? new AbortController () : null ;
+  
+            const timeoutId = controller ? setTimeout ( () => controller.abort (), SUBMISSION_MAX_WAIT ) : null ;
 
-            const sendRequest = async (mode) => {
-                const options = {
-                    method: 'POST',
-                    mode,
-                    body: createReservationFormData(payload, submittedAt)
+            const sendRequest = async ( mode ) => {
+ 
+                const opciones = {
+                    método : 'POST' ,
+                    modo,
+                    cuerpo : crearFormularioDeReserva (carga útil, enviadoEn)
                 };
 
-                if (controller) {
-                    options.signal = controller.signal;
+                si (controlador) {
+                    opciones.señal = controlador.señal ;
+​
                 }
 
-                if (mode === 'cors') {
-                    options.headers = { 'Accept': 'application/json' };
-                } else {
-                    options.keepalive = true;
+                if (mode === 'cors' ) {
+                    opciones.encabezados = { 'Aceptar' : 'application/json' } ;
+                } demás {
+                    opciones.keepalive = true ;
+​
                 }
 
-                const response = await fetch(scriptUrl, options);
+                const respuesta = esperar obtener (scriptUrl, opciones);
+ 
 
-                if (mode === 'cors') {
-                    if (!response || !response.ok) {
-                        const status = response ? response.status : 'unknown';
-                        throw new Error(`reservation_http_${status}`);
+                if (mode === 'cors' ) {
+                    if (!response || !response.ok ) {
+                        const status = response ? response. status : 'unknown' ;
+                        lanzar nuevo Error ( `reservation_http_ ${status} ` );
+  
                     }
-                    return response;
+                    devolver respuesta;
                 }
 
-                return null;
+                devolver nulo ;
+ 
             };
 
-            const submitWithGet = async () => {
-                const queryString = createReservationQueryString(payload, submittedAt);
-                const separator = scriptUrl.includes('?') ? '&' : '?';
-                const targetUrl = `${scriptUrl}${separator}${queryString}`;
+            const submitWithGet = async ( ) => {
+ 
+                const queryString = createReservationQueryString (payload, submittedAt);
+                const separador = scriptUrl.includes ( '?' ) ? '&' : '?' ;
+                const targetUrl = ` ${scriptUrl} ${separator} ${queryString} ` ;
 
-                const attempt = async (mode) => {
-                    const options = {
-                        method: 'GET',
-                        mode,
-                        cache: 'no-store'
+                const intento = async ( modo ) => {
+ 
+                    const opciones = {
+                        método : 'GET' ,
+                        modo,
+                        caché : 'sin almacenamiento'
                     };
 
-                    if (controller) {
-                        options.signal = controller.signal;
+                    si (controlador) {
+                        opciones.señal = controlador.señal ;
+​
                     }
 
-                    const response = await fetch(targetUrl, options);
-                    if (mode === 'cors') {
-                        if (!response || !response.ok) {
-                            const status = response ? response.status : 'unknown';
-                            throw new Error(`reservation_http_get_${status}`);
+                    const respuesta = esperar obtener (urlObjetivo, opciones);
+ 
+                    if (mode === 'cors' ) {
+                        if (!response || !response.ok ) {
+                            const status = response ? response. status : 'unknown' ;
+                            lanzar nuevo Error ( `reservation_http_get_ ${status} ` );
+  
                         }
                     }
                 };
 
-                try {
-                    await attempt('cors');
+                intentar {
+                    esperar intento ( 'cors' );
+ 
                 } catch (error) {
-                    if (error && error.name === 'AbortError') {
-                        throw new Error('reservation_timeout');
+                    if (error && error.name === ' AbortError' ) {
+                        lanzar nuevo Error ( 'reservation_timeout' );
+  
                     }
 
-                    const message = typeof error?.message === 'string' ? error.message : '';
-                    const isHttpError = message.startsWith('reservation_http_get_');
+                    const mensaje = typeof error? .mensaje === 'string' ? error.mensaje : ' ' ;
+                    const isHttpError = message.startsWith ( ' reservation_http_get_' );
 
-                    if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
-                        await attempt('no-cors');
-                    } else {
-                        throw error;
+                    if (!isHttpError && (error?. name === 'TypeError' || message. includes ( 'Failed to fetch' ))) {
+                        esperar intento ( 'no-cors' );
+ 
+                    } demás {
+                        lanzar error;
                     }
                 }
             };
 
-            try {
-                try {
-                    await sendRequest('cors');
+            intentar {
+                intentar {
+                    esperar enviar solicitud ( 'cors' );
+ 
                 } catch (error) {
-                    if (error && error.name === 'AbortError') {
-                        throw new Error('reservation_timeout');
+                    if (error && error.name === ' AbortError' ) {
+                        lanzar nuevo Error ( 'reservation_timeout' );
+  
                     }
 
-                    const message = typeof error?.message === 'string' ? error.message : '';
-                    const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
-                    const isHttpError = message.startsWith('reservation_http_');
+                    const mensaje = typeof error? .mensaje === 'string' ? error.mensaje : ' ' ;
+                    const isLikelyCorsIssue = error? .name === 'TypeError' || message.includes ( 'Failed to fetch' );
+                    const isHttpError = message.startsWith ( ' reservation_http_' );
 
-                    if (message === 'reservation_http_405') {
-                        await submitWithGet();
-                        return;
+                    if (message === 'reservation_http_405' ) {
+                        esperar enviarConObtener ();
+ 
+                        devolver ;
                     }
 
                     if (!isLikelyCorsIssue || isHttpError) {
-                        throw error;
+                        lanzar error;
                     }
 
-                    try {
-                        await sendRequest('no-cors');
+                    intentar {
+                        espere enviarRequest ( 'no-cors' );
+ 
                     } catch (fallbackError) {
-                        if (fallbackError && fallbackError.name === 'AbortError') {
-                            throw new Error('reservation_timeout');
+                        if (fallbackError && fallbackError.name === ' AbortError' ) {
+                            lanzar nuevo Error ( 'reservation_timeout' );
+  
                         }
 
-                        const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
-                        if (fallbackMessage === 'reservation_http_405') {
-                            await submitWithGet();
-                            return;
+                        const fallbackMessage = typeof fallbackError? .message === 'string' ? fallbackError.message : ' ' ;
+                        if (fallbackMessage === 'reservation_http_405' ) {
+                            esperar enviarConObtener ();
+ 
+                            devolver ;
                         }
-                        throw fallbackError;
+                        lanzar fallbackError;
                     }
                 }
-            } finally {
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
+            } finalmente {
+                si (timeoutId) {
+                    clearTimeout (ID de tiempo de espera);
                 }
             }
         }
 
-        function setSubmissionState(isSubmitting) {
-            const submitButton = document.getElementById('submitReservationBtn');
-            if (!submitButton) return;
-            if (isSubmitting) {
-                if (!submitButton.dataset.originalLabel) {
-                    submitButton.dataset.originalLabel = submitButton.textContent;
+        función setSubmissionState ( isSubmitting ) {
+ 
+            const submitButton = document.getElementById ( ' submitReservationBtn' )
+ ;
+            if (!submitButton) return ;
+            si (esEnviando) {
+                if (
+ ! submitButton.dataset.originalLabel ) {
+                    submitButton.dataset.originalLabel = submitButton.textContent ;
+​​​
                 }
-                submitButton.disabled = true;
-                submitButton.textContent = 'Enviando...';
-            } else {
-                submitButton.disabled = false;
-                if (submitButton.dataset.originalLabel) {
-                    submitButton.textContent = submitButton.dataset.originalLabel;
+                botón de envío.deshabilitado = verdadero ;
+                submitButton.textContent = 'Enviando... ' ;
+            } demás {
+                botón de envío.deshabilitado = falso ;
+                if ( submitButton.dataset.originalLabel ) {
+​
+                    submitButton.textContent = submitButton.dataset.originalLabel ;​​​
                 }
             }
         }
 
-        function getGuestsForMesa(label) {
+        función obtenerInvitadosParaMesa ( etiqueta ) {
+ 
             if (!label) return [];
-            if (guestsData[label]) return guestsData[label];
-            const normalizedLabel = normalizeString(label);
-            const matchingKey = Object.keys(guestsData).find(key => normalizeString(key) === normalizedLabel);
-            return matchingKey ? guestsData[matchingKey] : [];
+            Si (guestsData[label]) devolver guestData[label];
+            const etiqueta normalizada = normalizarCadena (etiqueta);
+            const matchingKey = Object.keys (guestsData).find ( key = > normalizeString ( key) === normalizedLabel);
+ 
+            devolver claveCoincidente ? datosInvitados[claveCoincidente] : [];
         }
 
-        function ensureSingleHero() {
-            const heroSection = document.getElementById('screen1');
-            if (!heroSection) return;
-            const heroCards = heroSection.querySelectorAll('.hero-card');
-            heroCards.forEach((card, index) => {
-                if (index === 0) return;
-                card.remove();
+        función asegurarHéroeÚnico ( ) {
+ 
+            const heroSection = document.getElementById ( ' screen1' )
+ ;
+            Si (!heroSection) devolver ;
+            const heroCards = heroSection.querySelectorAll ( ' .hero-card' );
+            heroCards.forEach ( ( card, index ) = > {
+                Si (índice === 0 ) devolver ;
+                tarjeta.remove ()
+ ;
             });
         }
 
-        function enforceInitialScreen() {
-            const containers = document.querySelectorAll('.container');
-            containers.forEach((section, index) => {
-                if (index === 0) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
+        función enforceInitialScreen ( ) {
+ 
+            const contenedores = document.querySelectorAll ( '.container' ) ;
+            contenedores.forEach ( ( sección, índice ) = > {
+                si (índice === 0 ) {
+                    sección.classList.add ( ' active ' )
+ ;
+                } demás {
+                    sección.classList.remove ( ' active ' )
+ ;
                 }
             });
-            currentScreen = 1;
+            pantallaActual = 1 ;
         }
 
-        async function loadConfig() {
-            let storedConfig = null;
-            if (typeof localStorage !== 'undefined') {
-                try {
-                    storedConfig = localStorage.getItem('fiestaConfig');
-                    if (storedConfig) {
-                        storedConfig = JSON.parse(storedConfig);
+        función asíncrona cargarConfiguración ( ) {
+  
+            sea ​​storedConfig = null ;
+            if ( typeof localStorage !== 'undefined' ) {
+ 
+                intentar {
+                    almacenadoConfig = almacenamiento local . getItem ( 'fiestaConfig' );
+                    si (configuración almacenada) {
+                        storedConfig = JSON.parse ( storedConfig );
                     }
                 } catch (error) {
                     console.warn('No se pudo leer la configuración almacenada localmente.', error);
-                    storedConfig = null;
+                    storedConfig = null ;
                 }
             }
 
-            if (storedConfig) {
-                return storedConfig;
+            si (configuración almacenada) {
+                devolver configuración almacenada;
             }
 
-            const response = await fetch('config.json?_=' + Date.now());
-            if (!response.ok) {
+            const respuesta = await fetch ( 'config.json?_=' + Date . now ());
+ 
+            if (!response.ok ) {
                 throw new Error('No se pudo cargar la configuración');
             }
-            return await response.json();
+            return await response.json ()
+ ; 
         }
 
-        function applyConfig(config) {
-            if (!config) return;
-            ensureSingleHero();
+        función aplicarConfiguración ( config ) {
+ 
+            Si (!config) devolver ;
+            asegurarHéroeÚnico ();
             reservationScriptUrl = config.reservationScriptUrl
-                || config.integrations?.reservationScriptUrl
-                || DEFAULT_RESERVATION_ENDPOINT;
-            document.title = config.siteTitle || document.title;
-            const titleHeading = document.getElementById('siteTitleHeading');
-            const subtitleElement = document.getElementById('siteSubtitle');
-            const descriptionElement = document.getElementById('siteDescription');
-            const heroImage = document.getElementById('heroImage');
+                || config. integraciones ?. reservationScriptUrl
+                || PUNTO_FINAL_DE_RESERVA_PREDETERMINADO ;
+            documento.título = config.siteTitle || documento.título ;
+​​​​
+            const titleHeading = document.getElementById ( ' siteTitleHeading' );
+            const subtitleElement = document.getElementById ( 'siteSubtitle' )
+ ;
+            elemento de descripción constante = documento . getElementById ( 'descripción del sitio' );
+            const heroImage = document.getElementById ( ' heroImage' )
+ ;
 
-            if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
-            if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
-            if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
-            if (heroImage && config.heroImage) heroImage.src = config.heroImage;
+            if (titleHeading) titleHeading.textContent = config.siteTitle || ' Fiesta Social' ;
+            if ( subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados' ;
+            if ( descriptionElement) descriptionElement.textContent = config.siteDescription || '' ;
+            if (heroImage && config.heroImage ) heroImage.src = config.heroImage ;
 
-            if (Array.isArray(config.mesas)) {
-                config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
+            if ( Array . isArray ( config. tables )) {
+                config.mesas.sort ( ( a, b ) => ( a.number || 0 ) - ( b.number || 0 ) )
+ ;
             }
 
-            if (!Array.isArray(config.zones) || config.zones.length === 0) {
-                config.zones = DEFAULT_ZONES.map(zone => ({
-                    id: zone.id,
-                    label: zone.label,
-                    className: zone.className,
-                    position: { ...zone.position }
+            if ( ! Array.isArray ( config.zones ) ||
+ config.zones.length === 0 ) {​
+                config.zones = ZONAS_PREDETERMINADAS.map ( zona = > (
+ {​
+                    id : zona.id ,
+                    etiqueta : zona. etiqueta ,
+                    className : zone.className ,
+                    posición : { ... zona.posición }
                 }));
             }
 
-            renderZones(config.zones);
-            renderTables(config.mesas || []);
-            updateSummary(config.mesas || []);
+            renderZones ( zonas de configuración );
+            renderTables (config. mesas || []);
+            actualizarResumen ( mesas de configuración || []);
         }
 
-        function updateSummary(mesas) {
-            const totalMesasCounter = document.getElementById('totalMesasCounter');
-            const capacidadTotalCounter = document.getElementById('capacidadTotalCounter');
+        función actualizarResumen ( mesas ) {
+ 
+            const totalMesasCounter = document.getElementById ( ' totalMesasCounter' )
+ ;
+            const capacidadTotalCounter = document.getElementById ( ' capacidadTotalCounter' )
+ ;
 
-            if (totalMesasCounter) totalMesasCounter.textContent = mesas.length;
-            if (capacidadTotalCounter) {
-                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
-                capacidadTotalCounter.textContent = totalCapacity;
+            if (totalMesasCounter) totalMesasCounter.textContent =
+ mesas.length ;
+            si (TotalCounter) {
+                const capacidadTotal = mesas.reduce ( ( acc, mesa ) => acc + (mesa.capacity ?? siteConfig? .defaultCapacity ?? 0 ), 0 );
+                capacidadTotalCounter. contenido de texto = capacidad total;
             }
         }
 
-        function renderZones(zones) {
-            const salonMap = document.getElementById('salonMap');
-            if (!salonMap) return;
+        función renderZones ( zonas ) {
+ 
+            const hallMap = document.getElementById ( ' roomMap' )
+ ;
+            Si (!salonMap) devolver ;
 
-            salonMap.querySelectorAll('.map-zone').forEach(zoneElement => zoneElement.remove());
+            salonMap.querySelectorAll ( ' . map-zone' ). forEach ( zoneElement => zoneElement.remove ( ) );
 
-            const sourceZones = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
+            const sourceZones = Array.isArray ( zones
+ ) && zones.length ? zones : DEFAULT_ZONES ;
 
-            sourceZones.forEach(zone => {
-                const zoneElement = document.createElement('div');
-                zoneElement.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
-                zoneElement.textContent = zone.label || '';
-                zoneElement.dataset.zoneId = zone.id || '';
+            sourceZones.forEach ( zone = > {
+                const zoneElement = document.createElement ( 'div' )
+ ;
+                zoneElement.className = [ 'map-zone' , zone.className || '' ] .filter ( Boolean ) .join ( ' ' ) .trim ()
+ ;
+                elemento de zona. contenido de texto = zona. etiqueta || '' ;
+                zoneElement.dataset.zoneId = zone.id || ' ' ;
+​​
 
-                const posX = parseFloat(zone.position?.x);
-                const posY = parseFloat(zone.position?.y);
-                const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
-                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
-                zoneElement.style.setProperty('--zone-x', safeX);
-                zoneElement.style.setProperty('--zone-y', safeY);
+                const posX = parseFloat (zona. posición ?. x );
+                const posY = parseFloat (zona. posición ?. y );
+                const safeX = Number.isNaN ( posX ) ? 0 : Math.min ( Math.max ( posX, 0 ) , 100 )
+ ;
+                constsafeY = Número . esNaN (posY)? 0 : Matemáticas . min ( Math . max (posY, 0 ), 100 );
+                zoneElement.style.setProperty ( '--zone-x' , safeX )
+ ;
+                zoneElement.style.setProperty ( ' -- zone-y' , safeY)
+ ;
 
-                salonMap.appendChild(zoneElement);
+                salónMapa. appendChild ( elemento de área );
             });
         }
 
-        function renderTables(mesas) {
-            const salonMap = document.getElementById('salonMap');
-            if (!salonMap) return;
+        función renderTables ( mesas ) {
+ 
+            const hallMap = document.getElementById ( ' roomMap' )
+ ;
+            Si (!salonMap) devolver ;
             salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
 
-            mesas.forEach(mesa => {
-                const mesaElement = document.createElement('button');
-                mesaElement.type = 'button';
-                mesaElement.className = 'mesa';
-                mesaElement.id = `mesa${mesa.number}`;
-                const label = mesa.label || `Mesa ${mesa.number}`;
-                mesaElement.dataset.label = label;
-                mesaElement.dataset.capacity = mesa.capacity ?? siteConfig?.defaultCapacity ?? 0;
-                mesaElement.style.left = `${mesa.position?.x ?? 0}%`;
+            tablas.forEach ( tabla = > {
+                const mesaElement = document.createElement ( 'button' )
+ ;
+                mesaElement.type = ' button' ;
+                mesaElement. nombre de clase = 'mesa' ;
+                mesaElement. id = `mesa ${mesa.número} ` ;
+                const label = mesa.label || `Mesa ${mesa.number} ` ;
+                mesaElement.dataset.label =
+ label ;​
+                mesaElement.dataset.capacity = mesa.capacity ??
+ siteConfig ? .defaultCapacity ?? 0 ;​
+                tableElement.style.left = ` $ {
+ table.position ? .x ?? 0 } % ` ;
                 mesaElement.style.top = `${mesa.position?.y ?? 0}%`;
-                mesaElement.textContent = mesa.number ?? label;
-                mesaElement.setAttribute('aria-label', `${label} (capacidad ${mesaElement.dataset.capacity})`);
-                mesaElement.addEventListener('click', () => selectTable(mesa));
-                mesaElement.addEventListener('mouseover', event => showGuests(label, event));
-                mesaElement.addEventListener('focus', event => showGuests(label, event));
-                mesaElement.addEventListener('mouseleave', hideGuests);
-                mesaElement.addEventListener('blur', hideGuests);
-                salonMap.appendChild(mesaElement);
+                tableElement.textContent = table.number ?? label
+ ;
+                mesaElement.setAttribute ( 'aria-label' , ` $ {label} (Capacidad ${mesaElement.dataset.capacity} )` );
+                mesaElement.addEventListener ( 'click' , () => selectTable ( mesa));
+ 
+                mesaElement.addEventListener ( 'mouseover' , event = > showGuests (label, event));
+ 
+                mesaElement.addEventListener ( 'focus' , event => showGuests ( label , event));
+ 
+                mesaElement.addEventListener ( 'mouseleave' , hideGuests);
+                mesaElement.addEventListener ( ' blur ' , hideGuests);
+                salonMap.appendChild (tableElement)
+ ;
             });
 
-            updateMesasCompletaColor();
+            actualizarMesasCompletaColor ();
         }
 
-        function startDataFetchInterval() {
-            stopDataFetchInterval();
-            dataFetchInterval = setInterval(() => {
-                fetchGuestsData().catch(error => {
+        función startDataFetchInterval ( ) {
+ 
+            detenerIntervaloDeObtenciónDeDatos ();
+            dataFetchInterval = setInterval ( () => {
+                fetchGuestsData (). catch ( error => {
                     console.warn('No se pudo refrescar la lista de invitados en segundo plano.', error);
                 });
-            }, 5000);
+            }, 5000 );
         }
 
-        function stopDataFetchInterval() {
-            clearInterval(dataFetchInterval);
+        función stopDataFetchInterval ( ) {
+ 
+            clearInterval (dataFetchInterval);
         }
 
-        function nextScreen(nextScreenNumber) {
-            if (nextScreenNumber === undefined) {
-                if (currentScreen === 2) {
-                    let invalidFields = validateForm('guestForm');
-                    if (invalidFields.length > 0) {
+        función siguientePantalla ( númeroSiguientePantalla ) {
+ 
+            if (nextScreenNumber === undefined ) {
+                si (pantallaActual === 2 ) {
+                    let invalidFields = validateForm ( 'guestForm' );
+                    if (invalidFields.length > 0 ) {
                         alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                        return;
+                        devolver ;
                     }
-                    let acompanante = document.getElementById('acompanante').value;
+                    let acompanante = documento . getElementById ( 'acompañante' ). valor ;
                     if (acompanante === 'si') {
                         let cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value;
                         if (!cantidadAcompanantes) {
                             alert('Por favor, seleccione la cantidad de acompañantes.');
-                            return;
+                            devolver ;
                         }
                         generateAcompanantesForm(cantidadAcompanantes);
-                        nextScreenNumber = 3;
-                    } else {
-                        nextScreenNumber = 4;
+                        número de pantalla siguiente = 3 ;
+                    } demás {
+                        número de pantalla siguiente = 4 ;
                     }
-                } else if (currentScreen === 3) {
-                    let invalidFields = validateForm('acompanantesForm');
-                    if (invalidFields.length > 0) {
+                } else if (currentScreen === 3 ) {
+ 
+                    let invalidFields = validateForm ( 'acompanantesForm' );
+                    if (invalidFields.length > 0 ) {
                         alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
-                        return;
+                        devolver ;
                     }
-                    nextScreenNumber = 4;
-                } else {
-                    nextScreenNumber = currentScreen + 1;
+                    número de pantalla siguiente = 4 ;
+                } demás {
+                    númeroDePantallaSiguiente = pantallaActual + 1 ;
                 }
             }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = nextScreenNumber;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            document.getElementById ( `screen ${currentScreen }
+ ` ) .classList.remove ( ' active ' ) ;
+            pantallaActual = númeroDePantallaSiguiente;
+            document.getElementById ( `screen ${currentScreen } `
+ ) .classList.add ( ' active ' ) ;
 
-            if (currentScreen === 4) {
-                fetchGuestsData().catch(error => {
+            si (pantallaActual === 4 ) {
+                fetchGuestsData (). catch ( error => {
                     console.warn('No se pudo refrescar la lista de invitados al cargar el resumen.', error);
                 });
-                startDataFetchInterval();
-            } else {
-                stopDataFetchInterval();
+                iniciarIntervaloDeObtenciónDeDatos ();
+            } demás {
+                detenerIntervaloDeObtenciónDeDatos ();
             }
         }
 
-        function validateForm(formId) {
-            let form = document.getElementById(formId);
+        función validarFormulario ( idFormulario ) {
+ 
+            let form = document.getElementById ( formId )
+ ;
             if (!form) return [];
-            let invalidFields = [];
-            let elements = form.querySelectorAll('input, select');
-            elements.forEach(function(element) {
-                if (!element.checkValidity()) {
-                    let label = form.querySelector(`label[for="${element.id}"]`);
-                    let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
-                    invalidFields.push(fieldName.trim());
+            sea ​​invalidFields = [];
+            let elements = form.querySelectorAll ( ' input, select' );
+            elementos.forEach ( function ( elemento )
+ {
+                if (!element.checkValidity ( )) {
+                    let label = form.querySelector ( ` label[for=" ${element.id} "]` );
+                    let fieldName = label ? label.textContent.replace ( ' :' ,
+ ' ' ) : element.name || element.id ;
+                    invalidFields.push ( fieldName.trim ())
+ ;
                 }
             });
-            return invalidFields;
+            Devuelve campos no válidos;
         }
 
-        function prevScreen(screen) {
-            if (currentScreen === 4 && document.getElementById('acompanante').value === 'no') {
-                screen = 2;
+        función prevScreen ( pantalla ) {
+ 
+            if (currentScreen === 4 && document.getElementById ( ' acompanante' ). value === 'no' ) {
+                pantalla = 2 ;
             }
-            document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            currentScreen = screen;
-            document.getElementById(`screen${currentScreen}`).classList.add('active');
-            stopDataFetchInterval();
+            document.getElementById ( `screen ${currentScreen }
+ ` ) .classList.remove ( ' active ' ) ;
+            pantallaActual = pantalla;
+            document.getElementById ( `screen ${currentScreen } `
+ ) .classList.add ( ' active ' ) ;
+            detenerIntervaloDeObtenciónDeDatos ();
         }
 
-        function toggleAcompanante() {
-            let acompanante = document.getElementById('acompanante').value;
+        función alternarAcompañante ( ) {
+ 
+            let acompanante = documento . getElementById ( 'acompañante' ). valor ;
             let acompananteCantidad = document.getElementById('cantidadAcompanantes');
             let acompananteCantidadContainer = document.getElementById('acompananteCantidad');
             if (acompanante === 'si') {
-                acompananteCantidadContainer.style.display = 'block';
-                acompananteCantidadContainer.style.opacity = '1';
-                acompananteCantidad.setAttribute('required', 'required');
-            } else {
-                acompananteCantidadContainer.style.opacity = '0';
-                acompananteCantidadContainer.style.display = 'none';
+                acompananteCantidadContainer.style.display = '
+ block ' ;​
+                acompananteCantidadContainer.style.opacity = '
+ 1 ' ;​
+                acompananteCantidad.setAttribute ( ' required ' , 'required' );
+            } demás {
+                acompananteCantidadContainer.style.opacity = ' 0
+ ' ;​
+                acompananteCantidadContainer.style.display = ' none '
+ ;​
                 acompananteCantidad.removeAttribute('required');
                 acompananteCantidad.value = '';
             }
         }
 
         function generateAcompanantesForm(cantidad) {
-            let acompanantesForm = document.getElementById('acompanantesForm');
-            acompanantesForm.innerHTML = '';
+            formulario de carta adjunta = documento . getElementById ( 'acompanantesForm' );
+            acompanantesForm.innerHTML = ' ' ;
             for (let i = 1; i <= cantidad; i++) {
-                acompanantesForm.innerHTML += `
+                acompañantesForm. HTML interno += `
                     <div class="form-grid">
                         <div class="form-field">
                             <h3>Acompañante ${i}</h3>
                             <label for="nombreAcompanante${i}">Nombre</label>
-                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
+                            <input type="text" id="nombreAcompañante ${i} " name="nombreAcompañante ${i} " required>
                         </div>
                         <div class="form-field">
                             <label for="menuAcompanante${i}">Menú</label>
-                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+                            <select id="menuAcompanante ${i} " name="menuAcompanante ${i} " required>
                                 <option value="" selected>Seleccionar</option>
                                 <option value="normal">Normal</option>
                                 <option value="vegetariano">Vegetariano</option>
@@ -1368,418 +1561,494 @@
                                 <option value="celiaco">Celíaco</option>
                             </select>
                         </div>
-                    </div>`;
+                    </div>` ;
             }
         }
 
-        function selectTable(mesaConfig) {
-            if (!mesaConfig) return;
-            const label = mesaConfig.label || `Mesa ${mesaConfig.number}`;
-            const mesaInput = document.getElementById('mesa');
-            mesaInput.value = label;
+        función seleccionarTabla ( mesaConfig ) {
+ 
+            Si (!mesaConfig) devolver ;
+            const label = mesaConfig.label || `Mesa ${mesaConfig.number} ` ;
+            const mesaInput = document.getElementById ( ' mesa' )
+ ;
+            mesaInput.value = etiqueta ;
 
-            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
-            const mesaElement = document.getElementById(`mesa${mesaConfig.number}`);
-            if (mesaElement) {
-                mesaElement.classList.add('seleccionada');
+            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' seleccionada' ) )
+ ;
+            const mesaElement = document.getElementById ( ` mesa ${mesaConfig.number} ` )
+ ;
+            si (mesaElement) {
+                tableElement.classList.add ( '
+ selected ' ) ;
             }
 
-            const summaryLabel = document.getElementById('mesaSeleccionadaLabel');
-            if (summaryLabel) {
-                summaryLabel.textContent = label;
+            const summaryLabel = document.getElementById ( 'mesaSeleccionadaLabel' )
+ ;
+            si (etiqueta de resumen) {
+                etiqueta resumida. contenido de texto = etiqueta;
             }
 
-            const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.style.display = 'block';
+            const tableContainer = document.querySelector ( ' . table-container' )
+ ;
+            si (contenedor de tabla) {
+                tableContainer.style.display = ' block ' ;​
             }
 
-            updateMesaText();
+            actualizarMesaText ();
         }
 
-        function updateMesaText() {
-            const mesaInput = document.getElementById('mesa');
-            const mesaText = document.getElementById('mesaText');
-            const selectedMesa = mesaInput.value;
+        función actualizarMesaTexto ( ) {
+ 
+            const mesaInput = document.getElementById ( ' mesa' )
+ ;
+            const mesaText = document.getElementById ( 'mesaText' )
+ ;
+            const selectedMesa = mesaInput.value ;
             if (mesaText && selectedMesa) {
-                mesaText.textContent = selectedMesa;
+                mesaText.textContent = selectedMesa ;
             }
-            updateSeats();
-            updateGuestList();
+            actualizarAsientos ();
+            actualizarListaDeInvitados ();
         }
 
-        function updateSeats() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
-            const seatsContainer = document.getElementById('seatsContainer');
-            if (!seatsContainer) return;
+        función actualizarAsientos ( ) {
+ 
+            const mesaInput = document.getElementById ( ' mesa' )
+ ;
+            const selectedMesa = mesaInput.value ;
+            const seatsContainer = document.getElementById ( ' seatsContainer' )
+ ;
+            Si (!contenedorDeAsientos) devolver ;
 
-            let maxCapacity = getMesaCapacity(selectedMesa);
-            seatsContainer.innerHTML = '';
+            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
+            asientosContainer.innerHTML = ' '
+ ;
 
-            for (let i = 1; i <= maxCapacity; i++) {
-                let seat = document.createElement('div');
-                seat.classList.add('seat');
-                seat.dataset.seat = i;
-                seatsContainer.appendChild(seat);
+            for ( let i = 1 ; i <= maxCapacity; i++) {
+                let seat = document.createElement ( ' div ' )
+ ;
+                asiento.classList.add ( ' asiento ' )
+ ;
+                asiento.conjunto de datos.asiento = i;
+                asientosContenedor.appendChild (asiento)
+ ;
             }
 
-            const seats = document.querySelectorAll('.seat');
-            const centerX = 50;
-            const centerY = 50;
-            const radius = 38;
+            const asientos = document.querySelectorAll ( '.seat' ) ;
+            const centroX = 50 ;
+            const centroY = 50 ;
+            radio constante = 38 ;
 
-            seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI);
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
+            asientos.forEach ( ( asiento, índice ) = > {
+                ángulo constante = (índice / asientos. longitud ) * ( 2 * Math . PI );
+                constante x = centroX + radio * Math.cos ( ángulo)
+ ;
+                constante y = centroY + radio * Math.sin ( ángulo )
+ ;
+                asiento.estilo.posición = ' absoluta '
+ ;​
+                asiento.estilo.izquierda = ` $ { x } % `
+ ;
                 seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
+                asiento.estilo.transformación = ' translate (-50 % , -50%) ' ;
             });
 
-            const mesaGuests = getGuestsForMesa(selectedMesa);
-            if (selectedMesa && mesaGuests.length) {
-                let totalGuests = 0;
-                mesaGuests.forEach(guest => {
-                    const seatsNeeded = countGuestSeats(guest);
-                    for (let i = 0; i < seatsNeeded; i++) {
-                        if (totalGuests < maxCapacity) {
-                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
-                            if (seat) {
-                                seat.classList.add('occupied');
+            const mesaGuests = obtenerGuestsParaMesa (mesaSeleccionada);
+            if (selectedMesa && mesaGuests.length ) {
+                sea ​​totalInvitados = 0 ;
+                mesaGuests.forEach ( invitado = > {
+                    const asientosNecesarios = contarAsientosParaInvitados (invitado);
+                    for ( let i = 0 ; i < seatsNeeded; i++) {
+                        Si (total de invitados < capacidad máxima) {
+                            const seat = document.querySelector ( `.seat[data-seat=" ${totalGuests + 1 } " ]` )
+ ;
+                            si (asiento) {
+                                asiento.classList.add ( ' ocupado ' )
+ ;
                             }
-                            totalGuests++;
+                            totalInvitados++;
                         }
                     }
                 });
             }
         }
 
-        function updateGuestList() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
-            const guestList = document.getElementById('guestList');
-            if (!guestList) return;
+        función actualizarListaDeInvitados ( ) {
+ 
+            const mesaInput = document.getElementById ( ' mesa' )
+ ;
+            const selectedMesa = mesaInput.value ;
+            const guestList = document.getElementById ( ' guestList' )
+ ;
+            Si (!listaDeInvitados) terminar ;
 
-            guestList.innerHTML = '';
+            guestList.innerHTML = ' '
+ ;
 
-            const guests = getGuestsForMesa(selectedMesa);
-            if (selectedMesa && guests.length) {
+            const invitados = obtenerInvitadosParaMesa (mesaseleccionada);
+            if (selectedMesa && guests.length ) {
 
-                guests.forEach(guest => {
+                invitados.forEach ( invitado = > {
                     const nombreCompleto = getGuestFullName(guest) || 'Nombre no disponible';
-                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
+                    lista de invitados. internalHTML += `<div><strong> ${fullname} </strong></div>` ;
 
-                    extractCompanionNames(guest).forEach(nombre => {
-                        guestList.innerHTML += `<div>${nombre}</div>`;
+                    extraerNombresCompañeros (invitado).paraCada ( nombre = > {
+                        lista de invitados. internalHTML += `<div> ${número} </div>` ;
                     });
                 });
-            } else {
+            } demás {
                 guestList.innerHTML = 'No hay invitados registrados en esta mesa.';
             }
         }
 
-        async function submitForm() {
-            const mesaInput = document.getElementById('mesa');
-            const selectedMesa = mesaInput.value;
+        función asíncrona enviarFormulario ( ) {
+  
+            const mesaInput = document.getElementById ( ' mesa' )
+ ;
+            const selectedMesa = mesaInput.value ;
 
-            let maxCapacity = getMesaCapacity(selectedMesa);
+            sea ​​maxCapacity = getMesaCapacity (selectedMesa);
 
-            let totalGuests = 0;
-            const mesaGuests = getGuestsForMesa(selectedMesa);
-            const baselineGuests = Array.isArray(mesaGuests) ? mesaGuests.slice() : [];
-            if (selectedMesa && mesaGuests.length) {
-                mesaGuests.forEach(guest => {
-                    totalGuests += countGuestSeats(guest);
+            sea ​​totalInvitados = 0 ;
+            const mesaGuests = obtenerGuestsParaMesa (mesaSeleccionada);
+            const baselineGuests = Array.isArray (mesaGuests) ? mesaGuests.slice () : []
+ ;
+            if (selectedMesa && mesaGuests.length ) {
+                mesaGuests.forEach ( invitado = > {
+                    totalInvitados += contarAsientosInvitados (invitado);
                 });
             }
 
             const cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value || 0;
             const acompanantesCount = parseInt(cantidadAcompanantes, 10) || 0;
-            const totalNuevosGuests = 1 + acompanantesCount;
+            const totalNuevosInvitados = 1 + contadorAsistentes;
 
             if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
                 alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
-                return;
+                devolver ;
             }
 
-            let guestForm = document.getElementById('guestForm');
-            let acompanantesForm = document.getElementById('acompanantesForm');
+            let guestForm = document.getElementById ( ' guestForm' );
+            formulario de carta adjunta = documento . getElementById ( 'acompanantesForm' );
 
-            if (!(guestForm.checkValidity() && acompanantesForm.checkValidity())) {
+            if (! ( guestForm.checkValidity ( ) && acompanantesForm.checkValidity ())) {
                 alert('Por favor, complete todos los campos requeridos.');
-                return;
+                devolver ;
             }
 
-            const formData = new FormData(guestForm);
-            const acompanantesData = new FormData(acompanantesForm);
-            const acompanantes = [];
+            const formData = nuevo FormData (guestForm);
+ 
+            const acompanantesData = new FormData (acompanantesForm);
+ 
+            constante acompañante = [];
 
-            acompanantesData.forEach((value, key) => {
-                if (key.includes('nombreAcompanante')) {
-                    const index = parseInt(key.replace(/\D/g, '')) - 1;
+            acompanantesData.forEach ( ( value , key ) => {
+                if (key.includes ( 'nombreAcompañante' ) ) {
+                    const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
                     if (!acompanantes[index]) acompanantes[index] = {};
                     acompanantes[index].nombre = value;
-                } else if (key.includes('menuAcompanante')) {
-                    const index = parseInt(key.replace(/\D/g, '')) - 1;
+                } else if (key.includes ( ' menuAcompanante' )) {
+ 
+                    const index = parseInt (key. replace ( /\D/g , '' )) - 1 ;
                     if (!acompanantes[index]) acompanantes[index] = {};
-                    acompanantes[index].menu = value;
+                    acompañantes[índice].menú = valor;
                 }
             });
 
-            const data = {
+            const datos = {
                 correo: formData.get('correo'),
-                grado: formData.get('grado'),
-                escalafon: formData.get('escalafon'),
+                grado : formData.get ( ' grado' ),
+                escalafón : formData. get ( 'escalafón' ),
                 nombre: formData.get('nombre'),
                 apellido: formData.get('apellido'),
-                cedula: formData.get('cedula'),
-                acompanante: formData.get('acompanante'),
+                horario : formData.get ( ' horario' ),
+                compañero : formData.get ( ' compañero' ),
                 cantidadAcompanantes: formData.get('cantidadAcompanantes'),
-                menu: formData.get('menu'),
+                menú : formData.get ( ' menú' ),
                 acompanantes: acompanantes,
-                mesa: formData.get('mesa')
+                mesa : formData.get ( ' mesa' )
             };
 
-            const fingerprint = createReservationFingerprint(data);
+            const huella digital = crearHuellaDeReserva (datos);
 
             if (!reservationScriptUrl) {
                 alert('No se encontró la dirección del servicio de reservas. Verifique la configuración.');
-                return;
+                devolver ;
             }
 
-            setSubmissionState(true);
+            establecerEstadoDeEnvío ( verdadero );
 
-            try {
-                await submitReservation(reservationScriptUrl, data);
-                await confirmReservationPersisted(fingerprint, baselineGuests);
-                showConfirmation();
+            intentar {
+                esperar enviarReserva (urlScriptReserva, datos);
+ 
+                esperar confirmarReservaPersistente (huella digital, huéspedes de referencia);
+ 
+                mostrarConfirmación ();
             } catch (error) {
                 console.error('Error al registrar la reserva:', error);
-                if (error && error.message === 'reservation_not_found') {
+                if (error && error.message === ' reservation_not_found' ) {
                     alert('No pudimos confirmar tu reserva en la hoja de cálculo. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
-                } else if (error && error.message === 'reservation_timeout') {
+                } else if (error && error.message === ' reservation_timeout' ) {
+ 
                     alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
-                } else if (error && error.message === 'reservation_missing_endpoint') {
+                } else if (error && error.message === ' reservation_missing_endpoint' ) {
+ 
                     alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
-                } else {
+                } demás {
                     alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
                 }
-            } finally {
-                setSubmissionState(false);
+            } finalmente {
+                establecerEstadoDeEnvío ( falso );
             }
         }
 
-        function showConfirmation() {
-            const mesaConfirmada = document.getElementById('mesa').value;
-            document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
-            const current = document.getElementById(`screen${currentScreen}`);
-            if (current) current.classList.remove('active');
-            const modal = document.getElementById('confirmationModal');
-            if (modal) {
-                modal.classList.add('active');
-                modal.style.display = 'flex';
+        función mostrarConfirmación ( ) {
+ 
+            const mesaConfirmada = document.getElementById ( ' mesa' ) .
+ value ;
+            documento . getElementById ( 'mesaConfirmada' ). textContent = mesaConfirmada;
+            const current = document.getElementById ( ` screen ${currentScreen} ` )
+ ;
+            if (current) current.classList.remove ( ' active ' )
+ ;
+            const modal = document.getElementById ( ' confirmationModal' )
+ ;
+            si (modal) {
+                modal.classList.add ( ' active ' )
+ ;
+                modal.style.display = ' flex '
+ ;​
             }
-            stopDataFetchInterval();
+            detenerIntervaloDeObtenciónDeDatos ();
         }
 
-        function finalizarRegistro() {
-            location.reload();
+        función finalizarRegistro ( ) {
+ 
+            ubicación.recargar ( );
         }
 
-        async function fetchGuestsData() {
-            try {
-                const response = await fetch(appendCacheBuster(GUESTS_SHEET_CSV_URL), { cache: 'no-store' });
-                if (!response.ok) {
-                    throw new Error(`sheet_fetch_${response.status}`);
+        función asíncrona obtenerDatosInvitados ( ) {
+  
+            intentar {
+                const respuesta = await fetch ( appendCacheBuster ( GUESTS_SHEET_CSV_URL ), { cache : 'no-store' });
+ 
+                if (!response.ok ) {
+                    lanzar nuevo Error ( `sheet_fetch_ ${response.status} ` );
+  
                 }
 
-                const csv = await response.text();
-                const data = csvToJSON(csv);
-                guestsData = data;
-                updateMesasCompletaColor();
-                updateGuestList();
-                updateSeats();
-                return data;
+                const csv = await response.text ()
+ ;
+                const data = csvToJSON (csv);
+                datosInvitados = datos;
+                actualizarMesasCompletaColor ();
+                actualizarListaDeInvitados ();
+                actualizarAsientos ();
+                devolver datos;
             } catch (error) {
-                console.error('Error fetching guest data:', error);
-                throw error;
+                console.error ( 'Error al obtener los datos del invitado:' , error );
+                lanzar error;
             }
         }
 
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let insideQuotes = false;
+        función parseCSVLine ( línea ) {
+ 
+            const resultado = [];
+            sea ​​actual = '' ;
+            sea ​​insideQuotes = false ;
 
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    if (insideQuotes && line[i + 1] === '"') {
-                        current += '"';
+            for ( let i = 0 ; i < line. length ; i++) {
+                const char = línea[i];
+                if (char === '"' ) {
+                    if (insideQuotes && line[i + 1 ] === '"' ) {
+                        actual += '' ;
                         i++;
-                    } else {
+                    } demás {
                         insideQuotes = !insideQuotes;
                     }
                 } else if (char === ',' && !insideQuotes) {
-                    result.push(current);
-                    current = '';
-                } else {
-                    current += char;
+ 
+                    resultado. push (actual);
+                    actual = '' ;
+                } demás {
+                    actual += carácter;
                 }
             }
-            result.push(current);
+            resultado. push (actual);
 
-            return result;
+            devolver resultado;
         }
 
-        function csvToJSON(csv) {
+        función csvToJSON ( csv ) {
+ 
             if (!csv) return {};
-            const sanitized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-            const lines = sanitized.split('\n').filter(line => line.trim() !== '');
-            if (lines.length === 0) return {};
+            const sanitized = csv.replace ( /\r\n/g , '\n' ). replace ( /\r/g , '\n' );
+            const lines = sanitized.split ( ' \n' ). filter ( line => line.trim () !== '' )
+ ;
+            if (lines.length === 0 ) return { };
 
-            const headers = parseCSVLine(lines[0]);
-            const normalizedHeaders = headers.map(header => header.trim());
-            const normalizedHeaderKeys = normalizedHeaders.map(normalizeString);
+            const encabezados = parseCSVLine (líneas[ 0 ]);
+            const encabezados normalizados = encabezados.map ( encabezado = > encabezado.trim ());
+            const normalizedHeaderKeys = normalizedHeaders.map ( normalizeString);
 
-            const result = {};
+            const resultado = {};
 
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
-                if (values.every(value => value === undefined || value === null || value.trim() === '')) continue;
+            for ( let i = 1 ; i < lines. length ; i++) {
+                const valores = parseCSVLine (líneas[i]);
+                if (values.every ( value => value
+ === undefined || value === null || value.trim () === '' ) ) continue ;
 
-                const entry = {};
-                normalizedHeaders.forEach((header, index) => {
-                    entry[header] = (values[index] ?? '').trim();
+                entrada constante = {};
+                normalizedHeaders.forEach ( ( header, index ) = > {
+                    entrada[encabezado] = (valores[índice] ?? '' ) .trim ();
                 });
 
-                const mesaIndex = normalizedHeaderKeys.indexOf('mesa');
-                let mesaLabel = '';
-                if (mesaIndex !== -1) {
-                    mesaLabel = (values[mesaIndex] ?? '').trim();
+                const mesaIndex = normalizedHeaderKeys.indexOf ( ' mesa' );
+                sea ​​mesaLabel = '' ;
+                if (mesaIndex !== - 1 ) {
+                    mesaLabel = (valores[mesaIndex] ?? '' ). recortar ();
                 }
                 if (!mesaLabel) {
-                    const mesaKey = Object.keys(entry).find(key => normalizeString(key) === 'mesa');
-                    if (mesaKey) {
-                        mesaLabel = entry[mesaKey];
+                    const mesaKey = Object.keys (entry) .find ( key => normalizeString (key) === 'mesa' ) ;
+ 
+                    si (clave de tabla) {
+                        etiquetaTabla = entrada[claveTabla];
                     }
                 }
 
-                if (!mesaLabel) continue;
+                Si (!mesaLabel) continuar ;
 
                 if (!result[mesaLabel]) {
-                    result[mesaLabel] = [];
+                    resultado[mesaLabel] = [];
                 }
-                result[mesaLabel].push(entry);
+                resultado[mesaLabel] .push (entrada);
             }
 
-            return result;
+            devolver resultado;
         }
 
-        function updateMesasCompletaColor() {
-            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
+        función actualizarMesasCompletaColor ( ) {
+ 
+            document.querySelectorAll ( '.mesa' ) . forEach ( mesa = > mesa.classList.remove ( ' completa' ) )
+ ;
 
-            Object.keys(guestsData).forEach(mesaLabel => {
-                const guests = guestsData[mesaLabel];
-                let totalGuests = 0;
+            Objeto . claves (datosInvitados). para cada ( etiquetaMesa => {
+                const invitados = datosInvitados[etiquetaMesa];
+                sea ​​totalInvitados = 0 ;
 
-                let maxCapacity = getMesaCapacity(mesaLabel);
+                sea ​​maxCapacity = getMesaCapacity (mesaLabel);
 
-                guests.forEach(guest => {
-                    totalGuests += countGuestSeats(guest);
+                invitados.forEach ( invitado = > {
+                    totalInvitados += contarAsientosInvitados (invitado);
                 });
 
-                if (totalGuests >= maxCapacity) {
-                    const mesaConfig = siteConfig?.mesas?.find(m => (m.label || `Mesa ${m.number}`) === mesaLabel);
-                    let mesaId = null;
-                    if (mesaConfig) {
-                        mesaId = `mesa${mesaConfig.number}`;
-                    } else if (mesaLabel.startsWith('Mesa ')) {
-                        const mesaNumber = mesaLabel.split(' ')[1];
-                        mesaId = `mesa${mesaNumber}`;
+                Si (total de invitados >= capacidad máxima) {
+                    const mesaConfig = siteConfig?. mesas ?. find ( m => (m. label || `Mesa ${m.number} ` ) === mesaLabel);
+                    sea ​​mesaId = null ;
+                    si (mesaConfig) {
+                        mesaId = `mesa ${mesaConfig.number} ` ;
+                    } else if ( mesaLabel.startsWith ( 'Mesa' )) {
+ 
+                        const mesaNumber = mesaLabel.split ( ' ' )[ 1 ];
+                        tableId = `tabla ${tableNumber} ` ;
                     }
-                    if (mesaId) {
-                        const mesaElement = document.getElementById(mesaId);
-                        if (mesaElement) {
-                            mesaElement.classList.add('completa');
+                    si (mesaId) {
+                        const mesaElement = document.getElementById (mesaId)
+ ;
+                        si (mesaElement) {
+                            mesaElement.classList.add ( ' completa ' )
+ ;
                         }
                     }
                 }
             });
         }
 
-        function getMesaCapacity(mesaLabel) {
-            if (!siteConfig || !Array.isArray(siteConfig.mesas)) {
-                return siteConfig?.defaultCapacity || 10;
+        función getMesaCapacity ( mesaLabel ) {
+ 
+            if (!siteConfig || ! Array.isArray ( siteConfig.mesas ) ) {
+                return siteConfig? .defaultCapacity || 10 ;
             }
-            const mesaConfig = siteConfig.mesas.find(mesa => {
-                const label = mesa.label || `Mesa ${mesa.number}`;
-                if (label === mesaLabel) return true;
-                if (mesaLabel.startsWith('Mesa ')) {
-                    return `Mesa ${mesa.number}` === mesaLabel;
+            const mesaConfig = siteConfig.mesas.find ( mesa = > {
+                const label = mesa.label || `Mesa ${mesa.number} ` ;
+                Si (etiqueta === mesaLabel) devolver verdadero ;
+ 
+                if (mesaLabel.startsWith ( ' Mesa' )) {
+                    return `Mesa ${mesa.number} ` === mesaLabel;
+ 
                 }
-                return false;
+                devolver falso ;
+ 
             });
-            if (mesaConfig && typeof mesaConfig.capacity === 'number') {
-                return mesaConfig.capacity;
+            if ( mesaConfig && typeof mesaConfig.capacity === 'number' ) {
+                Devuelve mesaConfig.capacidad ;
+​
             }
-            return siteConfig.defaultCapacity || 10;
+            return siteConfig.defaultCapacity || 10 ;
+​
         }
 
-        function showGuests(mesa, event) {
-            const tooltip = document.getElementById('tooltip');
-            if (!tooltip) return;
+        función mostrarInvitados ( mesa, evento ) {
+ 
+            const tooltip = document.getElementById ( ' tooltip' )
+ ;
+            Si (!tooltip) salir ;
             let content = 'No hay invitados registrados en esta mesa.';
-            const mesaGuests = getGuestsForMesa(mesa);
-            if (mesaGuests.length) {
-                const guestNames = mesaGuests.map(guest => {
-                    let fullName = getGuestFullName(guest);
-                    const acompanantes = extractCompanionNames(guest);
-                    if (acompanantes.length > 0) {
-                        fullName += ` (+${acompanantes.join(', ')})`;
+            const mesaGuests = obtenerGuestsParaMesa (mesa);
+            if (mesaGuests.length ) {
+                const guestNames = mesaGuests.map ( guest = > {
+                    sea ​​nombreCompleto = obtenerNombreCompletoInvitado (invitado);
+                    const acompañantes = extraerNombresDeAcompañantes (invitado);
+                    if (companions.length > 0 ) {
+                        nombreCompleto += ` (+ ${acompañantes.join( ', ' )} )` ;
                     }
                     return fullName || 'Invitado';
-                }).join(', ');
-                content = guestNames || content;
+                }). unirse ( ', ' );
+                contenido = nombresDeInvitados || contenido;
             }
-            tooltip.textContent = content;
-            tooltip.style.display = 'block';
+            tooltip.textContent = contenido;
+            tooltip.style.display = ' block ' ;
+​
 
-            let x = event?.pageX;
-            let y = event?.pageY;
-            const target = event?.currentTarget || event?.target;
-            if ((!x || !y) && target) {
-                const rect = target.getBoundingClientRect();
-                x = rect.left + window.scrollX + rect.width / 2;
-                y = rect.top + window.scrollY + rect.height / 2;
+            Sea x = evento?. páginaX ;
+            Sea y = evento?. páginaY ;
+            const objetivo = evento? .objetivoActual || evento? .objetivo ;
+            si ((!x || !y) && objetivo) {
+                const rect = target.getBoundingClientRect ( );
+                x = rect. izquierda + ventana . desplazamientoX + rect. ancho / 2 ;
+y                 = rect.top + window.scrollY + rect.height / 2 ;
+​
             }
-            tooltip.style.left = `${x}px`;
+            tooltip.style.left = ` $ { x } px` ;
             tooltip.style.top = `${y}px`;
         }
 
-        function hideGuests() {
-            const tooltip = document.getElementById('tooltip');
-            if (!tooltip) return;
-            tooltip.style.display = 'none';
+        función ocultarInvitados ( ) {
+ 
+            const tooltip = document.getElementById ( ' tooltip' )
+ ;
+            Si (!tooltip) salir ;
+            tooltip.style.display = ' none '
+ ;​
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            enforceInitialScreen();
-            ensureSingleHero();
-            try {
-                siteConfig = await loadConfig();
-                applyConfig(siteConfig);
+        document.addEventListener ( ' DOMContentLoaded' , async ( ) => {
+            aplicarPantallaInicial ();
+            asegurarHéroeÚnico ();
+            intentar {
+                siteConfig = await loadConfig ();
+ 
+                aplicarConfiguración (configuraciónSitio);
             } catch (error) {
                 console.error('No se pudo inicializar la configuración', error);
-                const subtitleElement = document.getElementById('siteSubtitle');
-                if (subtitleElement) {
+                const subtitleElement = document.getElementById ( 'siteSubtitle' )
+ ;
+                si (elemento de subtítulo) {
                     subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
                 }
             }
         });
-    </script>
-</body>
+    </script>​​
+</body>​​
 </html>
+
