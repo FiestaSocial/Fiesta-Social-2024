@@ -616,24 +616,24 @@
                 < div class = "hero-card__content" > 
                     < span class = "hero-card__eyebrow" id = " siteSubtitle" > Registro oficial de invitados </span>  
                     < h1 class = "hero-card__title" id = "siteTitleHeading" > Fiesta Social 2024 </h1>  
-                    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
+                    <pclass="hero-card__description"id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>  
                     < div class = "hero-card__actions" > 
                         < button class = "button button--primary" onclick = " nextScreen(2)" > Comenzar registro </button>  
                         <a class="button button--ghost" href="admin.html"> Administración </a>​​​​​​​​​​  
                     </div>​​
                 </div>​​
                 < figura clase = "hero-card__media" > 
-                    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
+                    <imgid="heroImage"src="Imagen de bienvenida.png"alt="Celebración en el salón principal">   
                 </ figura >
             </div>​​
         </ sección >
 
         < sección id = "screen2" class = "container" >  
             <h2>Datos personales</h2>
-            <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
+            <pclass="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p> 
             < form id = "guestForm" class = "form-grid" >  
                 < div class = "form-field" > 
-                    <label for="correo">Correo</label>
+                    <labelfor="correo">Correo</label> 
                     < input type = "email" id = "correo" name = "correo" required >    
                 </div>​​
                 < div class = "form-field" > 
@@ -650,7 +650,7 @@
                     </select>​​
                 </div>​​
                 < div class = "form-field" > 
-                    <label for="escalafon">Escalafón</label>
+                    <labelfor="escalafon">Escalafón</label> 
                     < select id = "escalafón" name = "escalafón" required >   
                         < option value = " " selected > Seleccionar </option>​  
                         < option value = "Apagado." > ( Apagado. ) </option> 
@@ -660,16 +660,16 @@
                     </select>​​
                 </div>​​
                 < div class = "form-field" > 
-                    <label for="nombre">Nombre</label>
+                    <labelfor="nombre">Nombre</label> 
                     < input type = "text" id = "nombre" name = "nombre" required >    
                 </div>​​
                 < div class = "form-field" > 
-                    <label for="apellido">Apellido</label>
+                    <labelfor="apellido">Apellido</label> 
                     < input type = "text" id = "apellido" name = "apellido" required >    
                 </div>​​
                 < div class = "form-field" > 
-                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
-                    <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
+                    <labelfor="cedula">Cédula de Identidad (formato 0.000.000-0)</label> 
+                    <inputtype="text"id="cedula"name="cedula"requiredpattern="^\d\.\d{3}\.\d{3}-\d$"title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">      
                 </div>​​
                 < div class = "form-field" > 
                     <labelfor="acompanante">¿Asiste con acompañante?</label> 
@@ -710,7 +710,7 @@
 
         < sección id = "screen3" class = "container" >  
             <h2>Información de acompañantes</h2>
-            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
+            <pclass="section-description">Agrega los datos de cada invitado adicional.</p> 
             < form id = " acompanantesForm " > </form> 
             < div class = "navigation-buttons" > 
                 < button class = " button button--ghost" onclick = "prevScreen(2) " > Anterior </button>  
@@ -720,13 +720,13 @@
 
         < sección id = "screen4" class = "container" >  
             <h2>Selecciona tu mesa</h2>
-            <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
+            <pclass="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p> 
             < div class = "salon-wrapper" > 
                 < aside class = "salon-summary" > 
                     <h3>Resumen del salón</h3>
-                    <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
-                    <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
-                    <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
+                    <p><strong>Mesas disponibles:</strong><spanid="totalMesasCounter">--</span></p>  
+                    <p><strong>Capacidad total:</strong><spanid="capacidadTotalCounter">--</span> invitados</p>  
+                    <p><strong>Mesa seleccionada:</strong><spanid="mesaSeleccionadaLabel">Sin seleccionar</span></p>  
                     < div class = "legend" > 
                         <span> < span class = "legend-swatch legend - swatch -- available " > </span> Disponible </span> 
                         <span> < span class = "legend-swatch legend - swatch -- full " > </span> Completa </span> 
@@ -742,7 +742,7 @@
                 </div>​​
                 < div >
                     <h3>Invitados registrados en esta mesa</h3>
-                    <div id="guestList">Selecciona una mesa para ver los invitados.</div>
+                    <divid="guestList">Selecciona una mesa para ver los invitados.</div> 
                 </div>​​
             </div>​​
             < div class = "navigation-buttons" > 
@@ -755,7 +755,7 @@
     < div id = "confirmationModal" class = "modal-overlay" >  
         < div class = "modal-content" > 
             <h2> Registro completo </h2>
-            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
+            <p>Tu reserva se guardó en <strongid="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p> 
             < button class = "button button--primary" onclick = "finalizarRegistro ( ) " > Finalizar </button>  
         </div>​​
     </div>​​
@@ -776,11 +776,16 @@
  
         const SUBMISSION_MAX_WAIT = 20000 ;
  
-        const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
-        const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
-        const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
-        const NOMBRE_KEYS = ['nombre', 'nombres'];
-        const APELLIDO_KEYS = ['apellido', 'apellidos'];
+        constACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
+ 
+        constEMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
+ 
+        constCEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
+ 
+        constNOMBRE_KEYS = ['nombre', 'nombres'];
+ 
+        constAPELLIDO_KEYS = ['apellido', 'apellidos'];
+ 
 
         sea ​​reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT ;
 
@@ -905,10 +910,12 @@
                 tabla : fecha. tabla ,
                 cédula normalizada : normalizarCadena (datos.cédula ),
                 normalizedCorreo: normalizeString(data.correo),
-                normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`),
+                normalizedNombreCompleto: normalizeString(`${data.nombre || ''}${data.apellido || ''}`),
+ 
                 rawSchedule : datos.schedule ,
                 rawCorreo: data.correo,
-                rawNombreCompleto: `${data.nombre || ''} ${data.apellido || ''}`.trim()
+                rawNombreCompleto: `${data.nombre || ''}${data.apellido || ''}`.trim()
+ 
             };
         }
 
@@ -1286,7 +1293,8 @@
             const respuesta = await fetch ( 'config.json?_=' + Date . now ());
  
             if (!response.ok ) {
-                throw new Error('No se pudo cargar la configuración');
+                thrownewError('No se pudo cargar la configuración');
+  
             }
             return await response.json ()
  ; 
@@ -1540,7 +1548,8 @@
             }
         }
 
-        function generateAcompanantesForm(cantidad) {
+        functiongenerateAcompanantesForm(cantidad) {
+ 
             formulario de carta adjunta = documento . getElementById ( 'acompanantesForm' );
             acompanantesForm.innerHTML = ' ' ;
             for (let i = 1; i <= cantidad; i++) {
@@ -2051,4 +2060,3 @@ y                 = rect.top + window.scrollY + rect.height / 2 ;
     </script>​​
 </body>​​
 </html>
-
