@@ -910,7 +910,7 @@
             return counts;
         }
 
-        function createReservationFormData(payload) {
+        function createReservationFormData(payload, submittedAt) {
             const formData = new FormData();
             const safePayload = payload ?? {};
             formData.append('payload', JSON.stringify(safePayload));
@@ -927,8 +927,29 @@
                 }
             });
 
-            formData.append('submittedAt', new Date().toISOString());
+            formData.append('submittedAt', submittedAt);
             return formData;
+        }
+
+        function createReservationQueryString(payload, submittedAt) {
+            const safePayload = payload ?? {};
+            const params = new URLSearchParams();
+            params.append('payload', JSON.stringify(safePayload));
+
+            Object.entries(safePayload).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
+                }
+
+                if (typeof value === 'object') {
+                    params.append(key, JSON.stringify(value));
+                } else {
+                    params.append(key, value);
+                }
+            });
+
+            params.append('submittedAt', submittedAt);
+            return params.toString();
         }
 
         async function submitReservation(scriptUrl, payload) {
@@ -936,6 +957,7 @@
                 throw new Error('reservation_missing_endpoint');
             }
 
+            const submittedAt = new Date().toISOString();
             const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
             const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
 
@@ -943,7 +965,7 @@
                 const options = {
                     method: 'POST',
                     mode,
-                    body: createReservationFormData(payload)
+                    body: createReservationFormData(payload, submittedAt)
                 };
 
                 if (controller) {
@@ -969,6 +991,49 @@
                 return null;
             };
 
+            const submitWithGet = async () => {
+                const queryString = createReservationQueryString(payload, submittedAt);
+                const separator = scriptUrl.includes('?') ? '&' : '?';
+                const targetUrl = `${scriptUrl}${separator}${queryString}`;
+
+                const attempt = async (mode) => {
+                    const options = {
+                        method: 'GET',
+                        mode,
+                        cache: 'no-store'
+                    };
+
+                    if (controller) {
+                        options.signal = controller.signal;
+                    }
+
+                    const response = await fetch(targetUrl, options);
+                    if (mode === 'cors') {
+                        if (!response || !response.ok) {
+                            const status = response ? response.status : 'unknown';
+                            throw new Error(`reservation_http_get_${status}`);
+                        }
+                    }
+                };
+
+                try {
+                    await attempt('cors');
+                } catch (error) {
+                    if (error && error.name === 'AbortError') {
+                        throw new Error('reservation_timeout');
+                    }
+
+                    const message = typeof error?.message === 'string' ? error.message : '';
+                    const isHttpError = message.startsWith('reservation_http_get_');
+
+                    if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
+                        await attempt('no-cors');
+                    } else {
+                        throw error;
+                    }
+                }
+            };
+
             try {
                 try {
                     await sendRequest('cors');
@@ -981,6 +1046,11 @@
                     const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
                     const isHttpError = message.startsWith('reservation_http_');
 
+                    if (message === 'reservation_http_405') {
+                        await submitWithGet();
+                        return;
+                    }
+
                     if (!isLikelyCorsIssue || isHttpError) {
                         throw error;
                     }
@@ -990,6 +1060,12 @@
                     } catch (fallbackError) {
                         if (fallbackError && fallbackError.name === 'AbortError') {
                             throw new Error('reservation_timeout');
+                        }
+
+                        const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
+                        if (fallbackMessage === 'reservation_http_405') {
+                            await submitWithGet();
+                            return;
                         }
                         throw fallbackError;
                     }
