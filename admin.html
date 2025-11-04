@@ -575,11 +575,19 @@ function buildResponse(payload) {
 }</code></pre>
                         </details>
                         <div class="hint-panel">
+                            <p><strong>Crear una hoja nueva y vincularla</strong></p>
+                            <ol>
+                                <li>Entra a <a href="https://sheets.google.com" target="_blank" rel="noreferrer noopener">Google Sheets</a>, crea un libro en blanco, renómbralo (por ejemplo, <em>Fiesta Social 2024</em>) y, si piensas usar el mismo Apps Script con varios usuarios, compártelo con los correos que registrarán reservas.</li>
+                                <li>Abre la URL del libro y copia el identificador que aparece entre <code>/d/</code> y <code>/edit</code>; reemplázalo en la constante <code>SHEET_ID</code> del archivo <code>apps-script-template.gs</code>.</li>
+                                <li>En Google Apps Script crea un proyecto nuevo, pega el contenido del archivo de ejemplo (o actualiza el existente) y guarda. Si usas otro nombre para la pestaña, ajusta <code>SHEET_NAME</code>.</li>
+                                <li>Dentro de Apps Script ve a <em>Deploy ▸ Manage deployments ▸ New deployment</em>, elige <strong>Web app</strong>, establece <em>Execute as: tu cuenta</em> y <em>Who has access: Anyone with the link</em>, publica y copia la URL pública que termina en <code>/exec</code>.</li>
+                                <li>Pega esa URL en el campo anterior y pulsa <strong>Guardar cambios</strong>. Si el botón “Guardar en config.json” está activo, úsalo para persistirla en el archivo del proyecto.</li>
+                            </ol>
+                        </div>
+                        <div class="hint-panel">
                             <p><strong>Pasos para verificar la conexión</strong></p>
                             <ol>
-                                <li>En Google Apps Script abre <em>Deploy ▸ Manage deployments</em>, crea una versión nueva del Web App y copia la URL pública mostrada; debe lucir como <code>https://script.google.com/macros/s/&lt;ID&gt;/exec</code>.</li>
-                                <li>Pega esa URL en el campo anterior y pulsa <strong>Guardar cambios</strong>. Si el botón “Guardar en config.json” está activo, úsalo para persistir el valor en el archivo.</li>
-                                <li>En Apps Script, confirma que tu código publicado incluye <code>doPost(e)</code> (y opcionalmente <code>doGet(e)</code>) como en el ejemplo y que ambos devuelven la respuesta con cabeceras CORS.</li>
+                                <li>Confirma que el código publicado incluye <code>doPost(e)</code> (y opcionalmente <code>doGet(e)</code>) como en el ejemplo y que ambos devuelven la respuesta con cabeceras CORS.</li>
                                 <li>Desde Apps Script abre <em>View ▸ Logs</em> o utiliza <code>Execution log</code> para verificar si llegan solicitudes después de cada prueba. Los registros deben mostrar el JSON recibido.</li>
                                 <li>Envía una reserva de prueba en el sitio público; luego actualiza la hoja “Datos de Invitados” y comprueba que aparece una fila con la fecha del servidor más reciente.</li>
                                 <li>Si no se agrega la fila, revisa la pestaña Network de las herramientas de desarrollador del navegador y anota el estatus HTTP de la solicitud. Compáralo con los logs del Script para detectar bloqueos de permisos o errores de parseo.</li>
