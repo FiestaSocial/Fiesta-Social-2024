@@ -1180,101 +1180,57 @@
                 const separator = scriptUrl.includes('?') ? '&' : '?';
                 const targetUrl = `${scriptUrl}${separator}${requestQueryString}`;
 
-                const attemptFetch = async (mode) => {
-                    const normalizedMode = mode.toUpperCase();
-                    const attempt = {
-                        mode: `GET-${normalizedMode}`,
-                        url: targetUrl,
-                        startedAt: new Date().toISOString()
-                    };
-                    getAttempts.push(attempt);
+                const attempt = {
+                    mode: 'GET-NO-CORS',
+                    url: targetUrl,
+                    startedAt: new Date().toISOString()
+                };
+                getAttempts.push(attempt);
 
-                    const options = {
-                        method: 'GET',
-                        mode,
-                        cache: 'no-store'
-                    };
+                const options = {
+                    method: 'GET',
+                    mode: 'no-cors',
+                    cache: 'no-store'
+                };
 
-                    if (controller) {
-                        options.signal = controller.signal;
-                    }
+                if (controller) {
+                    options.signal = controller.signal;
+                }
 
+                try {
                     const response = await fetch(targetUrl, options);
                     attempt.completedAt = new Date().toISOString();
                     attempt.status = response?.status ?? 'unknown';
                     attempt.ok = response?.ok ?? false;
                     attempt.responseType = response?.type ?? 'n/d';
-
-                    if (mode === 'cors') {
-                        if (!response || !response.ok) {
-                            const status = response ? response.status : 'unknown';
-                            attempt.error = { name: 'HTTPError', message: `HTTP ${status}` };
-                            throw new Error(`reservation_http_get_${status}`);
-                        }
-                    }
-
+                    console.info('[Reservas] GET no-CORS despachado correctamente.');
                     lastSuccessfulMode = attempt.mode;
                     return response;
-                };
-
-                try {
-                    console.info('[Reservas] Lanzando fallback GET en modo CORS.');
-                    await attemptFetch('cors');
                 } catch (error) {
-                    if (error && error.name === 'AbortError') {
-                        throw new Error('reservation_timeout');
-                    }
-
-                    const message = typeof error?.message === 'string' ? error.message : '';
-                    const isHttpError = message.startsWith('reservation_http_get_');
-
-                    if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
-                        console.warn('[Reservas] GET CORS falló, probando con no-CORS.', error);
-                        await attemptFetch('no-cors');
-                    } else {
-                        throw error;
-                    }
+                    attempt.completedAt = new Date().toISOString();
+                    attempt.error = { name: error?.name, message: error?.message };
+                    console.error('[Reservas] GET no-CORS falló.', error);
+                    throw error;
                 }
             };
 
             try {
                 try {
-                    await sendRequest('cors');
+                    await sendRequest('no-cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
                         lastError = error;
                         throw new Error('reservation_timeout');
                     }
 
-                    const message = typeof error?.message === 'string' ? error.message : '';
-                    const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
-                    const isHttpError = message.startsWith('reservation_http_');
-
-                    if (message === 'reservation_http_405') {
-                        console.warn('[Reservas] El endpoint rechazó POST (405). Intentando con GET.');
-                        await submitWithGet();
-                        return;
-                    }
-
-                    if (!isLikelyCorsIssue || isHttpError) {
-                        lastError = error;
-                        throw error;
-                    }
+                    console.warn('[Reservas] POST no-CORS falló, intentando GET no-CORS.', error);
 
                     try {
-                        console.warn('[Reservas] Intento CORS fallido, probando POST no-CORS.');
-                        await sendRequest('no-cors');
+                        await submitWithGet();
                     } catch (fallbackError) {
                         if (fallbackError && fallbackError.name === 'AbortError') {
                             lastError = fallbackError;
                             throw new Error('reservation_timeout');
-                        }
-
-                        const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
-                        if (fallbackMessage === 'reservation_http_405') {
-                            console.warn('[Reservas] El endpoint rechazó POST no-CORS (405). Intentando con GET.');
-                            await submitWithGet();
-                            return;
                         }
                         lastError = fallbackError;
                         throw fallbackError;
