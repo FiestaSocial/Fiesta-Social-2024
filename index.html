@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<cabeza>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partido Social 2024</title>
+    <title>Fiesta Social 2024</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :raíz {
-            --color-primario: #0b66ff;
+        :root {
+            --color-primary: #0b66ff;
             --color-primary-dark: #084dcc;
-            --color-secundario: #f39c12;
-            --color de fondo: #0f172a;
-            --color de superficie: #ffffff;
+            --color-secondary: #f39c12;
+            --color-background: #0f172a;
+            --color-surface: #ffffff;
             --color-muted: #64748b;
-            --border-color: #e2e8f0;
+            --color-border: #e2e8f0;
             --color-success: #22c55e;
             --color-danger: #ef4444;
             --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.25);
@@ -26,554 +26,554 @@
         }
 
         * {
-            tamaño de caja: caja con borde;
+            box-sizing: border-box;
         }
 
-        cuerpo {
-            margen: 0;
-            altura mínima: 100vh;
+        body {
+            margin: 0;
+            min-height: 100vh;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
-            fondo: degradado radial (círculo en la parte superior izquierda, rgba(59, 130, 246, 0.45), transparente 55%),
-                        gradiente radial (círculo en la parte inferior derecha, rgba(234, 179, 8, 0.35), transparente 55%),
-                        gradiente-lineal(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.45), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(234, 179, 8, 0.35), transparent 55%),
+                        linear-gradient(135deg, #0f172a, #1e293b 45%, #0f172a 90%);
             color: #0f172a;
-            relleno: 40px 16px 60px;
-            pantalla: flexible;
-            justificar-contenido: centro;
+            padding: 40px 16px 60px;
+            display: flex;
+            justify-content: center;
         }
 
-        principal {
-            ancho: 100%;
-            ancho máximo: 1100 píxeles;
+        main {
+            width: 100%;
+            max-width: 1100px;
         }
 
         h1, h2, h3 {
             color: #0f172a;
-            margen: 0 0 12px 0;
+            margin: 0 0 12px 0;
         }
 
-        pag {
-            margen: 0 0 16px;
+        p {
+            margin: 0 0 16px;
             color: var(--color-muted);
-            altura de línea: 1,6;
+            line-height: 1.6;
         }
 
-        .contenedor {
-            fondo: var(--color-surface);
-            radio-borde: var(--radius-lg);
-            relleno: 32px 32px 40px;
+        .container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 32px 32px 40px;
             box-shadow: var(--shadow-lg);
-            pantalla: ninguna;
-            margen inferior: 32px;
-            posición: relativa;
-            desbordamiento: oculto;
+            display: none;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .contenedor::después {
-            contenido: "";
-            posición: absoluta;
-            recuadro: 0;
-            fondo: degradado radial (círculo en la parte superior derecha, rgba(11, 102, 255, 0.08), transparente 55%);
-            eventos de puntero: ninguno;
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
+            pointer-events: none;
         }
 
-        .contenedor.activo {
-            pantalla: bloque;
-            animación: fadeIn 0.45s ease;
+        .container.active {
+            display: block;
+            animation: fadeIn 0.45s ease;
         }
 
         @keyframes fadeIn {
-            de {
-                opacidad: 0;
-                transformar: traslaciónY(10px);
+            from {
+                opacity: 0;
+                transform: translateY(10px);
             }
-            a {
-                opacidad: 1;
-                transformar: traslaciónY(0);
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
         .hero-card {
-            pantalla: cuadrícula;
-            espacio: 32px;
-            columnas-plantilla-cuadrícula: repetir(ajuste automático, minmax(280px, 1fr));
-            alinear elementos: centro;
+            display: grid;
+            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
         }
 
         .hero-card__content {
-            posición: relativa;
-            índice z: 1;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-card__eyebrow {
-            pantalla: inline-flex;
-            alinear elementos: centro;
-            espacio: 8px;
-            relleno: 6px 14px;
-            radio de borde: 999px;
-            fondo: rgba(11, 102, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(11, 102, 255, 0.1);
             color: var(--color-primary);
-            grosor de la fuente: 600;
-            transformación de texto: mayúsculas;
-            espaciado entre letras: 0,08em;
-            tamaño de fuente: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 12px;
         }
 
         .hero-card__title {
-            tamaño de fuente: clamp(32px, 5vw, 48px);
-            grosor de la fuente: 700;
-            margen inferior: 16px;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
         }
 
         .hero-card__description {
-            tamaño de fuente: 16px;
+            font-size: 16px;
             color: rgba(15, 23, 42, 0.8);
-            margen inferior: 24px;
+            margin-bottom: 24px;
         }
 
         .hero-card__actions {
-            pantalla: flexible;
-            flex-wrap: envolver;
-            espacio: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .hero-card__media {
-            margen: 0;
-            posición: relativa;
-            radio-borde: var(--radius-md);
-            desbordamiento: oculto;
+            margin: 0;
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
             box-shadow: var(--shadow-md);
         }
 
         .hero-card__media::after {
-            contenido: "";
-            posición: absoluta;
-            recuadro: 0;
-            fondo: gradiente-lineal(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
         }
 
         .hero-card__media img {
-            ancho: 100%;
-            altura: 100%;
-            ajuste del objeto: cubierta;
-            pantalla: bloque;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .section-description {
-            tamaño de fuente: 15px;
+            font-size: 15px;
             color: rgba(15, 23, 42, 0.7);
-            margen inferior: 24px;
+            margin-bottom: 24px;
         }
 
         .form-grid {
-            pantalla: cuadrícula;
-            columnas-plantilla-de-cuadrícula: repetir(ajuste automático, minmax(240px, 1fr));
-            espacio: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
         .form-field {
-            pantalla: flexible;
-            dirección flexible: columna;
-            espacio: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        etiqueta {
-            grosor de la fuente: 600;
+        label {
+            font-weight: 600;
             color: rgba(15, 23, 42, 0.85);
-            tamaño de fuente: 14px;
+            font-size: 14px;
         }
 
-        entrada, seleccionar {
-            relleno: 12px 14px;
-            radio-borde: var(--radius-sm);
-            borde: 1px solid var(--color-border);
-            tamaño de fuente: 15px;
-            transición: borde con suavizado de 0,2 segundos, sombra de caja con suavizado de 0,2 segundos;
-            fondo: #f8fafc;
+        input, select {
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            font-size: 15px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+            background: #f8fafc;
         }
 
-        entrada:enfoque, selección:enfoque {
-            esquema: ninguno;
-            color de borde: rgba(11, 102, 255, 0.8);
+        input:focus, select:focus {
+            outline: none;
+            border-color: rgba(11, 102, 255, 0.8);
             box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
         }
 
-        entrada: no válida, selección: no válida {
-            color de borde: rgba(239, 68, 68, 0.6);
+        input:invalid, select:invalid {
+            border-color: rgba(239, 68, 68, 0.6);
         }
 
-        .botón {
-            pantalla: inline-flex;
-            alinear elementos: centro;
-            justificar-contenido: centro;
-            espacio: 8px;
-            borde: ninguno;
-            radio de borde: 999px;
-            relleno: 12px 24px;
-            tamaño de fuente: 15px;
-            grosor de la fuente: 600;
-            cursor: puntero;
-            transición: transformación 0.2s suavizado, sombra de caja 0.2s suavizado;
-            decoración de texto: ninguna;
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
         }
 
-        .botón--primario {
-            fondo: var(--color-primario);
+        .button--primary {
+            background: var(--color-primary);
             color: #fff;
             box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
         }
 
         .button--primary:hover {
-            fondo: var(--color-primary-dark);
-            transformar: traslaciónY(-1px);
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
         }
 
-        .botón--fantasma {
-            fondo: rgba(15, 23, 42, 0.04);
+        .button--ghost {
+            background: rgba(15, 23, 42, 0.04);
             color: var(--color-primary);
         }
 
         .button--ghost:hover {
-            fondo: rgba(15, 23, 42, 0.1);
+            background: rgba(15, 23, 42, 0.1);
         }
 
-        .botones-de-navegación {
-            margen superior: 32px;
-            pantalla: flexible;
-            justificar-contenido: flex-end;
-            espacio: 16px;
+        .navigation-buttons {
+            margin-top: 32px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
         }
 
         .salon-wrapper {
-            pantalla: cuadrícula;
-            columnas de plantilla de cuadrícula: 260px 1fr;
-            espacio: 28px;
-            margen inferior: 32px;
-            alinear elementos: inicio;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+            align-items: start;
         }
 
         .salon-summary {
-            fondo: rgba(248, 250, 252, 0.9);
-            radio-borde: var(--radius-md);
-            relleno: 20px;
+            background: rgba(248, 250, 252, 0.9);
+            border-radius: var(--radius-md);
+            padding: 20px;
             box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            posición: fija;
-            parte superior: 32px;
+            position: sticky;
+            top: 32px;
         }
 
         .salon-summary h3 {
-            tamaño de fuente: 18px;
-            margen inferior: 12px;
+            font-size: 18px;
+            margin-bottom: 12px;
         }
 
         .salon-summary p {
-            margen inferior: 12px;
+            margin-bottom: 12px;
             color: rgba(15, 23, 42, 0.75);
         }
 
-        .leyenda {
-            pantalla: flexible;
-            dirección flexible: columna;
-            espacio: 8px;
-            margen superior: 12px;
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .leyenda span {
-            pantalla: inline-flex;
-            alinear elementos: centro;
-            espacio: 8px;
-            tamaño de fuente: 14px;
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
             color: rgba(15, 23, 42, 0.8);
         }
 
-        .leyenda-muestra {
-            ancho: 16px;
-            altura: 16px;
-            borde-radio: 4px;
-            mostrar: bloque en línea;
+        .legend-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
         }
 
         .legend-swatch--available {
-            fondo: var(--color-primario);
+            background: var(--color-primary);
         }
 
         .legend-swatch--full {
-            fondo: var(--color-peligro);
+            background: var(--color-danger);
         }
 
         .legend-swatch--selected {
-            fondo: var(--color-secundario);
+            background: var(--color-secondary);
         }
 
-        .mapa-de-salones {
-            posición: relativa;
-            ancho: 100%;
-            Relación de aspecto: 16 / 9;
-            fondo: gradiente-lineal(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
-            radio-borde: var(--radius-md);
+        .salon-map {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
+            border-radius: var(--radius-md);
             box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
-            desbordamiento: oculto;
+            overflow: hidden;
         }
 
         .map-zone {
-            posición: absoluta;
-            izquierda: calc(var(--zone-x, 50) * 1%);
-            arriba: calc(var(--zone-y, 50) * 1%);
-            transformar: trasladar(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotar(var(--zone-rotate, 0deg));
+            position: absolute;
+            left: calc(var(--zone-x, 50) * 1%);
+            top: calc(var(--zone-y, 50) * 1%);
+            transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
             transform-origin: var(--zone-origin, center);
-            relleno: 6px 16px;
-            radio de borde: 999px;
-            tamaño de fuente: 12px;
-            grosor de la fuente: 600;
-            transformación de texto: mayúsculas;
-            espaciado entre letras: 0,08em;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
             color: #fff;
-            fondo: rgba(15, 23, 42, 0.7);
-            eventos de puntero: ninguno;
-            índice z: 1;
-            espacio en blanco: ahora
+            background: rgba(15, 23, 42, 0.7);
+            pointer-events: none;
+            z-index: 1;
+            white-space: nowrap;
         }
 
         .map-zone--dance {
-            fondo: rgba(34, 197, 94, 0.85);
+            background: rgba(34, 197, 94, 0.85);
         }
 
         .map-zone--stage {
             --zone-tx: 0%;
-            --tipo-zona: -50%;
-            --rotación de zona: -90 grados;
-            --origen de zona: centro izquierdo;
-            fondo: rgba(59, 130, 246, 0.9);
+            --zone-ty: -50%;
+            --zone-rotate: -90deg;
+            --zone-origin: left center;
+            background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--entrance {
-            --tipo-zona: 0%;
-            fondo: rgba(59, 130, 246, 0.9);
+            --zone-ty: 0%;
+            background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dj {
-            --tipo-zona: -100%;
-            fondo: rgba(59, 130, 246, 0.9);
+            --zone-ty: -100%;
+            background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dessert {
-            ancho: 24px;
-            alineación del texto: centro;
-            modo de escritura: vertical-rl;
-            espaciado entre letras: 0,2 em;
-            relleno: 12px 6px;
-            fondo: rgba(59, 130, 246, 0.9);
+            width: 24px;
+            text-align: center;
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+            padding: 12px 6px;
+            background: rgba(59, 130, 246, 0.9);
         }
 
         .map-zone--dessert-left {
-            --zona-tx: -50%;
+            --zone-tx: -50%;
         }
 
         .map-zone--dessert-right {
-            --zona-tx: -50%;
+            --zone-tx: -50%;
         }
 
         .mesa {
-            posición: absoluta;
-            ancho: 52 píxeles;
-            altura: 52 píxeles;
-            borde-radio: 16px;
-            fondo: var(--color-primario);
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--color-primary);
             color: #fff;
-            grosor de la fuente: 600;
-            pantalla: flexible;
-            alinear elementos: centro;
-            justificar-contenido: centro;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
-            transformar: traslación(-50%, -50%);
-            borde: ninguno;
-            cursor: puntero;
-            transición: transformación 0.2s suavizado, sombra de caja 0.2s suavizado, fondo 0.2s suavizado;
-            índice z: 2;
+            transform: translate(-50%, -50%);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            z-index: 2;
         }
 
-        .table:hover,
-        .table:focus {
-            transformar: traslación(-50%, -50%) escala(1.05);
+        .mesa:hover,
+        .mesa:focus {
+            transform: translate(-50%, -50%) scale(1.05);
             box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
-            esquema: ninguno;
+            outline: none;
         }
 
-        .tabla.completa {
-            fondo: var(--color-peligro);
+        .mesa.completa {
+            background: var(--color-danger);
             box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3);
         }
 
-        .tabla.seleccionada {
-            fondo: var(--color-secundario);
+        .mesa.seleccionada {
+            background: var(--color-secondary);
             box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35);
         }
 
-        .detalles-tabla {
-            pantalla: cuadrícula;
-            columnas-plantilla-cuadrícula: repetir(ajuste automático, minmax(260px, 1fr));
-            espacio: 24px;
-            margen inferior: 24px;
+        .table-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
         }
 
-        .contenedor-tabla {
-            posición: relativa;
-            ancho: 100%;
-            relleno superior: 100%;
-            radio-borde: var(--radius-md);
-            fondo: rgba(248, 250, 252, 0.9);
+        .table-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: var(--radius-md);
+            background: rgba(248, 250, 252, 0.9);
             box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            pantalla: ninguna;
+            display: none;
         }
 
-        #contenedor de asientos {
-            posición: absoluta;
-            recuadro: 0;
+        #seatsContainer {
+            position: absolute;
+            inset: 0;
         }
 
-        .mesa {
-            posición: absoluta;
-            parte superior: 50%;
-            izquierda: 50%;
-            transformar: traslación(-50%, -50%);
-            ancho: 120 píxeles;
-            altura: 120 píxeles;
-            radio de borde: 50%;
-            fondo: var(--color-primario);
+        .table {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--color-primary);
             color: #fff;
-            tamaño de fuente: 18px;
-            grosor de la fuente: 600;
-            pantalla: flexible;
-            alinear elementos: centro;
-            justificar-contenido: centro;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
         }
 
-        #contenedor de asientos .asiento {
-            ancho: 42px;
-            altura: 42px;
-            borde-radio: 12px;
-            fondo: var(--color-success);
-            pantalla: flexible;
-            alinear elementos: centro;
-            justificar-contenido: centro;
+        #seatsContainer .seat {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--color-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #fff;
-            grosor de la fuente: 600;
-            transición: transformación 0.2s suavizado, fondo 0.2s suavizado;
+            font-weight: 600;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
         #seatsContainer .seat.occupied {
-            fondo: var(--color-peligro);
+            background: var(--color-danger);
         }
 
-        #listadeinvitados {
-            altura mínima: 180px;
-            fondo: rgba(248, 250, 252, 0.85);
-            radio-borde: var(--radius-md);
-            relleno: 20px;
+        #guestList {
+            min-height: 180px;
+            background: rgba(248, 250, 252, 0.85);
+            border-radius: var(--radius-md);
+            padding: 20px;
             box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            tamaño de fuente: 14px;
-            pantalla: cuadrícula;
-            espacio: 6px;
+            font-size: 14px;
+            display: grid;
+            gap: 6px;
         }
 
-        #lista de invitados fuerte {
+        #guestList strong {
             color: rgba(15, 23, 42, 0.9);
         }
 
-        #formularioacompañado {
-            pantalla: cuadrícula;
-            espacio: 16px;
+        #acompanantesForm {
+            display: grid;
+            gap: 16px;
         }
 
-        #formularioacompañado h3 {
-            margen superior: 24px;
+        #acompanantesForm h3 {
+            margin-top: 24px;
         }
 
-        #cantidad de acompañantes {
-            transición: opacidad 0.2s suavidad;
+        #acompananteCantidad {
+            transition: opacity 0.2s ease;
         }
 
         .tooltip {
-            posición: absoluta;
-            fondo: rgba(15, 23, 42, 0.88);
+            position: absolute;
+            background: rgba(15, 23, 42, 0.88);
             color: #fff;
-            relleno: 10px 14px;
-            radio-borde: var(--radius-sm);
-            tamaño de fuente: 13px;
-            pantalla: ninguna;
-            ancho máximo: 280px;
-            altura de línea: 1.4;
-            Índice z: 50;
-            eventos de puntero: ninguno;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            max-width: 280px;
+            line-height: 1.4;
+            z-index: 50;
+            pointer-events: none;
         }
 
         .modal-overlay {
-            posición: fija;
-            recuadro: 0;
-            fondo: rgba(15, 23, 42, 0.65);
-            pantalla: ninguna;
-            alinear elementos: centro;
-            justificar-contenido: centro;
-            relleno: 24px;
-            índice z: 100;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 100;
         }
 
         .modal-overlay.active {
-            pantalla: flexible;
+            display: flex;
         }
 
         .modal-content {
-            fondo: #fff;
-            radio-borde: var(--radius-lg);
-            relleno: 32px;
-            ancho máximo: 420 píxeles;
-            alineación del texto: centro;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 420px;
+            text-align: center;
             box-shadow: var(--shadow-lg);
         }
 
         .modal-content h2 {
-            margen inferior: 12px;
+            margin-bottom: 12px;
         }
 
         .modal-content p {
             color: rgba(15, 23, 42, 0.75);
-            margen inferior: 24px;
+            margin-bottom: 24px;
         }
 
         @media (max-width: 900px) {
-            cuerpo {
-                relleno: 24px 12px 48px;
+            body {
+                padding: 24px 12px 48px;
             }
 
             .salon-wrapper {
-                columnas de plantilla de cuadrícula: 1fr;
+                grid-template-columns: 1fr;
             }
 
             .salon-summary {
-                posición: relativa;
-                arriba: automático;
+                position: relative;
+                top: auto;
             }
         }
 
         @media (max-width: 600px) {
             .hero-card {
-                columnas de plantilla de cuadrícula: 1fr;
+                grid-template-columns: 1fr;
             }
 
-            .botones-de-navegación {
+            .navigation-buttons {
                 flex-direction: column-reverse;
-                alinear elementos: estirar;
+                align-items: stretch;
             }
 
-            .botones-de-navegación .botón {
-                ancho: 100%;
+            .navigation-buttons .button {
+                width: 100%;
             }
         }
     </style>
 </head>
-<cuerpo>
-    <principal>
+<body>
+    <main>
         <section id="screen1" class="container active">
             <div class="hero-card">
                 <div class="hero-card__content">
@@ -581,13 +581,13 @@
                     <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
                     <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
                     <div class="hero-card__actions">
-                        <button class="button button--primary" onclick="nextScreen(2)">Iniciar registro</button>
+                        <button class="button button--primary" onclick="nextScreen(2)">Comenzar registro</button>
                         <a class="button button--ghost" href="admin.html">Administración</a>
                     </div>
                 </div>
                 <figure class="hero-card__media">
-                    <img id="heroImage" src="Welcome Image.png" alt="Celebración en el salón principal">
-                </figura>
+                    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
+                </figure>
             </div>
         </section>
 
@@ -596,16 +596,16 @@
             <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
             <form id="guestForm" class="form-grid">
                 <div class="form-field">
-                    <label for="mail">Correo</label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" required>
                 </div>
                 <div class="form-field">
-                    <label for="grade">Calificación</label>
-                    <select id="grade" name="grade" required>
+                    <label for="grado">Grado</label>
+                    <select id="grado" name="grado" required>
                         <option value="" selected>Seleccionar</option>
                         <option value="Cnel.">Cnel.</option>
-                        <option value="Teniente Comandante">Teniente Comandante</option>
-                        <option value="Mayo.">Mayo.</option>
+                        <option value="Tte. Cnel.">Tte. Cnel.</option>
+                        <option value="May.">May.</option>
                         <option value="Cap.">Cap.</option>
                         <option value="Tte. 1°">Tte. 1°</option>
                         <option value="Tte. 2°">Tte. 2°</option>
@@ -613,38 +613,38 @@
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="escalafon">Escalafon</label>
+                    <label for="escalafon">Escalafón</label>
                     <select id="escalafon" name="escalafon" required>
                         <option value="" selected>Seleccionar</option>
-                        <opción valor="Av.">(Av.)</option>
+                        <option value="Av.">(Av.)</option>
                         <option value="Nav.">(Nav.)</option>
-                        <option value="Esp.">(Esp)</option>
-                        <option value="TP">(TP)</option>
+                        <option value="Esp.">(Esp.)</option>
+                        <option value="T.P.">(T.P.)</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" required>
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
                 </div>
                 <div class="form-field">
-                    <label for="surname">Apellido</label>
-                    <input type="text" id="surname" name="surname" required>
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" required>
                 </div>
                 <div class="form-field">
-                    <label for="cedula">Documento de identidad (formato 0.000.000-0)</label>
+                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
                     <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
                 </div>
                 <div class="form-field">
-                    <label for="companion">¿Asistes acompañado/a?</label>
-                    <select id="companion" name="companion" required onchange="togglecompanion()">
+                    <label for="acompanante">¿Asiste con acompañante?</label>
+                    <select id="acompanante" name="acompanante" required onchange="toggleAcompanante()">
                         <option value="" selected>Seleccionar</option>
                         <option value="no">No</option>
-                        <option value="yes">Sí</option>
+                        <option value="si">Sí</option>
                     </select>
                 </div>
-                <div class="form-field" id="accompananteQuantity" style="display:none;">
-                    <label for="quantidadAcompanantes">¿Cuántos acompañantes?</label>
-                    <select id="quantidadAcompanantes" name="quantidadAcompanantes">
+                <div class="form-field" id="acompananteCantidad" style="display:none;">
+                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
                         <option value="" selected>Seleccionar</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -658,12 +658,12 @@
                     <select id="menu" name="menu" required>
                         <option value="" selected>Seleccionar</option>
                         <option value="normal">Normal</option>
-                        <option value="vegetarian">Vegetariano</option>
-                        <option value="vegan">Vegano</option>
-                        <option value="celiac">Celiaco</option>
+                        <option value="vegetariano">Vegetariano</option>
+                        <option value="vegano">Vegano</option>
+                        <option value="celiaco">Celíaco</option>
                     </select>
                 </div>
-                <input type="hidden" id="table" name="table">
+                <input type="hidden" id="mesa" name="mesa">
             </form>
             <div class="navigation-buttons">
                 <button class="button button--ghost" onclick="prevScreen(1)">Anterior</button>
@@ -672,9 +672,9 @@
         </section>
 
         <section id="screen3" class="container">
-            <h2>Información de los acompañantes</h2>
-            <p class="section-description">Añade los datos de cada invitado adicional.</p>
-            <form id="companantesForm"></form>
+            <h2>Información de acompañantes</h2>
+            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
+            <form id="acompanantesForm"></form>
             <div class="navigation-buttons">
                 <button class="button button--ghost" onclick="prevScreen(2)">Anterior</button>
                 <button class="button button--primary" onclick="nextScreen(4)">Siguiente</button>
@@ -718,151 +718,151 @@
     <div id="confirmationModal" class="modal-overlay">
         <div class="modal-content">
             <h2>Registro completo</h2>
-            <p>Su reserva se ha guardado en <strong id="mesaConfirmada"></strong>. Si desea realizar algún cambio, contacte con la Secretaría de Contabilidad del BA III.</p>
-            <button class="button button--primary" onclick="finalizeRegister()">Finalizar</button>
+            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Secc. Contable de la B.A. III.</p>
+            <button class="button button--primary" onclick="finalizarRegistro()">Finalizar</button>
         </div>
     </div>
 
     <div id="tooltip" class="tooltip"></div>
 
     <script>
-        Sea pantallaActual = 1;
-        sea ​​guestsData = {};
-        sea ​​dataFetchInterval;
-        sea ​​siteConfig = nulo;
+        let currentScreen = 1;
+        let guestsData = {};
+        let dataFetchInterval;
+        let siteConfig = null;
 
         window.dumpReservationDebug = function dumpReservationDebug() {
             const log = window.__reservationDebug || [];
             const summary = log.map(entry => ({
                 id: entry.id,
-                Enviado en: entrada.enviado en,
-                estado: entry.status || 'pendiente',
-                modo de éxito: entrada.modo de éxito || 'n/a',
-                intentos: Array.isArray(entry.attempts) ? entry.attempts.length : 0,
+                submittedAt: entry.submittedAt,
+                status: entry.status || 'pendiente',
+                successMode: entry.successMode || 'n/d',
+                attempts: Array.isArray(entry.attempts) ? entry.attempts.length : 0,
                 getAttempts: Array.isArray(entry.getAttempts) ? entry.getAttempts.length : 0,
-                estadoDeVerificación: entry.verification?.status || 'n/a',
-                punto final: punto final de entrada
+                verificationStatus: entry.verification?.status || 'n/d',
+                endpoint: entry.endpoint
             }));
             if (summary.length) {
                 console.table(summary);
-            } demás {
+            } else {
                 console.info('[Reservas] No hay envíos registrados en memoria.');
             }
-            devolver registro;
+            return log;
         };
 
-        const PUNTO_FINAL_DE_RESERVA_PREDETERMINADO = 'https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec';
+        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec';
         const DEFAULT_GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
-        constante INTERVALO_DE_ENCUESTA_DE_SUSCRIPCIÓN = 3000;
-        constante SUBMISSION_MAX_WAIT = 20000;
-        const ACCOMPANANTE_NAME_PREFIX = 'nombre del acompañante';
-        const EMAIL_KEYS = ['email', 'email', 'email', 'email', 'email'];
-        const CEDULA_KEYS = ['certificado', 'certificado', 'documento', 'documento de identidad', 'documento de identidad', 'ci'];
-        const NAME_KEYS = ['name', 'names'];
-        const LAST_NAME_KEYS = ['apellido', 'apellidos'];
+        const SUBMISSION_POLL_INTERVAL = 3000;
+        const SUBMISSION_MAX_WAIT = 20000;
+        const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
+        const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
+        const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
+        const NOMBRE_KEYS = ['nombre', 'nombres'];
+        const APELLIDO_KEYS = ['apellido', 'apellidos'];
 
-        sea ​​reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT;
-        sea ​​guestsSheetCsvUrl = DEFAULT_GUESTS_SHEET_CSV_URL;
+        let reservationScriptUrl = DEFAULT_RESERVATION_ENDPOINT;
+        let guestsSheetCsvUrl = DEFAULT_GUESTS_SHEET_CSV_URL;
 
-        const ZONAS_PREDETERMINADAS = [
+        const DEFAULT_ZONES = [
             { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
             { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
             { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
-            { id: 'dj', etiqueta: 'DJ', nombreClase: 'map-zone--dj', posición: { x: 50, y: 94 } },
+            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
             { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
             { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
         ];
 
-        función normalizarCadena(valor) {
-            Si (valor === indefinido || valor === nulo) devolver '';
-            valor de retorno
+        function normalizeString(value) {
+            if (value === undefined || value === null) return '';
+            return value
                 .toString()
-                .normalizar('NFD')
-                .reemplazar(/[\u0300-\u036f]/g, '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
-                .recortar();
+                .trim();
         }
 
-        función appendCacheBuster(url) {
-            Si (!url) devolver '';
-            const separador = url.includes('?') ? '&' : '?';
-            devolver `${url}${separator}_=${Date.now()}`;
+        function appendCacheBuster(url) {
+            if (!url) return '';
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}_=${Date.now()}`;
         }
 
-        función obtenerValorDeInvitado(invitado, clavesCandidatas) {
+        function getValueFromGuest(guest, candidateKeys) {
             if (!guest || typeof guest !== 'object') return '';
-            const candidatos normalizados = clavesCandidatos.map(cadenaNormalizada);
+            const normalizedCandidates = candidateKeys.map(normalizeString);
             for (const key of Object.keys(guest)) {
-                const clave normalizada = normalizarCadena(clave);
-                const índiceCandidato = candidatosNormalizados.indexOf(claveNormalizada);
-                si (candidateIndex !== -1) {
-                    const valor = invitado[clave];
+                const normalizedKey = normalizeString(key);
+                const candidateIndex = normalizedCandidates.indexOf(normalizedKey);
+                if (candidateIndex !== -1) {
+                    const value = guest[key];
                     if (value !== undefined && value !== null && value !== '') {
-                        valor de retorno;
+                        return value;
                     }
                 }
             }
-            devolver '';
+            return '';
         }
 
-        función extraerNombresCompañeros(invitado) {
+        function extractCompanionNames(guest) {
             if (!guest || typeof guest !== 'object') return [];
-            Devuelve Object.keys(invitado)
-                .filter(key => normalizeString(key).startsWith(COMPANANT_NAME_PREFIX))
-                .map(clave => invitado[clave])
+            return Object.keys(guest)
+                .filter(key => normalizeString(key).startsWith(ACOMPANANTE_NAME_PREFIX))
+                .map(key => guest[key])
                 .filter(value => value !== undefined && value !== null && value !== '');
         }
 
-        función contarAsientosParaInvitados(invitado) {
-            const compañeros = extraerNombresCompañeros(invitado);
-            Devuelve 1 + compañeros.longitud;
+        function countGuestSeats(guest) {
+            const companions = extractCompanionNames(guest);
+            return 1 + companions.length;
         }
 
-        función obtenerNombreCompletoInvitado(invitado) {
-            const nombre = obtenerValorDeInvitado(invitado, NAME_KEYS);
-            const apellido = obtenerValorDeInvitado(invitado, CLAVES_AÑO);
+        function getGuestFullName(guest) {
+            const nombre = getValueFromGuest(guest, NOMBRE_KEYS);
+            const apellido = getValueFromGuest(guest, APELLIDO_KEYS);
             return [nombre, apellido].filter(Boolean).join(' ').trim();
         }
 
-        función obtenerCorreoElectrónicoInvitado(invitado) {
-            devolver getValueFromGuest(guest, EMAIL_KEYS);
+        function getGuestEmail(guest) {
+            return getValueFromGuest(guest, EMAIL_KEYS);
         }
 
-        función obtenerCédulaDeInvitado(invitado) {
-            devolver getValueFromGuest(guest, CEDULA_KEYS);
+        function getGuestCedula(guest) {
+            return getValueFromGuest(guest, CEDULA_KEYS);
         }
 
-        función guestMatchesFingerprint(invitado, huella digital) {
+        function guestMatchesFingerprint(guest, fingerprint) {
             if (!guest || !fingerprint) return false;
-            const cédulaInvitado = normalizarCadena(obtenerCédulaInvitado(invitado));
+            const cedulaGuest = normalizeString(getGuestCedula(guest));
             if (fingerprint.normalizedCedula && cedulaGuest && cedulaGuest === fingerprint.normalizedCedula) {
-                devuelve verdadero;
+                return true;
             }
-            const correoInvitado = normalizarCadena(obtenerCorreoInvitado(invitado));
+            const correoGuest = normalizeString(getGuestEmail(guest));
             if (fingerprint.normalizedCorreo && correoGuest && correoGuest === fingerprint.normalizedCorreo) {
-                devuelve verdadero;
+                return true;
             }
-            const nombreInvitado = normalizarCadena(obtenerNombreCompletoInvitado(invitado));
-            if (fingerprint.normalizedFullName && Guestname && Guestname === fingerprint.normalizedFullName) {
-                devuelve verdadero;
+            const nombreGuest = normalizeString(getGuestFullName(guest));
+            if (fingerprint.normalizedNombreCompleto && nombreGuest && nombreGuest === fingerprint.normalizedNombreCompleto) {
+                return true;
             }
-            devolver falso;
+            return false;
         }
 
-        función crearHuellaDeReserva(datos) {
-            devolver {
-                tabla: data.table,
-                cédula normalizada: normalizarCadena(datos.cédula),
-                normalizadoCorreo: normalizeString(datos.correo),
-                nombreCompletoNormalizado: normalizarCadena(`${data.name || ''} ${data.surname || ''}`),
-                rawSchedule: data.schedule,
-                rawMail: data.mail,
-                rawFullName: `${data.name || ''} ${date.surname || ''}`.trim()
+        function createReservationFingerprint(data) {
+            return {
+                mesa: data.mesa,
+                normalizedCedula: normalizeString(data.cedula),
+                normalizedCorreo: normalizeString(data.correo),
+                normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`),
+                rawCedula: data.cedula,
+                rawCorreo: data.correo,
+                rawNombreCompleto: `${data.nombre || ''} ${data.apellido || ''}`.trim()
             };
         }
 
-        función retardo(ms) {
-            devolver nueva Promesa(resolver => setTimeout(resolver, ms));
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
 
         async function confirmReservationPersisted(fingerprint, baselineGuests, debugEntry = null) {
@@ -870,514 +870,525 @@
             const baselineCounts = buildFingerprintCountMap(baselineMatches);
             const verificationLabel = '[Reservas] Verificación de persistencia';
             const groupSupported = typeof console.groupCollapsed === 'function' && typeof console.groupEnd === 'function';
-            Sea númeroIntento = 0;
-            sea ​​hadFetchFailure = falso;
-            sea ​​lastFetchError = null;
+            let attemptNumber = 0;
+            let hadFetchFailure = false;
+            let lastFetchError = null;
 
-            const registroVerificación = entradaDepuración
+            const verificationLog = debugEntry
                 ? (debugEntry.verification = {
                     startedAt: new Date().toISOString(),
-                    coincidencias de línea base: coincidencias de línea base.longitud,
-                    URL de destino: URL de la hoja de cálculo de invitados
+                    baselineMatches: baselineMatches.length,
+                    targetUrl: guestsSheetCsvUrl
                 })
-                : { startedAt: new Date().toISOString(), baselineMatches: baselineMatches.length, targetUrl: guestSheetCsvUrl };
+                : { startedAt: new Date().toISOString(), baselineMatches: baselineMatches.length, targetUrl: guestsSheetCsvUrl };
 
             if (!guestsSheetCsvUrl) {
-                verificationLog.status = 'omitido';
+                verificationLog.status = 'skipped';
                 verificationLog.reason = 'sheet_url_missing';
                 verificationLog.completedAt = new Date().toISOString();
                 const error = new Error('reservation_sheet_url_missing');
                 error.code = 'reservation_sheet_url_missing';
-                lanzar error;
+                throw error;
             }
 
-            si (grupoAdmitido) {
+            if (groupSupported) {
                 console.groupCollapsed(verificationLabel);
             }
-            console.info('[Reservas] Iniciando verificación de la hoja.', {
-                tabla: huella digital?.tabla,
-                coincidenciasAnterior: línea baseCoincidencias.longitud
+            console.info('[Reservas] Iniciando verificación de hoja.', {
+                mesa: fingerprint?.mesa,
+                coincidenciasPrevias: baselineMatches.length
             });
 
-            const intentoVerificación = async () => {
-                intentoNumero += 1;
-                registroVerificación.intentos = númeroIntento;
-                console.info(`[Reservas] Intento de verificación ${attemptNumber}.`);
+            const attemptVerification = async () => {
+                attemptNumber += 1;
+                verificationLog.attempts = attemptNumber;
+                console.info(`[Reservas] Verificación intento ${attemptNumber}.`);
 
-                intentar {
-                    esperar obtenerDatosInvitados();
+                try {
+                    await fetchGuestsData();
                 } catch (error) {
-                    console.warn('Error al actualizar la lista de invitados durante la verificación.', error);
+                    console.warn('No se pudo refrescar la lista de invitados durante la verificación.', error);
                     hadFetchFailure = true;
-                    últimoErrorDeObtención = error;
+                    lastFetchError = error;
                     verificationLog.lastFetchError = error?.message || 'unknown_error';
                 }
 
-                const tableGuests = getGuestsForMesa(fingerprint.table);
-                const coincidenciasActuales = tableGuests.filter(invitado => coincidenciasInvitadoHuellaDigital(invitado, huellaDigital));
+                const mesaGuests = getGuestsForMesa(fingerprint.mesa);
+                const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
 
-                console.info('[Reservas] Huéspedes detectados después de actualizar:', currentMatches.length);
+                console.info('[Reservas] Invitados detectados tras refresco:', currentMatches.length);
 
                 if (currentMatches.length === 0) {
-                    devolver falso;
+                    return false;
                 }
 
                 if (currentMatches.length > baselineMatches.length) {
-                    console.info('[Reservas] Se detectaron más partidos que al inicio.');
-                    verificationLog.stage = 'inicial';
-                    devuelve verdadero;
+                    console.info('[Reservas] Se detectaron más coincidencias que al inicio.');
+                    verificationLog.stage = 'initial';
+                    return true;
                 }
 
                 const currentCounts = buildFingerprintCountMap(currentMatches);
                 for (const [key, count] of currentCounts.entries()) {
                     const baselineCount = baselineCounts.get(key) || 0;
-                    si (recuento > recuentoBase) {
-                        console.info('[Reservas] Se ha detectado un incremento en la huella:', key);
-                        verificationLog.stage = 'incremento';
-                        devuelve verdadero;
+                    if (count > baselineCount) {
+                        console.info('[Reservas] Incremento detectado para la huella:', key);
+                        verificationLog.stage = 'increment';
+                        return true;
                     }
                 }
 
-                devolver falso;
+                return false;
             };
 
-            intentar {
-                const fecha límite = Fecha.ahora() + ENVÍO_MÁXIMO_ESPERA;
+            try {
+                const deadline = Date.now() + SUBMISSION_MAX_WAIT;
 
                 if (await attemptVerification()) {
                     console.info('[Reservas] Verificación exitosa en el primer intento.');
                     verificationLog.status = 'success';
                     verificationLog.completedAt = new Date().toISOString();
-                    devuelve verdadero;
+                    return true;
                 }
 
-                mientras (Fecha.ahora() < fecha límite) {
-                    esperar delay(SUBMISSION_POLL_INTERVAL);
+                while (Date.now() < deadline) {
+                    await delay(SUBMISSION_POLL_INTERVAL);
                     if (await attemptVerification()) {
-                        console.info('[Reservas] Verificación confirmada durante la consulta.');
+                        console.info('[Reservas] Verificación confirmada durante el sondeo.');
                         verificationLog.status = 'success';
                         verificationLog.completedAt = new Date().toISOString();
-                        verificationLog.stage = verificationLog.stage || 'cock';
-                        devuelve verdadero;
+                        verificationLog.stage = verificationLog.stage || 'poll';
+                        return true;
                     }
                 }
 
-                console.error('[Reservations] Se agotó el tiempo de espera de la verificación sin encontrar la reserva.');
+                console.error('[Reservas] La verificación expiró sin encontrar la reserva.');
                 verificationLog.completedAt = new Date().toISOString();
                 if (hadFetchFailure && lastFetchError) {
-                    verificationLog.status = 'advertencia';
+                    verificationLog.status = 'warning';
                     verificationLog.reason = 'sheet_refresh_failed';
                     const error = new Error('reservation_sheet_refresh_failed');
                     error.code = 'reservation_sheet_refresh_failed';
-                    error.causa = últimoErrorDeObtención;
-                    lanzar error;
+                    error.cause = lastFetchError;
+                    throw error;
                 }
 
                 verificationLog.status = 'error';
                 verificationLog.reason = 'not_found';
-                const error = new Error('reserva_no_encontrada');
-                error.code = 'reserva_no_encontrada';
-                lanzar error;
-            } finalmente {
-                si (grupoAdmitido) {
+                const error = new Error('reservation_not_found');
+                error.code = 'reservation_not_found';
+                throw error;
+            } finally {
+                if (groupSupported) {
                     console.groupEnd();
                 }
             }
         }
 
-        función crearClaveDeHuellaDelInvitado(invitado) {
-            Si (!invitado) devolver '';
-            const cédula = normalizarCadena(obtenerCédulaDeInvitado(invitado));
-            const email = normalizeString(getGuestEmail(guest));
-            const nombre = normalizarCadena(obtenerNombreCompletoInvitado(invitado));
-            return [card, email, name].filter(Boolean).join('|');
+        function createGuestFingerprintKey(guest) {
+            if (!guest) return '';
+            const cedula = normalizeString(getGuestCedula(guest));
+            const correo = normalizeString(getGuestEmail(guest));
+            const nombre = normalizeString(getGuestFullName(guest));
+            return [cedula, correo, nombre].filter(Boolean).join('|');
         }
 
-        función construirMapaDeConteoDeHuellasFilmables(invitados) {
+        function buildFingerprintCountMap(guests) {
             const counts = new Map();
-            (invitados || []).forEach(invitado => {
-                const clave = crearClaveDeHuellaDelInvitado(invitado) || '__en blanco__';
+            (guests || []).forEach(guest => {
+                const key = createGuestFingerprintKey(guest) || '__blank__';
                 counts.set(key, (counts.get(key) || 0) + 1);
             });
-            recuentos de retorno;
+            return counts;
         }
 
-        función crearDatosFormularioDeReserva(carga útil, enviadoEn) {
-            const formData = nuevo FormData();
+        function buildReservationPayload(payload, submittedAt) {
             const safePayload = payload ?? {};
-            formData.append('payload', JSON.stringify(safePayload));
+            let normalized = {};
 
-            Objeto.entries(safePayload).forEach(([clave, valor]) => {
-                si (valor === indefinido || valor === nulo) {
-                    devolver;
+            if (safePayload && typeof safePayload === 'object' && !Array.isArray(safePayload)) {
+                try {
+                    normalized = JSON.parse(JSON.stringify(safePayload));
+                } catch (serializationError) {
+                    console.warn('[Reservas] No se pudo clonar el payload, se usa una copia superficial.', serializationError);
+                    normalized = { ...safePayload };
                 }
+            }
 
-                if (typeof value === 'object') {
-                    formData.append(key, JSON.stringify(value));
-                } demás {
-                    formData.append(clave, valor);
+            const body = { payload: normalized, submittedAt };
+
+            Object.entries(normalized).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
                 }
+                body[key] = value;
             });
 
-            formData.append('submittedAt', submittedAt);
-            devolver datos del formulario;
+            return body;
         }
 
-        función crearCadenaDeConsultaDeReserva(carga útil, enviadoEn) {
-            const safePayload = payload ?? {};
-            const params = new URLSearchParams();
-            params.append('payload', JSON.stringify(safePayload));
+        function createReservationRequestBody(payload, submittedAt) {
+            const requestPayload = buildReservationPayload(payload, submittedAt);
+            return JSON.stringify(requestPayload);
+        }
 
-            Objeto.entries(safePayload).forEach(([clave, valor]) => {
-                si (valor === indefinido || valor === nulo) {
-                    devolver;
+        function createReservationQueryString(payload, submittedAt) {
+            const requestPayload = buildReservationPayload(payload, submittedAt);
+            const params = new URLSearchParams();
+
+            Object.entries(requestPayload).forEach(([key, value]) => {
+                if (value === undefined || value === null) {
+                    return;
                 }
 
                 if (typeof value === 'object') {
                     params.append(key, JSON.stringify(value));
-                } demás {
-                    params.append(clave, valor);
+                } else {
+                    params.append(key, value);
                 }
             });
 
-            params.append('submittedAt', submittedAt);
             return params.toString();
         }
 
-        función asíncrona enviarReserva(scriptUrl, payload) {
+        async function submitReservation(scriptUrl, payload) {
             if (!scriptUrl) {
-                lanzar nuevo Error('reservation_missing_endpoint');
+                throw new Error('reservation_missing_endpoint');
             }
 
             const submittedAt = new Date().toISOString();
             const startedAt = Date.now();
             const debugLog = window.__reservationDebug = window.__reservationDebug || [];
-            const entradaDepuración = {
+            const debugEntry = {
                 id: debugLog.length + 1,
-                presentado en,
-                punto final: scriptUrl,
-                intentos: [],
+                submittedAt,
+                endpoint: scriptUrl,
+                attempts: [],
                 getAttempts: []
             };
 
-            intentar {
+            try {
                 debugEntry.payload = JSON.parse(JSON.stringify(payload || {}));
             } catch (serializationError) {
                 debugEntry.payload = payload;
                 debugEntry.serializationError = serializationError?.message || true;
-                console.warn('[Reservations] Error al serializar la carga útil para depuración.', serializationError);
+                console.warn('[Reservas] No se pudo serializar el payload para depuración.', serializationError);
             }
 
             debugLog.push(debugEntry);
-            console.info(`[Reservas] Registro de depuración guardado (#${debugEntry.id}). Intentos totales en memoria:`, debugLog.length);
-            const logGroupLabel = `[Reservas] Envío n.° ${debugEntry.id} ${submittedAt}`;
+            console.info(`[Reservas] Registro de depuración guardado (#${debugEntry.id}). Total de intentos en memoria:`, debugLog.length);
+            const logGroupLabel = `[Reservas] Envío #${debugEntry.id} ${submittedAt}`;
             const groupSupported = typeof console.groupCollapsed === 'function' && typeof console.groupEnd === 'function';
 
-            si (grupoAdmitido) {
+            if (groupSupported) {
                 console.groupCollapsed(logGroupLabel);
             }
-            console.info('[Reservations] Endpoint configurado:', scriptUrl);
-            console.info('[Reservations] Datos listos para enviar:', payload);
+            console.info('[Reservas] Endpoint configurado:', scriptUrl);
+            console.info('[Reservas] Datos preparados para enviar:', payload);
+
+            const requestBody = createReservationRequestBody(payload, submittedAt);
+            const requestQueryString = createReservationQueryString(payload, submittedAt);
+            debugEntry.bodyBytes = requestBody ? requestBody.length : 0;
 
             const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-            const timeoutId = controlador ? setTimeout(() => controlador.abort(), SUBMISSION_MAX_WAIT) : null;
-            const intentos = debugEntry.intentos;
+            const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
+            const attempts = debugEntry.attempts;
             const getAttempts = debugEntry.getAttempts;
-            sea ​​últimoModoExitoso = nulo;
-            sea ​​últimoError = nulo;
+            let lastSuccessfulMode = null;
+            let lastError = null;
 
             const sendRequest = async (mode) => {
-                const modo normalizado = modo.aMayúsculas();
+                const normalizedMode = mode.toUpperCase();
                 console.info(`[Reservas] Iniciando intento ${normalizedMode}...`);
 
-                intento constante = {
-                    modo: `POST-${normalizedMode}`,
-                    iniciadoEn: nuevo Date().toISOString()
+                const attempt = {
+                    mode: `POST-${normalizedMode}`,
+                    startedAt: new Date().toISOString()
                 };
-                intentos.push(intento);
+                attempts.push(attempt);
 
-                const opciones = {
-                    método: 'POST',
-                    moda,
-                    cuerpo: crearFormularioDeReserva(carga útil, enviadoEn)
+                const options = {
+                    method: 'POST',
+                    mode,
+                    body: requestBody,
+                    cache: 'no-store'
                 };
 
-                si (controlador) {
-                    opciones.señal = controlador.señal;
+                if (controller) {
+                    options.signal = controller.signal;
                 }
 
                 if (mode === 'cors') {
-                    opciones.encabezados = { 'Aceptar': 'application/json' };
-                } demás {
-                    opciones.mantener vivo = verdadero;
+                    options.headers = { 'Content-Type': 'text/plain;charset=UTF-8' };
+                } else {
+                    options.keepalive = true;
                 }
 
-                intentar {
-                    const respuesta = await fetch(scriptUrl, opciones);
-                    intento.completadoEn = new Date().toISOString();
-                    intento.estado = respuesta?.estado ?? 'desconocido';
-                    intento.ok = respuesta?.ok ?? falso;
-                    intento.tipoDeRespuesta = respuesta?.tipo ?? 'n/a';
+                try {
+                    const response = await fetch(scriptUrl, options);
+                    attempt.completedAt = new Date().toISOString();
+                    attempt.status = response?.status ?? 'unknown';
+                    attempt.ok = response?.ok ?? false;
+                    attempt.responseType = response?.type ?? 'n/d';
 
                     if (mode === 'cors') {
                         if (!response || !response.ok) {
                             const status = response ? response.status : 'unknown';
-                            sea ​​responseBody = '';
-                            intentar {
-                                cuerpoDeRespuesta = esperar respuesta.clone().text();
-                                intento.cuerpoDeRespuesta = cuerpoDeRespuesta.slice(0, 500);
+                            let responseBody = '';
+                            try {
+                                responseBody = await response.clone().text();
+                                attempt.responseBody = responseBody.slice(0, 500);
                             } catch (readError) {
-                                console.warn('[Reservations] No se pudo leer la respuesta de error (CORS).', readError);
-                                intento.cuerpoDeRespuesta = 'no disponible';
+                                console.warn('[Reservas] No se pudo leer la respuesta de error (CORS).', readError);
+                                attempt.responseBody = 'unavailable';
                             }
-                            intento.error = { nombre: 'HTTPError', mensaje: `HTTP ${status}` };
-                            console.error(`[Reservations] HTTP response failed (${status}).`, { mode, status, responseBody });
-                            lanzar nuevo Error(`reservation_http_${status}`);
+                            attempt.error = { name: 'HTTPError', message: `HTTP ${status}` };
+                            console.error(`[Reservas] Respuesta HTTP no exitosa (${status}).`, { mode, status, responseBody });
+                            throw new Error(`reservation_http_${status}`);
                         }
 
-                        intentar {
+                        try {
                             const parsed = await response.clone().json();
-                            intento.respuestaJson = analizado;
-                            console.info('[Reservations] CORS Response (JSON):', parsed);
+                            attempt.responseJson = parsed;
+                            console.info('[Reservas] Respuesta CORS (JSON):', parsed);
                         } catch (parseError) {
-                            intentar {
-                                const texto = await respuesta.clone().text();
-                                intento.textoRespuesta = texto.slice(0, 500);
-                                console.info('[Reservas] Respuesta CORS (texto):', texto);
+                            try {
+                                const text = await response.clone().text();
+                                attempt.responseText = text.slice(0, 500);
+                                console.info('[Reservas] Respuesta CORS (texto):', text);
                             } catch (textError) {
-                                console.warn('[Reservations] Failed to clone response for logging.', textError);
+                                console.warn('[Reservas] No se pudo clonar la respuesta para logging.', textError);
                             }
                         }
 
-                        últimoModoExitoso = intento.modo;
-                        devolver respuesta;
+                        lastSuccessfulMode = attempt.mode;
+                        return response;
                     }
 
-                    console.info('[Reservations] La solicitud sin CORS se envió correctamente.');
-                    últimoModoExitoso = intento.modo;
-                    devolver respuesta;
+                    console.info('[Reservas] Solicitud no-CORS despachada correctamente.');
+                    lastSuccessfulMode = attempt.mode;
+                    return response;
                 } catch (error) {
-                    intento.completadoEn = intento.completadoEn || new Date().toISOString();
-                    intento.error = intento.error || { nombre: error?.nombre, mensaje: error?.mensaje };
-                    console.error(`[Reservations] Request ${normalizedMode} failed.`, error);
-                    lanzar error;
+                    attempt.completedAt = attempt.completedAt || new Date().toISOString();
+                    attempt.error = attempt.error || { name: error?.name, message: error?.message };
+                    console.error(`[Reservas] Falló la solicitud ${normalizedMode}.`, error);
+                    throw error;
                 }
             };
 
             const submitWithGet = async () => {
-                const queryString = createReservationQueryString(payload, submittedAt);
-                const separador = scriptUrl.includes('?') ? '&' : '?';
-                const targetUrl = `${scriptUrl}${separator}${queryString}`;
+                const separator = scriptUrl.includes('?') ? '&' : '?';
+                const targetUrl = `${scriptUrl}${separator}${requestQueryString}`;
 
-                const intentoFetch = async (modo) => {
-                    const modo normalizado = modo.aMayúsculas();
-                    intento constante = {
-                        modo: `GET-${normalizedMode}`,
-                        URL: URL de destino,
-                        iniciadoEn: nuevo Date().toISOString()
+                const attemptFetch = async (mode) => {
+                    const normalizedMode = mode.toUpperCase();
+                    const attempt = {
+                        mode: `GET-${normalizedMode}`,
+                        url: targetUrl,
+                        startedAt: new Date().toISOString()
                     };
-                    obtenerIntentos.push(intento);
+                    getAttempts.push(attempt);
 
-                    const opciones = {
-                        método: 'GET',
-                        moda,
-                        caché: 'sin almacenamiento'
+                    const options = {
+                        method: 'GET',
+                        mode,
+                        cache: 'no-store'
                     };
 
-                    si (controlador) {
-                        opciones.señal = controlador.señal;
+                    if (controller) {
+                        options.signal = controller.signal;
                     }
 
-                    const respuesta = await fetch(targetUrl, opciones);
-                    intento.completadoEn = new Date().toISOString();
-                    intento.estado = respuesta?.estado ?? 'desconocido';
-                    intento.ok = respuesta?.ok ?? falso;
-                    intento.tipoDeRespuesta = respuesta?.tipo ?? 'n/a';
+                    const response = await fetch(targetUrl, options);
+                    attempt.completedAt = new Date().toISOString();
+                    attempt.status = response?.status ?? 'unknown';
+                    attempt.ok = response?.ok ?? false;
+                    attempt.responseType = response?.type ?? 'n/d';
 
                     if (mode === 'cors') {
                         if (!response || !response.ok) {
                             const status = response ? response.status : 'unknown';
-                            intento.error = { nombre: 'HTTPError', mensaje: `HTTP ${status}` };
-                            lanzar nuevo Error(`reservation_http_get_${status}`);
+                            attempt.error = { name: 'HTTPError', message: `HTTP ${status}` };
+                            throw new Error(`reservation_http_get_${status}`);
                         }
                     }
 
-                    últimoModoExitoso = intento.modo;
-                    devolver respuesta;
+                    lastSuccessfulMode = attempt.mode;
+                    return response;
                 };
 
-                intentar {
-                    console.info('[Reserves] Lanzando una solicitud GET de respaldo en modo CORS.');
-                    esperar intentoFetch('cors');
+                try {
+                    console.info('[Reservas] Lanzando fallback GET en modo CORS.');
+                    await attemptFetch('cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
-                        lanzar nuevo Error('reservation_timeout');
+                        throw new Error('reservation_timeout');
                     }
 
-                    const mensaje = typeof error?.mensaje === 'string' ? error.mensaje : '';
+                    const message = typeof error?.message === 'string' ? error.message : '';
                     const isHttpError = message.startsWith('reservation_http_get_');
 
                     if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
-                        console.warn('[Reservations] GET CORS failed, trying with no-CORS.', error);
-                        esperar intentoFetch('no-cors');
-                    } demás {
-                        lanzar error;
+                        console.warn('[Reservas] GET CORS falló, probando con no-CORS.', error);
+                        await attemptFetch('no-cors');
+                    } else {
+                        throw error;
                     }
                 }
             };
 
-            intentar {
-                intentar {
-                    esperar enviar solicitud('cors');
+            try {
+                try {
+                    await sendRequest('cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
-                        últimoError = error;
-                        lanzar nuevo Error('reservation_timeout');
+                        lastError = error;
+                        throw new Error('reservation_timeout');
                     }
 
-                    const mensaje = typeof error?.mensaje === 'string' ? error.mensaje : '';
+                    const message = typeof error?.message === 'string' ? error.message : '';
                     const isLikelyCorsIssue = error?.name === 'TypeError' || message.includes('Failed to fetch');
                     const isHttpError = message.startsWith('reservation_http_');
 
                     if (message === 'reservation_http_405') {
-                        console.warn('[Reservas] El punto final rechazó la solicitud POST (405). Intentando con GET.');
-                        esperar a enviarConObtener();
-                        devolver;
+                        console.warn('[Reservas] El endpoint rechazó POST (405). Intentando con GET.');
+                        await submitWithGet();
+                        return;
                     }
 
                     if (!isLikelyCorsIssue || isHttpError) {
-                        últimoError = error;
-                        lanzar error;
+                        lastError = error;
+                        throw error;
                     }
 
-                    intentar {
-                        console.warn('[Reserves] Falló el intento de CORS, intentando con POST sin CORS.');
-                        esperar enviar solicitud('no-cors');
+                    try {
+                        console.warn('[Reservas] Intento CORS fallido, probando POST no-CORS.');
+                        await sendRequest('no-cors');
                     } catch (fallbackError) {
                         if (fallbackError && fallbackError.name === 'AbortError') {
-                            últimoError = errorDeRespaldo;
-                            lanzar nuevo Error('reservation_timeout');
+                            lastError = fallbackError;
+                            throw new Error('reservation_timeout');
                         }
 
                         const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
                         if (fallbackMessage === 'reservation_http_405') {
-                            console.warn('[Reserves] El punto de conexión rechazó la solicitud POST sin CORS (405). Intentando con GET.');
-                            esperar a enviarConObtener();
-                            devolver;
+                            console.warn('[Reservas] El endpoint rechazó POST no-CORS (405). Intentando con GET.');
+                            await submitWithGet();
+                            return;
                         }
-                        últimoError = errorDeRespaldo;
-                        lanzar fallbackError;
+                        lastError = fallbackError;
+                        throw fallbackError;
                     }
                 }
             } catch (error) {
-                últimoError = error;
-                lanzar error;
-            } finalmente {
-                si (timeoutId) {
-                    borrarTimeout(timeoutId);
+                lastError = error;
+                throw error;
+            } finally {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
                 }
                 debugEntry.completedAt = new Date().toISOString();
                 debugEntry.durationMs = Date.now() - startedAt;
                 if (lastSuccessfulMode) {
                     debugEntry.status = 'sent';
                     debugEntry.successMode = lastSuccessfulMode;
-                } demás {
+                } else {
                     debugEntry.status = 'error';
-                    si (últimoError) {
-                        debugEntry.error = { nombre: lastError.nombre, mensaje: lastError.mensaje };
+                    if (lastError) {
+                        debugEntry.error = { name: lastError.name, message: lastError.message };
                     }
                 }
-                si (grupoAdmitido) {
+                if (groupSupported) {
                     console.groupEnd();
                 }
             }
         }
 
-        función setSubmissionState(isSubmitting) {
+        function setSubmissionState(isSubmitting) {
             const submitButton = document.getElementById('submitReservationBtn');
-            Si (!submitButton) salir;
-            si (esEnviando) {
+            if (!submitButton) return;
+            if (isSubmitting) {
                 if (!submitButton.dataset.originalLabel) {
                     submitButton.dataset.originalLabel = submitButton.textContent;
                 }
-                botón de envío.deshabilitado = verdadero;
+                submitButton.disabled = true;
                 submitButton.textContent = 'Enviando...';
-            } demás {
-                botón de envío.deshabilitado = falso;
+            } else {
+                submitButton.disabled = false;
                 if (submitButton.dataset.originalLabel) {
                     submitButton.textContent = submitButton.dataset.originalLabel;
                 }
             }
         }
 
-        función obtenerInvitadosParaMesa(etiqueta) {
+        function getGuestsForMesa(label) {
             if (!label) return [];
-            Si (guestsData[label]) devolver guestData[label];
-            const etiqueta normalizada = normalizarCadena(etiqueta);
+            if (guestsData[label]) return guestsData[label];
+            const normalizedLabel = normalizeString(label);
             const matchingKey = Object.keys(guestsData).find(key => normalizeString(key) === normalizedLabel);
-            devolver claveCoincidente ? datosInvitados[claveCoincidente] : [];
+            return matchingKey ? guestsData[matchingKey] : [];
         }
 
-        función asegurarHéroeÚnico() {
+        function ensureSingleHero() {
             const heroSection = document.getElementById('screen1');
-            Si (!heroSection) terminar;
+            if (!heroSection) return;
             const heroCards = heroSection.querySelectorAll('.hero-card');
             heroCards.forEach((card, index) => {
-                Si (índice === 0) retornar;
-                tarjeta.eliminar();
+                if (index === 0) return;
+                card.remove();
             });
         }
 
-        función enforceInitialScreen() {
-            const contenedores = document.querySelectorAll('.container');
-            contenedores.forEach((sección, índice) => {
-                si (índice === 0) {
-                    sección.classList.add('active');
-                } demás {
-                    sección.classList.remove('active');
+        function enforceInitialScreen() {
+            const containers = document.querySelectorAll('.container');
+            containers.forEach((section, index) => {
+                if (index === 0) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
                 }
             });
-            pantallaActual = 1;
+            currentScreen = 1;
         }
 
-        función asíncrona cargarConfiguración() {
-            sea ​​storedConfig = null;
+        async function loadConfig() {
+            let storedConfig = null;
             if (typeof localStorage !== 'undefined') {
-                intentar {
-                    almacenadoConfig = localStorage.getItem('partyConfig');
-                    si (configuración almacenada) {
-                        configuraciónAlmacenada = JSON.parse(configuraciónAlmacenada);
+                try {
+                    storedConfig = localStorage.getItem('fiestaConfig');
+                    if (storedConfig) {
+                        storedConfig = JSON.parse(storedConfig);
                     }
                 } catch (error) {
-                    console.warn('Error al leer la configuración almacenada localmente.', error);
+                    console.warn('No se pudo leer la configuración almacenada localmente.', error);
                     storedConfig = null;
                 }
             }
 
-            si (configuración almacenada) {
-                devolver configuración almacenada;
+            if (storedConfig) {
+                return storedConfig;
             }
 
-            const respuesta = await fetch('config.json?_=' + Date.now());
+            const response = await fetch('config.json?_=' + Date.now());
             if (!response.ok) {
-                lanzar nuevo Error('Error al cargar la configuración');
+                throw new Error('No se pudo cargar la configuración');
             }
             return await response.json();
         }
 
-        función aplicarConfiguración(config) {
-            Si (!config) regresar;
-            asegurarHéroeÚnico();
+        function applyConfig(config) {
+            if (!config) return;
+            ensureSingleHero();
             reservationScriptUrl = config.reservationScriptUrl
                 || config.integrations?.reservationScriptUrl
-                || PUNTO_FINAL_DE_RESERVA_PREDETERMINADO;
-            guestSheetCsvUrl = config.guestsSheetCsvUrl
-                || config.integrations?.guestSheetCsvUrl
-                || URL_CSV_HOJA_DESCUENTOS_PREDETERMINADA;
-            documento.título = config.siteTitle || documento.título;
-            const títuloEncabezado = document.getElementById('siteTitleHeading');
+                || DEFAULT_RESERVATION_ENDPOINT;
+            guestsSheetCsvUrl = config.guestsSheetCsvUrl
+                || config.integrations?.guestsSheetCsvUrl
+                || DEFAULT_GUESTS_SHEET_CSV_URL;
+            document.title = config.siteTitle || document.title;
+            const titleHeading = document.getElementById('siteTitleHeading');
             const subtitleElement = document.getElementById('siteSubtitle');
-            const descripciónElement = document.getElementById('siteDescription');
+            const descriptionElement = document.getElementById('siteDescription');
             const heroImage = document.getElementById('heroImage');
 
             if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
@@ -1385,38 +1396,38 @@
             if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
             if (heroImage && config.heroImage) heroImage.src = config.heroImage;
 
-            if (Array.isArray(config.tables)) {
+            if (Array.isArray(config.mesas)) {
                 config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
             }
 
             if (!Array.isArray(config.zones) || config.zones.length === 0) {
                 config.zones = DEFAULT_ZONES.map(zone => ({
                     id: zone.id,
-                    etiqueta: etiqueta de zona,
-                    nombre de clase: zona.nombre de clase,
-                    posición: { ...zona.posición }
+                    label: zone.label,
+                    className: zone.className,
+                    position: { ...zone.position }
                 }));
             }
 
             renderZones(config.zones);
-            renderTables(config.tables || []);
-            actualizarResumen(config.tables || []);
+            renderTables(config.mesas || []);
+            updateSummary(config.mesas || []);
         }
 
-        función actualizarResumen(tablas) {
+        function updateSummary(mesas) {
             const totalMesasCounter = document.getElementById('totalMesasCounter');
-            const contadorTotalCapacidad = document.getElementById('contadorTotalCapacidad');
+            const capacidadTotalCounter = document.getElementById('capacidadTotalCounter');
 
             if (totalMesasCounter) totalMesasCounter.textContent = mesas.length;
-            si (capacidadTotalCounter) {
-                const capacidadTotal = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
-                capacidadTotalCounter.textContent = capacidad total;
+            if (capacidadTotalCounter) {
+                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? siteConfig?.defaultCapacity ?? 0), 0);
+                capacidadTotalCounter.textContent = totalCapacity;
             }
         }
 
-        función renderZones(zonas) {
-            const salónMap = document.getElementById('salonMap');
-            Si (!salonMap) regresar;
+        function renderZones(zones) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
 
             salonMap.querySelectorAll('.map-zone').forEach(zoneElement => zoneElement.remove());
 
@@ -1425,13 +1436,13 @@
             sourceZones.forEach(zone => {
                 const zoneElement = document.createElement('div');
                 zoneElement.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
-                zonaElement.textContent = zona.label || '';
-                ZoneElement.dataset.zoneId = zona.id || '';
+                zoneElement.textContent = zone.label || '';
+                zoneElement.dataset.zoneId = zone.id || '';
 
                 const posX = parseFloat(zone.position?.x);
                 const posY = parseFloat(zone.position?.y);
                 const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
-                const safeY = Número.isNaN(posY)? 0: Matemáticas.min(Math.max(posY, 0), 100);
+                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
                 zoneElement.style.setProperty('--zone-x', safeX);
                 zoneElement.style.setProperty('--zone-y', safeY);
 
@@ -1439,578 +1450,578 @@
             });
         }
 
-        función renderTables(tables) {
-            const salónMap = document.getElementById('salonMap');
-            Si (!salonMap) regresar;
-            salonMap.querySelectorAll('.table').forEach(table => table.remove());
+        function renderTables(mesas) {
+            const salonMap = document.getElementById('salonMap');
+            if (!salonMap) return;
+            salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
 
-            tablas.paraCada(tabla => {
-                const tableElement = document.createElement('button');
-                tableElement.type = 'botón';
-                tableElement.className = 'table';
-                tableElement.id = `table${table.number}`;
-                const etiqueta = tabla.etiqueta || `Tabla ${tabla.número}`;
-                mesaElement.dataset.label = etiqueta;
+            mesas.forEach(mesa => {
+                const mesaElement = document.createElement('button');
+                mesaElement.type = 'button';
+                mesaElement.className = 'mesa';
+                mesaElement.id = `mesa${mesa.number}`;
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                mesaElement.dataset.label = label;
                 mesaElement.dataset.capacity = mesa.capacity ?? siteConfig?.defaultCapacity ?? 0;
-                tableElement.style.left = `${table.position?.x ?? 0}%`;
-                tableElement.style.top = `${table.position?.y ?? 0}%`;
-                tableElement.textContent = table.number ?? label;
+                mesaElement.style.left = `${mesa.position?.x ?? 0}%`;
+                mesaElement.style.top = `${mesa.position?.y ?? 0}%`;
+                mesaElement.textContent = mesa.number ?? label;
                 mesaElement.setAttribute('aria-label', `${label} (capacidad ${mesaElement.dataset.capacity})`);
-                tableElement.addEventListener('click', () => selectTable(table));
+                mesaElement.addEventListener('click', () => selectTable(mesa));
                 mesaElement.addEventListener('mouseover', event => showGuests(label, event));
                 mesaElement.addEventListener('focus', event => showGuests(label, event));
-                tableElement.addEventListener('mouseleave', hideGuests);
-                tableElement.addEventListener('blur', hideGuests);
-                salonMap.appendChild(tableElement);
+                mesaElement.addEventListener('mouseleave', hideGuests);
+                mesaElement.addEventListener('blur', hideGuests);
+                salonMap.appendChild(mesaElement);
             });
 
-            actualizarTablesCompleteColor();
+            updateMesasCompletaColor();
         }
 
-        función startDataFetchInterval() {
-            detenerIntervaloDeObtenciónDeDatos();
-            dateFetchInterval = setInterval(() => {
-                obtenerDatosInvitados().catch(error => {
-                    console.warn('Error al actualizar la lista de invitados en segundo plano.', error);
+        function startDataFetchInterval() {
+            stopDataFetchInterval();
+            dataFetchInterval = setInterval(() => {
+                fetchGuestsData().catch(error => {
+                    console.warn('No se pudo refrescar la lista de invitados en segundo plano.', error);
                 });
             }, 5000);
         }
 
-        función detenerIntervaloDeObtenciónDeDatos() {
+        function stopDataFetchInterval() {
             clearInterval(dataFetchInterval);
         }
 
-        función siguientePantalla(númeroSiguientePantalla) {
-            si (nextScreenNumber === undefined) {
-                si (pantallaActual === 2) {
+        function nextScreen(nextScreenNumber) {
+            if (nextScreenNumber === undefined) {
+                if (currentScreen === 2) {
                     let invalidFields = validateForm('guestForm');
                     if (invalidFields.length > 0) {
                         alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                        devolver;
+                        return;
                     }
-                    sea ​​compañero = document.getElementById('compañero').value;
-                    si (compañero === 'sí') {
-                        let quantity Companions = document.getElementById('quantity Companions').value;
-                        if (!quantityofaccompanies) {
-                            alert('Por favor, seleccione el número de acompañantes.');
-                            devolver;
+                    let acompanante = document.getElementById('acompanante').value;
+                    if (acompanante === 'si') {
+                        let cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value;
+                        if (!cantidadAcompanantes) {
+                            alert('Por favor, seleccione la cantidad de acompañantes.');
+                            return;
                         }
-                        generarFormularioAcompañantes(montoAcompañantes);
-                        número de pantalla siguiente = 3;
-                    } demás {
-                        número de pantalla siguiente = 4;
+                        generateAcompanantesForm(cantidadAcompanantes);
+                        nextScreenNumber = 3;
+                    } else {
+                        nextScreenNumber = 4;
                     }
                 } else if (currentScreen === 3) {
-                    let invalidFields = validateForm('companantesForm');
+                    let invalidFields = validateForm('acompanantesForm');
                     if (invalidFields.length > 0) {
-                        alert('Por favor, complete correctamente los siguientes campos complementarios:\n- ' + invalidFields.join('\n- '));
-                        devolver;
+                        alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
+                        return;
                     }
-                    número de pantalla siguiente = 4;
-                } demás {
-                    númeroDePantallaSiguiente = pantallaActual + 1;
+                    nextScreenNumber = 4;
+                } else {
+                    nextScreenNumber = currentScreen + 1;
                 }
             }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            pantallaActual = númeroDePantallaSiguiente;
+            currentScreen = nextScreenNumber;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
 
-            si (pantallaActual === 4) {
-                obtenerDatosInvitados().catch(error => {
-                    console.warn('No se pudo actualizar la lista de invitados al cargar el resumen.', error);
+            if (currentScreen === 4) {
+                fetchGuestsData().catch(error => {
+                    console.warn('No se pudo refrescar la lista de invitados al cargar el resumen.', error);
                 });
-                iniciarIntervaloDeObtenciónDeDatos();
-            } demás {
-                detenerIntervaloDeObtenciónDeDatos();
+                startDataFetchInterval();
+            } else {
+                stopDataFetchInterval();
             }
         }
 
-        función validarFormulario(formularioId) {
+        function validateForm(formId) {
             let form = document.getElementById(formId);
             if (!form) return [];
-            sea ​​invalidFields = [];
+            let invalidFields = [];
             let elements = form.querySelectorAll('input, select');
-            elementos.forEach(function(elemento) {
+            elements.forEach(function(element) {
                 if (!element.checkValidity()) {
                     let label = form.querySelector(`label[for="${element.id}"]`);
                     let fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
-                    camposInválidos.push(nombreCampo.trim());
+                    invalidFields.push(fieldName.trim());
                 }
             });
-            Devuelve campos no válidos;
+            return invalidFields;
         }
 
-        función prevScreen(pantalla) {
-            if (currentScreen === 4 && document.getElementById('companion').value === 'no') {
-                pantalla = 2;
+        function prevScreen(screen) {
+            if (currentScreen === 4 && document.getElementById('acompanante').value === 'no') {
+                screen = 2;
             }
             document.getElementById(`screen${currentScreen}`).classList.remove('active');
-            pantallaActual = pantalla;
+            currentScreen = screen;
             document.getElementById(`screen${currentScreen}`).classList.add('active');
-            detenerIntervaloDeObtenciónDeDatos();
+            stopDataFetchInterval();
         }
 
-        función alternarCompañero() {
-            sea ​​compañero = document.getElementById('compañero').value;
-            let cantidadAcompañantes = document.getElementById('cantidadAcompañantes');
-            let companionQuantityContainer = document.getElementById('companionQuantity');
-            si (compañero === 'sí') {
-                companionQuantityContainer.style.display = 'block';
-                companionQuantityContainer.style.opacity = '1';
-                companionQuantity.setAttribute('required', 'required');
-            } demás {
-                companionQuantityContainer.style.opacity = '0';
-                companionQuantityContainer.style.display = 'none';
-                companionQuantity.removeAttribute('required');
-                companionQuantity.value = '';
+        function toggleAcompanante() {
+            let acompanante = document.getElementById('acompanante').value;
+            let acompananteCantidad = document.getElementById('cantidadAcompanantes');
+            let acompananteCantidadContainer = document.getElementById('acompananteCantidad');
+            if (acompanante === 'si') {
+                acompananteCantidadContainer.style.display = 'block';
+                acompananteCantidadContainer.style.opacity = '1';
+                acompananteCantidad.setAttribute('required', 'required');
+            } else {
+                acompananteCantidadContainer.style.opacity = '0';
+                acompananteCantidadContainer.style.display = 'none';
+                acompananteCantidad.removeAttribute('required');
+                acompananteCantidad.value = '';
             }
         }
 
-        función generarFormularioAcompañantes(cantidad) {
-            let accompanantesForm = document.getElementById('companantesForm');
-            compañerosForm.innerHTML = '';
-            para (sea i = 1; i <= cantidad; i++) {
-                companionsForm.innerHTML += `
+        function generateAcompanantesForm(cantidad) {
+            let acompanantesForm = document.getElementById('acompanantesForm');
+            acompanantesForm.innerHTML = '';
+            for (let i = 1; i <= cantidad; i++) {
+                acompanantesForm.innerHTML += `
                     <div class="form-grid">
                         <div class="form-field">
-                            <h3>Compañero ${i}</h3>
-                            <label for="accompanying name${i}">Nombre</label>
-                            <input type="text" id="nombre del acompañante${i}" name="nombre del acompañante${i}" required>
+                            <h3>Acompañante ${i}</h3>
+                            <label for="nombreAcompanante${i}">Nombre</label>
+                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
                         </div>
                         <div class="form-field">
-                            <label for="menuAccompaniante${i}">Menú</label>
+                            <label for="menuAcompanante${i}">Menú</label>
                             <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
                                 <option value="" selected>Seleccionar</option>
                                 <option value="normal">Normal</option>
-                                <option value="vegetarian">Vegetariano</option>
-                                <option value="vegan">Vegano</option>
-                                <option value="celiac">Celiaco</option>
+                                <option value="vegetariano">Vegetariano</option>
+                                <option value="vegano">Vegano</option>
+                                <option value="celiaco">Celíaco</option>
                             </select>
                         </div>
                     </div>`;
             }
         }
 
-        función seleccionarTabla(configuraciónTabla) {
-            Si (!tableConfig) devolver;
-            const etiqueta = mesaConfig.label || `Tabla ${tableConfig.number}`;
-            const tableInput = document.getElementById('table');
-            tableInput.value = etiqueta;
+        function selectTable(mesaConfig) {
+            if (!mesaConfig) return;
+            const label = mesaConfig.label || `Mesa ${mesaConfig.number}`;
+            const mesaInput = document.getElementById('mesa');
+            mesaInput.value = label;
 
-            document.querySelectorAll('.table').forEach(table => table.classList.remove('selected'));
-            const tableElement = document.getElementById(`table${tableConfig.number}`);
-            si (elemento de tabla) {
-                tableElement.classList.add('selected');
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('seleccionada'));
+            const mesaElement = document.getElementById(`mesa${mesaConfig.number}`);
+            if (mesaElement) {
+                mesaElement.classList.add('seleccionada');
             }
 
-            const summaryLabel = document.getElementById('tableSelectedLabel');
-            si (etiqueta de resumen) {
-                resumenLabel.textContent = etiqueta;
+            const summaryLabel = document.getElementById('mesaSeleccionadaLabel');
+            if (summaryLabel) {
+                summaryLabel.textContent = label;
             }
 
             const tableContainer = document.querySelector('.table-container');
-            si (contenedor de tabla) {
+            if (tableContainer) {
                 tableContainer.style.display = 'block';
             }
 
-            actualizarTextoTabla();
+            updateMesaText();
         }
 
-        función actualizarTextoTabla() {
-            const tableInput = document.getElementById('table');
-            const tableText = document.getElementById('tableText');
-            const mesaSeleccionada = mesaInput.value;
-            si (textoTabla && tablaSeleccionada) {
-                tableText.textContent = selectedTable;
+        function updateMesaText() {
+            const mesaInput = document.getElementById('mesa');
+            const mesaText = document.getElementById('mesaText');
+            const selectedMesa = mesaInput.value;
+            if (mesaText && selectedMesa) {
+                mesaText.textContent = selectedMesa;
             }
-            actualizarAsientos();
-            actualizarListaDeInvitados();
+            updateSeats();
+            updateGuestList();
         }
 
-        función actualizarAsientos() {
-            const tableInput = document.getElementById('table');
-            const mesaSeleccionada = mesaInput.value;
+        function updateSeats() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
             const seatsContainer = document.getElementById('seatsContainer');
-            Si (!contenedorDeAsientos) devolver;
+            if (!seatsContainer) return;
 
-            sea ​​maxCapacity = getMesaCapacity(selectedMesa);
-            asientosContainer.innerHTML = '';
+            let maxCapacity = getMesaCapacity(selectedMesa);
+            seatsContainer.innerHTML = '';
 
-            para (sea i = 1; i <= capacidadMáxima; i++) {
+            for (let i = 1; i <= maxCapacity; i++) {
                 let seat = document.createElement('div');
-                asiento.classList.add('asiento');
-                asiento.conjuntodedatos.asiento = i;
-                asientosContenedor.agregarHijo(asiento);
+                seat.classList.add('seat');
+                seat.dataset.seat = i;
+                seatsContainer.appendChild(seat);
             }
 
-            const asientos = document.querySelectorAll('.seat');
-            constante centroX = 50;
-            constante centroY = 50;
-            radio constante = 38;
+            const seats = document.querySelectorAll('.seat');
+            const centerX = 50;
+            const centerY = 50;
+            const radius = 38;
 
-            asientos.paraCada((asiento, índice) => {
-                ángulo constante = (índice / asientos.longitud) * (2 * Math.PI);
-                constante x = centroX + radio * Math.cos(ángulo);
-                constante y = centroY + radio * Math.sin(ángulo);
-                asiento.estilo.posición = 'absoluta';
-                asiento.estilo.izquierda = `${x}%`;
-                asiento.estilo.superior = `${y}%`;
-                asiento.estilo.transformar = 'translate(-50%, -50%)';
+            seats.forEach((seat, index) => {
+                const angle = (index / seats.length) * (2 * Math.PI);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                seat.style.position = 'absolute';
+                seat.style.left = `${x}%`;
+                seat.style.top = `${y}%`;
+                seat.style.transform = 'translate(-50%, -50%)';
             });
 
-            const tableGuests = obtenerGuestsForMesa(mesaSeleccionada);
-            if (selectedTable && tableGuests.length) {
-                Sea totalInvitados = 0;
-                tableGuests.forEach(guest => {
-                    const asientosNecesarios = contarAsientosParaInvitados(invitado);
+            const mesaGuests = getGuestsForMesa(selectedMesa);
+            if (selectedMesa && mesaGuests.length) {
+                let totalGuests = 0;
+                mesaGuests.forEach(guest => {
+                    const seatsNeeded = countGuestSeats(guest);
                     for (let i = 0; i < seatsNeeded; i++) {
-                        Si (total de invitados < capacidad máxima) {
-                            const asiento = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
-                            si (asiento) {
-                                asiento.classList.add('ocupado');
+                        if (totalGuests < maxCapacity) {
+                            const seat = document.querySelector(`.seat[data-seat="${totalGuests + 1}"]`);
+                            if (seat) {
+                                seat.classList.add('occupied');
                             }
-                            totalInvitados++;
+                            totalGuests++;
                         }
                     }
                 });
             }
         }
 
-        función actualizarListaDeInvitados() {
-            const tableInput = document.getElementById('table');
-            const mesaSeleccionada = mesaInput.value;
-            const listaInvitados = document.getElementById('listaInvitados');
-            Si (!listaDeInvitados) terminar;
+        function updateGuestList() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
+            const guestList = document.getElementById('guestList');
+            if (!guestList) return;
 
             guestList.innerHTML = '';
 
-            const invitados = obtenerInvitadosParaMesa(mesaseleccionada);
-            if (selectedTable && guests.length) {
+            const guests = getGuestsForMesa(selectedMesa);
+            if (selectedMesa && guests.length) {
 
-                invitados.paraCada(invitado => {
-                    const fullname = getGuestFullName(guest) || 'Nombre no disponible';
-                    guestList.innerHTML += `<div><strong>${fullname}</strong></div>`;
+                guests.forEach(guest => {
+                    const nombreCompleto = getGuestFullName(guest) || 'Nombre no disponible';
+                    guestList.innerHTML += `<div><strong>${nombreCompleto}</strong></div>`;
 
-                    extraerNombresCompañeros(invitado).paraCada(nombre => {
+                    extractCompanionNames(guest).forEach(nombre => {
                         guestList.innerHTML += `<div>${nombre}</div>`;
                     });
                 });
-            } demás {
-                guestList.innerHTML = 'No hay huéspedes registrados en esta mesa.';
+            } else {
+                guestList.innerHTML = 'No hay invitados registrados en esta mesa.';
             }
         }
 
-        función asíncrona submitForm() {
-            const tableInput = document.getElementById('table');
-            const mesaSeleccionada = mesaInput.value;
+        async function submitForm() {
+            const mesaInput = document.getElementById('mesa');
+            const selectedMesa = mesaInput.value;
 
-            sea ​​maxCapacity = getMesaCapacity(selectedMesa);
+            let maxCapacity = getMesaCapacity(selectedMesa);
 
-            Sea totalInvitados = 0;
-            const tableGuests = obtenerGuestsForMesa(mesaSeleccionada);
-            const baselineGuests = Array.isArray(mesaGuests) ? tableGuests.slice() : [];
-            if (selectedTable && tableGuests.length) {
-                tableGuests.forEach(guest => {
-                    totalInvitados += contarAsientosInvitados(invitado);
+            let totalGuests = 0;
+            const mesaGuests = getGuestsForMesa(selectedMesa);
+            const baselineGuests = Array.isArray(mesaGuests) ? mesaGuests.slice() : [];
+            if (selectedMesa && mesaGuests.length) {
+                mesaGuests.forEach(guest => {
+                    totalGuests += countGuestSeats(guest);
                 });
             }
 
-            const cantidad Compañeros = document.getElementById('cantidad Compañeros').value || 0;
-            const companionsCount = parseInt(cantidad de Compañeros, 10) || 0;
-            const totalNuevosInvitados = 1 + conteoCompañeros;
+            const cantidadAcompanantes = document.getElementById('cantidadAcompanantes').value || 0;
+            const acompanantesCount = parseInt(cantidadAcompanantes, 10) || 0;
+            const totalNuevosGuests = 1 + acompanantesCount;
 
-            if (!selectedMesa || (totalGuests + totalNewGuests) > maxCapacity) {
-                alert('Debe seleccionar una tabla disponible antes de continuar o la tabla no tiene suficiente espacio.');
-                devolver;
+            if (!selectedMesa || (totalGuests + totalNuevosGuests) > maxCapacity) {
+                alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
+                return;
             }
 
             let guestForm = document.getElementById('guestForm');
-            let accompanantesForm = document.getElementById('companantesForm');
+            let acompanantesForm = document.getElementById('acompanantesForm');
 
-            if (!(guestForm.checkValidity() && companionsForm.checkValidity())) {
-                alert('Por favor, complete todos los campos obligatorios.');
-                devolver;
+            if (!(guestForm.checkValidity() && acompanantesForm.checkValidity())) {
+                alert('Por favor, complete todos los campos requeridos.');
+                return;
             }
 
-            const formData = nuevo FormData(guestForm);
-            const datos acompañantes = new FormData(formulario acompañante);
-            const compañeros = [];
+            const formData = new FormData(guestForm);
+            const acompanantesData = new FormData(acompanantesForm);
+            const acompanantes = [];
 
-            companionsData.forEach((value, key) => {
-                if (key.includes('accompanying name')) {
-                    const índice = parseInt(key.replace(/\D/g, '')) - 1;
-                    if (!companions[index]) companions[index] = {};
-                    compañeros[índice].nombre = valor;
-                } else if (key.includes('Menú de acompañamiento')) {
-                    const índice = parseInt(key.replace(/\D/g, '')) - 1;
-                    if (!companions[index]) companions[index] = {};
-                    compañeros[índice].menú = valor;
+            acompanantesData.forEach((value, key) => {
+                if (key.includes('nombreAcompanante')) {
+                    const index = parseInt(key.replace(/\D/g, '')) - 1;
+                    if (!acompanantes[index]) acompanantes[index] = {};
+                    acompanantes[index].nombre = value;
+                } else if (key.includes('menuAcompanante')) {
+                    const index = parseInt(key.replace(/\D/g, '')) - 1;
+                    if (!acompanantes[index]) acompanantes[index] = {};
+                    acompanantes[index].menu = value;
                 }
             });
 
-            const fecha = {
-                correo: formData.get('mail'),
-                calificación: formData.get('calificación'),
-                scalaphone: formData.get('scalaphone'),
+            const data = {
+                correo: formData.get('correo'),
+                grado: formData.get('grado'),
+                escalafon: formData.get('escalafon'),
                 nombre: formData.get('nombre'),
                 apellido: formData.get('apellido'),
-                tarjeta: formData.get('tarjeta'),
-                compañero: formData.get('compañero'),
-                cantidad de acompañante: formData.get('cantidad de acompañante'),
-                menú: formData.get('menu'),
-                compañeros: compañeros,
-                tabla: formData.get('tabla')
+                cedula: formData.get('cedula'),
+                acompanante: formData.get('acompanante'),
+                cantidadAcompanantes: formData.get('cantidadAcompanantes'),
+                menu: formData.get('menu'),
+                acompanantes: acompanantes,
+                mesa: formData.get('mesa')
             };
 
-            const huella digital = crearHuellaDeReserva(fecha);
+            const fingerprint = createReservationFingerprint(data);
 
             if (!reservationScriptUrl) {
-                alert('No se encontró la dirección del servicio de reservas. Compruebe la configuración.');
-                devolver;
+                alert('No se encontró la dirección del servicio de reservas. Verifique la configuración.');
+                return;
             }
 
-            establecerEstadoDeEnvío(verdadero);
+            setSubmissionState(true);
 
-            intentar {
-                esperar a enviarReserva(urlScriptReserva, fecha);
+            try {
+                await submitReservation(reservationScriptUrl, data);
                 const debugEntries = window.__reservationDebug || [];
-                const debugEntries = debugEntries.length ? debugEntries[debugEntries.length - 1] : null;
-                sea ​​verificationWarning = null;
-                sea ​​verificationDetails = null;
+                const debugEntry = debugEntries.length ? debugEntries[debugEntries.length - 1] : null;
+                let verificationWarning = null;
+                let verificationDetails = null;
 
-                intentar {
-                    esperar confirmarReservaPersistente(huella digital, huéspedesBase, entradaDepuración);
+                try {
+                    await confirmReservationPersisted(fingerprint, baselineGuests, debugEntry);
                 } catch (verificationError) {
                     const verificationMessage = typeof verificationError?.message === 'string' ? verificationError.message : '';
                     if (verificationMessage === 'reservation_sheet_url_missing' || verificationMessage === 'reservation_sheet_refresh_failed') {
-                        advertencia de verificación = mensaje de verificación;
+                        verificationWarning = verificationMessage;
                         verificationDetails = verificationError?.cause?.message || verificationError?.message || null;
-                        console.warn('Se ha enviado la reserva, pero ha fallado la verificación.', verificationError);
-                    } demás {
-                        lanzar error de verificación;
+                        console.warn('La reserva se envió pero la verificación falló.', verificationError);
+                    } else {
+                        throw verificationError;
                     }
                 }
 
-                mostrarConfirmación();
+                showConfirmation();
 
                 if (verificationWarning === 'reservation_sheet_url_missing') {
-                    alert('Su reserva se ha enviado, pero no hemos podido verificarla porque falta la URL pública de la hoja de huéspedes. Pídale al administrador que publique la hoja como CSV y que actualice la URL en el panel de administración.');
+                    alert('Tu reserva se envió, pero no pudimos comprobarla porque falta la URL pública de la hoja de invitados. Pide al administrador que publique la hoja como CSV y actualice la URL en el panel de Administración.');
                 } else if (verificationWarning === 'reservation_sheet_refresh_failed') {
                     const extra = verificationDetails ? ` Detalle: ${verificationDetails}` : '';
-                    alert('Su reserva ha sido enviada, pero no pudimos leer la hoja de huéspedes para confirmarla. Compruebe que la hoja esté publicada como CSV y que el enlace en Administración sea accesible.' + extra);
+                    alert('Tu reserva se envió, pero no pudimos leer la hoja de invitados para confirmarla. Revisa que la hoja esté publicada como CSV y que el enlace en Administración sea accesible.' + extra);
                 }
             } catch (error) {
                 console.error('Error al registrar la reserva:', error);
-                const mensaje = typeof error?.mensaje === 'string' ? error.mensaje : '';
-                if (message === 'reserva_no_encontrada') {
-                    alert('No pudimos confirmar su reserva en la hoja de cálculo. Por favor, revise su conexión o confirme con el administrador que el enlace de Google Apps Script está activo.');
+                const message = typeof error?.message === 'string' ? error.message : '';
+                if (message === 'reservation_not_found') {
+                    alert('No pudimos confirmar tu reserva en la hoja de cálculo. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
                 } else if (message === 'reservation_timeout') {
-                    alert('El servicio de reservas tardó demasiado en responder. Por favor, inténtelo de nuevo en unos instantes.');
+                    alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
                 } else if (message === 'reservation_missing_endpoint') {
-                    alert('La dirección del servicio de reservas no está configurada. Consulte la sección Administración.');
+                    alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
                 } else if (message.startsWith('reservation_http_get_') || message.startsWith('reservation_http_')) {
-                    const partes = mensaje.split('_');
-                    const statusCode = parts[parts.length - 1] || 'unknown';
+                    const parts = message.split('_');
+                    const statusCode = parts[parts.length - 1] || 'desconocido';
                     if (statusCode === '405') {
-                        alert('El servicio de Google Apps Script respondió con el código 405 (Método no permitido). Asegúrese de publicar una versión que incluya doPost(e) y que la aplicación web permita el acceso a "Cualquier persona con el enlace".');
+                        alert('El servicio de Google Apps Script respondió con código 405 (método no permitido). Asegúrate de publicar una versión que incluya doPost(e) y que la app web permita acceso a "Anyone with the link".');
                     } else if (statusCode === '404') {
-                        alert('El servicio de Google Apps Script respondió con el código 404. Verifique que haya pegado la URL correcta de la implementación activa en el panel de administración.');
-                    } demás {
-                        alert(`El servicio de Google Apps Script devolvió el código ${statusCode}. Consulta los registros del script para obtener más detalles.`);
+                        alert('El servicio de Google Apps Script respondió con código 404. Verifica que hayas pegado la URL correcta del despliegue activo en el panel de administración.');
+                    } else {
+                        alert(`El servicio de Google Apps Script devolvió un código ${statusCode}. Revisa los registros del script para más detalles.`);
                     }
-                } demás {
-                    alert('Hubo un problema al enviar la reserva. Por favor, inténtelo de nuevo y, si el problema persiste, póngase en contacto con el administrador.');
+                } else {
+                    alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
                 }
-            } finalmente {
-                establecerEstadoDeEnvío(falso);
+            } finally {
+                setSubmissionState(false);
             }
         }
 
-        función mostrarConfirmación() {
+        function showConfirmation() {
             const mesaConfirmada = document.getElementById('mesa').value;
             document.getElementById('mesaConfirmada').textContent = mesaConfirmada;
             const current = document.getElementById(`screen${currentScreen}`);
             if (current) current.classList.remove('active');
             const modal = document.getElementById('confirmationModal');
-            si (modal) {
+            if (modal) {
                 modal.classList.add('active');
                 modal.style.display = 'flex';
             }
-            detenerIntervaloDeObtenciónDeDatos();
+            stopDataFetchInterval();
         }
 
-        función finalizarRegistro() {
-            ubicación.recargar();
+        function finalizarRegistro() {
+            location.reload();
         }
 
-        función asíncrona obtenerDatosInvitados() {
+        async function fetchGuestsData() {
             if (!guestsSheetCsvUrl) {
                 const error = new Error('sheet_url_missing');
                 error.code = 'sheet_url_missing';
-                lanzar error;
+                throw error;
             }
-            intentar {
-                const respuesta = await fetch(appendCacheBuster(guestsSheetCsvUrl), { cache: 'no-store' });
+            try {
+                const response = await fetch(appendCacheBuster(guestsSheetCsvUrl), { cache: 'no-store' });
                 if (!response.ok) {
-                    lanzar nuevo Error(`sheet_fetch_${response.status}`);
+                    throw new Error(`sheet_fetch_${response.status}`);
                 }
 
                 const csv = await response.text();
-                const datos = csvToJSON(csv);
-                invitadosFecha = fecha;
-                actualizarTablesCompleteColor();
-                actualizarListaDeInvitados();
-                actualizarAsientos();
-                fecha de regreso;
+                const data = csvToJSON(csv);
+                guestsData = data;
+                updateMesasCompletaColor();
+                updateGuestList();
+                updateSeats();
+                return data;
             } catch (error) {
-                console.error('Error al obtener los datos del invitado:', error);
-                lanzar error;
+                console.error('Error fetching guest data:', error);
+                throw error;
             }
         }
 
-        función parseCSVLine(line) {
-            const resultado = [];
-            sea ​​actual = '';
-            sea ​​insideQuotes = falso;
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let insideQuotes = false;
 
             for (let i = 0; i < line.length; i++) {
-                const char = línea[i];
-                si (carácter === '"') {
+                const char = line[i];
+                if (char === '"') {
                     if (insideQuotes && line[i + 1] === '"') {
-                        actual += '';
+                        current += '"';
                         i++;
-                    } demás {
+                    } else {
                         insideQuotes = !insideQuotes;
                     }
                 } else if (char === ',' && !insideQuotes) {
-                    resultado.push(actual);
-                    actual = '';
-                } demás {
-                    actual += carácter;
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
                 }
             }
-            resultado.push(actual);
+            result.push(current);
 
-            devolver resultado;
+            return result;
         }
 
-        función csvToJSON(csv) {
+        function csvToJSON(csv) {
             if (!csv) return {};
             const sanitized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-            const líneas = sanitized.split('\n').filter(línea => línea.trim() !== '');
+            const lines = sanitized.split('\n').filter(line => line.trim() !== '');
             if (lines.length === 0) return {};
 
-            const encabezados = parseCSVLine(líneas[0]);
-            const encabezados normalizados = encabezados.map(encabezado => encabezado.trim());
-            const clavesEncabezadoNormales = encabezadosNormales.map(cadenaNormales);
+            const headers = parseCSVLine(lines[0]);
+            const normalizedHeaders = headers.map(header => header.trim());
+            const normalizedHeaderKeys = normalizedHeaders.map(normalizeString);
 
-            const resultado = {};
+            const result = {};
 
             for (let i = 1; i < lines.length; i++) {
-                const valores ​​= parseCSVLine(líneas[i]);
+                const values = parseCSVLine(lines[i]);
                 if (values.every(value => value === undefined || value === null || value.trim() === '')) continue;
 
-                entrada constante = {};
+                const entry = {};
                 normalizedHeaders.forEach((header, index) => {
-                    entrada[encabezado] = (valores[índice] ?? '').trim();
+                    entry[header] = (values[index] ?? '').trim();
                 });
 
-                const tableIndex = normalizedHeaderKeys.indexOf('table');
-                sea ​​tableLabel = '';
-                si (tableIndex !== -1) {
-                    tableLabel = (valores[tableIndex] ?? '').trim();
+                const mesaIndex = normalizedHeaderKeys.indexOf('mesa');
+                let mesaLabel = '';
+                if (mesaIndex !== -1) {
+                    mesaLabel = (values[mesaIndex] ?? '').trim();
                 }
-                if (!tableLabel) {
-                    const tableKey = Object.keys(entry).find(key => normalizeString(key) === 'table');
-                    si (clave de tabla) {
-                        etiquetaTabla = entrada[claveTabla];
+                if (!mesaLabel) {
+                    const mesaKey = Object.keys(entry).find(key => normalizeString(key) === 'mesa');
+                    if (mesaKey) {
+                        mesaLabel = entry[mesaKey];
                     }
                 }
 
-                Si (!tableLabel) continuar;
+                if (!mesaLabel) continue;
 
-                if (!result[tableLabel]) {
-                    resultado[etiqueta de tabla] = [];
+                if (!result[mesaLabel]) {
+                    result[mesaLabel] = [];
                 }
-                resultado[mesaLabel].push(entry);
+                result[mesaLabel].push(entry);
             }
 
-            devolver resultado;
+            return result;
         }
 
-        función actualizarMesasCompletaColor() {
-            document.querySelectorAll('.table').forEach(table => table.classList.remove('complete'));
+        function updateMesasCompletaColor() {
+            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
 
-            Objeto.keys(guestsData).forEach(mesaLabel => {
-                const invitados = datosInvitados[etiquetaTabla];
-                Sea totalInvitados = 0;
+            Object.keys(guestsData).forEach(mesaLabel => {
+                const guests = guestsData[mesaLabel];
+                let totalGuests = 0;
 
-                sea ​​maxCapacity = getMesaCapacity(mesaLabel);
+                let maxCapacity = getMesaCapacity(mesaLabel);
 
-                invitados.paraCada(invitado => {
-                    totalInvitados += contarAsientosInvitados(invitado);
+                guests.forEach(guest => {
+                    totalGuests += countGuestSeats(guest);
                 });
 
-                Si (totalHuéspedes >= capacidadMáxima) {
+                if (totalGuests >= maxCapacity) {
                     const mesaConfig = siteConfig?.mesas?.find(m => (m.label || `Mesa ${m.number}`) === mesaLabel);
-                    sea ​​tableId = null;
-                    si (tableConfig) {
-                        tableId = `table${tableConfig.number}`;
+                    let mesaId = null;
+                    if (mesaConfig) {
+                        mesaId = `mesa${mesaConfig.number}`;
                     } else if (mesaLabel.startsWith('Mesa ')) {
-                        const númeroTabla = tableLabel.split(' ')[1];
-                        idTabla = `tabla${númeroTabla}`;
+                        const mesaNumber = mesaLabel.split(' ')[1];
+                        mesaId = `mesa${mesaNumber}`;
                     }
-                    si (tableId) {
-                        const tableElement = document.getElementById(tableId);
-                        si (elemento de tabla) {
-                            tableElement.classList.add('complete');
+                    if (mesaId) {
+                        const mesaElement = document.getElementById(mesaId);
+                        if (mesaElement) {
+                            mesaElement.classList.add('completa');
                         }
                     }
                 }
             });
         }
 
-        función obtenerCapacitanciaMesa(etiquetaMesa) {
+        function getMesaCapacity(mesaLabel) {
             if (!siteConfig || !Array.isArray(siteConfig.mesas)) {
-                devolver siteConfig?.defaultCapacity || 10;
+                return siteConfig?.defaultCapacity || 10;
             }
             const mesaConfig = siteConfig.mesas.find(mesa => {
-                const etiqueta = tabla.etiqueta || `Tabla ${tabla.número}`;
-                Si (etiqueta === mesaLabel) devolver verdadero;
+                const label = mesa.label || `Mesa ${mesa.number}`;
+                if (label === mesaLabel) return true;
                 if (mesaLabel.startsWith('Mesa ')) {
-                    return `Tabla ${table.number}` === tableLabel;
+                    return `Mesa ${mesa.number}` === mesaLabel;
                 }
-                devolver falso;
+                return false;
             });
             if (mesaConfig && typeof mesaConfig.capacity === 'number') {
-                Devuelve tableConfig.capacity;
+                return mesaConfig.capacity;
             }
-            devolver siteConfig.defaultCapacity || 10;
+            return siteConfig.defaultCapacity || 10;
         }
 
-        función mostrarInvitados(mesa, evento) {
+        function showGuests(mesa, event) {
             const tooltip = document.getElementById('tooltip');
-            Si (!tooltip) salir;
-            let content = 'No hay huéspedes registrados en esta mesa.';
-            const tableGuests = obtenerGuestsForMesa(table);
-            if (gueststable.length) {
+            if (!tooltip) return;
+            let content = 'No hay invitados registrados en esta mesa.';
+            const mesaGuests = getGuestsForMesa(mesa);
+            if (mesaGuests.length) {
                 const guestNames = mesaGuests.map(guest => {
-                    sea ​​nombreCompleto = obtenerNombreCompletoInvitado(invitado);
-                    const compañeros = extraerNombresCompañeros(invitado);
-                    if (companions.length > 0) {
-                        nombreCompleto += ` (+${companions.join(', ')})`;
+                    let fullName = getGuestFullName(guest);
+                    const acompanantes = extractCompanionNames(guest);
+                    if (acompanantes.length > 0) {
+                        fullName += ` (+${acompanantes.join(', ')})`;
                     }
-                    devolver nombre completo || 'Invitado';
-                }).unirse(', ');
-                contenido = nombresDeInvitados || feliz
+                    return fullName || 'Invitado';
+                }).join(', ');
+                content = guestNames || content;
             }
-            tooltip.textContent = contenido;
+            tooltip.textContent = content;
             tooltip.style.display = 'block';
 
-            sea ​​x = evento?.pageX;
-            sea ​​y = evento?.pageY;
-            const objetivo = evento?.objetivoActual || evento?.objetivo;
-            si ((!x || !y) && objetivo) {
+            let x = event?.pageX;
+            let y = event?.pageY;
+            const target = event?.currentTarget || event?.target;
+            if ((!x || !y) && target) {
                 const rect = target.getBoundingClientRect();
                 x = rect.left + window.scrollX + rect.width / 2;
                 y = rect.top + window.scrollY + rect.height / 2;
@@ -2019,23 +2030,23 @@
             tooltip.style.top = `${y}px`;
         }
 
-        función ocultarInvitados() {
+        function hideGuests() {
             const tooltip = document.getElementById('tooltip');
-            Si (!tooltip) salir;
-            tooltip.style.display = 'ninguno';
+            if (!tooltip) return;
+            tooltip.style.display = 'none';
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            aplicarPantallaInicial();
-            asegurarHéroeÚnico();
-            intentar {
-                siteConfig = esperar cargarConfig();
-                aplicarConfig(siteConfig);
+            enforceInitialScreen();
+            ensureSingleHero();
+            try {
+                siteConfig = await loadConfig();
+                applyConfig(siteConfig);
             } catch (error) {
-                console.error('Error al inicializar la configuración', error);
+                console.error('No se pudo inicializar la configuración', error);
                 const subtitleElement = document.getElementById('siteSubtitle');
-                si (elemento de subtítulo) {
-                    subtitleElement.textContent = 'Error al cargar la configuración. Revise el archivo config.json.';
+                if (subtitleElement) {
+                    subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
                 }
             }
         });
