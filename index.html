@@ -731,6 +731,25 @@
         let dataFetchInterval;
         let siteConfig = null;
 
+        window.dumpReservationDebug = function dumpReservationDebug() {
+            const log = window.__reservationDebug || [];
+            const summary = log.map(entry => ({
+                id: entry.id,
+                submittedAt: entry.submittedAt,
+                status: entry.status || 'pendiente',
+                successMode: entry.successMode || 'n/d',
+                attempts: Array.isArray(entry.attempts) ? entry.attempts.length : 0,
+                getAttempts: Array.isArray(entry.getAttempts) ? entry.getAttempts.length : 0,
+                endpoint: entry.endpoint
+            }));
+            if (summary.length) {
+                console.table(summary);
+            } else {
+                console.info('[Reservas] No hay envíos registrados en memoria.');
+            }
+            return log;
+        };
+
         const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec';
         const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
         const SUBMISSION_POLL_INTERVAL = 3000;
@@ -985,21 +1004,27 @@
             }
 
             const submittedAt = new Date().toISOString();
+            const startedAt = Date.now();
+            const debugLog = window.__reservationDebug = window.__reservationDebug || [];
             const debugEntry = {
+                id: debugLog.length + 1,
                 submittedAt,
-                endpoint: scriptUrl
+                endpoint: scriptUrl,
+                attempts: [],
+                getAttempts: []
             };
+
             try {
                 debugEntry.payload = JSON.parse(JSON.stringify(payload || {}));
             } catch (serializationError) {
                 debugEntry.payload = payload;
+                debugEntry.serializationError = serializationError?.message || true;
                 console.warn('[Reservas] No se pudo serializar el payload para depuración.', serializationError);
             }
 
-            window.__reservationDebug = window.__reservationDebug || [];
-            window.__reservationDebug.push(debugEntry);
-            console.info('[Reservas] Registro de depuración guardado. Total de intentos en memoria:', window.__reservationDebug.length);
-            const logGroupLabel = `[Reservas] Envío ${submittedAt}`;
+            debugLog.push(debugEntry);
+            console.info(`[Reservas] Registro de depuración guardado (#${debugEntry.id}). Total de intentos en memoria:`, debugLog.length);
+            const logGroupLabel = `[Reservas] Envío #${debugEntry.id} ${submittedAt}`;
             const groupSupported = typeof console.groupCollapsed === 'function' && typeof console.groupEnd === 'function';
 
             if (groupSupported) {
@@ -1010,9 +1035,20 @@
 
             const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
             const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
+            const attempts = debugEntry.attempts;
+            const getAttempts = debugEntry.getAttempts;
+            let lastSuccessfulMode = null;
+            let lastError = null;
 
             const sendRequest = async (mode) => {
-                console.info(`[Reservas] Iniciando intento ${mode.toUpperCase()}...`);
+                const normalizedMode = mode.toUpperCase();
+                console.info(`[Reservas] Iniciando intento ${normalizedMode}...`);
+
+                const attempt = {
+                    mode: `POST-${normalizedMode}`,
+                    startedAt: new Date().toISOString()
+                };
+                attempts.push(attempt);
 
                 const options = {
                     method: 'POST',
@@ -1032,43 +1068,52 @@
 
                 try {
                     const response = await fetch(scriptUrl, options);
+                    attempt.completedAt = new Date().toISOString();
+                    attempt.status = response?.status ?? 'unknown';
+                    attempt.ok = response?.ok ?? false;
+                    attempt.responseType = response?.type ?? 'n/d';
 
                     if (mode === 'cors') {
                         if (!response || !response.ok) {
                             const status = response ? response.status : 'unknown';
                             let responseBody = '';
                             try {
-                                responseBody = await response.text();
+                                responseBody = await response.clone().text();
+                                attempt.responseBody = responseBody.slice(0, 500);
                             } catch (readError) {
                                 console.warn('[Reservas] No se pudo leer la respuesta de error (CORS).', readError);
+                                attempt.responseBody = 'unavailable';
                             }
+                            attempt.error = { name: 'HTTPError', message: `HTTP ${status}` };
                             console.error(`[Reservas] Respuesta HTTP no exitosa (${status}).`, { mode, status, responseBody });
                             throw new Error(`reservation_http_${status}`);
                         }
 
-                        let parsed;
                         try {
-                            parsed = await response.clone().json();
+                            const parsed = await response.clone().json();
+                            attempt.responseJson = parsed;
+                            console.info('[Reservas] Respuesta CORS (JSON):', parsed);
                         } catch (parseError) {
                             try {
                                 const text = await response.clone().text();
+                                attempt.responseText = text.slice(0, 500);
                                 console.info('[Reservas] Respuesta CORS (texto):', text);
                             } catch (textError) {
                                 console.warn('[Reservas] No se pudo clonar la respuesta para logging.', textError);
                             }
                         }
 
-                        if (parsed !== undefined) {
-                            console.info('[Reservas] Respuesta CORS (JSON):', parsed);
-                        }
-
+                        lastSuccessfulMode = attempt.mode;
                         return response;
                     }
 
                     console.info('[Reservas] Solicitud no-CORS despachada correctamente.');
-                    return null;
+                    lastSuccessfulMode = attempt.mode;
+                    return response;
                 } catch (error) {
-                    console.error(`[Reservas] Falló la solicitud ${mode.toUpperCase()}.`, error);
+                    attempt.completedAt = attempt.completedAt || new Date().toISOString();
+                    attempt.error = attempt.error || { name: error?.name, message: error?.message };
+                    console.error(`[Reservas] Falló la solicitud ${normalizedMode}.`, error);
                     throw error;
                 }
             };
@@ -1078,7 +1123,15 @@
                 const separator = scriptUrl.includes('?') ? '&' : '?';
                 const targetUrl = `${scriptUrl}${separator}${queryString}`;
 
-                const attempt = async (mode) => {
+                const attemptFetch = async (mode) => {
+                    const normalizedMode = mode.toUpperCase();
+                    const attempt = {
+                        mode: `GET-${normalizedMode}`,
+                        url: targetUrl,
+                        startedAt: new Date().toISOString()
+                    };
+                    getAttempts.push(attempt);
+
                     const options = {
                         method: 'GET',
                         mode,
@@ -1090,17 +1143,26 @@
                     }
 
                     const response = await fetch(targetUrl, options);
+                    attempt.completedAt = new Date().toISOString();
+                    attempt.status = response?.status ?? 'unknown';
+                    attempt.ok = response?.ok ?? false;
+                    attempt.responseType = response?.type ?? 'n/d';
+
                     if (mode === 'cors') {
                         if (!response || !response.ok) {
                             const status = response ? response.status : 'unknown';
+                            attempt.error = { name: 'HTTPError', message: `HTTP ${status}` };
                             throw new Error(`reservation_http_get_${status}`);
                         }
                     }
+
+                    lastSuccessfulMode = attempt.mode;
+                    return response;
                 };
 
                 try {
                     console.info('[Reservas] Lanzando fallback GET en modo CORS.');
-                    await attempt('cors');
+                    await attemptFetch('cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
                         throw new Error('reservation_timeout');
@@ -1111,7 +1173,7 @@
 
                     if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
                         console.warn('[Reservas] GET CORS falló, probando con no-CORS.', error);
-                        await attempt('no-cors');
+                        await attemptFetch('no-cors');
                     } else {
                         throw error;
                     }
@@ -1123,6 +1185,7 @@
                     await sendRequest('cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
+                        lastError = error;
                         throw new Error('reservation_timeout');
                     }
 
@@ -1137,6 +1200,7 @@
                     }
 
                     if (!isLikelyCorsIssue || isHttpError) {
+                        lastError = error;
                         throw error;
                     }
 
@@ -1145,6 +1209,7 @@
                         await sendRequest('no-cors');
                     } catch (fallbackError) {
                         if (fallbackError && fallbackError.name === 'AbortError') {
+                            lastError = fallbackError;
                             throw new Error('reservation_timeout');
                         }
 
@@ -1154,12 +1219,27 @@
                             await submitWithGet();
                             return;
                         }
+                        lastError = fallbackError;
                         throw fallbackError;
                     }
                 }
+            } catch (error) {
+                lastError = error;
+                throw error;
             } finally {
                 if (timeoutId) {
                     clearTimeout(timeoutId);
+                }
+                debugEntry.completedAt = new Date().toISOString();
+                debugEntry.durationMs = Date.now() - startedAt;
+                if (lastSuccessfulMode) {
+                    debugEntry.status = 'sent';
+                    debugEntry.successMode = lastSuccessfulMode;
+                } else {
+                    debugEntry.status = 'error';
+                    if (lastError) {
+                        debugEntry.error = { name: lastError.name, message: lastError.message };
+                    }
                 }
                 if (groupSupported) {
                     console.groupEnd();
@@ -1648,12 +1728,23 @@
                 showConfirmation();
             } catch (error) {
                 console.error('Error al registrar la reserva:', error);
-                if (error && error.message === 'reservation_not_found') {
+                const message = typeof error?.message === 'string' ? error.message : '';
+                if (message === 'reservation_not_found') {
                     alert('No pudimos confirmar tu reserva en la hoja de cálculo. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
-                } else if (error && error.message === 'reservation_timeout') {
+                } else if (message === 'reservation_timeout') {
                     alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
-                } else if (error && error.message === 'reservation_missing_endpoint') {
+                } else if (message === 'reservation_missing_endpoint') {
                     alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
+                } else if (message.startsWith('reservation_http_get_') || message.startsWith('reservation_http_')) {
+                    const parts = message.split('_');
+                    const statusCode = parts[parts.length - 1] || 'desconocido';
+                    if (statusCode === '405') {
+                        alert('El servicio de Google Apps Script respondió con código 405 (método no permitido). Asegúrate de publicar una versión que incluya doPost(e) y que la app web permita acceso a "Anyone with the link".');
+                    } else if (statusCode === '404') {
+                        alert('El servicio de Google Apps Script respondió con código 404. Verifica que hayas pegado la URL correcta del despliegue activo en el panel de administración.');
+                    } else {
+                        alert(`El servicio de Google Apps Script devolvió un código ${statusCode}. Revisa los registros del script para más detalles.`);
+                    }
                 } else {
                     alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
                 }
