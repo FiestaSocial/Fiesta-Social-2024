@@ -731,7 +731,7 @@
         let dataFetchInterval;
         let siteConfig = null;
 
-        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzEV--nEAc-bDlaLCzR7m7n8VuXZR0iyuHgcqUQ35MGOCmkXjTs3oOEfpvIK9lmjDyu/exec';
+        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec';
         const GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv';
         const SUBMISSION_POLL_INTERVAL = 3000;
         const SUBMISSION_MAX_WAIT = 20000;
@@ -847,8 +847,22 @@
         async function confirmReservationPersisted(fingerprint, baselineGuests) {
             const baselineMatches = (baselineGuests || []).filter(guest => guestMatchesFingerprint(guest, fingerprint));
             const baselineCounts = buildFingerprintCountMap(baselineMatches);
+            const verificationLabel = '[Reservas] Verificación de persistencia';
+            const groupSupported = typeof console.groupCollapsed === 'function' && typeof console.groupEnd === 'function';
+            let attemptNumber = 0;
+
+            if (groupSupported) {
+                console.groupCollapsed(verificationLabel);
+            }
+            console.info('[Reservas] Iniciando verificación de hoja.', {
+                mesa: fingerprint?.mesa,
+                coincidenciasPrevias: baselineMatches.length
+            });
 
             const attemptVerification = async () => {
+                attemptNumber += 1;
+                console.info(`[Reservas] Verificación intento ${attemptNumber}.`);
+
                 try {
                     await fetchGuestsData();
                 } catch (error) {
@@ -858,11 +872,14 @@
                 const mesaGuests = getGuestsForMesa(fingerprint.mesa);
                 const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
 
+                console.info('[Reservas] Invitados detectados tras refresco:', currentMatches.length);
+
                 if (currentMatches.length === 0) {
                     return false;
                 }
 
                 if (currentMatches.length > baselineMatches.length) {
+                    console.info('[Reservas] Se detectaron más coincidencias que al inicio.');
                     return true;
                 }
 
@@ -870,6 +887,7 @@
                 for (const [key, count] of currentCounts.entries()) {
                     const baselineCount = baselineCounts.get(key) || 0;
                     if (count > baselineCount) {
+                        console.info('[Reservas] Incremento detectado para la huella:', key);
                         return true;
                     }
                 }
@@ -877,20 +895,29 @@
                 return false;
             };
 
-            const deadline = Date.now() + SUBMISSION_MAX_WAIT;
+            try {
+                const deadline = Date.now() + SUBMISSION_MAX_WAIT;
 
-            if (await attemptVerification()) {
-                return true;
-            }
-
-            while (Date.now() < deadline) {
-                await delay(SUBMISSION_POLL_INTERVAL);
                 if (await attemptVerification()) {
+                    console.info('[Reservas] Verificación exitosa en el primer intento.');
                     return true;
                 }
-            }
 
-            throw new Error('reservation_not_found');
+                while (Date.now() < deadline) {
+                    await delay(SUBMISSION_POLL_INTERVAL);
+                    if (await attemptVerification()) {
+                        console.info('[Reservas] Verificación confirmada durante el sondeo.');
+                        return true;
+                    }
+                }
+
+                console.error('[Reservas] La verificación expiró sin encontrar la reserva.');
+                throw new Error('reservation_not_found');
+            } finally {
+                if (groupSupported) {
+                    console.groupEnd();
+                }
+            }
         }
 
         function createGuestFingerprintKey(guest) {
@@ -958,10 +985,35 @@
             }
 
             const submittedAt = new Date().toISOString();
+            const debugEntry = {
+                submittedAt,
+                endpoint: scriptUrl
+            };
+            try {
+                debugEntry.payload = JSON.parse(JSON.stringify(payload || {}));
+            } catch (serializationError) {
+                debugEntry.payload = payload;
+                console.warn('[Reservas] No se pudo serializar el payload para depuración.', serializationError);
+            }
+
+            window.__reservationDebug = window.__reservationDebug || [];
+            window.__reservationDebug.push(debugEntry);
+            console.info('[Reservas] Registro de depuración guardado. Total de intentos en memoria:', window.__reservationDebug.length);
+            const logGroupLabel = `[Reservas] Envío ${submittedAt}`;
+            const groupSupported = typeof console.groupCollapsed === 'function' && typeof console.groupEnd === 'function';
+
+            if (groupSupported) {
+                console.groupCollapsed(logGroupLabel);
+            }
+            console.info('[Reservas] Endpoint configurado:', scriptUrl);
+            console.info('[Reservas] Datos preparados para enviar:', payload);
+
             const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
             const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
 
             const sendRequest = async (mode) => {
+                console.info(`[Reservas] Iniciando intento ${mode.toUpperCase()}...`);
+
                 const options = {
                     method: 'POST',
                     mode,
@@ -978,17 +1030,47 @@
                     options.keepalive = true;
                 }
 
-                const response = await fetch(scriptUrl, options);
+                try {
+                    const response = await fetch(scriptUrl, options);
 
-                if (mode === 'cors') {
-                    if (!response || !response.ok) {
-                        const status = response ? response.status : 'unknown';
-                        throw new Error(`reservation_http_${status}`);
+                    if (mode === 'cors') {
+                        if (!response || !response.ok) {
+                            const status = response ? response.status : 'unknown';
+                            let responseBody = '';
+                            try {
+                                responseBody = await response.text();
+                            } catch (readError) {
+                                console.warn('[Reservas] No se pudo leer la respuesta de error (CORS).', readError);
+                            }
+                            console.error(`[Reservas] Respuesta HTTP no exitosa (${status}).`, { mode, status, responseBody });
+                            throw new Error(`reservation_http_${status}`);
+                        }
+
+                        let parsed;
+                        try {
+                            parsed = await response.clone().json();
+                        } catch (parseError) {
+                            try {
+                                const text = await response.clone().text();
+                                console.info('[Reservas] Respuesta CORS (texto):', text);
+                            } catch (textError) {
+                                console.warn('[Reservas] No se pudo clonar la respuesta para logging.', textError);
+                            }
+                        }
+
+                        if (parsed !== undefined) {
+                            console.info('[Reservas] Respuesta CORS (JSON):', parsed);
+                        }
+
+                        return response;
                     }
-                    return response;
-                }
 
-                return null;
+                    console.info('[Reservas] Solicitud no-CORS despachada correctamente.');
+                    return null;
+                } catch (error) {
+                    console.error(`[Reservas] Falló la solicitud ${mode.toUpperCase()}.`, error);
+                    throw error;
+                }
             };
 
             const submitWithGet = async () => {
@@ -1017,6 +1099,7 @@
                 };
 
                 try {
+                    console.info('[Reservas] Lanzando fallback GET en modo CORS.');
                     await attempt('cors');
                 } catch (error) {
                     if (error && error.name === 'AbortError') {
@@ -1027,6 +1110,7 @@
                     const isHttpError = message.startsWith('reservation_http_get_');
 
                     if (!isHttpError && (error?.name === 'TypeError' || message.includes('Failed to fetch'))) {
+                        console.warn('[Reservas] GET CORS falló, probando con no-CORS.', error);
                         await attempt('no-cors');
                     } else {
                         throw error;
@@ -1047,6 +1131,7 @@
                     const isHttpError = message.startsWith('reservation_http_');
 
                     if (message === 'reservation_http_405') {
+                        console.warn('[Reservas] El endpoint rechazó POST (405). Intentando con GET.');
                         await submitWithGet();
                         return;
                     }
@@ -1056,6 +1141,7 @@
                     }
 
                     try {
+                        console.warn('[Reservas] Intento CORS fallido, probando POST no-CORS.');
                         await sendRequest('no-cors');
                     } catch (fallbackError) {
                         if (fallbackError && fallbackError.name === 'AbortError') {
@@ -1064,6 +1150,7 @@
 
                         const fallbackMessage = typeof fallbackError?.message === 'string' ? fallbackError.message : '';
                         if (fallbackMessage === 'reservation_http_405') {
+                            console.warn('[Reservas] El endpoint rechazó POST no-CORS (405). Intentando con GET.');
                             await submitWithGet();
                             return;
                         }
@@ -1073,6 +1160,9 @@
             } finally {
                 if (timeoutId) {
                     clearTimeout(timeoutId);
+                }
+                if (groupSupported) {
+                    console.groupEnd();
                 }
             }
         }
