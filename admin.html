@@ -593,6 +593,11 @@ function buildResponse(payload) {
                                 <li>Si no se agrega la fila, revisa la pestaña Network de las herramientas de desarrollador del navegador y anota el estatus HTTP de la solicitud. Compáralo con los logs del Script para detectar bloqueos de permisos o errores de parseo.</li>
                             </ol>
                         </div>
+                        <div class="hint-panel">
+                            <p><strong>Depurar desde la consola del navegador</strong></p>
+                            <p>Abre las DevTools y ejecuta <code>window.dumpReservationDebug()</code> para ver un resumen en tabla de los intentos almacenados en memoria. Cada fila indica el modo utilizado (POST/GET), la duración y si el navegador recibió alguna respuesta del Apps Script.</p>
+                            <p>Selecciona un registro y revisa sus propiedades (por ejemplo, <code>attempts</code> y <code>getAttempts</code>) para conocer códigos HTTP, errores de red o si se usó el fallback <em>no-cors</em>.</p>
+                        </div>
                     </div>
                     <div>
                         <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
@@ -1206,4 +1211,4 @@ function buildResponse(payload) {
     </script>
 
 </body>
-</html>
+</htm
