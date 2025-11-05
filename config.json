@@ -1,88 +1,94 @@
+n
+Nuevo
++89
+-0
+
 {
-  "siteTitle": "Fiesta Social 2024",
-  "siteSubtitle": "Registro oficial de invitados",
-  "siteDescription": "Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.",
-  "heroImage": "Imagen de bienvenida.png",
-  "defaultCapacity": 10,
-  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec",
-  "admin": {
-    "passwordHint": "Solicita la contraseña al comité organizador.",
-    "passwordHash": "63cfef90450991c8eeaaa737130616f8896992fcb3d1025416f7d367946718c1"
-  },
-  "zones": [
+  "siteTitle" : "Fiesta Social 2024 " 
+  "siteSubtitle" : "Registro oficial de invitados " 
+  "siteDescription" : "Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal. " 
+  "heroImage" : "Imagen de bienvenida.png" , 
+  "capacidad predeterminada" : 10 , 
+  "reservationScriptUrl" : "https://script.google.com/macros/s/AKfycbwo8xOJg-44KB3G07TXshbCP7sYtYwQaWxe9U9g4RMvUWNlFobqP-nCIcHeWjvGC1wZCQ/exec" , 
+  "guestsSheetCsvUrl" : "https://docs.google.com/spreadsheets/d/e/2PACX-1vRMTgpYpR5TVrCZMfOFzMUdXyW4wtu27U6VyN4w-zUwqki6m_Ts2icDBpL1gSyoxBpie6Xup_BxuR1g/pub?output=csv" , 
+  "admin" : { 
+    "passwordHint" : "Solicita la contraseña al comité organizador. " 
+    "passwordHash" : "63cfef90450991c8eeaaa737130616f8896992fcb3d1025416f7d367946718c1" 
+  } ,
+  "zonas" : [ 
     {
-      "id": "dance",
-      "label": "Pista de baile",
-      "className": "map-zone--dance",
-      "position": { "x": 50, "y": 45 }
-    },
+      "id" : "baile" , 
+      "etiqueta" : "Pista de baile " 
+      "className" : "map-zone--dance" , 
+      "posición" : { "x" : 50 , "y" : 45 }      
+    } ,
     {
-      "id": "stage",
-      "label": "Estado Mayor",
-      "className": "map-zone--stage",
-      "position": { "x": 6, "y": 50 }
-    },
+      "id" : "etapa" , 
+      "etiqueta" : "Estado Mayor " 
+      "className" : "map-zone--stage" , 
+      "posición" : { "x" : 6 , "y" : 50 }      
+    } ,
     {
-      "id": "entrance",
-      "label": "Entrada / Piscina",
-      "className": "map-zone--entrance",
-      "position": { "x": 50, "y": 6 }
-    },
+      "id" : "entrada" , 
+      "etiqueta" : "Entrada / Piscina " 
+      "className" : "map-zone--entrance" , 
+      "posición" : { "x" : 50 , "y" : 6 }      
+    } ,
     {
-      "id": "dj",
-      "label": "DJ",
-      "className": "map-zone--dj",
-      "position": { "x": 50, "y": 94 }
-    },
+      "id" : "dj" , 
+      "etiqueta" : "DJ " 
+      "className" : "map-zone--dj" , 
+      "posición" : { "x" : 50 , "y" : 94 }      
+    } ,
     {
-      "id": "dessertLeft",
-      "label": "Postres",
-      "className": "map-zone--dessert map-zone--dessert-left",
-      "position": { "x": 92, "y": 28 }
-    },
+      "id" : "postreIzquierdo" , 
+      "etiqueta" : "Postres " 
+      "className" : "map-zone--dessert map-zone--dessert-left" , 
+      "posición" : { "x" : 92 , "y" : 28 }      
+    } ,
     {
-      "id": "dessertRight",
-      "label": "Postres",
-      "className": "map-zone--dessert map-zone--dessert-right",
-      "position": { "x": 92, "y": 72 }
+      "id" : "dessertRight" , 
+      "etiqueta" : "Postres " 
+      "className" : "map-zone--dessert map-zone--dessert-right" , 
+      "posición" : { "x" : 92 , "y" : 72 }      
     }
-  ],
-  "mesas": [
-    {"number": 1, "label": "Mesa 1", "capacity": 8, "position": {"x": 12, "y": 18}},
-    {"number": 2, "label": "Mesa 2", "capacity": 10, "position": {"x": 24, "y": 18}},
-    {"number": 3, "label": "Mesa 3", "capacity": 10, "position": {"x": 36, "y": 18}},
-    {"number": 4, "label": "Mesa 4", "capacity": 11, "position": {"x": 44, "y": 18}},
-    {"number": 5, "label": "Mesa 5", "capacity": 8, "position": {"x": 12, "y": 34}},
-    {"number": 6, "label": "Mesa 6", "capacity": 10, "position": {"x": 24, "y": 34}},
-    {"number": 7, "label": "Mesa 7", "capacity": 10, "position": {"x": 36, "y": 34}},
-    {"number": 8, "label": "Mesa 8", "capacity": 10, "position": {"x": 44, "y": 34}},
-    {"number": 9, "label": "Mesa 9", "capacity": 8, "position": {"x": 12, "y": 50}},
-    {"number": 10, "label": "Mesa 10", "capacity": 10, "position": {"x": 24, "y": 50}},
-    {"number": 11, "label": "Mesa 11", "capacity": 10, "position": {"x": 36, "y": 50}},
-    {"number": 12, "label": "Mesa 12", "capacity": 10, "position": {"x": 44, "y": 50}},
-    {"number": 13, "label": "Mesa 13", "capacity": 10, "position": {"x": 12, "y": 66}},
-    {"number": 14, "label": "Mesa 14", "capacity": 10, "position": {"x": 24, "y": 66}},
-    {"number": 15, "label": "Mesa 15", "capacity": 10, "position": {"x": 36, "y": 66}},
-    {"number": 16, "label": "Mesa 16", "capacity": 8, "position": {"x": 44, "y": 66}},
-    {"number": 17, "label": "Mesa 17", "capacity": 8, "position": {"x": 8, "y": 10}},
-    {"number": 18, "label": "Mesa 18", "capacity": 8, "position": {"x": 8, "y": 74}},
-    {"number": 19, "label": "Mesa 19", "capacity": 10, "position": {"x": 56, "y": 18}},
-    {"number": 20, "label": "Mesa 20", "capacity": 10, "position": {"x": 68, "y": 18}},
-    {"number": 21, "label": "Mesa 21", "capacity": 10, "position": {"x": 80, "y": 18}},
-    {"number": 22, "label": "Mesa 22", "capacity": 8, "position": {"x": 92, "y": 18}},
-    {"number": 23, "label": "Mesa 23", "capacity": 10, "position": {"x": 56, "y": 34}},
-    {"number": 24, "label": "Mesa 24", "capacity": 8, "position": {"x": 68, "y": 34}},
-    {"number": 25, "label": "Mesa 25", "capacity": 10, "position": {"x": 80, "y": 34}},
-    {"number": 26, "label": "Mesa 26", "capacity": 10, "position": {"x": 92, "y": 34}},
-    {"number": 27, "label": "Mesa 27", "capacity": 10, "position": {"x": 56, "y": 50}},
-    {"number": 28, "label": "Mesa 28", "capacity": 10, "position": {"x": 68, "y": 50}},
-    {"number": 29,  "label": "Mesa 29", "capacity": 8, "position": {"x": 80, "y": 50}},
-    {"number": 30, "label": "Mesa 30", "capacity": 8, "position": {"x": 92, "y": 50}},
-    {"number": 31, "label": "Mesa 31", "capacity": 10, "position": {"x": 56, "y": 66}},
-    {"number": 32, "label": "Mesa 32", "capacity": 10, "position": {"x": 68, "y": 66}},
-    {"number": 33, "label": "Mesa 33", "capacity": 10, "position": {"x": 80, "y": 66}},
-    {"number": 34, "label": "Mesa 34", "capacity": 10, "position": {"x": 92, "y": 66}},
-    {"number": 35, "label": "Mesa 35", "capacity": 10, "position": {"x": 96, "y": 10}},
-    {"number": 36, "label": "Mesa 36", "capacity": 8, "position": {"x": 96, "y": 74}}
+  ] ,
+  "tablas" : [ 
+    { "number" : 1 , "label" : "Mesa 1" , "capacity" : 8 , "position" : { "x" : 12 , "y" : 18 } } ,          
+    { "number" : 2 , "label" : "Mesa 2" , "capacity" : 10 , "position" : { "x" : 24 , "y" : 18 } } ,          
+    { "number" : 3 , "label" : "Mesa 3" , "capacity" : 10 , "position" : { "x" : 36 , "y" : 18 } } ,          
+    { "number" : 4 , "label" : "Mesa 4" , "capacity" : 11 , "position" : { "x" : 44 , "y" : 18 } } ,          
+    { "number" : 5 , "label" : "Mesa 5" , "capacity" : 8 , "position" : { "x" : 12 , "y" : 34 } } ,          
+    { "number" : 6 , "label" : "Mesa 6" , "capacity" : 10 , "position" : { "x" : 24 , "y" : 34 } } ,          
+    { "number" : 7 , "label" : "Mesa 7" , "capacity" : 10 , "position" : { "x" : 36 , "y" : 34 } } ,          
+    { "number" : 8 , "label" : "Mesa 8" , "capacity" : 10 , "position" : { "x" : 44 , "y" : 34 } } ,          
+    { "number" : 9 , "label" : "Mesa 9" , "capacity" : 8 , "position" : { "x" : 12 , "y" : 50 } } ,          
+    { "number" : 10 , "label" : "Mesa 10" , "capacity" : 10 , "position" : { "x" : 24 , "y" : 50 } } ,          
+    { "number" : 11 , "label" : "Mesa 11" , "capacity" : 10 , "position" : { "x" : 36 , "y" : 50 } } ,          
+    { "number" : 12 , "label" : "Mesa 12" , "capacity" : 10 , "position" : { "x" : 44 , "y" : 50 } } ,          
+    { "number" : 13 , "label" : "Mesa 13" , "capacity" : 10 , "position" : { "x" : 12 , "y" : 66 } } ,          
+    { "number" : 14 , "label" : "Mesa 14" , "capacity" : 10 , "position" : { "x" : 24 , "y" : 66 } } ,          
+    { "number" : 15 , "label" : "Mesa 15" , "capacity" : 10 , "position" : { "x" : 36 , "y" : 66 } } ,          
+    { "number" : 16 , "label" : "Mesa 16" , "capacity" : 8 , "position" : { "x" : 44 , "y" : 66 } } ,          
+    { "number" : 17 , "label" : "Mesa 17" , "capacity" : 8 , "position" : { "x" : 8 , "y" : 10 } } ,          
+    { "number" : 18 , "label" : "Mesa 18" , "capacity" : 8 , "position" : { "x" : 8 , "y" : 74 } } ,          
+    { "number" : 19 , "label" : "Mesa 19" , "capacity" : 10 , "position" : { "x" : 56 , "y" : 18 } } ,          
+    { "number" : 20 , "label" : "Mesa 20" , "capacity" : 10 , "position" : { "x" : 68 , "y" : 18 } } ,          
+    { "number" : 21 , "label" : "Mesa 21" , "capacity" : 10 , "position" : { "x" : 80 , "y" : 18 } } ,          
+    { "number" : 22 , "label" : "Mesa 22" , "capacity" : 8 , "position" : { "x" : 92 , "y" : 18 } } ,          
+    { "number" : 23 , "label" : "Mesa 23" , "capacity" : 10 , "position" : { "x" : 56 , "y" : 34 } } ,          
+    { "number" : 24 , "label" : "Mesa 24" , "capacity" : 8 , "position" : { "x" : 68 , "y" : 34 } } ,          
+    { "number" : 25 , "label" : "Mesa 25" , "capacity" : 10 , "position" : { "x" : 80 , "y" : 34 } } ,          
+    { "number" : 26 , "label" : "Mesa 26" , "capacity" : 10 , "position" : { "x" : 92 , "y" : 34 } } ,          
+    { "number" : 27 , "label" : "Mesa 27" , "capacity" : 10 , "position" : { "x" : 56 , "y" : 50 } } ,          
+    { "number" : 28 , "label" : "Mesa 28" , "capacity" : 10 , "position" : { "x" : 68 , "y" : 50 } } ,          
+    { "number" : 29 , "label" : "Mesa 29" , "capacity" : 8 , "position" : { "x" : 80 , "y" : 50 } } ,           
+    { "number" : 30 , "label" : "Mesa 30" , "capacity" : 8 , "position" : { "x" : 92 , "y" : 50 } } ,          
+    { "number" : 31 , "label" : "Mesa 31" , "capacity" : 10 , "position" : { "x" : 56 , "y" : 66 } } ,          
+    { "number" : 32 , "label" : "Mesa 32" , "capacity" : 10 , "position" : { "x" : 68 , "y" : 66 } } ,          
+    { "number" : 33 , "label" : "Mesa 33" , "capacity" : 10 , "position" : { "x" : 80 , "y" : 66 } } ,          
+    { "number" : 34 , "label" : "Mesa 34" , "capacity" : 10 , "position" : { "x" : 92 , "y" : 66 } } ,          
+    { "number" : 35 , "label" : "Mesa 35" , "capacity" : 10 , "position" : { "x" : 96 , "y" : 10 } } ,          
+    { "number" : 36 , "label" : "Mesa 36" , "capacity" : 8 , "position" : { "x" : 96 , "y" : 74 } }          
   ]
 }
