@@ -112,5 +112,5 @@
     }
   ],
   "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbxad44B_xz6aUgvYywB4cC63saquVXYAnyGAtgsfiSenlWtyoHYg30lko7GEe9-4EdxHg/exec",
-  "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI/edit?usp=sharing"
+   "guestsSheetCsvUrl" : "https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-AC-a9NvI/ gviz/tq?tqx=out:csv&sheet=Datos%20de%20invitados " 
 }
