@@ -23,11 +23,7 @@
             --radius-md: 18px;
             --radius-sm: 12px;
         }
-
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             min-height: 100vh;
@@ -40,23 +36,9 @@
             display: flex;
             justify-content: center;
         }
-
-        main {
-            width: 100%;
-            max-width: 1080px;
-        }
-
-        h1, h2, h3 {
-            color: #0f172a;
-            margin: 0 0 12px 0;
-        }
-
-        p {
-            margin: 0 0 16px;
-            color: var(--color-muted);
-            line-height: 1.6;
-        }
-
+        main { width: 100%; max-width: 1080px; }
+        h1, h2, h3 { color: #0f172a; margin: 0 0 12px 0; }
+        p { margin: 0 0 16px; color: var(--color-muted); line-height: 1.6; }
         .container {
             background: var(--color-surface);
             border-radius: var(--radius-lg);
@@ -67,413 +49,114 @@
             position: relative;
             overflow: hidden;
         }
-
         .container::after {
             content: "";
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: radial-gradient(circle at top right, rgba(11, 102, 255, 0.08), transparent 55%);
             pointer-events: none;
         }
-
-        .container.active {
-            display: block;
-            animation: fadeIn 0.45s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-card {
-            display: grid;
-            gap: 32px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            align-items: center;
-        }
-
-        .hero-card__content {
-            position: relative;
-            z-index: 1;
-        }
-
+        .container.active { display: block; animation: fadeIn 0.45s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .hero-card { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: center; }
+        .hero-card__content { position: relative; z-index: 1; }
         .hero-card__eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            background: rgba(11, 102, 255, 0.1);
-            color: var(--color-primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 12px;
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+            border-radius: 999px; background: rgba(11, 102, 255, 0.1); color: var(--color-primary);
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px;
         }
-
-        .hero-card__title {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .hero-card__description {
-            font-size: 16px;
-            color: rgba(15, 23, 42, 0.8);
-            margin-bottom: 24px;
-        }
-
-        .hero-card__actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .hero-card__media {
-            margin: 0;
-            position: relative;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-
-        .hero-card__media::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05));
-        }
-
-        .hero-card__media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .section-description {
-            font-size: 15px;
-            color: rgba(15, 23, 42, 0.7);
-            margin-bottom: 24px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label {
-            font-weight: 600;
-            color: rgba(15, 23, 42, 0.85);
-            font-size: 14px;
-        }
-
+        .hero-card__title { font-size: clamp(32px, 5vw, 48px); font-weight: 700; margin-bottom: 16px; }
+        .hero-card__description { font-size: 16px; color: rgba(15, 23, 42, 0.8); margin-bottom: 24px; }
+        .hero-card__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+        .hero-card__media { margin: 0; position: relative; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); }
+        .hero-card__media::after { content:""; position:absolute; inset:0; background: linear-gradient(135deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.05)); }
+        .hero-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .section-description { font-size: 15px; color: rgba(15, 23, 42, 0.7); margin-bottom: 24px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .form-field { display: flex; flex-direction: column; gap: 8px; }
+        label { font-weight: 600; color: rgba(15, 23, 42, 0.85); font-size: 14px; }
         input, select {
-            padding: 12px 14px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-            font-size: 15px;
-            transition: border 0.2s ease, box-shadow 0.2s ease;
-            background: #f8fafc;
+            padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);
+            font-size: 15px; transition: border .2s ease, box-shadow .2s ease; background: #f8fafc;
         }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: rgba(11, 102, 255, 0.8);
-            box-shadow: 0 0 0 4px rgba(11, 102, 255, 0.12);
-        }
-
-        input:invalid, select:invalid {
-            border-color: rgba(239, 68, 68, 0.6);
-        }
-
+        input:focus, select:focus { outline: none; border-color: rgba(11,102,255,.8); box-shadow: 0 0 0 4px rgba(11,102,255,.12); }
+        input:invalid, select:invalid { border-color: rgba(239,68,68,.6); }
         .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-            border-radius: 999px;
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: 999px;
+            padding: 12px 24px; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease;
             text-decoration: none;
         }
-
-        .button--primary {
-            background: var(--color-primary);
-            color: #fff;
-            box-shadow: 0 16px 30px rgba(11, 102, 255, 0.25);
-        }
-
-        .button--primary:hover {
-            background: var(--color-primary-dark);
-            transform: translateY(-1px);
-        }
-
-        .button--ghost {
-            background: rgba(15, 23, 42, 0.04);
-            color: var(--color-primary);
-        }
-
-        .button--ghost:hover {
-            background: rgba(15, 23, 42, 0.1);
-        }
-
-        .navigation-buttons {
-            margin-top: 32px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 16px;
-        }
-
-        .salon-wrapper {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 28px;
-            margin-bottom: 32px;
-            align-items: start;
-        }
-
-        .salon-summary {
-            background: rgba(248, 250, 252, 0.9);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            position: sticky;
-            top: 32px;
-        }
-
-        .salon-summary h3 {
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-
-        .salon-summary p {
-            margin-bottom: 12px;
-            color: rgba(15, 23, 42, 0.75);
-        }
-
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .legend span {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: rgba(15, 23, 42, 0.8);
-        }
-
-        .legend-swatch {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
+        .button--primary { background: var(--color-primary); color: #fff; box-shadow: 0 16px 30px rgba(11,102,255,.25); }
+        .button--primary:hover { background: var(--color-primary-dark); transform: translateY(-1px); }
+        .button--ghost { background: rgba(15,23,42,.04); color: var(--color-primary); }
+        .button--ghost:hover { background: rgba(15,23,42,.1); }
+        .navigation-buttons { margin-top: 32px; display: flex; justify-content: flex-end; gap: 16px; }
+        .salon-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 28px; margin-bottom: 32px; align-items: start; }
+        .salon-summary { background: rgba(248,250,252,.9); border-radius: var(--radius-md); padding: 20px; box-shadow: 0 8px 24px rgba(15,23,42,.08); position: sticky; top: 32px; }
+        .salon-summary h3 { font-size: 18px; margin-bottom: 12px; }
+        .salon-summary p { margin-bottom: 12px; color: rgba(15,23,42,.75); }
+        .legend { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+        .legend span { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: rgba(15,23,42,.8); }
+        .legend-swatch { width: 16px; height: 16px; border-radius: 4px; display: inline-block; }
         .legend-swatch--available { background: var(--color-primary); }
         .legend-swatch--full { background: var(--color-danger); }
         .legend-swatch--selected { background: var(--color-secondary); }
-
         .salon-map {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
+            position: relative; width: 100%; aspect-ratio: 16 / 9;
             background: linear-gradient(135deg, rgba(226, 232, 240, 0.8), rgba(203, 213, 225, 0.6));
-            border-radius: var(--radius-md);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
-            overflow: hidden;
+            border-radius: var(--radius-md); box-shadow: 0 20px 40px rgba(15,23,42,.18); overflow: hidden;
         }
-
         .map-zone {
-            position: absolute;
-            left: calc(var(--zone-x, 50) * 1%);
-            top: calc(var(--zone-y, 50) * 1%);
+            position: absolute; left: calc(var(--zone-x, 50) * 1%); top: calc(var(--zone-y, 50) * 1%);
             transform: translate(var(--zone-tx, -50%), var(--zone-ty, -50%)) rotate(var(--zone-rotate, 0deg));
             transform-origin: var(--zone-origin, center);
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #fff;
-            background: rgba(15, 23, 42, 0.7);
-            pointer-events: none;
-            z-index: 1;
-            white-space: nowrap;
+            padding: 6px 16px; border-radius: 999px; font-size: 12px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: .08em; color: #fff; background: rgba(15,23,42,.7); pointer-events: none; z-index: 1; white-space: nowrap;
         }
-
-        .map-zone--dance { background: rgba(34, 197, 94, 0.85); }
-        .map-zone--stage { --zone-tx: 0%; --zone-ty: -50%; --zone-rotate: -90deg; --zone-origin: left center; background: rgba(59, 130, 246, 0.9); }
-        .map-zone--entrance { --zone-ty: 0%; background: rgba(59, 130, 246, 0.9); }
-        .map-zone--dj { --zone-ty: -100%; background: rgba(59, 130, 246, 0.9); }
-        .map-zone--dessert { width: 24px; text-align: center; writing-mode: vertical-rl; letter-spacing: 0.2em; padding: 12px 6px; background: rgba(59, 130, 246, 0.9); }
-
+        .map-zone--dance { background: rgba(34,197,94,.85); }
+        .map-zone--stage { --zone-tx: 0%; --zone-ty: -50%; --zone-rotate: -90deg; --zone-origin: left center; background: rgba(59,130,246,.9); }
+        .map-zone--entrance { --zone-ty: 0%; background: rgba(59,130,246,.9); }
+        .map-zone--dj { --zone-ty: -100%; background: rgba(59,130,246,.9); }
+        .map-zone--dessert { width: 24px; text-align: center; writing-mode: vertical-rl; letter-spacing: .2em; padding: 12px 6px; background: rgba(59,130,246,.9); }
         .mesa {
-            position: absolute;
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: var(--color-primary);
-            color: #fff;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 22px rgba(11, 102, 255, 0.22);
-            transform: translate(-50%, -50%);
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            z-index: 2;
+            position: absolute; width: 52px; height: 52px; border-radius: 16px; background: var(--color-primary); color: #fff; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 22px rgba(11,102,255,.22);
+            transform: translate(-50%, -50%); border: none; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; z-index: 2;
         }
-
-        .mesa:hover,
-        .mesa:focus {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 14px 30px rgba(11, 102, 255, 0.3);
-            outline: none;
-        }
-
-        .mesa.completa { background: var(--color-danger); box-shadow: 0 12px 26px rgba(239, 68, 68, 0.3); }
-        .mesa.seleccionada { background: var(--color-secondary); box-shadow: 0 14px 32px rgba(243, 156, 18, 0.35); }
-
-        .table-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .table-container {
-            position: relative;
-            width: 100%;
-            padding-top: 100%;
-            border-radius: var(--radius-md);
-            background: rgba(248, 250, 252, 0.9);
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            display: none;
-        }
-
+        .mesa:hover, .mesa:focus { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 14px 30px rgba(11,102,255,.3); outline: none; }
+        .mesa.completa { background: var(--color-danger); box-shadow: 0 12px 26px rgba(239,68,68,.3); }
+        .mesa.seleccionada { background: var(--color-secondary); box-shadow: 0 14px 32px rgba(243,156,18,.35); }
+        .table-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 24px; }
+        .table-container { position: relative; width: 100%; padding-top: 100%; border-radius: var(--radius-md); background: rgba(248,250,252,.9); box-shadow: inset 0 0 0 1px rgba(15,23,42,.08); display: none; }
         #seatsContainer { position: absolute; inset: 0; }
-
         .table {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--color-primary);
-            color: #fff;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 28px rgba(11, 102, 255, 0.25);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border-radius: 50%;
+            background: var(--color-primary); color: #fff; font-size: 18px; font-weight: 600; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 12px 28px rgba(11,102,255,.25);
         }
-
         #seatsContainer .seat {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: var(--color-success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 600;
-            transition: transform 0.2s ease, background 0.2s ease;
+            width: 42px; height: 42px; border-radius: 12px; background: var(--color-success); display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 600; transition: transform .2s ease, background .2s ease;
         }
-
         #seatsContainer .seat.occupied { background: var(--color-danger); }
-
         #guestList {
-            min-height: 180px;
-            background: rgba(248, 250, 252, 0.85);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
-            font-size: 14px;
-            display: grid;
-            gap: 6px;
+            min-height: 180px; background: rgba(248,250,252,.85); border-radius: var(--radius-md); padding: 20px;
+            box-shadow: inset 0 0 0 1px rgba(15,23,42,.08); font-size: 14px; display: grid; gap: 6px;
         }
-
-        #guestList strong { color: rgba(15, 23, 42, 0.9); }
-
+        #guestList strong { color: rgba(15,23,42,.9); }
         #acompanantesForm { display: grid; gap: 16px; }
         #acompanantesForm h3 { margin-top: 24px; }
-        #acompananteCantidad { transition: opacity 0.2s ease; }
-
-        .tooltip {
-            position: absolute;
-            background: rgba(15, 23, 42, 0.88);
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            display: none;
-            max-width: 280px;
-            line-height: 1.4;
-            z-index: 50;
-            pointer-events: none;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            z-index: 100;
-        }
-
+        #acompananteCantidad { transition: opacity .2s ease; }
+        .tooltip { position: absolute; background: rgba(15,23,42,.88); color: #fff; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; display: none; max-width: 280px; line-height: 1.4; z-index: 50; pointer-events: none; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.65); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 100; }
         .modal-overlay.active { display: flex; }
-
-        .modal-content {
-            background: #fff;
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-        }
-
+        .modal-content { background: #fff; border-radius: var(--radius-lg); padding: 32px; max-width: 420px; text-align: center; box-shadow: var(--shadow-lg); }
         .modal-content h2 { margin-bottom: 12px; }
-        .modal-content p { color: rgba(15, 23, 42, 0.75); margin-bottom: 24px; }
-
+        .modal-content p { color: rgba(15,23,42,.75); margin-bottom: 24px; }
         @media (max-width: 900px) {
             body { padding: 24px 12px 48px; }
             .salon-wrapper { grid-template-columns: 1fr; }
             .salon-summary { position: relative; top: auto; }
         }
-
         @media (max-width: 600px) {
             .hero-card { grid-template-columns: 1fr; }
             .navigation-buttons { flex-direction: column-reverse; align-items: stretch; }
@@ -482,76 +165,411 @@
     </style>
 </head>
 <body>
-    <main>
-        <section id="screen1" class="container active">
-            <div class="hero-card" id="heroCard"></div>
-        </section>
+<main>
+    <section id="screen1" class="container active">
+        <div class="hero-card" id="heroCard"></div>
+    </section>
 
-        <section id="screen2" class="container">
-            <h2>Datos personales</h2>
-            <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
-            <form id="guestForm" class="form-grid" autocomplete="on">
+    <section id="screen2" class="container">
+        <h2>Datos personales</h2>
+        <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
+        <form id="guestForm" class="form-grid" autocomplete="on">
+            <div class="form-field">
+                <label for="correo">Correo</label>
+                <input type="email" id="correo" name="correo" required autocomplete="email">
+            </div>
+            <div class="form-field">
+                <label for="grado">Grado</label>
+                <select id="grado" name="grado" required>
+                    <option value="" selected>Seleccionar</option>
+                    <option value="Cnel.">Cnel.</option>
+                    <option value="Tte. Cnel.">Tte. Cnel.</option>
+                    <option value="May.">May.</option>
+                    <option value="Cap.">Cap.</option>
+                    <option value="Tte. 1°">Tte. 1°</option>
+                    <option value="Tte. 2°">Tte. 2°</option>
+                    <option value="Alf.">Alf.</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="escalafon">Escalafón</label>
+                <select id="escalafon" name="escalafon" required>
+                    <option value="" selected>Seleccionar</option>
+                    <option value="Av.">(Av.)</option>
+                    <option value="Nav.">(Nav.)</option>
+                    <option value="Esp.">(Esp.)</option>
+                    <option value="T.P.">(T.P.)</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" required autocomplete="family-name">
+            </div>
+            <div class="form-field">
+                <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
+                <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
+            </div>
+            <div class="form-field">
+                <label for="acompanante">¿Asiste con acompañante?</label>
+                <select id="acompanante" name="acompanante" required>
+                    <option value="" selected>Seleccionar</option>
+                    <option value="no">No</option>
+                    <option value="si">Sí</option>
+                </select>
+            </div>
+            <div class="form-field" id="acompananteCantidad" style="display:none;">
+                <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
+                <select id="cantidadAcompanantes" name="cantidadAcompanantes">
+                    <option value="" selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="menu">Menú</label>
+                <select id="menu" name="menu" required>
+                    <option value="" selected>Seleccionar</option>
+                    <option value="normal">Normal</option>
+                    <option value="vegetariano">Vegetariano</option>
+                    <option value="vegano">Vegano</option>
+                    <option value="celiaco">Celíaco</option>
+                </select>
+            </div>
+            <input type="hidden" id="mesa" name="mesa">
+        </form>
+        <div class="navigation-buttons">
+            <button class="button button--ghost" data-prev="1">Anterior</button>
+            <button class="button button--primary" data-next>Continuar</button>
+        </div>
+    </section>
+
+    <section id="screen3" class="container">
+        <h2>Información de acompañantes</h2>
+        <p class="section-description">Agrega los datos de cada invitado adicional.</p>
+        <form id="acompanantesForm"></form>
+        <div class="navigation-buttons">
+            <button class="button button--ghost" data-prev="2">Anterior</button>
+            <button class="button button--primary" data-next="4">Continuar</button>
+        </div>
+    </section>
+
+    <section id="screen4" class="container">
+        <h2>Selecciona tu mesa</h2>
+        <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
+        <div class="salon-wrapper">
+            <aside class="salon-summary">
+                <h3>Resumen del salón</h3>
+                <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
+                <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
+                <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
+                <div class="legend">
+                    <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
+                    <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
+                    <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
+                </div>
+            </aside>
+            <div class="salon-map" id="salonMap"></div>
+        </div>
+        <div class="table-details">
+            <div class="table-container">
+                <div class="table" id="mesaText">Mesa</div>
+                <div id="seatsContainer"></div>
+            </div>
+            <div>
+                <h3>Invitados registrados en esta mesa</h3>
+                <div id="guestList">Selecciona una mesa para ver los invitados.</div>
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="button button--ghost" data-prev="3">Anterior</button>
+            <button id="submitReservationBtn" class="button button--primary">Enviar</button>
+        </div>
+    </section>
+</main>
+
+<div id="confirmationModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Registro completo</h2>
+        <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Sec. Contable de la B.A. III.</p>
+        <button class="button button--primary" id="finalizarBtn">Finalizar</button>
+    </div>
+</div>
+
+<div id="tooltip" class="tooltip"></div>
+
+<script>
+/* =========================
+   Texto / assets del héroe
+   ========================= */
+const HERO_CARD_TEMPLATE = `
+    <div class="hero-card__content">
+        <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
+        <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
+        <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
+        <div class="hero-card__actions">
+            <button class="button button--primary" data-next="2">Comenzar registro</button>
+            <a class="button button--ghost" href="admin.html">Administración</a>
+        </div>
+    </div>
+    <figure class="hero-card__media">
+        <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
+    </figure>
+`;
+
+/* =========================
+   Endpoints por defecto
+   ========================= */
+const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxad44B_xz6aUgvYywB4cC63saquVXYAnyGAtgsfiSenlWtyoHYg30lko7GEe9-4EdxHg/exec';
+const DEFAULT_GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI/gviz/tq?tqx=out:csv&sheet=Datos%20de%20invitados';
+
+const SUBMISSION_POLL_INTERVAL = 3000;
+const SUBMISSION_MAX_WAIT = 20000;
+
+/* zonas por defecto del salón */
+const DEFAULT_ZONES = [
+    { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
+    { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
+    { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
+    { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
+    { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
+    { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
+];
+
+/* claves flexibles para resolver columnas y campos */
+const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
+const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
+const NOMBRE_KEYS = ['nombre', 'nombres'];
+const APELLIDO_KEYS = ['apellido', 'apellidos'];
+const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
+
+/* Estado global */
+const state = {
+    currentScreen: 1,
+    siteConfig: null,
+    reservationEndpoint: DEFAULT_RESERVATION_ENDPOINT,
+    guestsSheetUrl: DEFAULT_GUESTS_SHEET_CSV_URL,
+    guestsByTable: new Map(),
+    fetchInterval: null,
+    selectedTable: null
+};
+
+/* Referencias al DOM */
+const dom = {
+    heroCard: document.getElementById('heroCard'),
+    salonMap: document.getElementById('salonMap'),
+    guestForm: document.getElementById('guestForm'),
+    acompanantesForm: document.getElementById('acompanantesForm'),
+    mesaInput: document.getElementById('mesa'),
+    mesaText: document.getElementById('mesaText'),
+    mesaSeleccionadaLabel: document.getElementById('mesaSeleccionadaLabel'),
+    seatsContainer: document.getElementById('seatsContainer'),
+    guestList: document.getElementById('guestList'),
+    totalMesasCounter: document.getElementById('totalMesasCounter'),
+    capacidadTotalCounter: document.getElementById('capacidadTotalCounter'),
+    tooltip: document.getElementById('tooltip'),
+    submitButton: document.getElementById('submitReservationBtn'),
+    modal: document.getElementById('confirmationModal'),
+    mesaConfirmada: document.getElementById('mesaConfirmada'),
+    finalizarBtn: document.getElementById('finalizarBtn')
+};
+
+/* =========================
+   Utilidades
+   ========================= */
+function normalizeString(value) {
+    if (value === undefined || value === null) return '';
+    return value.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+function appendCacheBuster(url) { if (!url) return ''; return `${url}${url.includes('?') ? '&' : '?'}_=${Date.now()}`; }
+function tryParseJson(value, fallback = null) {
+    if (value === undefined || value === null) return fallback;
+    if (typeof value === 'object') return value;
+    if (typeof value !== 'string') return fallback;
+    const trimmed = value.trim();
+    if (!trimmed) return fallback;
+    try { return JSON.parse(trimmed); } catch { return fallback; }
+}
+function getValueFromGuest(guest, candidateKeys) {
+    if (!guest || typeof guest !== 'object') return '';
+    const normalizedCandidates = candidateKeys.map(normalizeString);
+    for (const key of Object.keys(guest)) {
+        const normalizedKey = normalizeString(key);
+        if (normalizedCandidates.includes(normalizedKey)) {
+            const value = guest[key];
+            if (value !== undefined && value !== null && value !== '') { return value; }
+        }
+    }
+    return '';
+}
+function extractCompanionNames(guest) {
+    if (!guest || typeof guest !== 'object') return [];
+    const names = Object.keys(guest)
+        .filter(key => normalizeString(key).startsWith(ACOMPANANTE_NAME_PREFIX))
+        .map(key => guest[key]).filter(Boolean);
+
+    const seen = new Set(names);
+    const addName = (value) => {
+        if (value === undefined || value === null) return;
+        const trimmed = String(value).trim();
+        if (!trimmed || seen.has(trimmed)) return;
+        seen.add(trimmed); names.push(trimmed);
+    };
+    const parseCollection = (collection) => {
+        if (collection === undefined || collection === null) return;
+        if (Array.isArray(collection)) {
+            collection.forEach(item => {
+                if (item && typeof item === 'object') { addName(item.nombre || item.name || item.label || ''); }
+                else { addName(item); }
+            });
+            return;
+        }
+        if (typeof collection === 'string') {
+            const raw = collection.trim(); if (!raw) return;
+            const parsed = tryParseJson(raw, null);
+            if (parsed && parsed !== raw) { parseCollection(parsed); return; }
+            raw.split(/[|;,]/).forEach(fragment => addName(fragment));
+            return;
+        }
+        if (typeof collection === 'object') { Object.values(collection).forEach(parseCollection); }
+    };
+
+    const candidateSources = [
+        guest.acompanantes, guest['acompañantes'], guest.companions,
+        guest.payload?.acompanantes, guest.__parsedJson?.acompanantes, guest.__parsedJson?.payload?.acompanantes
+    ];
+    if (guest.__parsedJson && typeof guest.__parsedJson === 'object' && 'acompañantes' in guest.__parsedJson) { candidateSources.push(guest.__parsedJson['acompañantes']); }
+    if (guest.__parsedJson?.payload && typeof guest.__parsedJson.payload === 'object' && 'acompañantes' in guest.__parsedJson.payload) { candidateSources.push(guest.__parsedJson.payload['acompañantes']); }
+    candidateSources.forEach(parseCollection);
+    return names.filter(Boolean);
+}
+function countGuestSeats(guest) { return 1 + extractCompanionNames(guest).length; }
+function getGuestFullName(guest) {
+    const nombre = getValueFromGuest(guest, NOMBRE_KEYS);
+    const apellido = getValueFromGuest(guest, APELLIDO_KEYS);
+    return [nombre, apellido].filter(Boolean).join(' ').trim();
+}
+function getGuestEmail(guest) { return getValueFromGuest(guest, EMAIL_KEYS); }
+function getGuestCedula(guest) { return getValueFromGuest(guest, CEDULA_KEYS); }
+function createGuestFingerprintKey(guest) {
+    if (!guest) return '';
+    const cedula = normalizeString(getGuestCedula(guest));
+    const correo = normalizeString(getGuestEmail(guest));
+    const nombre = normalizeString(getGuestFullName(guest));
+    return [cedula, correo, nombre].filter(Boolean).join('|');
+}
+function buildFingerprintCountMap(guests) {
+    const counts = new Map();
+    (guests || []).forEach(guest => {
+        const key = createGuestFingerprintKey(guest) || '__blank__';
+        counts.set(key, (counts.get(key) || 0) + 1);
+    });
+    return counts;
+}
+function createReservationFingerprint(data) {
+    return {
+        mesa: data.mesa,
+        normalizedCedula: normalizeString(data.cedula),
+        normalizedCorreo: normalizeString(data.correo),
+        normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`)
+    };
+}
+
+/* =========================
+   Navegación y UI
+   ========================= */
+function enforceInitialScreen() {
+    document.querySelectorAll('.container').forEach((section, index) => {
+        if (index === 0) section.classList.add('active'); else section.classList.remove('active');
+    });
+    state.currentScreen = 1;
+}
+function renderHeroCard() { if (!dom.heroCard) return; dom.heroCard.innerHTML = HERO_CARD_TEMPLATE; }
+function ensureSingleHero() {
+    const screen = document.getElementById('screen1'); if (!screen) return;
+    if (!dom.heroCard) {
+        screen.innerHTML = `<div class="hero-card" id="heroCard">${HERO_CARD_TEMPLATE}</div>`;
+        dom.heroCard = document.getElementById('heroCard');
+    } else if (dom.heroCard.children.length === 0) {
+        dom.heroCard.innerHTML = HERO_CARD_TEMPLATE;
+    }
+}
+function showScreen(target) {
+    if (!target || target === state.currentScreen) return;
+    document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');
+    state.currentScreen = target;
+    document.getElementById(`screen${state.currentScreen}`)?.classList.add('active');
+
+    if (state.currentScreen === 4) {
+        fetchGuestsData().catch(err => console.warn('No se pudo refrescar la lista al cargar el resumen.', err));
+        startGuestsPolling();
+    } else { stopGuestsPolling(); }
+}
+function validateForm(formId) {
+    const form = document.getElementById(formId); if (!form) return [];
+    const invalid = [];
+    form.querySelectorAll('input, select').forEach(element => {
+        if (!element.checkValidity()) {
+            const label = form.querySelector(`label[for="${element.id}"]`);
+            const fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
+            invalid.push(fieldName.trim());
+        }
+    });
+    return invalid;
+}
+function handleNavigation(event) {
+    const nextAttr = event.target.closest('[data-next]');
+    const prevAttr = event.target.closest('[data-prev]');
+    if (!nextAttr && !prevAttr) return;
+    event.preventDefault();
+
+    if (prevAttr) { const target = parseInt(prevAttr.dataset.prev, 10) || Math.max(1, state.currentScreen - 1); showScreen(target); return; }
+
+    if (state.currentScreen === 2) {
+        const invalidFields = validateForm('guestForm');
+        if (invalidFields.length) { alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- ')); return; }
+        const acomp = document.getElementById('acompanante').value;
+        if (acomp === 'si') {
+            const cant = document.getElementById('cantidadAcompanantes').value;
+            if (!cant) { alert('Por favor, seleccione la cantidad de acompañantes.'); return; }
+            generateAcompanantesForm(parseInt(cant, 10)); showScreen(3); return;
+        }
+        showScreen(4); return;
+    }
+    if (state.currentScreen === 3) {
+        const invalidFields = validateForm('acompanantesForm');
+        if (invalidFields.length) { alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- ')); return; }
+        showScreen(4); return;
+    }
+    const target = parseInt(nextAttr.dataset.next, 10) || state.currentScreen + 1;
+    showScreen(target);
+}
+function toggleAcompanante() {
+    const acomp = document.getElementById('acompanante').value;
+    const container = document.getElementById('acompananteCantidad');
+    const select = document.getElementById('cantidadAcompanantes');
+    if (acomp === 'si') { container.style.display = 'block'; container.style.opacity = '1'; select.setAttribute('required', 'required'); }
+    else { container.style.opacity = '0'; container.style.display = 'none'; select.removeAttribute('required'); select.value = ''; dom.acompanantesForm.innerHTML = ''; }
+}
+function generateAcompanantesForm(cantidad) {
+    dom.acompanantesForm.innerHTML = '';
+    for (let i = 1; i <= cantidad; i++) {
+        dom.acompanantesForm.innerHTML += `
+            <div class="form-grid">
                 <div class="form-field">
-                    <label for="correo">Correo</label>
-                    <input type="email" id="correo" name="correo" required autocomplete="email">
+                    <h3>Acompañante ${i}</h3>
+                    <label for="nombreAcompanante${i}">Nombre</label>
+                    <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
                 </div>
                 <div class="form-field">
-                    <label for="grado">Grado</label>
-                    <select id="grado" name="grado" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Cnel.">Cnel.</option>
-                        <option value="Tte. Cnel.">Tte. Cnel.</option>
-                        <option value="May.">May.</option>
-                        <option value="Cap.">Cap.</option>
-                        <option value="Tte. 1°">Tte. 1°</option>
-                        <option value="Tte. 2°">Tte. 2°</option>
-                        <option value="Alf.">Alf.</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="escalafon">Escalafón</label>
-                    <select id="escalafon" name="escalafon" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="Av.">(Av.)</option>
-                        <option value="Nav.">(Nav.)</option>
-                        <option value="Esp.">(Esp.)</option>
-                        <option value="T.P.">(T.P.)</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required autocomplete="given-name">
-                </div>
-                <div class="form-field">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" required autocomplete="family-name">
-                </div>
-                <div class="form-field">
-                    <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
-                    <input type="text" id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="El formato debe ser 0.000.000-0. Ejemplo: 4.646.789-2">
-                </div>
-                <div class="form-field">
-                    <label for="acompanante">¿Asiste con acompañante?</label>
-                    <select id="acompanante" name="acompanante" required>
-                        <option value="" selected>Seleccionar</option>
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
-                    </select>
-                </div>
-                <div class="form-field" id="acompananteCantidad" style="display:none;">
-                    <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
-                    <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-                        <option value="" selected>Seleccionar</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="menu">Menú</label>
-                    <select id="menu" name="menu" required>
+                    <label for="menuAcompanante${i}">Menú</label>
+                    <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
                         <option value="" selected>Seleccionar</option>
                         <option value="normal">Normal</option>
                         <option value="vegetariano">Vegetariano</option>
@@ -559,1050 +577,620 @@
                         <option value="celiaco">Celíaco</option>
                     </select>
                 </div>
-                <input type="hidden" id="mesa" name="mesa">
-            </form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" data-prev="1">Anterior</button>
-                <button class="button button--primary" data-next>Continuar</button>
-            </div>
-        </section>
+            </div>`;
+    }
+}
 
-        <section id="screen3" class="container">
-            <h2>Información de acompañantes</h2>
-            <p class="section-description">Agrega los datos de cada invitado adicional.</p>
-            <form id="acompanantesForm"></form>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" data-prev="2">Anterior</button>
-                <button class="button button--primary" data-next="4">Continuar</button>
-            </div>
-        </section>
-
-        <section id="screen4" class="container">
-            <h2>Selecciona tu mesa</h2>
-            <p class="section-description">Explora el plano interactivo del salón y elige la mesa que prefieras. Haz clic para revisar la disponibilidad y los invitados registrados.</p>
-            <div class="salon-wrapper">
-                <aside class="salon-summary">
-                    <h3>Resumen del salón</h3>
-                    <p><strong>Mesas disponibles:</strong> <span id="totalMesasCounter">--</span></p>
-                    <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span> invitados</p>
-                    <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-                    <div class="legend">
-                        <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
-                        <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
-                        <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
-                    </div>
-                </aside>
-                <div class="salon-map" id="salonMap"></div>
-            </div>
-            <div class="table-details">
-                <div class="table-container">
-                    <div class="table" id="mesaText">Mesa</div>
-                    <div id="seatsContainer"></div>
-                </div>
-                <div>
-                    <h3>Invitados registrados en esta mesa</h3>
-                    <div id="guestList">Selecciona una mesa para ver los invitados.</div>
-                </div>
-            </div>
-            <div class="navigation-buttons">
-                <button class="button button--ghost" data-prev="3">Anterior</button>
-                <button id="submitReservationBtn" class="button button--primary">Enviar</button>
-            </div>
-        </section>
-    </main>
-
-    <div id="confirmationModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Registro completo</h2>
-            <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Sec. Contable de la B.A. III.</p>
-            <button class="button button--primary" id="finalizarBtn">Finalizar</button>
-        </div>
-    </div>
-
-    <div id="tooltip" class="tooltip"></div>
-
-    <script>
-        const HERO_CARD_TEMPLATE = `
-            <div class="hero-card__content">
-                <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
-                <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
-                <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita dentro del salón principal.</p>
-                <div class="hero-card__actions">
-                    <button class="button button--primary" data-next="2">Comenzar registro</button>
-                    <a class="button button--ghost" href="admin.html">Administración</a>
-                </div>
-            </div>
-            <figure class="hero-card__media">
-                <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
-            </figure>
-        `;
-
-        const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxad44B_xz6aUgvYywB4cC63saquVXYAnyGAtgsfiSenlWtyoHYg30lko7GEe9-4EdxHg/exec';
-        const DEFAULT_GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI/gviz/tq?tqx=out:csv&sheet=Datos%20de%20invitados';
-        const SUBMISSION_POLL_INTERVAL = 3000;
-        const SUBMISSION_MAX_WAIT = 20000;
-        const DEFAULT_ZONES = [
-            { id: 'dance', label: 'Pista de baile', className: 'map-zone--dance', position: { x: 50, y: 45 } },
-            { id: 'stage', label: 'Estado Mayor', className: 'map-zone--stage', position: { x: 6, y: 50 } },
-            { id: 'entrance', label: 'Entrada / Piscina', className: 'map-zone--entrance', position: { x: 50, y: 6 } },
-            { id: 'dj', label: 'DJ', className: 'map-zone--dj', position: { x: 50, y: 94 } },
-            { id: 'dessertLeft', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-left', position: { x: 92, y: 28 } },
-            { id: 'dessertRight', label: 'Postres', className: 'map-zone--dessert map-zone--dessert-right', position: { x: 92, y: 72 } }
-        ];
-
-        const EMAIL_KEYS = ['correo', 'correo electronico', 'correo electrónico', 'email', 'e-mail'];
-        const CEDULA_KEYS = ['cedula', 'cédula', 'documento', 'documento de identidad', 'documento identidad', 'ci'];
-        const NOMBRE_KEYS = ['nombre', 'nombres'];
-        const APELLIDO_KEYS = ['apellido', 'apellidos'];
-        const ACOMPANANTE_NAME_PREFIX = 'nombre acompanante';
-
-        const state = {
-            currentScreen: 1,
-            siteConfig: null,
-            reservationEndpoint: DEFAULT_RESERVATION_ENDPOINT,
-            guestsSheetUrl: DEFAULT_GUESTS_SHEET_CSV_URL,
-            guestsByTable: new Map(),
-            fetchInterval: null,
-            selectedTable: null
-        };
-
-        const dom = {
-            heroCard: document.getElementById('heroCard'),
-            salonMap: document.getElementById('salonMap'),
-            guestForm: document.getElementById('guestForm'),
-            acompanantesForm: document.getElementById('acompanantesForm'),
-            mesaInput: document.getElementById('mesa'),
-            mesaText: document.getElementById('mesaText'),
-            mesaSeleccionadaLabel: document.getElementById('mesaSeleccionadaLabel'),
-            seatsContainer: document.getElementById('seatsContainer'),
-            guestList: document.getElementById('guestList'),
-            totalMesasCounter: document.getElementById('totalMesasCounter'),
-            capacidadTotalCounter: document.getElementById('capacidadTotalCounter'),
-            tooltip: document.getElementById('tooltip'),
-            submitButton: document.getElementById('submitReservationBtn'),
-            modal: document.getElementById('confirmationModal'),
-            mesaConfirmada: document.getElementById('mesaConfirmada'),
-            finalizarBtn: document.getElementById('finalizarBtn')
-        };
-
-        function normalizeString(value) {
-            if (value === undefined || value === null) return '';
-            return value.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-        }
-
-        function appendCacheBuster(url) {
-            if (!url) return '';
-            return `${url}${url.includes('?') ? '&' : '?'}_=${Date.now()}`;
-        }
-
-        function tryParseJson(value, fallback = null) {
-            if (value === undefined || value === null) return fallback;
-            if (typeof value === 'object') return value;
-            if (typeof value !== 'string') return fallback;
-            const trimmed = value.trim();
-            if (!trimmed) return fallback;
-            try {
-                return JSON.parse(trimmed);
-            } catch (error) {
-                return fallback;
+/* =========================
+   Render del salón
+   ========================= */
+function renderZones(zones) {
+    if (!dom.salonMap) return;
+    dom.salonMap.querySelectorAll('.map-zone').forEach(zone => zone.remove());
+    const items = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
+    items.forEach(zone => {
+        const element = document.createElement('div');
+        element.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
+        element.textContent = zone.label || '';
+        element.dataset.zoneId = zone.id || '';
+        const posX = parseFloat(zone.position?.x);
+        const posY = parseFloat(zone.position?.y);
+        const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
+        const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
+        element.style.setProperty('--zone-x', safeX);
+        element.style.setProperty('--zone-y', safeY);
+        dom.salonMap.appendChild(element);
+    });
+}
+function renderTables(mesas) {
+    if (!dom.salonMap) return;
+    dom.salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
+    (mesas || []).forEach(mesa => {
+        const element = document.createElement('button');
+        element.type = 'button';
+        element.className = 'mesa';
+        element.id = `mesa${mesa.number}`;
+        const label = mesa.label || `Mesa ${mesa.number}`;
+        element.dataset.label = label;
+        element.dataset.capacity = mesa.capacity ?? state.siteConfig?.defaultCapacity ?? 0;
+        element.style.left = `${mesa.position?.x ?? 0}%`;
+        element.style.top = `${mesa.position?.y ?? 0}%`;
+        element.textContent = mesa.number ?? label;
+        element.setAttribute('aria-label', `${label} (capacidad ${element.dataset.capacity})`);
+        element.addEventListener('click', () => selectTable(label));
+        element.addEventListener('mouseover', event => showGuestsTooltip(label, event));
+        element.addEventListener('focus', event => showGuestsTooltip(label, event));
+        element.addEventListener('mouseleave', hideGuestsTooltip);
+        element.addEventListener('blur', hideGuestsTooltip);
+        dom.salonMap.appendChild(element);
+    });
+    updateMesasCompletaColor();
+}
+function updateSummary() {
+    const mesas = state.siteConfig?.mesas || [];
+    if (dom.totalMesasCounter) dom.totalMesasCounter.textContent = mesas.length;
+    if (dom.capacidadTotalCounter) {
+        const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? state.siteConfig?.defaultCapacity ?? 0), 0);
+        dom.capacidadTotalCounter.textContent = totalCapacity;
+    }
+}
+function selectTable(label) {
+    state.selectedTable = label;
+    if (dom.mesaInput) dom.mesaInput.value = label;
+    document.querySelectorAll('.mesa').forEach(mesa => {
+        mesa.classList.toggle('seleccionada', mesa.dataset.label === label);
+    });
+    if (dom.mesaSeleccionadaLabel) dom.mesaSeleccionadaLabel.textContent = label;
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) tableContainer.style.display = 'block';
+    updateMesaPreview();
+}
+function getMesaCapacity(label) {
+    const mesas = state.siteConfig?.mesas || [];
+    const mesa = mesas.find(m => {
+        const mesaLabel = m.label || `Mesa ${m.number}`;
+        return mesaLabel === label;
+    });
+    if (mesa && typeof mesa.capacity === 'number') return mesa.capacity;
+    return state.siteConfig?.defaultCapacity || 10;
+}
+function getGuestsForMesa(label) {
+    if (!label) return [];
+    if (state.guestsByTable.has(label)) return state.guestsByTable.get(label) || [];
+    const normalized = normalizeString(label);
+    for (const [key, guests] of state.guestsByTable.entries()) {
+        if (normalizeString(key) === normalized) return guests;
+    }
+    return [];
+}
+function updateMesaPreview() {
+    const label = dom.mesaInput?.value; if (!label) return;
+    if (dom.mesaText) dom.mesaText.textContent = label;
+    updateSeats(); updateGuestList();
+}
+function updateSeats() {
+    if (!dom.seatsContainer) return;
+    const label = dom.mesaInput?.value;
+    const capacity = getMesaCapacity(label);
+    dom.seatsContainer.innerHTML = '';
+    for (let i = 1; i <= capacity; i++) {
+        const seat = document.createElement('div');
+        seat.classList.add('seat'); seat.dataset.seat = i;
+        dom.seatsContainer.appendChild(seat);
+    }
+    const seats = dom.seatsContainer.querySelectorAll('.seat');
+    const centerX = 50, centerY = 50, radius = 38;
+    seats.forEach((seat, index) => {
+        const angle = (index / seats.length) * (2 * Math.PI);
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        seat.style.position = 'absolute';
+        seat.style.left = `${x}%`;
+        seat.style.top = `${y}%`;
+        seat.style.transform = 'translate(-50%, -50%)';
+    });
+    const mesaGuests = getGuestsForMesa(label);
+    let totalGuests = 0;
+    mesaGuests.forEach(guest => {
+        const seatsNeeded = countGuestSeats(guest);
+        for (let i = 0; i < seatsNeeded; i++) {
+            if (totalGuests < capacity) {
+                dom.seatsContainer.querySelector(`.seat[data-seat="${totalGuests + 1}"]`)?.classList.add('occupied');
+                totalGuests++;
             }
         }
-
-        function getValueFromGuest(guest, candidateKeys) {
-            if (!guest || typeof guest !== 'object') return '';
-            const normalizedCandidates = candidateKeys.map(normalizeString);
-            for (const key of Object.keys(guest)) {
-                const normalizedKey = normalizeString(key);
-                if (normalizedCandidates.includes(normalizedKey)) {
-                    const value = guest[key];
-                    if (value !== undefined && value !== null && value !== '') {
-                        return value;
-                    }
-                }
-            }
-            return '';
-        }
-
-        function extractCompanionNames(guest) {
-            if (!guest || typeof guest !== 'object') return [];
-            const names = Object.keys(guest)
-                .filter(key => normalizeString(key).startsWith(ACOMPANANTE_NAME_PREFIX))
-                .map(key => guest[key])
-                .filter(Boolean);
-
-            const seen = new Set(names);
-            const addName = (value) => {
-                if (value === undefined || value === null) return;
-                const trimmed = String(value).trim();
-                if (!trimmed || seen.has(trimmed)) return;
-                seen.add(trimmed);
-                names.push(trimmed);
-            };
-
-            const parseCollection = (collection) => {
-                if (collection === undefined || collection === null) return;
-                if (Array.isArray(collection)) {
-                    collection.forEach(item => {
-                        if (item && typeof item === 'object') {
-                            addName(item.nombre || item.name || item.label || '');
-                        } else {
-                            addName(item);
-                        }
-                    });
-                    return;
-                }
-                if (typeof collection === 'string') {
-                    const raw = collection.trim();
-                    if (!raw) return;
-                    const parsed = tryParseJson(raw, null);
-                    if (parsed && parsed !== raw) {
-                        parseCollection(parsed);
-                        return;
-                    }
-                    raw.split(/[|;,]/).forEach(fragment => addName(fragment));
-                    return;
-                }
-                if (typeof collection === 'object') {
-                    Object.values(collection).forEach(parseCollection);
-                }
-            };
-
-            const candidateSources = [
-                guest.acompanantes,
-                guest['acompañantes'],
-                guest.companions,
-                guest.payload?.acompanantes,
-                guest.__parsedJson?.acompanantes,
-                guest.__parsedJson?.payload?.acompanantes
-            ];
-
-            if (guest.__parsedJson && typeof guest.__parsedJson === 'object' && 'acompañantes' in guest.__parsedJson) {
-                candidateSources.push(guest.__parsedJson['acompañantes']);
-            }
-            if (guest.__parsedJson?.payload && typeof guest.__parsedJson.payload === 'object' && 'acompañantes' in guest.__parsedJson.payload) {
-                candidateSources.push(guest.__parsedJson.payload['acompañantes']);
-            }
-
-            candidateSources.forEach(parseCollection);
-            return names.filter(Boolean);
-        }
-
-        function countGuestSeats(guest) {
-            return 1 + extractCompanionNames(guest).length;
-        }
-        function getGuestFullName(guest) {
-            const nombre = getValueFromGuest(guest, NOMBRE_KEYS);
-            const apellido = getValueFromGuest(guest, APELLIDO_KEYS);
-            return [nombre, apellido].filter(Boolean).join(' ').trim();
-        }
-
-        function getGuestEmail(guest) {
-            return getValueFromGuest(guest, EMAIL_KEYS);
-        }
-
-        function getGuestCedula(guest) {
-            return getValueFromGuest(guest, CEDULA_KEYS);
-        }
-
-        function createGuestFingerprintKey(guest) {
-            if (!guest) return '';
-            const cedula = normalizeString(getGuestCedula(guest));
-            const correo = normalizeString(getGuestEmail(guest));
-            const nombre = normalizeString(getGuestFullName(guest));
-            return [cedula, correo, nombre].filter(Boolean).join('|');
-        }
-
-        function buildFingerprintCountMap(guests) {
-            const counts = new Map();
-            (guests || []).forEach(guest => {
-                const key = createGuestFingerprintKey(guest) || '__blank__';
-                counts.set(key, (counts.get(key) || 0) + 1);
+    });
+}
+function updateGuestList() {
+    if (!dom.guestList) return;
+    const label = dom.mesaInput?.value;
+    dom.guestList.innerHTML = '';
+    const guests = getGuestsForMesa(label);
+    if (label && guests.length) {
+        guests.forEach(guest => {
+            const nombreCompleto = getGuestFullName(guest) || 'Nombre no disponible';
+            const container = document.createElement('div');
+            container.innerHTML = `<strong>${nombreCompleto}</strong>`;
+            dom.guestList.appendChild(container);
+            extractCompanionNames(guest).forEach(nombre => {
+                const companion = document.createElement('div');
+                companion.textContent = nombre;
+                dom.guestList.appendChild(companion);
             });
-            return counts;
-        }
-
-        function createReservationFingerprint(data) {
-            return {
-                mesa: data.mesa,
-                normalizedCedula: normalizeString(data.cedula),
-                normalizedCorreo: normalizeString(data.correo),
-                normalizedNombreCompleto: normalizeString(`${data.nombre || ''} ${data.apellido || ''}`)
-            };
-        }
-
-        function enforceInitialScreen() {
-            document.querySelectorAll('.container').forEach((section, index) => {
-                if (index === 0) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
-            state.currentScreen = 1;
-        }
-
-        function renderHeroCard() {
-            if (!dom.heroCard) return;
-            dom.heroCard.innerHTML = HERO_CARD_TEMPLATE;
-        }
-
-        function ensureSingleHero() {
-            const screen = document.getElementById('screen1');
-            if (!screen) return;
-            if (!dom.heroCard) {
-                screen.innerHTML = `<div class="hero-card" id="heroCard">${HERO_CARD_TEMPLATE}</div>`;
-                dom.heroCard = document.getElementById('heroCard');
-            } else if (dom.heroCard.children.length === 0) {
-                dom.heroCard.innerHTML = HERO_CARD_TEMPLATE;
-            }
-        }
-
-        function showScreen(target) {
-            if (!target || target === state.currentScreen) return;
-            document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');
-            state.currentScreen = target;
-            document.getElementById(`screen${state.currentScreen}`)?.classList.add('active');
-
-            if (state.currentScreen === 4) {
-                fetchGuestsData().catch(error => console.warn('No se pudo refrescar la lista de invitados al cargar el resumen.', error));
-                startGuestsPolling();
-            } else {
-                stopGuestsPolling();
-            }
-        }
-
-        function validateForm(formId) {
-            const form = document.getElementById(formId);
-            if (!form) return [];
-            const invalid = [];
-            form.querySelectorAll('input, select').forEach(element => {
-                if (!element.checkValidity()) {
-                    const label = form.querySelector(`label[for="${element.id}"]`);
-                    const fieldName = label ? label.textContent.replace(':', '') : element.name || element.id;
-                    invalid.push(fieldName.trim());
-                }
-            });
-            return invalid;
-        }
-
-        function handleNavigation(event) {
-            const nextAttr = event.target.closest('[data-next]');
-            const prevAttr = event.target.closest('[data-prev]');
-            if (!nextAttr && !prevAttr) return;
-            event.preventDefault();
-
-            if (prevAttr) {
-                const target = parseInt(prevAttr.dataset.prev, 10) || Math.max(1, state.currentScreen - 1);
-                showScreen(target);
-                return;
-            }
-
-            if (state.currentScreen === 2) {
-                const invalidFields = validateForm('guestForm');
-                if (invalidFields.length) {
-                    alert('Por favor, complete correctamente los siguientes campos:\n- ' + invalidFields.join('\n- '));
-                    return;
-                }
-                const acompanante = document.getElementById('acompanante').value;
-                if (acompanante === 'si') {
-                    const cantidad = document.getElementById('cantidadAcompanantes').value;
-                    if (!cantidad) {
-                        alert('Por favor, seleccione la cantidad de acompañantes.');
-                        return;
-                    }
-                    generateAcompanantesForm(parseInt(cantidad, 10));
-                    showScreen(3);
-                    return;
-                }
-                showScreen(4);
-                return;
-            }
-
-            if (state.currentScreen === 3) {
-                const invalidFields = validateForm('acompanantesForm');
-                if (invalidFields.length) {
-                    alert('Por favor, complete correctamente los siguientes campos de acompañantes:\n- ' + invalidFields.join('\n- '));
-                    return;
-                }
-                showScreen(4);
-                return;
-            }
-
-            const target = parseInt(nextAttr.dataset.next, 10) || state.currentScreen + 1;
-            showScreen(target);
-        }
-
-        function toggleAcompanante() {
-            const acompanante = document.getElementById('acompanante').value;
-            const container = document.getElementById('acompananteCantidad');
-            const select = document.getElementById('cantidadAcompanantes');
-            if (acompanante === 'si') {
-                container.style.display = 'block';
-                container.style.opacity = '1';
-                select.setAttribute('required', 'required');
-            } else {
-                container.style.opacity = '0';
-                container.style.display = 'none';
-                select.removeAttribute('required');
-                select.value = '';
-                dom.acompanantesForm.innerHTML = '';
-            }
-        }
-
-        function generateAcompanantesForm(cantidad) {
-            dom.acompanantesForm.innerHTML = '';
-            for (let i = 1; i <= cantidad; i++) {
-                dom.acompanantesForm.innerHTML += `
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <h3>Acompañante ${i}</h3>
-                            <label for="nombreAcompanante${i}">Nombre</label>
-                            <input type="text" id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="menuAcompanante${i}">Menú</label>
-                            <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-                                <option value="" selected>Seleccionar</option>
-                                <option value="normal">Normal</option>
-                                <option value="vegetariano">Vegetariano</option>
-                                <option value="vegano">Vegano</option>
-                                <option value="celiaco">Celíaco</option>
-                            </select>
-                        </div>
-                    </div>`;
-            }
-        }
-
-        function renderZones(zones) {
-            if (!dom.salonMap) return;
-            dom.salonMap.querySelectorAll('.map-zone').forEach(zone => zone.remove());
-            const items = Array.isArray(zones) && zones.length ? zones : DEFAULT_ZONES;
-            items.forEach(zone => {
-                const element = document.createElement('div');
-                element.className = ['map-zone', zone.className || ''].filter(Boolean).join(' ').trim();
-                element.textContent = zone.label || '';
-                element.dataset.zoneId = zone.id || '';
-                const posX = parseFloat(zone.position?.x);
-                const posY = parseFloat(zone.position?.y);
-                const safeX = Number.isNaN(posX) ? 0 : Math.min(Math.max(posX, 0), 100);
-                const safeY = Number.isNaN(posY) ? 0 : Math.min(Math.max(posY, 0), 100);
-                element.style.setProperty('--zone-x', safeX);
-                element.style.setProperty('--zone-y', safeY);
-                dom.salonMap.appendChild(element);
-            });
-        }
-
-        function renderTables(mesas) {
-            if (!dom.salonMap) return;
-            dom.salonMap.querySelectorAll('.mesa').forEach(mesa => mesa.remove());
-            (mesas || []).forEach(mesa => {
-                const element = document.createElement('button');
-                element.type = 'button';
-                element.className = 'mesa';
-                element.id = `mesa${mesa.number}`;
-                const label = mesa.label || `Mesa ${mesa.number}`;
-                element.dataset.label = label;
-                element.dataset.capacity = mesa.capacity ?? state.siteConfig?.defaultCapacity ?? 0;
-                element.style.left = `${mesa.position?.x ?? 0}%`;
-                element.style.top = `${mesa.position?.y ?? 0}%`;
-                element.textContent = mesa.number ?? label;
-                element.setAttribute('aria-label', `${label} (capacidad ${element.dataset.capacity})`);
-                element.addEventListener('click', () => selectTable(label));
-                element.addEventListener('mouseover', event => showGuestsTooltip(label, event));
-                element.addEventListener('focus', event => showGuestsTooltip(label, event));
-                element.addEventListener('mouseleave', hideGuestsTooltip);
-                element.addEventListener('blur', hideGuestsTooltip);
-                dom.salonMap.appendChild(element);
-            });
-            updateMesasCompletaColor();
-        }
-        function updateSummary() {
-            const mesas = state.siteConfig?.mesas || [];
-            if (dom.totalMesasCounter) {
-                dom.totalMesasCounter.textContent = mesas.length;
-            }
-            if (dom.capacidadTotalCounter) {
-                const totalCapacity = mesas.reduce((acc, mesa) => acc + (mesa.capacity ?? state.siteConfig?.defaultCapacity ?? 0), 0);
-                dom.capacidadTotalCounter.textContent = totalCapacity;
-            }
-        }
-
-        function selectTable(label) {
-            state.selectedTable = label;
-            if (dom.mesaInput) dom.mesaInput.value = label;
-            document.querySelectorAll('.mesa').forEach(mesa => {
-                mesa.classList.toggle('seleccionada', mesa.dataset.label === label);
-            });
-            if (dom.mesaSeleccionadaLabel) {
-                dom.mesaSeleccionadaLabel.textContent = label;
-            }
-            const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.style.display = 'block';
-            }
-            updateMesaPreview();
-        }
-
-        function getMesaCapacity(label) {
-            const mesas = state.siteConfig?.mesas || [];
-            const mesa = mesas.find(m => {
-                const mesaLabel = m.label || `Mesa ${m.number}`;
-                return mesaLabel === label;
-            });
-            if (mesa && typeof mesa.capacity === 'number') return mesa.capacity;
-            return state.siteConfig?.defaultCapacity || 10;
-        }
-
-        function getGuestsForMesa(label) {
-            if (!label) return [];
-            if (state.guestsByTable.has(label)) return state.guestsByTable.get(label) || [];
-            const normalized = normalizeString(label);
-            for (const [key, guests] of state.guestsByTable.entries()) {
-                if (normalizeString(key) === normalized) {
-                    return guests;
-                }
-            }
-            return [];
-        }
-
-        function updateMesaPreview() {
-            const label = dom.mesaInput?.value;
-            if (!label) return;
-            if (dom.mesaText) dom.mesaText.textContent = label;
-            updateSeats();
-            updateGuestList();
-        }
-
-        function updateSeats() {
-            if (!dom.seatsContainer) return;
-            const label = dom.mesaInput?.value;
-            const capacity = getMesaCapacity(label);
-            dom.seatsContainer.innerHTML = '';
-            for (let i = 1; i <= capacity; i++) {
-                const seat = document.createElement('div');
-                seat.classList.add('seat');
-                seat.dataset.seat = i;
-                dom.seatsContainer.appendChild(seat);
-            }
-            const seats = dom.seatsContainer.querySelectorAll('.seat');
-            const centerX = 50;
-            const centerY = 50;
-            const radius = 38;
-            seats.forEach((seat, index) => {
-                const angle = (index / seats.length) * (2 * Math.PI);
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
-                seat.style.position = 'absolute';
-                seat.style.left = `${x}%`;
-                seat.style.top = `${y}%`;
-                seat.style.transform = 'translate(-50%, -50%)';
-            });
-            const mesaGuests = getGuestsForMesa(label);
-            let totalGuests = 0;
-            mesaGuests.forEach(guest => {
-                const seatsNeeded = countGuestSeats(guest);
-                for (let i = 0; i < seatsNeeded; i++) {
-                    if (totalGuests < capacity) {
-                        dom.seatsContainer.querySelector(`.seat[data-seat="${totalGuests + 1}"]`)?.classList.add('occupied');
-                        totalGuests++;
-                    }
-                }
-            });
-        }
-
-        function updateGuestList() {
-            if (!dom.guestList) return;
-            const label = dom.mesaInput?.value;
-            dom.guestList.innerHTML = '';
-            const guests = getGuestsForMesa(label);
-            if (label && guests.length) {
-                guests.forEach(guest => {
-                    const nombreCompleto = getGuestFullName(guest) || 'Nombre no disponible';
-                    const container = document.createElement('div');
-                    container.innerHTML = `<strong>${nombreCompleto}</strong>`;
-                    dom.guestList.appendChild(container);
-                    extractCompanionNames(guest).forEach(nombre => {
-                        const companion = document.createElement('div');
-                        companion.textContent = nombre;
-                        dom.guestList.appendChild(companion);
-                    });
-                });
-            } else {
-                dom.guestList.textContent = 'No hay invitados registrados en esta mesa.';
-            }
-        }
-
-        function showGuestsTooltip(mesa, event) {
-            if (!dom.tooltip) return;
-            let content = 'No hay invitados registrados en esta mesa.';
-            const guests = getGuestsForMesa(mesa);
-            if (guests.length) {
-                const guestNames = guests.map(guest => {
-                    let fullName = getGuestFullName(guest) || 'Invitado';
-                    const companions = extractCompanionNames(guest);
-                    if (companions.length) {
-                        fullName += ` (+${companions.join(', ')})`;
-                    }
-                    return fullName;
-                }).join(', ');
-                if (guestNames) content = guestNames;
-            }
-            dom.tooltip.textContent = content;
-            dom.tooltip.style.display = 'block';
-            let x = event?.pageX;
-            let y = event?.pageY;
-            const target = event?.currentTarget || event?.target;
-            if ((!x || !y) && target) {
-                const rect = target.getBoundingClientRect();
-                x = rect.left + window.scrollX + rect.width / 2;
-                y = rect.top + window.scrollY + rect.height / 2;
-            }
-            dom.tooltip.style.left = `${x}px`;
-            dom.tooltip.style.top = `${y}px`;
-        }
-
-        function hideGuestsTooltip() {
-            if (!dom.tooltip) return;
-            dom.tooltip.style.display = 'none';
-        }
-
-        function stopGuestsPolling() {
-            if (state.fetchInterval) {
-                clearInterval(state.fetchInterval);
-                state.fetchInterval = null;
-            }
-        }
-
-        function startGuestsPolling() {
-            stopGuestsPolling();
-            state.fetchInterval = setInterval(() => {
-                fetchGuestsData().catch(error => console.warn('No se pudo refrescar la lista de invitados en segundo plano.', error));
-            }, 5000);
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let insideQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    if (insideQuotes && line[i + 1] === '"') {
-                        current += '"';
-                        i++;
-                    } else {
-                        insideQuotes = !insideQuotes;
-                    }
-                } else if (char === ',' && !insideQuotes) {
-                    result.push(current);
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            result.push(current);
-            return result;
-        }
-
-        function csvToJSON(csv) {
-            if (!csv) return new Map();
-            const sanitized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-            const lines = sanitized.split('\n').filter(line => line.trim() !== '');
-            if (!lines.length) return new Map();
-            const headers = parseCSVLine(lines[0]);
-            const normalizedHeaders = headers.map(header => header.trim());
-            const normalizedKeys = normalizedHeaders.map(normalizeString);
-            const map = new Map();
-
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
-                if (values.every(value => value === undefined || value === null || value.trim() === '')) continue;
-                const entry = {};
-                normalizedHeaders.forEach((header, index) => {
-                    const rawValue = values[index];
-                    entry[header] = rawValue === undefined || rawValue === null ? '' : rawValue.trim();
-                });
-
-                const jsonColumnIndex = normalizedKeys.findIndex(key => key.includes('json'));
-                if (jsonColumnIndex !== -1) {
-                    const rawJson = values[jsonColumnIndex];
-                    const parsed = tryParseJson(rawJson, null);
-                    if (parsed && typeof parsed === 'object') {
-                        entry.__sourceJson = rawJson;
-                        entry.__parsedJson = parsed;
-                        const mergeTargets = [parsed];
-                        if (parsed.payload && typeof parsed.payload === 'object') {
-                            mergeTargets.push(parsed.payload);
-                        }
-                        mergeTargets.forEach(target => {
-                            Object.entries(target).forEach(([key, value]) => {
-                                if (value === undefined || value === null || value === '') return;
-                                if (!entry[key]) {
-                                    entry[key] = value;
-                                }
-                            });
-                        });
-                    }
-                }
-
-                let mesaLabel = '';
-                const mesaIndex = normalizedKeys.indexOf('mesa');
-                if (mesaIndex !== -1) {
-                    mesaLabel = (values[mesaIndex] ?? '').trim();
-                }
-                if (!mesaLabel) {
-                    const mesaKey = Object.keys(entry).find(key => normalizeString(key) === 'mesa');
-                    if (mesaKey) mesaLabel = String(entry[mesaKey] ?? '').trim();
-                }
-                if (!mesaLabel && entry.__parsedJson) {
-                    const parsedMesa = entry.__parsedJson.mesa || entry.__parsedJson.Mesa || entry.__parsedJson.payload?.mesa;
-                    if (parsedMesa) mesaLabel = String(parsedMesa).trim();
-                }
-                if (!mesaLabel) continue;
-
-                if (!map.has(mesaLabel)) {
-                    map.set(mesaLabel, []);
-                }
-                map.get(mesaLabel).push(entry);
-            }
-            return map;
-        }
-        async function fetchGuestsData() {
-            if (!state.guestsSheetUrl) {
-                const error = new Error('sheet_url_missing');
-                error.code = 'sheet_url_missing';
-                throw error;
-            }
-            const response = await fetch(appendCacheBuster(state.guestsSheetUrl), { cache: 'no-store' });
-            if (!response.ok) {
-                const error = new Error(`sheet_fetch_${response.status}`);
-                error.code = `sheet_fetch_${response.status}`;
-                throw error;
-            }
-            const csv = await response.text();
-            state.guestsByTable = csvToJSON(csv);
-            updateMesasCompletaColor();
-            updateGuestList();
-            updateSeats();
-            return state.guestsByTable;
-        }
-
-        function updateMesasCompletaColor() {
-            document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
-            state.guestsByTable.forEach((guests, mesaLabel) => {
-                const capacity = getMesaCapacity(mesaLabel);
-                let totalGuests = 0;
-                guests.forEach(guest => {
-                    totalGuests += countGuestSeats(guest);
-                });
-                if (totalGuests >= capacity) {
-                    document.querySelectorAll('.mesa').forEach(button => {
-                        if (button.dataset.label === mesaLabel) {
-                            button.classList.add('completa');
-                        }
-                    });
-                }
-            });
-        }
-
-        function setSubmissionState(isSubmitting) {
-            if (!dom.submitButton) return;
-            if (isSubmitting) {
-                dom.submitButton.dataset.originalLabel = dom.submitButton.textContent;
-                dom.submitButton.disabled = true;
-                dom.submitButton.textContent = 'Enviando...';
-            } else {
-                dom.submitButton.disabled = false;
-                dom.submitButton.textContent = dom.submitButton.dataset.originalLabel || 'Enviar';
-            }
-        }
-
-        function buildReservationPayload(payload, submittedAt) {
-            const safePayload = payload ?? {};
-            let normalized = {};
-            if (safePayload && typeof safePayload === 'object' && !Array.isArray(safePayload)) {
-                try {
-                    normalized = JSON.parse(JSON.stringify(safePayload));
-                } catch (error) {
-                    normalized = { ...safePayload };
-                }
-            }
-            const body = { payload: normalized, submittedAt };
-            Object.entries(normalized).forEach(([key, value]) => {
-                if (value !== undefined && value !== null) {
-                    body[key] = value;
-                }
-            });
-            return body;
-        }
-
-        function createReservationRequestBody(payload, submittedAt) {
-            return JSON.stringify(buildReservationPayload(payload, submittedAt));
-        }
-
-        function createReservationQueryString(payload, submittedAt) {
-            const params = new URLSearchParams();
-            const body = buildReservationPayload(payload, submittedAt);
-            Object.entries(body).forEach(([key, value]) => {
-                if (value === undefined || value === null) return;
-                if (typeof value === 'object') {
-                    params.append(key, JSON.stringify(value));
-                } else {
-                    params.append(key, value);
-                }
-            });
-            return params.toString();
-        }
-
-        async function submitReservation(scriptUrl, payload) {
-            if (!scriptUrl) throw new Error('reservation_missing_endpoint');
-            const submittedAt = new Date().toISOString();
-            const requestBody = createReservationRequestBody(payload, submittedAt);
-            const queryString = createReservationQueryString(payload, submittedAt);
-            const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-            const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
-            let lastError = null;
-            try {
-                try {
-                    const response = await fetch(scriptUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: requestBody,
-                        cache: 'no-store',
-                        ...(controller ? { signal: controller.signal } : {})
-                    });
-                    return response;
-                } catch (error) {
-                    if (error?.name === 'AbortError') {
-                        throw new Error('reservation_timeout');
-                    }
-                    const separator = scriptUrl.includes('?') ? '&' : '?';
-                    const fallbackUrl = `${scriptUrl}${separator}${queryString}`;
-                    return await fetch(fallbackUrl, {
-                        method: 'GET',
-                        mode: 'no-cors',
-                        cache: 'no-store',
-                        ...(controller ? { signal: controller.signal } : {})
-                    });
-                }
-            } catch (error) {
-                lastError = error;
-                throw error;
-            } finally {
-                if (timeoutId) clearTimeout(timeoutId);
-                if (lastError?.name === 'AbortError') {
-                    throw new Error('reservation_timeout');
-                }
-            }
-        }
-
-        async function confirmReservationPersisted(fingerprint, baselineGuests) {
-            const baselineMatches = (baselineGuests || []).filter(guest => guestMatchesFingerprint(guest, fingerprint));
-            const baselineCounts = buildFingerprintCountMap(baselineMatches);
-            const deadline = Date.now() + SUBMISSION_MAX_WAIT;
-
-            const attempt = async () => {
-                await fetchGuestsData();
-                const mesaGuests = getGuestsForMesa(fingerprint.mesa);
-                const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
-                if (currentMatches.length === 0) return false;
-                if (currentMatches.length > baselineMatches.length) return true;
-                const currentCounts = buildFingerprintCountMap(currentMatches);
-                for (const [key, count] of currentCounts.entries()) {
-                    const baseline = baselineCounts.get(key) || 0;
-                    if (count > baseline) return true;
-                }
-                return false;
-            };
-
-            if (await attempt()) return true;
-            while (Date.now() < deadline) {
-                await new Promise(resolve => setTimeout(resolve, SUBMISSION_POLL_INTERVAL));
-                if (await attempt()) return true;
-            }
-            const error = new Error('reservation_not_found');
-            error.code = 'reservation_not_found';
-            throw error;
-        }
-
-        function guestMatchesFingerprint(guest, fingerprint) {
-            if (!guest || !fingerprint) return false;
-            const cedula = normalizeString(getGuestCedula(guest));
-            if (fingerprint.normalizedCedula && cedula && cedula === fingerprint.normalizedCedula) return true;
-            const correo = normalizeString(getGuestEmail(guest));
-            if (fingerprint.normalizedCorreo && correo && correo === fingerprint.normalizedCorreo) return true;
-            const nombre = normalizeString(getGuestFullName(guest));
-            if (fingerprint.normalizedNombreCompleto && nombre && nombre === fingerprint.normalizedNombreCompleto) return true;
-            return false;
-        }
-        async function submitForm(event) {
-            event.preventDefault();
-            const selectedMesa = dom.mesaInput?.value;
-            const capacity = getMesaCapacity(selectedMesa);
-            const mesaGuests = getGuestsForMesa(selectedMesa);
-            let totalGuests = 0;
-            const baselineGuests = mesaGuests ? mesaGuests.slice() : [];
-            mesaGuests.forEach(guest => {
-                totalGuests += countGuestSeats(guest);
-            });
-            const cantidadAcompanantes = parseInt(document.getElementById('cantidadAcompanantes').value || '0', 10) || 0;
-            const nuevosAsientos = 1 + cantidadAcompanantes;
-            if (!selectedMesa || totalGuests + nuevosAsientos > capacity) {
-                alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
-                return;
-            }
-            if (!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())) {
-                alert('Por favor, complete todos los campos requeridos.');
-                return;
-            }
-            const guestFormData = new FormData(dom.guestForm);
-            const acompanantesData = new FormData(dom.acompanantesForm);
-            const acompanantes = [];
-            acompanantesData.forEach((value, key) => {
-                if (key.includes('nombreAcompanante')) {
-                    const index = parseInt(key.replace(/\D/g, ''), 10) - 1;
-                    if (!acompanantes[index]) acompanantes[index] = {};
-                    acompanantes[index].nombre = value;
-                } else if (key.includes('menuAcompanante')) {
-                    const index = parseInt(key.replace(/\D/g, ''), 10) - 1;
-                    if (!acompanantes[index]) acompanantes[index] = {};
-                    acompanantes[index].menu = value;
-                }
-            });
-            const data = {
-                correo: guestFormData.get('correo'),
-                grado: guestFormData.get('grado'),
-                escalafon: guestFormData.get('escalafon'),
-                nombre: guestFormData.get('nombre'),
-                apellido: guestFormData.get('apellido'),
-                cedula: guestFormData.get('cedula'),
-                acompanante: guestFormData.get('acompanante'),
-                cantidadAcompanantes: guestFormData.get('cantidadAcompanantes'),
-                menu: guestFormData.get('menu'),
-                acompanantes,
-                mesa: guestFormData.get('mesa')
-            };
-            const fingerprint = createReservationFingerprint(data);
-            if (!state.reservationEndpoint) {
-                alert('No se encontró la dirección del servicio de reservas. Verifique la configuración.');
-                return;
-            }
-            setSubmissionState(true);
-            try {
-                await submitReservation(state.reservationEndpoint, data);
-                try {
-                    await confirmReservationPersisted(fingerprint, baselineGuests);
-                } catch (verificationError) {
-                    if (verificationError?.message === 'reservation_not_found') {
-                        throw verificationError;
-                    }
-                    console.warn('La reserva se envió pero no se pudo confirmar automáticamente.', verificationError);
-                }
-                showConfirmation();
-            } catch (error) {
-                console.error('Error al registrar la reserva:', error);
-                const message = typeof error?.message === 'string' ? error.message : '';
-                if (message === 'reservation_not_found') {
-                    alert('No pudimos confirmar tu reserva en la hoja de cálculo. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
-                } else if (message === 'reservation_timeout') {
-                    alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
-                } else if (message === 'reservation_missing_endpoint') {
-                    alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
-                } else {
-                    alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
-                }
-            } finally {
-                setSubmissionState(false);
-            }
-        }
-
-        function showConfirmation() {
-            stopGuestsPolling();
-            const mesaLabel = dom.mesaInput?.value || 'tu mesa';
-            if (dom.mesaConfirmada) dom.mesaConfirmada.textContent = mesaLabel;
-            dom.modal?.classList.add('active');
-            dom.modal.style.display = 'flex';
-        }
-
-        function finalizarRegistro() {
-            location.reload();
-        }
-
-        async function loadConfig() {
-            let storedConfig = null;
-            if (typeof localStorage !== 'undefined') {
-                try {
-                    storedConfig = localStorage.getItem('fiestaConfig');
-                    if (storedConfig) {
-                        storedConfig = JSON.parse(storedConfig);
-                    }
-                } catch (error) {
-                    storedConfig = null;
-                }
-            }
-            if (storedConfig) {
-                return storedConfig;
-            }
-            const response = await fetch('config.json?_=' + Date.now());
-            if (!response.ok) {
-                throw new Error('No se pudo cargar la configuración');
-            }
-            return await response.json();
-        }
-
-        function applyConfig(config) {
-            if (!config) return;
-            ensureSingleHero();
-            renderHeroCard();
-            state.siteConfig = config;
-            state.reservationEndpoint = config.reservationScriptUrl || config.integrations?.reservationScriptUrl || DEFAULT_RESERVATION_ENDPOINT;
-            state.guestsSheetUrl = config.guestsSheetCsvUrl || config.integrations?.guestsSheetCsvUrl || DEFAULT_GUESTS_SHEET_CSV_URL;
-            document.title = config.siteTitle || document.title;
-            const titleHeading = document.getElementById('siteTitleHeading');
-            const subtitleElement = document.getElementById('siteSubtitle');
-            const descriptionElement = document.getElementById('siteDescription');
-            const heroImage = document.getElementById('heroImage');
-            if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
-            if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
-            if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
-            if (heroImage && config.heroImage) heroImage.src = config.heroImage;
-            if (Array.isArray(config.mesas)) {
-                config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
-            }
-            if (!Array.isArray(config.zones) || config.zones.length === 0) {
-                config.zones = DEFAULT_ZONES.map(zone => ({
-                    id: zone.id,
-                    label: zone.label,
-                    className: zone.className,
-                    position: { ...zone.position }
-                }));
-            }
-            renderZones(config.zones);
-            renderTables(config.mesas || []);
-            updateSummary();
-            fetchGuestsData().catch(error => console.warn('No se pudo cargar la hoja de invitados al aplicar la configuración.', error));
-        }
-
-        function setupEventListeners() {
-            document.body.addEventListener('click', handleNavigation);
-            document.getElementById('acompanante').addEventListener('change', toggleAcompanante);
-            dom.submitButton.addEventListener('click', submitForm);
-            dom.finalizarBtn.addEventListener('click', finalizarRegistro);
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            enforceInitialScreen();
-            ensureSingleHero();
-            setupEventListeners();
-            try {
-                const config = await loadConfig();
-                applyConfig(config);
-            } catch (error) {
-                console.error('No se pudo inicializar la configuración', error);
-                const subtitleElement = document.getElementById('siteSubtitle');
-                if (subtitleElement) {
-                    subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
-                }
-            }
         });
-    </script>
+    } else { dom.guestList.textContent = 'No hay invitados registrados en esta mesa.'; }
+}
+function showGuestsTooltip(mesa, event) {
+    if (!dom.tooltip) return;
+    let content = 'No hay invitados registrados en esta mesa.';
+    const guests = getGuestsForMesa(mesa);
+    if (guests.length) {
+        const guestNames = guests.map(guest => {
+            let fullName = getGuestFullName(guest) || 'Invitado';
+            const companions = extractCompanionNames(guest);
+            if (companions.length) fullName += ` (+${companions.join(', ')})`;
+            return fullName;
+        }).join(', ');
+        if (guestNames) content = guestNames;
+    }
+    dom.tooltip.textContent = content; dom.tooltip.style.display = 'block';
+    let x = event?.pageX, y = event?.pageY;
+    const target = event?.currentTarget || event?.target;
+    if ((!x || !y) && target) {
+        const rect = target.getBoundingClientRect();
+        x = rect.left + window.scrollX + rect.width / 2;
+        y = rect.top + window.scrollY + rect.height / 2;
+    }
+    dom.tooltip.style.left = `${x}px`; dom.tooltip.style.top = `${y}px`;
+}
+function hideGuestsTooltip() { if (!dom.tooltip) return; dom.tooltip.style.display = 'none'; }
+
+/* =========================
+   Polling
+   ========================= */
+function stopGuestsPolling() { if (state.fetchInterval) { clearInterval(state.fetchInterval); state.fetchInterval = null; } }
+function startGuestsPolling() {
+    stopGuestsPolling();
+    state.fetchInterval = setInterval(() => {
+        fetchGuestsData().catch(err => console.warn('No se pudo refrescar la lista en segundo plano.', err));
+    }, 5000);
+}
+
+/* =========================
+   Lectura de invitados
+   ========================= */
+function parseCSVLine(line) {
+    const result = []; let current = ''; let insideQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+            if (insideQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else { insideQuotes = !insideQuotes; }
+        } else if (char === ',' && !insideQuotes) { result.push(current); current = ''; }
+        else { current += char; }
+    }
+    result.push(current);
+    return result;
+}
+function csvToJSON(csv) {
+    if (!csv) return new Map();
+    const sanitized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const lines = sanitized.split('\n').filter(line => line.trim() !== '');
+    if (!lines.length) return new Map();
+    const headers = parseCSVLine(lines[0]);
+    const normalizedHeaders = headers.map(header => header.trim());
+    const normalizedKeys = normalizedHeaders.map(normalizeString);
+    const map = new Map();
+
+    // búsqueda flexible de columna "mesa"
+    const mesaKeyCandidates = ['mesa', 'mesa n', 'mesa n°', 'n', 'n°', 'numero', 'número'];
+    let mesaIndex = -1;
+    for (let i = 0; i < normalizedKeys.length; i++) {
+        const k = normalizedKeys[i];
+        if (mesaKeyCandidates.some(c => k === c || k.startsWith(c))) { mesaIndex = i; break; }
+    }
+
+    const jsonColumnIndex = normalizedKeys.findIndex(key => key.includes('json')); // "JSON original" u otros
+
+    for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i]);
+        if (values.every(value => value === undefined || value === null || value.trim() === '')) continue;
+        const entry = {};
+        normalizedHeaders.forEach((header, index) => {
+            const rawValue = values[index];
+            entry[header] = rawValue === undefined || rawValue === null ? '' : rawValue.trim();
+        });
+
+        // Si hay columna JSON, la fusionamos (sirve para extraer "mesa" si no viene en una columna)
+        if (jsonColumnIndex !== -1) {
+            const rawJson = values[jsonColumnIndex];
+            const parsed = tryParseJson(rawJson, null);
+            if (parsed && typeof parsed === 'object') {
+                entry.__sourceJson = rawJson;
+                entry.__parsedJson = parsed;
+                const mergeTargets = [parsed];
+                if (parsed.payload && typeof parsed.payload === 'object') mergeTargets.push(parsed.payload);
+                mergeTargets.forEach(target => {
+                    Object.entries(target).forEach(([key, value]) => {
+                        if (value === undefined || value === null || value === '') return;
+                        if (!entry[key]) entry[key] = value;
+                    });
+                });
+            }
+        }
+
+        let mesaLabel = '';
+        if (mesaIndex !== -1) mesaLabel = (values[mesaIndex] ?? '').trim();
+
+        // fallback: tratar de tomarla del JSON, si existe
+        if (!mesaLabel && entry.__parsedJson) {
+            const parsedMesa = entry.__parsedJson.mesa || entry.__parsedJson.Mesa || entry.__parsedJson.payload?.mesa;
+            if (parsedMesa) mesaLabel = String(parsedMesa).trim();
+        }
+        // último recurso: buscar una propiedad con nombre que “huela” a mesa
+        if (!mesaLabel) {
+            const mesaProp = Object.keys(entry).find(k => {
+                const n = normalizeString(k);
+                return mesaKeyCandidates.some(c => n === c || n.startsWith(c));
+            });
+            if (mesaProp) mesaLabel = String(entry[mesaProp] ?? '').trim();
+        }
+
+        if (!mesaLabel) continue; // sin mesa no sabemos dónde agrupar
+
+        if (!map.has(mesaLabel)) map.set(mesaLabel, []);
+        map.get(mesaLabel).push(entry);
+    }
+    return map;
+}
+
+/* Conversor para el JSON devuelto por Apps Script (?read=1) */
+function valuesToGuestsMap(values) {
+    if (!Array.isArray(values) || !values.length) return new Map();
+    const headers = values[0].map(h => String(h || '').trim());
+    const nkeys = headers.map(normalizeString);
+
+    // localizar índice de "Mesa" con flexibilidad
+    const mesaKeyCandidates = ['mesa', 'mesa n', 'mesa n°', 'n', 'n°', 'numero', 'número'];
+    let mesaIndex = -1;
+    for (let i = 0; i < nkeys.length; i++) {
+        const k = nkeys[i];
+        if (mesaKeyCandidates.some(c => k === c || k.startsWith(c))) { mesaIndex = i; break; }
+    }
+    // localizar "JSON original", si existe
+    const jsonIdx = nkeys.findIndex(k => k.includes('json'));
+
+    const map = new Map();
+    for (let r = 1; r < values.length; r++) {
+        const row = values[r] || [];
+        const entry = {};
+        headers.forEach((h, idx) => entry[h] = row[idx] == null ? '' : String(row[idx]).trim());
+
+        // intentar mesa
+        let mesaLabel = mesaIndex !== -1 ? (row[mesaIndex] == null ? '' : String(row[mesaIndex]).trim()) : '';
+
+        if (!mesaLabel && jsonIdx !== -1 && row[jsonIdx]) {
+            const parsed = tryParseJson(String(row[jsonIdx]), null);
+            if (parsed && typeof parsed === 'object') {
+                entry.__parsedJson = parsed;
+                const pm = parsed.mesa || parsed.Mesa || parsed.payload?.mesa;
+                if (pm) mesaLabel = String(pm).trim();
+            }
+        }
+        if (!mesaLabel) continue;
+
+        if (!map.has(mesaLabel)) map.set(mesaLabel, []);
+        map.get(mesaLabel).push(entry);
+    }
+    return map;
+}
+
+/* Lee desde CSV; si falla o queda vacío, intenta Apps Script */
+async function fetchGuestsData() {
+    // 1) CSV si hay URL configurada
+    if (state.guestsSheetUrl) {
+        try {
+            const response = await fetch(appendCacheBuster(state.guestsSheetUrl), { cache: 'no-store', method: 'GET', mode: 'cors' });
+            if (response.ok) {
+                const csv = await response.text();
+                const map = csvToJSON(csv);
+                if (map.size > 0) {
+                    state.guestsByTable = map;
+                    updateMesasCompletaColor(); updateGuestList(); updateSeats();
+                    return state.guestsByTable;
+                }
+            }
+        } catch (e) {
+            console.warn('Lectura CSV falló, se probará el Apps Script:', e);
+        }
+    }
+    // 2) Fallback: Apps Script ?read=1
+    if (state.reservationEndpoint) {
+        try {
+            const separator = state.reservationEndpoint.includes('?') ? '&' : '?';
+            const url = `${state.reservationEndpoint}${separator}read=1&limit=1000&_=${Date.now()}`;
+            const res = await fetch(url, { method: 'GET', mode: 'cors', cache: 'no-store' });
+            if (res.ok) {
+                const payload = await res.json().catch(() => ({}));
+                const values = Array.isArray(payload?.values) ? payload.values : [];
+                const map = valuesToGuestsMap(values);
+                state.guestsByTable = map;
+                updateMesasCompletaColor(); updateGuestList(); updateSeats();
+                return state.guestsByTable;
+            }
+        } catch (e) {
+            console.warn('Lectura vía Apps Script falló:', e);
+        }
+    }
+    // Si llega acá, dejamos el mapa vacío para no romper la UI
+    state.guestsByTable = new Map();
+    updateMesasCompletaColor(); updateGuestList(); updateSeats();
+    return state.guestsByTable;
+}
+
+function updateMesasCompletaColor() {
+    document.querySelectorAll('.mesa').forEach(mesa => mesa.classList.remove('completa'));
+    state.guestsByTable.forEach((guests, mesaLabel) => {
+        const capacity = getMesaCapacity(mesaLabel);
+        let totalGuests = 0;
+        guests.forEach(guest => { totalGuests += countGuestSeats(guest); });
+        if (totalGuests >= capacity) {
+            document.querySelectorAll('.mesa').forEach(button => {
+                if (normalizeString(button.dataset.label) === normalizeString(mesaLabel)) {
+                    button.classList.add('completa');
+                }
+            });
+        }
+    });
+}
+
+/* =========================
+   Envío de la reserva
+   ========================= */
+function setSubmissionState(isSubmitting) {
+    if (!dom.submitButton) return;
+    if (isSubmitting) {
+        dom.submitButton.dataset.originalLabel = dom.submitButton.textContent;
+        dom.submitButton.disabled = true;
+        dom.submitButton.textContent = 'Enviando...';
+    } else {
+        dom.submitButton.disabled = false;
+        dom.submitButton.textContent = dom.submitButton.dataset.originalLabel || 'Enviar';
+    }
+}
+function buildReservationPayload(payload, submittedAt) {
+    const safePayload = payload ?? {};
+    let normalized = {};
+    if (safePayload && typeof safePayload === 'object' && !Array.isArray(safePayload)) {
+        try { normalized = JSON.parse(JSON.stringify(safePayload)); } catch { normalized = { ...safePayload }; }
+    }
+    const body = { payload: normalized, submittedAt };
+    Object.entries(normalized).forEach(([key, value]) => { if (value !== undefined && value !== null) { body[key] = value; } });
+    return body;
+}
+function createReservationRequestBody(payload, submittedAt) { return JSON.stringify(buildReservationPayload(payload, submittedAt)); }
+function createReservationQueryString(payload, submittedAt) {
+    const params = new URLSearchParams();
+    const body = buildReservationPayload(payload, submittedAt);
+    Object.entries(body).forEach(([key, value]) => {
+        if (value === undefined || value === null) return;
+        if (typeof value === 'object') { params.append(key, JSON.stringify(value)); }
+        else { params.append(key, value); }
+    });
+    return params.toString();
+}
+async function submitReservation(scriptUrl, payload) {
+    if (!scriptUrl) throw new Error('reservation_missing_endpoint');
+    const submittedAt = new Date().toISOString();
+    const requestBody = createReservationRequestBody(payload, submittedAt);
+    const queryString = createReservationQueryString(payload, submittedAt);
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timeoutId = controller ? setTimeout(() => controller.abort(), SUBMISSION_MAX_WAIT) : null;
+    let lastError = null;
+    try {
+        try {
+            // POST "simple" para evitar preflight
+            const response = await fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                body: requestBody,
+                cache: 'no-store',
+                ...(controller ? { signal: controller.signal } : {})
+            });
+            return response;
+        } catch (error) {
+            if (error?.name === 'AbortError') throw new Error('reservation_timeout');
+            const separator = scriptUrl.includes('?') ? '&' : '?';
+            const fallbackUrl = `${scriptUrl}${separator}${queryString}`;
+            return await fetch(fallbackUrl, {
+                method: 'GET',
+                mode: 'no-cors',
+                cache: 'no-store',
+                ...(controller ? { signal: controller.signal } : {})
+            });
+        }
+    } catch (error) {
+        lastError = error; throw error;
+    } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+        if (lastError?.name === 'AbortError') throw new Error('reservation_timeout');
+    }
+}
+function guestMatchesFingerprint(guest, fingerprint) {
+    if (!guest || !fingerprint) return false;
+    const cedula = normalizeString(getGuestCedula(guest));
+    if (fingerprint.normalizedCedula && cedula && cedula === fingerprint.normalizedCedula) return true;
+    const correo = normalizeString(getGuestEmail(guest));
+    if (fingerprint.normalizedCorreo && correo && correo === fingerprint.normalizedCorreo) return true;
+    const nombre = normalizeString(getGuestFullName(guest));
+    if (fingerprint.normalizedNombreCompleto && nombre && nombre === fingerprint.normalizedNombreCompleto) return true;
+    return false;
+}
+async function confirmReservationPersisted(fingerprint, baselineGuests) {
+    const baselineMatches = (baselineGuests || []).filter(guest => guestMatchesFingerprint(guest, fingerprint));
+    const baselineCounts = buildFingerprintCountMap(baselineMatches);
+    const deadline = Date.now() + SUBMISSION_MAX_WAIT;
+
+    const attempt = async () => {
+        await fetchGuestsData();
+        const mesaGuests = getGuestsForMesa(fingerprint.mesa);
+        const currentMatches = mesaGuests.filter(guest => guestMatchesFingerprint(guest, fingerprint));
+        if (currentMatches.length === 0) return false;
+        if (currentMatches.length > baselineMatches.length) return true;
+        const currentCounts = buildFingerprintCountMap(currentMatches);
+        for (const [key, count] of currentCounts.entries()) {
+            const baseline = baselineCounts.get(key) || 0;
+            if (count > baseline) return true;
+        }
+        return false;
+    };
+
+    if (await attempt()) return true;
+    while (Date.now() < deadline) {
+        await new Promise(resolve => setTimeout(resolve, SUBMISSION_POLL_INTERVAL));
+        if (await attempt()) return true;
+    }
+    const error = new Error('reservation_not_found');
+    error.code = 'reservation_not_found';
+    throw error;
+}
+async function submitForm(event) {
+    event.preventDefault();
+    const selectedMesa = dom.mesaInput?.value;
+    const capacity = getMesaCapacity(selectedMesa);
+    const mesaGuests = getGuestsForMesa(selectedMesa);
+    let totalGuests = 0;
+    const baselineGuests = mesaGuests ? mesaGuests.slice() : [];
+    mesaGuests.forEach(guest => { totalGuests += countGuestSeats(guest); });
+    const cantidadAcompanantes = parseInt(document.getElementById('cantidadAcompanantes').value || '0', 10) || 0;
+    const nuevosAsientos = 1 + cantidadAcompanantes;
+    if (!selectedMesa || totalGuests + nuevosAsientos > capacity) {
+        alert('Debe seleccionar una mesa disponible antes de continuar o la mesa no tiene suficiente espacio.');
+        return;
+    }
+    if (!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())) {
+        alert('Por favor, complete todos los campos requeridos.'); return;
+    }
+    const guestFormData = new FormData(dom.guestForm);
+    const acompanantesFormData = new FormData(dom.acompanantesForm);
+    const acompanantes = [];
+    acompanantesFormData.forEach((value, key) => {
+        if (key.includes('nombreAcompanante')) {
+            const index = parseInt(key.replace(/\D/g, ''), 10) - 1;
+            if (!acompanantes[index]) acompanantes[index] = {};
+            acompanantes[index].nombre = value;
+        } else if (key.includes('menuAcompanante')) {
+            const index = parseInt(key.replace(/\D/g, ''), 10) - 1;
+            if (!acompanantes[index]) acompanantes[index] = {};
+            acompanantes[index].menu = value;
+        }
+    });
+    const data = {
+        correo: guestFormData.get('correo'),
+        grado: guestFormData.get('grado'),
+        escalafon: guestFormData.get('escalafon'),
+        nombre: guestFormData.get('nombre'),
+        apellido: guestFormData.get('apellido'),
+        cedula: guestFormData.get('cedula'),
+        acompanante: guestFormData.get('acompanante'),
+        cantidadAcompanantes: guestFormData.get('cantidadAcompanantes'),
+        menu: guestFormData.get('menu'),
+        acompanantes,
+        mesa: guestFormData.get('mesa')
+    };
+    const fingerprint = createReservationFingerprint(data);
+    if (!state.reservationEndpoint) {
+        alert('No se encontró la dirección del servicio de reservas. Verifique la configuración.'); return;
+    }
+    setSubmissionState(true);
+    try {
+        await submitReservation(state.reservationEndpoint, data);
+        try { await confirmReservationPersisted(fingerprint, baselineGuests); }
+        catch (verificationError) {
+            if (verificationError?.message === 'reservation_not_found') throw verificationError;
+            console.warn('Reserva enviada pero no pudo confirmarse automáticamente.', verificationError);
+        }
+        showConfirmation();
+    } catch (error) {
+        console.error('Error al registrar la reserva:', error);
+        const message = typeof error?.message === 'string' ? error.message : '';
+        if (message === 'reservation_not_found') {
+            alert('No pudimos confirmar tu reserva en la hoja. Verifica tu conexión o confirma con el administrador que el enlace de Google Apps Script esté activo.');
+        } else if (message === 'reservation_timeout') {
+            alert('El servicio de reservas tardó demasiado en responder. Intenta nuevamente en unos momentos.');
+        } else if (message === 'reservation_missing_endpoint') {
+            alert('La dirección del servicio de reservas no está configurada. Verifica la sección de Administración.');
+        } else {
+            alert('Ocurrió un problema al enviar la reserva. Inténtalo nuevamente y, si persiste, contacta al administrador.');
+        }
+    } finally { setSubmissionState(false); }
+}
+function showConfirmation() {
+    stopGuestsPolling();
+    const mesaLabel = dom.mesaInput?.value || 'tu mesa';
+    if (dom.mesaConfirmada) dom.mesaConfirmada.textContent = mesaLabel;
+    dom.modal?.classList.add('active'); dom.modal.style.display = 'flex';
+}
+function finalizarRegistro() { location.reload(); }
+
+/* =========================
+   Configuración
+   ========================= */
+async function loadConfig() {
+    let storedConfig = null;
+    if (typeof localStorage !== 'undefined') {
+        try { storedConfig = localStorage.getItem('fiestaConfig'); if (storedConfig) storedConfig = JSON.parse(storedConfig); }
+        catch { storedConfig = null; }
+    }
+    if (storedConfig) return storedConfig;
+    const response = await fetch('config.json?_=' + Date.now());
+    if (!response.ok) throw new Error('No se pudo cargar la configuración');
+    return await response.json();
+}
+function applyConfig(config) {
+    if (!config) return;
+    ensureSingleHero(); renderHeroCard();
+    state.siteConfig = config;
+    state.reservationEndpoint = config.reservationScriptUrl || config.integrations?.reservationScriptUrl || DEFAULT_RESERVATION_ENDPOINT;
+    state.guestsSheetUrl = config.guestsSheetCsvUrl || config.integrations?.guestsSheetCsvUrl || DEFAULT_GUESTS_SHEET_CSV_URL;
+
+    document.title = config.siteTitle || document.title;
+    const titleHeading = document.getElementById('siteTitleHeading');
+    const subtitleElement = document.getElementById('siteSubtitle');
+    const descriptionElement = document.getElementById('siteDescription');
+    const heroImage = document.getElementById('heroImage');
+    if (titleHeading) titleHeading.textContent = config.siteTitle || 'Fiesta Social';
+    if (subtitleElement) subtitleElement.textContent = config.siteSubtitle || 'Registro de invitados';
+    if (descriptionElement) descriptionElement.textContent = config.siteDescription || '';
+    if (heroImage && config.heroImage) heroImage.src = config.heroImage;
+
+    if (Array.isArray(config.mesas)) config.mesas.sort((a, b) => (a.number || 0) - (b.number || 0));
+    if (!Array.isArray(config.zones) || config.zones.length === 0) {
+        config.zones = DEFAULT_ZONES.map(zone => ({ id: zone.id, label: zone.label, className: zone.className, position: { ...zone.position } }));
+    }
+    renderZones(config.zones);
+    renderTables(config.mesas || []);
+    updateSummary();
+
+    // Intentar cargar invitados desde CSV o Apps Script (fallback)
+    fetchGuestsData().catch(error => console.warn('No se pudo cargar la hoja de invitados al aplicar la configuración.', error));
+}
+function setupEventListeners() {
+    document.body.addEventListener('click', handleNavigation);
+    document.getElementById('acompanante').addEventListener('change', toggleAcompanante);
+    dom.submitButton.addEventListener('click', submitForm);
+    dom.finalizarBtn.addEventListener('click', finalizarRegistro);
+}
+document.addEventListener('DOMContentLoaded', async () => {
+    enforceInitialScreen(); ensureSingleHero(); setupEventListeners();
+    try { const config = await loadConfig(); applyConfig(config); }
+    catch (error) {
+        console.error('No se pudo inicializar la configuración', error);
+        const subtitleElement = document.getElementById('siteSubtitle');
+        if (subtitleElement) subtitleElement.textContent = 'No se pudo cargar la configuración. Verifique el archivo config.json.';
+    }
+});
+</script>
+</body>
+</html>
