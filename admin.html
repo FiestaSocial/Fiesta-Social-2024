@@ -257,6 +257,76 @@
             color: var(--color-danger);
         }
 
+        .status--info {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--color-primary);
+        }
+
+        .status--warning {
+            background: rgba(245, 158, 11, 0.16);
+            color: var(--color-secondary);
+        }
+
+        .verification-block {
+            margin-top: 16px;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .verification-block h3 {
+            margin-top: 0;
+        }
+
+        .verification-results {
+            margin-top: 16px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .verification-results__item {
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            background: rgba(15, 23, 42, 0.02);
+        }
+
+        .verification-results__item--success {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: rgba(34, 197, 94, 0.08);
+        }
+
+        .verification-results__item--error {
+            border-color: rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .verification-results__item--warning {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .verification-results__item--info {
+            border-color: rgba(59, 130, 246, 0.45);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .verification-results__title {
+            font-weight: 600;
+        }
+
+        .verification-results pre {
+            margin: 8px 0 0;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow-x: auto;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -372,234 +442,152 @@
                         <p class="hint">En Google Sheets abre <strong>Archivo &gt; Compartir &gt; Publicar en la web</strong>, elige la pestaña de invitados, formato <strong>CSV</strong> y copia el enlace generado. Pega ese enlace aquí para que el sitio valide la información y muestre los registros en vivo.</p>
                         <details class="hint-panel">
                             <summary>Ejemplo completo compatible</summary>
-<pre><code>/**
- * Web App: Fiesta Social 2024
- * - Acepta GET y POST.
- * - Parsea JSON, text/plain con JSON, y x-www-form-urlencoded.
- * - Normaliza &quot;acompanantes&quot;.
- * - Evita preflight CORS apoyándose en el frontend (ver más abajo).
- */
-
-const SHEET_ID = &#x27;REEMPLAZA_CON_EL_ID_DE_TU_HOJA&#x27;;
-const SHEET_NAME = &#x27;Datos de Invitados&#x27;;
+<pre><code>const SHEET_ID   = '13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI';
+const SHEET_NAME = 'Datos de invitados';  // nombre EXACTO de la pestaña (solapa)
 const MAX_COMPANIONS = 5;
 
-const HEADER_ROW = (() =&gt; {
+const HEADER_ROW = (() => {
   const base = [
-    &#x27;Fecha (servidor)&#x27;,
-    &#x27;Fecha enviada (cliente)&#x27;,
-    &#x27;Mesa&#x27;,
-    &#x27;Grado&#x27;,
-    &#x27;Escalafón&#x27;,
-    &#x27;Nombre&#x27;,
-    &#x27;Apellido&#x27;,
-    &#x27;Cédula&#x27;,
-    &#x27;Correo&#x27;,
-    &#x27;Menú titular&#x27;,
-    &#x27;¿Acompañante?&#x27;,
-    &#x27;Cantidad de acompañantes&#x27;
+    'Fecha (servidor)','Fecha enviada (cliente)','Mesa','Grado','Escalafón',
+    'Nombre','Apellido','Cédula','Correo','Menú titular','¿Acompañante?','Cantidad de acompañantes'
   ];
-  for (let i = 1; i &lt;= MAX_COMPANIONS; i++) {
-    base.push(`Acompañante ${i} - Nombre`);
-    base.push(`Acompañante ${i} - Menú`);
-  }
-  base.push(&#x27;JSON original&#x27;);
+  for (let i = 1; i <= MAX_COMPANIONS; i++) { base.push(`Acompañante ${i} - Nombre`, `Acompañante ${i} - Menú`); }
+  base.push('JSON original');
   return base;
 })();
 
-function doGet(e)  { return handleSubmission_(e); }
-function doPost(e) { return handleSubmission_(e); }
+function doGet(e) {
+  if (e?.parameter?.ping === '1') {
+    return asJSON_({ ok: true, ping: true, time: new Date().toISOString() });
+  }
+  if (e?.parameter?.debug === '1') {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const names = ss.getSheets().map(s => s.getName());
+    const exists = !!ss.getSheetByName(SHEET_NAME);
+    return asJSON_({ ok: true, sheetId: SHEET_ID, targetSheet: SHEET_NAME, targetExists: exists, sheets: names });
+  }
+  if (e?.parameter?.create === '1') {
+    const sh = resolveSheet_(); ensureHeader_(sh);
+    return asJSON_({ ok: true, createdOrFound: sh.getName() });
+  }
+  if (e?.parameter?.read === '1') {
+    const sh = resolveSheet_(); ensureHeader_(sh);
+    const limit = Math.max(1, Math.min(Number(e.parameter.limit || 500), 5000));
+    const rows = Math.min(sh.getLastRow(), limit);
+    const values = rows ? sh.getRange(1,1,rows,sh.getLastColumn()).getValues() : [];
+    return asJSON_({ ok: true, values });
+  }
+  return asJSON_({ ok: true, info: 'Usa POST para guardar; GET ?read=1 para leer; ?debug=1 para diagnosticar.' });
+}
 
-function handleSubmission_(e) {
+function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
-    if (e?.parameter?.ping === &#x27;1&#x27;) {
-      return asJSON_({ success: true, ping: true, time: new Date().toISOString() });
-    }
-
+    lock.waitLock(5000);
     const data = parsePayload_(e);
-    const sheet = resolveSheet_();
-    ensureHeader_(sheet);
-
-    lock.tryLock(5000);
-    sheet.appendRow(buildRow_(data));
-
-    return asJSON_({ success: true });
+    const sh = resolveSheet_(); ensureHeader_(sh);
+    sh.appendRow(buildRow_(data));
+    return asJSON_({ ok: true });
   } catch (error) {
-    console.error(&#x27;Error al guardar la reserva&#x27;, error);
-    return asJSON_({ success: false, message: (error &amp;&amp; error.message) || &#x27;Error inesperado&#x27; });
-  } finally {
-    try { lock.releaseLock(); } catch (ignore) {}
-  }
+    console.error(error);
+    return asJSON_({ ok: false, error: String(error && error.message || error) });
+  } finally { try { lock.releaseLock(); } catch (_) {} }
 }
 
 function parsePayload_(e) {
-  if (!e) throw new Error(&#x27;Solicitud vacía&#x27;);
+  if (!e) throw new Error('Solicitud vacía');
+  const type = ((e.postData && e.postData.type) || '').toLowerCase();
+  const body = e.postData && e.postData.contents;
+  const params = e.parameter || {};
 
   let data = {};
-  const type = (e.postData &amp;&amp; e.postData.type) || &#x27;&#x27;;
-  const body = e.postData &amp;&amp; e.postData.contents;
-
-  if (type.includes(&#x27;application/json&#x27;)) {
+  if (type.includes('application/json')) {
     data = safeJSON_(body, {});
-  } else if (type.toLowerCase().startsWith(&#x27;text/plain&#x27;)) {
-    data = safeJSON_((body || &#x27;&#x27;), {});
-  } else if (type === &#x27;application/x-www-form-urlencoded&#x27;) {
-    // Los datos vendrán en e.parameter; no hacemos nada aquí.
-  } else if (!type &amp;&amp; e.parameter &amp;&amp; e.parameter.payload) {
-    data = safeJSON_(e.parameter.payload, {});
+  } else if (type.startsWith('text/plain')) {
+    data = safeJSON_(body, {});
+  } else if (type.includes('application/x-www-form-urlencoded')) {
+    // datos en e.parameter
+  } else if (!type && params.payload) {
+    data = safeJSON_(params.payload, {});
   }
 
-  const params = e.parameter || {};
-  Object.keys(params).forEach(key =&gt; {
-    if (key === &#x27;payload&#x27;) return;
-    if (data[key] === undefined) data[key] = tryParse_(params[key]);
-  });
+  Object.keys(params).forEach(k => { if (k !== 'payload' && data[k] === undefined) data[k] = tryParse_(params[k]); });
+  if (!data.submittedAt && params.submittedAt) data.submittedAt = params.submittedAt;
 
-  if (!data.submittedAt &amp;&amp; params.submittedAt) data.submittedAt = params.submittedAt;
-
-  const rawCompanions = (data.acompanantes !== undefined)
-    ? data.acompanantes
-    : params.acompanantes;
-  data.acompanantes = normalizeCompanions_(rawCompanions);
-
+  const rawComp = (data.acompanantes !== undefined) ? data.acompanantes : params.acompanantes;
+  data.acompanantes = normalizeCompanions_(rawComp);
   return data;
 }
 
-function safeJSON_(value, fallback) {
-  try { return JSON.parse(value || &#x27;&#x27;); } catch (error) { return fallback; }
-}
-
-function tryParse_(value) {
-  if (value === undefined || value === null) return &#x27;&#x27;;
-  if (typeof value !== &#x27;string&#x27;) return value;
-
-  const trimmed = value.trim();
-  if (!trimmed) return &#x27;&#x27;;
-  if (trimmed === &#x27;true&#x27;) return true;
-  if (trimmed === &#x27;false&#x27;) return false;
-  if (!isNaN(trimmed)) {
-    const numeric = Number(trimmed);
-    if (!isNaN(numeric)) return numeric;
+function safeJSON_(v, fb) { try { return JSON.parse(v || ''); } catch { return fb; } }
+function tryParse_(v) {
+  if (v === undefined || v === null) return '';
+  if (typeof v !== 'string') return v;
+  const t = v.trim(); if (!t) return '';
+  if (t === 'true') return true; if (t === 'false') return false;
+  if (!isNaN(t)) { const n = Number(t); if (!isNaN(n)) return n; }
+  if ((t.startsWith('{') && t.endsWith('}')) || (t.startsWith('[') && t.endsWith(']'))) {
+    const p = safeJSON_(t, undefined); if (p !== undefined) return p;
   }
-  if ((trimmed.startsWith(&#x27;{&#x27;) &amp;&amp; trimmed.endsWith(&#x27;}&#x27;)) || (trimmed.startsWith(&#x27;[&#x27;) &amp;&amp; trimmed.endsWith(&#x27;]&#x27;))) {
-    const parsed = safeJSON_(trimmed, undefined);
-    if (parsed !== undefined) return parsed;
-  }
-  return trimmed;
+  return t;
 }
-
 function normalizeCompanions_(raw) {
-  let companions = [];
-
-  if (Array.isArray(raw)) {
-    companions = raw;
-  } else if (raw &amp;&amp; typeof raw === &#x27;string&#x27;) {
+  let a = [];
+  if (Array.isArray(raw)) a = raw;
+  else if (raw && typeof raw === 'string') {
     const parsed = safeJSON_(raw, null);
-    if (Array.isArray(parsed)) {
-      companions = parsed;
-    } else {
-      companions = raw
-        .split(/[|;,]/)
-        .map(item =&gt; item.trim())
-        .filter(Boolean)
-        .map(nombre =&gt; ({ nombre, menu: &#x27;&#x27; }));
-    }
+    a = Array.isArray(parsed) ? parsed :
+      raw.split(/[|;,]/).map(s => s.trim()).filter(Boolean).map(nombre => ({ nombre, menu: '' }));
   }
-
-  return companions
-    .filter(Boolean)
-    .map(entry =&gt; {
-      if (typeof entry === &#x27;string&#x27;) {
-        return { nombre: entry, menu: &#x27;&#x27; };
-      }
-      if (typeof entry === &#x27;object&#x27;) {
-        return {
-          nombre: sanitizeText_(entry.nombre),
-          menu: sanitizeText_(entry.menu)
-        };
-      }
-      return { nombre: sanitizeText_(String(entry)), menu: &#x27;&#x27; };
-    })
-    .slice(0, MAX_COMPANIONS);
+  return a.filter(Boolean).map(e => {
+    if (typeof e === 'string') return { nombre: e, menu: '' };
+    if (typeof e === 'object') return { nombre: sanitizeText_(e.nombre), menu: sanitizeText_(e.menu) };
+    return { nombre: sanitizeText_(String(e)), menu: '' };
+  }).slice(0, MAX_COMPANIONS);
 }
-
-function sanitizeText_(value) {
-  if (value === undefined || value === null) return &#x27;&#x27;;
-  return String(value).trim();
-}
+function sanitizeText_(v){ return (v===undefined||v===null) ? '' : String(v).trim(); }
 
 function resolveSheet_() {
-  let spreadsheet = null;
-
-  if (SHEET_ID &amp;&amp; SHEET_ID !== &#x27;REEMPLAZA_CON_EL_ID_DE_TU_HOJA&#x27;) {
-    spreadsheet = SpreadsheetApp.openById(SHEET_ID);
-  } else {
-    spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    if (!spreadsheet) {
-      throw new Error(&#x27;Falta SHEET_ID o el proyecto no está vinculado a una hoja.&#x27;);
-    }
-  }
-
-  return spreadsheet.getSheetByName(SHEET_NAME) || spreadsheet.insertSheet(SHEET_NAME);
+  if (!SHEET_ID) throw new Error('Falta SHEET_ID');
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  return ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
 }
+function ensureHeader_(sh){ if (sh.getLastRow() === 0) sh.appendRow(HEADER_ROW); }
 
-function ensureHeader_(sheet) {
-  if (sheet.getLastRow() &gt; 0) return;
-  sheet.appendRow(HEADER_ROW);
-}
-
-function buildRow_(data) {
-  const timestamp = new Date();
-  const companions = Array.isArray(data.acompanantes) ? data.acompanantes : [];
-
-  const cantidadAcompanantes =
-    data.cantidadAcompanantes != null ? data.cantidadAcompanantes : companions.length;
-
-  const acompFlag =
-    data.acompanante != null ? sanitizeText_(data.acompanante) : (companions.length &gt; 0 ? &#x27;Sí&#x27; : &#x27;No&#x27;);
-
+function buildRow_(d) {
+  const t = new Date();
+  const comps = Array.isArray(d.acompanantes) ? d.acompanantes : [];
+  const cant = d.cantidadAcompanantes != null ? d.cantidadAcompanantes : comps.length;
+  const acompFlag = d.acompanante != null ? sanitizeText_(d.acompanante) : (comps.length > 0 ? 'Sí' : 'No');
   const row = [
-    timestamp,
-    sanitizeText_(data.submittedAt),
-    sanitizeText_(data.mesa),
-    sanitizeText_(data.grado),
-    sanitizeText_(data.escalafon),
-    sanitizeText_(data.nombre),
-    sanitizeText_(data.apellido),
-    sanitizeText_(data.cedula),
-    sanitizeText_(data.correo),
-    sanitizeText_(data.menu),
-    acompFlag,
-    cantidadAcompanantes
+    t, sanitizeText_(d.submittedAt), sanitizeText_(d.mesa), sanitizeText_(d.grado),
+    sanitizeText_(d.escalafon), sanitizeText_(d.nombre), sanitizeText_(d.apellido),
+    sanitizeText_(d.cedula), sanitizeText_(d.correo), sanitizeText_(d.menu), acompFlag, cant
   ];
-
-  companions.forEach(companion =&gt; {
-    row.push(sanitizeText_(companion.nombre));
-    row.push(sanitizeText_(companion.menu));
-  });
-
-  for (let i = companions.length; i &lt; MAX_COMPANIONS; i++) {
-    row.push(&#x27;&#x27;);
-    row.push(&#x27;&#x27;);
-  }
-
-  row.push(JSON.stringify(data));
+  comps.forEach(c => { row.push(sanitizeText_(c.nombre), sanitizeText_(c.menu)); });
+  for (let i = comps.length; i < MAX_COMPANIONS; i++) { row.push('',''); }
+  row.push(JSON.stringify(d));
   return row;
 }
-
-function asJSON_(obj) {
-  return ContentService
-    .createTextOutput(JSON.stringify(obj))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-</code></pre>
+function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }</code></pre>
                         </details>
+
+                        <div class="verification-block">
+                            <h3>Verificar conexión con la hoja</h3>
+                            <p class="hint">Ejecuta estas pruebas para comprobar que la URL del Apps Script responde y que la hoja publicada como CSV es accesible desde el sitio.</p>
+                            <div class="toolbar">
+                                <button type="button" class="button button--primary" id="verifyAllBtn">Verificar todo</button>
+                                <button type="button" class="button button--ghost" id="verifyScriptBtn">Probar Apps Script</button>
+                                <button type="button" class="button button--ghost" id="verifySheetBtn">Probar hoja (CSV)</button>
+                            </div>
+                            <div class="status" id="verificationStatus"></div>
+                            <div class="verification-results" id="verificationResults"></div>
+                        </div>
                         <div class="hint-panel">
                             <p><strong>Crear una hoja nueva y vincularla</strong></p>
                             <ol>
                                 <li>Entra a <a href="https://sheets.google.com" target="_blank" rel="noreferrer noopener">Google Sheets</a>, crea un libro en blanco, renómbralo (por ejemplo, <em>Fiesta Social 2024</em>) y, si piensas usar el mismo Apps Script con varios usuarios, compártelo con los correos que registrarán reservas.</li>
-                                <li>Abre la URL del libro y copia el identificador que aparece entre <code>/d/</code> y <code>/edit</code>; reemplázalo en la constante <code>SHEET_ID</code> del archivo <code>apps-script-template.gs</code>.</li>
+                                <li>Abre la URL del libro y copia el identificador que aparece entre <code>/d/</code> y <code>/edit</code>; reemplázalo en la constante <code>SHEET_ID</code> del archivo <code>apps-script-template.gs</code>. Si después de desplegar el script ves el mensaje “No se pudo abrir la hoja con el SHEET_ID proporcionado”, revisa que ese ID sea correcto y que la cuenta que ejecuta el Apps Script tenga acceso al libro.</li>
                                 <li>En Google Apps Script crea un proyecto nuevo, pega el contenido del archivo de ejemplo (o actualiza el existente) y guarda. Si usas otro nombre para la pestaña, ajusta <code>SHEET_NAME</code>.</li>
                                 <li>Dentro de Apps Script ve a <em>Deploy ▸ Manage deployments ▸ New deployment</em>, elige <strong>Web app</strong>, establece <em>Execute as: tu cuenta</em> y <em>Who has access: Anyone with the link</em>, publica y copia la URL pública que termina en <code>/exec</code>.</li>
                                 <li>Pega esa URL en el campo anterior y pulsa <strong>Guardar cambios</strong>. Si el botón “Guardar en config.json” está activo, úsalo para persistirla en el archivo del proyecto.</li>
@@ -615,6 +603,16 @@ function asJSON_(obj) {
                                 <li>Si no se agrega la fila, revisa la pestaña Network de las herramientas de desarrollador del navegador y anota el estatus HTTP de la solicitud. Compáralo con los logs del Script para detectar bloqueos de permisos o errores de parseo.</li>
                                 <li>Abre el enlace del CSV publicado en otra pestaña y confirma que muestra datos. Si ves un mensaje de permisos o un error 404/403, vuelve a publicar la hoja o ajusta el enlace en la configuración.</li>
                             </ol>
+                        </div>
+                        <div class="hint-panel">
+                            <p><strong>Errores típicos y cómo resolverlos</strong></p>
+                            <ul>
+                                <li><strong>Sin backend disponible:</strong> la web no puede escribir directamente en Excel ni en archivos del repositorio. Debes usar un servicio intermedio como el Apps Script publicado en <code>/exec</code>.</li>
+                                <li><strong>Hoja sin permisos:</strong> comparte el libro de Google Sheets con la cuenta que despliega el Apps Script o reemplaza el <code>SHEET_ID</code> por el correcto (porción entre <code>/d/</code> y <code>/edit</code>).</li>
+                                <li><strong>Nombre de pestaña incorrecto:</strong> confirma que <code>SHEET_NAME</code> coincida exactamente (mayúsculas, acentos y espacios) con la pestaña donde se guardarán las reservas.</li>
+                                <li><strong>Despliegue equivocado:</strong> usa la URL que termina en <code>/exec</code>; las rutas <code>/dev</code> o versiones antiguas no reciben las solicitudes.</li>
+                                <li><strong>Errores CORS/preflight:</strong> desde el sitio se envían peticiones <code>POST</code> con <code>Content-Type: text/plain</code>. Si cambias este valor a <code>application/json</code> o añades cabeceras personalizadas, el navegador bloqueará la llamada.</li>
+                            </ul>
                         </div>
                         <div class="hint-panel">
                             <p><strong>Depurar desde la consola del navegador</strong></p>
@@ -744,15 +742,272 @@ function asJSON_(obj) {
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        function showStatus(element, message, type = 'success') {
+        function showStatus(element, message, type = 'success', options = {}) {
             if (!element) return;
+            const { persist = false, duration = 3200 } = options;
             element.textContent = message;
-            element.classList.remove('status--success', 'status--error');
-            element.classList.add(type === 'success' ? 'status--success' : 'status--error');
+            element.classList.remove('status--success', 'status--error', 'status--info', 'status--warning');
+            let className = 'status--success';
+            if (type === 'error') {
+                className = 'status--error';
+            } else if (type === 'info') {
+                className = 'status--info';
+            } else if (type === 'warning') {
+                className = 'status--warning';
+            }
+            element.classList.add(className);
             element.style.display = 'flex';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 3200);
+            if (element._statusTimeout) {
+                clearTimeout(element._statusTimeout);
+            }
+            if (!persist) {
+                element._statusTimeout = setTimeout(() => {
+                    element.style.display = 'none';
+                    element._statusTimeout = null;
+                }, duration);
+            } else {
+                element._statusTimeout = null;
+            }
+        }
+
+        const VERIFICATION_TIMEOUT = 8000;
+        const MAX_VERIFICATION_ENTRIES = 6;
+
+        function appendCacheBuster(url) {
+            if (!url) return '';
+            const separator = url.includes('?') ? '&' : '?';
+            return `${url}${separator}_=${Date.now()}`;
+        }
+
+        function buildQueryString(params) {
+            return Object.entries(params)
+                .filter(([, value]) => value !== undefined && value !== null && value !== '')
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                .join('&');
+        }
+
+        function parseJsonSafe(text, fallback = {}) {
+            if (typeof text !== 'string') return fallback;
+            try {
+                return JSON.parse(text);
+            } catch (error) {
+                return fallback;
+            }
+        }
+
+        function escapeForPre(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function clearVerificationResults() {
+            const container = document.getElementById('verificationResults');
+            if (container) {
+                container.innerHTML = '';
+            }
+        }
+
+        function appendVerificationResult(type, title, payload) {
+            const container = document.getElementById('verificationResults');
+            if (!container) return;
+            const entry = document.createElement('div');
+            entry.className = `verification-results__item verification-results__item--${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            const serialized = typeof payload === 'string' ? payload : JSON.stringify(payload, null, 2);
+            entry.innerHTML = `
+                <div class="verification-results__title">${title} · ${timestamp}</div>
+                <pre>${escapeForPre(serialized)}</pre>
+            `;
+            container.prepend(entry);
+            while (container.children.length > MAX_VERIFICATION_ENTRIES) {
+                container.removeChild(container.lastElementChild);
+            }
+        }
+
+        function setVerificationLoading(isLoading) {
+            ['verifyAllBtn', 'verifyScriptBtn', 'verifySheetBtn'].forEach(id => {
+                const button = document.getElementById(id);
+                if (button) {
+                    button.disabled = Boolean(isLoading);
+                }
+            });
+        }
+
+        async function pingAppsScript(url, options = {}) {
+            const { timeout = VERIFICATION_TIMEOUT, checkSheet = false } = options;
+
+            if (!url) {
+                const error = new Error('Ingresa la URL del Apps Script para ejecutar la verificación.');
+                error.code = 'apps_script_missing_url';
+                throw error;
+            }
+
+            const fetchJson = async (targetUrl) => {
+                const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+                const timer = controller ? setTimeout(() => controller.abort(), timeout) : null;
+                try {
+                    const response = await fetch(targetUrl, {
+                        method: 'GET',
+                        mode: 'cors',
+                        cache: 'no-store',
+                        signal: controller ? controller.signal : undefined
+                    });
+
+                    const text = await response.text();
+                    const data = parseJsonSafe(text, {});
+                    return { response, data, raw: text };
+                } finally {
+                    if (controller && timer) {
+                        clearTimeout(timer);
+                    }
+                }
+            };
+
+            const pingParams = buildQueryString({ ping: 1, ts: Date.now() });
+            const separator = url.includes('?') ? '&' : '?';
+            const pingUrl = `${url}${separator}${pingParams}`;
+            const pingResult = await fetchJson(pingUrl);
+
+            if (!pingResult.response.ok) {
+                const error = new Error(`El Apps Script respondió con código ${pingResult.response.status}.`);
+                error.code = 'apps_script_response_status';
+                error.details = { status: pingResult.response.status, body: pingResult.raw };
+                throw error;
+            }
+
+            let debugResult = null;
+            if (checkSheet) {
+                const debugParams = buildQueryString({ debug: 1, ts: Date.now() });
+                const debugUrl = `${url}${url.includes('?') ? '&' : '?'}${debugParams}`;
+                debugResult = await fetchJson(debugUrl);
+                if (!debugResult.response.ok) {
+                    const error = new Error(`El Apps Script respondió con código ${debugResult.response.status} al consultar debug.`);
+                    error.code = 'apps_script_debug_status';
+                    error.details = { status: debugResult.response.status, body: debugResult.raw };
+                    throw error;
+                }
+            }
+
+            return { ping: pingResult.data, debug: debugResult ? debugResult.data : null };
+        }
+
+        async function verifyAppsScriptConnection(options = {}) {
+            const { checkSheet = true, skipStatus = false } = options;
+            const status = document.getElementById('verificationStatus');
+            const urlInput = document.getElementById('reservationScriptInput');
+            const fallbackUrl = siteConfig?.reservationScriptUrl || '';
+            const url = (urlInput?.value || fallbackUrl).trim();
+
+            if (!url) {
+                const error = new Error('Ingresa la URL del Apps Script para ejecutar la verificación.');
+                error.code = 'apps_script_missing_url';
+                appendVerificationResult('error', 'Apps Script', { error: error.message });
+                if (!skipStatus) {
+                    showStatus(status, error.message, 'error', { persist: true });
+                }
+                throw error;
+            }
+
+            try {
+                const result = await pingAppsScript(url, { timeout: VERIFICATION_TIMEOUT, checkSheet });
+                const pingPayload = result?.ping || {};
+                const debugPayload = result?.debug || null;
+                const isOk = pingPayload.ok === true || pingPayload.success === true;
+
+                if (!isOk) {
+                    const message = pingPayload?.message || 'El Apps Script respondió sin éxito.';
+                    const error = new Error(message);
+                    error.code = 'apps_script_response_error';
+                    error.details = { url, ping: pingPayload, debug: debugPayload };
+                    throw error;
+                }
+
+                appendVerificationResult('success', 'Apps Script', { url, ping: pingPayload, debug: debugPayload });
+
+                if (!skipStatus) {
+                    let sheetHint = '';
+                    if (debugPayload?.targetExists) {
+                        sheetHint = ` y accedió a "${debugPayload.targetSheet}"`;
+                    } else if (debugPayload?.targetSheet) {
+                        sheetHint = ` (no se encontró la pestaña "${debugPayload.targetSheet}")`;
+                    }
+                    showStatus(status, `Apps Script respondió correctamente${sheetHint}.`, 'success', { persist: true });
+                }
+
+                return { url, ping: pingPayload, debug: debugPayload };
+            } catch (error) {
+                const details = {
+                    url,
+                    error: error.message || String(error),
+                    code: error.code || undefined
+                };
+                if (error.details) {
+                    details.details = error.details;
+                }
+                appendVerificationResult('error', 'Apps Script', details);
+                if (!skipStatus) {
+                    showStatus(status, `No se pudo contactar el Apps Script: ${details.error}`, 'error', { persist: true });
+                }
+                throw error;
+            }
+        }
+
+        async function verifyGuestSheetConnection(options = {}) {
+            const { skipStatus = false } = options;
+            const status = document.getElementById('verificationStatus');
+            const urlInput = document.getElementById('guestsSheetInput');
+            const fallbackUrl = siteConfig?.guestsSheetCsvUrl || '';
+            const url = (urlInput?.value || fallbackUrl).trim();
+
+            if (!url) {
+                const error = new Error('Ingresa la URL publicada del CSV para ejecutar la verificación.');
+                error.code = 'sheet_missing_url';
+                appendVerificationResult('error', 'CSV de invitados', { error: error.message });
+                if (!skipStatus) {
+                    showStatus(status, error.message, 'error', { persist: true });
+                }
+                throw error;
+            }
+
+            try {
+                const response = await fetch(appendCacheBuster(url), { method: 'GET', mode: 'cors' });
+                if (!response.ok) {
+                    const error = new Error(`Respuesta HTTP ${response.status} al consultar el CSV.`);
+                    error.code = `sheet_http_${response.status}`;
+                    throw error;
+                }
+
+                const text = await response.text();
+                const trimmed = text.trim();
+                const lines = trimmed ? trimmed.split(/\r?\n/) : [];
+                const preview = lines.slice(0, Math.min(5, lines.length));
+
+                appendVerificationResult('success', 'CSV de invitados', {
+                    url,
+                    rows: lines.length,
+                    preview
+                });
+
+                if (!skipStatus) {
+                    const plural = lines.length === 1 ? '' : 's';
+                    showStatus(status, `CSV accesible (${lines.length} fila${plural} detectada${plural}).`, 'success', { persist: true });
+                }
+
+                return { url, rows: lines.length, preview };
+            } catch (error) {
+                const details = {
+                    url,
+                    error: error.message || String(error),
+                    code: error.code || undefined
+                };
+                appendVerificationResult('error', 'CSV de invitados', details);
+                if (!skipStatus) {
+                    showStatus(status, `No se pudo leer el CSV publicado: ${details.error}`, 'error', { persist: true });
+                }
+                throw error;
+            }
         }
 
         function clampPercentage(value) {
@@ -1227,6 +1482,66 @@ function asJSON_(obj) {
                 await applyImportedConfig(file);
             }
         });
+        const verifyScriptBtn = document.getElementById('verifyScriptBtn');
+        if (verifyScriptBtn) {
+            verifyScriptBtn.addEventListener('click', async event => {
+                event.preventDefault();
+                setVerificationLoading(true);
+                const status = document.getElementById('verificationStatus');
+                showStatus(status, 'Consultando Apps Script...', 'info', { persist: true });
+                try {
+                    const result = await verifyAppsScriptConnection({ checkSheet: true, skipStatus: true });
+                    const sheetName = result?.payload?.sheet?.name ? ` y accedió a "${result.payload.sheet.name}"` : '';
+                    showStatus(status, `Apps Script respondió correctamente${sheetName}.`, 'success', { persist: true });
+                } catch (error) {
+                    showStatus(status, `Apps Script: ${error.message || error}`, 'error', { persist: true });
+                } finally {
+                    setVerificationLoading(false);
+                }
+            });
+        }
+
+        const verifySheetBtn = document.getElementById('verifySheetBtn');
+        if (verifySheetBtn) {
+            verifySheetBtn.addEventListener('click', async event => {
+                event.preventDefault();
+                setVerificationLoading(true);
+                const status = document.getElementById('verificationStatus');
+                showStatus(status, 'Consultando CSV publicado...', 'info', { persist: true });
+                try {
+                    const result = await verifyGuestSheetConnection({ skipStatus: true });
+                    const plural = result.rows === 1 ? '' : 's';
+                    showStatus(status, `CSV accesible (${result.rows} fila${plural} detectada${plural}).`, 'success', { persist: true });
+                } catch (error) {
+                    showStatus(status, `CSV: ${error.message || error}`, 'error', { persist: true });
+                } finally {
+                    setVerificationLoading(false);
+                }
+            });
+        }
+
+        const verifyAllBtn = document.getElementById('verifyAllBtn');
+        if (verifyAllBtn) {
+            verifyAllBtn.addEventListener('click', async event => {
+                event.preventDefault();
+                clearVerificationResults();
+                setVerificationLoading(true);
+                const status = document.getElementById('verificationStatus');
+                showStatus(status, 'Paso 1 de 2: consultando Apps Script...', 'info', { persist: true });
+                try {
+                    const scriptResult = await verifyAppsScriptConnection({ checkSheet: true, skipStatus: true });
+                    const sheetName = scriptResult?.debug?.targetExists ? ` (hoja "${scriptResult.debug.targetSheet}")` : '';
+                    showStatus(status, `Paso 2 de 2: leyendo CSV publicado${sheetName}.`, 'info', { persist: true });
+                    const sheetResult = await verifyGuestSheetConnection({ skipStatus: true });
+                    const plural = sheetResult.rows === 1 ? '' : 's';
+                    showStatus(status, `Verificación completada: Apps Script y CSV accesibles (${sheetResult.rows} fila${plural}).`, 'success', { persist: true });
+                } catch (error) {
+                    showStatus(status, `Verificación detenida: ${error.message || error}`, 'error', { persist: true });
+                } finally {
+                    setVerificationLoading(false);
+                }
+            });
+        }
         document.getElementById('resetConfigBtn').addEventListener('click', event => {
             event.preventDefault();
             if (confirm('Esto eliminará la configuración personalizada guardada en este navegador. ¿Deseas continuar?')) {
@@ -1236,3 +1551,4 @@ function asJSON_(obj) {
     </script>
 
 </body>
+</html>
