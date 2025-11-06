@@ -847,6 +847,12 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
             const fetchJson = async (targetUrl) => {
                 const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
                 const timer = controller ? setTimeout(() => controller.abort(), timeout) : null;
+                const cleanup = () => {
+                    if (controller && timer) {
+                        clearTimeout(timer);
+                    }
+                };
+
                 try {
                     const response = await fetch(targetUrl, {
                         method: 'GET',
@@ -857,10 +863,25 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
 
                     const text = await response.text();
                     const data = parseJsonSafe(text, {});
+                    cleanup();
                     return { response, data, raw: text };
-                } finally {
-                    if (controller && timer) {
-                        clearTimeout(timer);
+                } catch (error) {
+                    cleanup();
+
+                    if (error?.name === 'AbortError') {
+                        throw error;
+                    }
+
+                    try {
+                        const fallbackResponse = await fetch(targetUrl, {
+                            method: 'GET',
+                            mode: 'no-cors',
+                            cache: 'no-store'
+                        });
+                        return { response: fallbackResponse, data: null, raw: null, opaque: true, error };
+                    } catch (fallbackError) {
+                        fallbackError.previousError = error;
+                        throw fallbackError;
                     }
                 }
             };
@@ -870,7 +891,10 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
             const pingUrl = `${url}${separator}${pingParams}`;
             const pingResult = await fetchJson(pingUrl);
 
-            if (!pingResult.response.ok) {
+            const pingResponse = pingResult.response;
+            const pingIsOpaque = Boolean(pingResult.opaque || (pingResponse && pingResponse.type === 'opaque'));
+
+            if (!pingIsOpaque && pingResponse && !pingResponse.ok) {
                 const error = new Error(`El Apps Script respondió con código ${pingResult.response.status}.`);
                 error.code = 'apps_script_response_status';
                 error.details = { status: pingResult.response.status, body: pingResult.raw };
@@ -878,19 +902,33 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
             }
 
             let debugResult = null;
-            if (checkSheet) {
+            if (checkSheet && !pingIsOpaque) {
                 const debugParams = buildQueryString({ debug: 1, ts: Date.now() });
                 const debugUrl = `${url}${url.includes('?') ? '&' : '?'}${debugParams}`;
                 debugResult = await fetchJson(debugUrl);
-                if (!debugResult.response.ok) {
+                if (debugResult.response && !debugResult.opaque && !debugResult.response.ok) {
                     const error = new Error(`El Apps Script respondió con código ${debugResult.response.status} al consultar debug.`);
                     error.code = 'apps_script_debug_status';
                     error.details = { status: debugResult.response.status, body: debugResult.raw };
                     throw error;
                 }
+            } else if (checkSheet && pingIsOpaque) {
+                debugResult = { opaque: true };
             }
 
-            return { ping: pingResult.data, debug: debugResult ? debugResult.data : null };
+            const pingPayload = pingIsOpaque ? { ok: true, opaque: true } : (pingResult.data || {});
+            const debugPayload = debugResult
+                ? (debugResult.opaque ? { opaque: true } : (debugResult.data || {}))
+                : null;
+
+            return {
+                ping: pingPayload,
+                debug: debugPayload,
+                opaque: pingIsOpaque,
+                raw: pingResult.raw,
+                response: pingResult.response,
+                fallbackError: pingResult.error || null
+            };
         }
 
         async function verifyAppsScriptConnection(options = {}) {
@@ -914,7 +952,8 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
                 const result = await pingAppsScript(url, { timeout: VERIFICATION_TIMEOUT, checkSheet });
                 const pingPayload = result?.ping || {};
                 const debugPayload = result?.debug || null;
-                const isOk = pingPayload.ok === true || pingPayload.success === true;
+                const isOpaque = Boolean(result?.opaque);
+                const isOk = isOpaque || pingPayload.ok === true || pingPayload.success === true;
 
                 if (!isOk) {
                     const message = pingPayload?.message || 'El Apps Script respondió sin éxito.';
@@ -922,6 +961,28 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
                     error.code = 'apps_script_response_error';
                     error.details = { url, ping: pingPayload, debug: debugPayload };
                     throw error;
+                }
+
+                if (isOpaque) {
+                    const payload = {
+                        url,
+                        note: 'La solicitud se completó, pero el navegador bloqueó el contenido por restricciones CORS.',
+                        hint: 'Revisa los registros del Apps Script para confirmar la respuesta.',
+                        ping: pingPayload
+                    };
+                    if (result?.fallbackError) {
+                        payload.fetchError = {
+                            name: result.fallbackError.name,
+                            message: result.fallbackError.message
+                        };
+                    }
+                    appendVerificationResult('warning', 'Apps Script', payload);
+
+                    if (!skipStatus) {
+                        showStatus(status, 'Apps Script respondió, pero el navegador no permitió leer los detalles (CORS).', 'warning', { persist: true });
+                    }
+
+                    return { url, ping: pingPayload, debug: debugPayload, opaque: true };
                 }
 
                 appendVerificationResult('success', 'Apps Script', { url, ping: pingPayload, debug: debugPayload });
@@ -1531,10 +1592,18 @@ function asJSON_(o){ return ContentService.createTextOutput(JSON.stringify(o)).s
                 try {
                     const scriptResult = await verifyAppsScriptConnection({ checkSheet: true, skipStatus: true });
                     const sheetName = scriptResult?.debug?.targetExists ? ` (hoja "${scriptResult.debug.targetSheet}")` : '';
-                    showStatus(status, `Paso 2 de 2: leyendo CSV publicado${sheetName}.`, 'info', { persist: true });
+                    const stepMessage = scriptResult?.opaque
+                        ? 'Paso 2 de 2: leyendo CSV publicado (respuesta del Apps Script no pudo inspeccionarse por CORS).'
+                        : `Paso 2 de 2: leyendo CSV publicado${sheetName}.`;
+                    const stepTone = scriptResult?.opaque ? 'warning' : 'info';
+                    showStatus(status, stepMessage, stepTone, { persist: true });
                     const sheetResult = await verifyGuestSheetConnection({ skipStatus: true });
                     const plural = sheetResult.rows === 1 ? '' : 's';
-                    showStatus(status, `Verificación completada: Apps Script y CSV accesibles (${sheetResult.rows} fila${plural}).`, 'success', { persist: true });
+                    const finalTone = scriptResult?.opaque ? 'warning' : 'success';
+                    const finalMessage = scriptResult?.opaque
+                        ? `Verificación parcial: el Apps Script respondió (sin lectura por CORS) y el CSV devolvió ${sheetResult.rows} fila${plural}.`
+                        : `Verificación completada: Apps Script y CSV accesibles (${sheetResult.rows} fila${plural}).`;
+                    showStatus(status, finalMessage, finalTone, { persist: true });
                 } catch (error) {
                     showStatus(status, `Verificación detenida: ${error.message || error}`, 'error', { persist: true });
                 } finally {
