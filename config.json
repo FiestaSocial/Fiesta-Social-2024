@@ -11,23 +11,22 @@
   },
 
   "mesas": [
-    { "number": 1,  "label": "Mesa 1",  "capacity": 5,  "position": { "x": 10, "y": 20 } },
-    { "number": 2,  "label": "Mesa 2",  "capacity": 10, "position": { "x": 20, "y": 20 } },
-    { "number": 3,  "label": "Mesa 3",  "capacity": 10, "position": { "x": 30, "y": 20 } },
-    { "number": 4,  "label": "Mesa 4",  "capacity": 10, "position": { "x": 40, "y": 20 } },
-    { "number": 5,  "label": "Mesa 5",  "capacity": 10, "position": { "x": 50, "y": 20 } }
+    { "number": 1, "label": "Mesa 1", "capacity": 5,  "position": { "x": 10, "y": 20 } },
+    { "number": 2, "label": "Mesa 2", "capacity": 10, "position": { "x": 20, "y": 20 } },
+    { "number": 3, "label": "Mesa 3", "capacity": 10, "position": { "x": 30, "y": 20 } },
+    { "number": 4, "label": "Mesa 4", "capacity": 10, "position": { "x": 40, "y": 20 } },
+    { "number": 5, "label": "Mesa 5", "capacity": 10, "position": { "x": 50, "y": 20 } }
   ],
 
   "zones": [
-    { "id": "dance",       "label": "Pista de baile",  "className": "map-zone--dance",  "position": { "x": 50, "y": 45 } },
-    { "id": "stage",       "label": "Estado Mayor",    "className": "map-zone--stage",  "position": { "x": 6,  "y": 50 } },
-    { "id": "entrance",    "label": "Entrada / Piscina","className": "map-zone--entrance","position": { "x": 50, "y": 6 } },
-    { "id": "dj",          "label": "DJ",              "className": "map-zone--dj",     "position": { "x": 50, "y": 94 } },
-    { "id": "dessertLeft", "label": "Postres",         "className": "map-zone--dessert map-zone--dessert-left",  "position": { "x": 92, "y": 28 } },
-    { "id": "dessertRight","label": "Postres",         "className": "map-zone--dessert map-zone--dessert-right", "position": { "x": 92, "y": 72 } }
+    { "id": "dance",       "label": "Pista de baile",     "className": "map-zone--dance",                         "position": { "x": 50, "y": 45 } },
+    { "id": "stage",       "label": "Estado Mayor",       "className": "map-zone--stage",                         "position": { "x": 6,  "y": 50 } },
+    { "id": "entrance",    "label": "Entrada / Piscina",  "className": "map-zone--entrance",                      "position": { "x": 50, "y": 6 } },
+    { "id": "dj",          "label": "DJ",                 "className": "map-zone--dj",                            "position": { "x": 50, "y": 94 } },
+    { "id": "dessertLeft", "label": "Postres",            "className": "map-zone--dessert map-zone--dessert-left","position": { "x": 92, "y": 28 } },
+    { "id": "dessertRight","label": "Postres",            "className": "map-zone--dessert map-zone--dessert-right","position": { "x": 92, "y": 72 } }
   ],
 
   "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbxhv6sl8uRCwXna7CtE0Qj9C1dZo5G-XJHV6dsE_qP-E5cT7n395CxBKf1jq4ei9yzD_w/exec",
-
-  "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI/gviz/tq?tqx=out:csv&sheet=Datos%20de%20invitados"
+  "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGt4uAnH7cwhk9v65pslz61nasqZn9kE1GXQD-bO8PkYh9bNgu_XzXVyTuIk6d1-l4D_I-hm1mj_o8/pub?gid=795589434&single=true&output=csv"
 }
