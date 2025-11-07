@@ -9,7 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--c1:#0b66ff;--c1d:#084dcc;--ok:#059669;--err:#ef4444;--bg:#fff;--mut:#475569;--b:#e2e8f0;--sh:0 24px 60px rgba(15,23,42,.18);--r:22px;font-family:Poppins,Segoe UI,sans-serif}
-  *{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
   main{width:100%;max-width:1100px;display:grid;gap:24px}
   .card{background:var(--bg);border-radius:var(--r);padding:28px;box-shadow:var(--sh)}
   h1,h2{margin:0 0 12px} p{margin:0 0 12px;color:var(--mut)}
@@ -32,15 +33,14 @@
   <section class="card" id="loginCard">
     <h1>Panel de administración</h1>
     <p>Ingresa la contraseña para editar la configuración.</p>
-    <label>Contraseña</label>
-    <input type="password" id="adminPass">
+    <label>Contraseña</label><input type="password" id="adminPass">
     <div style="margin-top:12px"><button class="btn p" id="loginBtn">Ingresar</button></div>
     <div id="loginStatus" class="status"></div>
   </section>
 
   <!-- Editor -->
   <section class="card" id="editorCard" hidden>
-    <h2>Configuración del sitio</h2>
+    <h2>Configuración general</h2>
     <div class="row">
       <div>
         <label>Título</label><input id="siteTitle">
@@ -62,6 +62,13 @@
     </table>
     <div style="margin-top:10px"><button class="btn p" id="addMesa">Agregar mesa</button></div>
 
+    <h3 style="margin-top:24px">Zonas del salón</h3>
+    <table id="zonesTable">
+      <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th>X%</th><th>Y%</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div style="margin-top:10px"><button class="btn g" id="addZone">Agregar zona</button></div>
+
     <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn p" id="saveLocal">Guardar (navegador)</button>
       <button class="btn g" id="download">Descargar config.json</button>
@@ -73,7 +80,7 @@
 </main>
 
 <script>
-let cfg=null, usingLocal=false;
+let cfg=null;
 
 function $(id){return document.getElementById(id)}
 function show(el,cls,msg){el.className='status '+cls;el.textContent=msg;el.style.display='block'}
@@ -85,8 +92,8 @@ async function sha256(text){
 }
 
 async function loadConfig(){
-  try{const local=localStorage.getItem('fiestaConfig'); if(local){ usingLocal=true; return JSON.parse(local) }}catch{}
-  const r=await fetch('config.json?_='+Date.now()); usingLocal=false; return await r.json();
+  try{const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local);}catch{}
+  const r=await fetch('config.json?_='+Date.now()); return await r.json();
 }
 
 function fillGeneral(){
@@ -112,6 +119,22 @@ function renderMesas(){
     tb.appendChild(tr);
   });
 }
+function renderZones(){
+  const tb=$('zonesTable').querySelector('tbody'); tb.innerHTML='';
+  if(!Array.isArray(cfg.zones)) cfg.zones=[];
+  cfg.zones.forEach((z,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><input value="${z.id||''}" data-f="id"></td>
+      <td><input value="${z.label||''}" data-f="label"></td>
+      <td><input value="${z.className||''}" data-f="class"></td>
+      <td><input type="number" step="0.1" min="0" max="100" value="${z.position?.x??0}" data-f="x"></td>
+      <td><input type="number" step="0.1" min="0" max="100" value="${z.position?.y??0}" data-f="y"></td>
+      <td><button class="btn d" data-del>Eliminar</button></td>`;
+    tr.querySelector('[data-del]').onclick=()=>{ cfg.zones.splice(i,1); renderZones(); };
+    tb.appendChild(tr);
+  });
+}
 
 function getMesasFromTable(){
   const rows=[...$('mesasTable').querySelectorAll('tbody tr')];
@@ -125,14 +148,34 @@ function getMesasFromTable(){
     };
   }).sort((a,b)=>(a.number||0)-(b.number||0));
 }
+function getZonesFromTable(){
+  const rows=[...$('zonesTable').querySelectorAll('tbody tr')];
+  return rows.map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
+    return {
+      id:(get('id')||'').trim(),
+      label:(get('label')||'').trim(),
+      className:(get('class')||'').trim(),
+      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
+    };
+  }).filter(z=>z.id && z.label);
+}
 
 $('addMesa').onclick=()=>{ const ms=getMesasFromTable(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); cfg.mesas=ms; renderMesas(); };
+$('addZone').onclick=()=>{ (cfg.zones||(cfg.zones=[])).push({id:`zona-${Math.random().toString(36).slice(2,7)}`,label:'Nueva zona',className:'',position:{x:50,y:50}}); renderZones(); };
 
 $('saveLocal').onclick=()=>{
-  cfg.siteTitle=$('siteTitle').value.trim(); cfg.siteSubtitle=$('siteSubtitle').value.trim(); cfg.siteDescription=$('siteDescription').value.trim();
-  cfg.heroImage=$('heroImage').value.trim(); cfg.reservationScriptUrl=$('reservationScriptUrl').value.trim(); cfg.guestsSheetCsvUrl=$('guestsSheetCsvUrl').value.trim();
-  cfg.defaultCapacity=parseInt($('defaultCapacity').value,10)||10; cfg.mesas=getMesasFromTable();
-  localStorage.setItem('fiestaConfig', JSON.stringify(cfg)); show($('saveStatus'),'ok','Guardado en este navegador.');
+  cfg.siteTitle=$('siteTitle').value.trim();
+  cfg.siteSubtitle=$('siteSubtitle').value.trim();
+  cfg.siteDescription=$('siteDescription').value.trim();
+  cfg.heroImage=$('heroImage').value.trim();
+  cfg.reservationScriptUrl=$('reservationScriptUrl').value.trim();
+  cfg.guestsSheetCsvUrl=$('guestsSheetCsvUrl').value.trim();
+  cfg.defaultCapacity=parseInt($('defaultCapacity').value,10)||10;
+  cfg.mesas=getMesasFromTable();
+  cfg.zones=getZonesFromTable();
+  localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
+  show($('saveStatus'),'ok','Guardado en este navegador.');
 };
 $('download').onclick=()=>{
   const blob=new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'});
@@ -149,14 +192,11 @@ $('loginBtn').onclick=async()=>{
     const typed = await sha256($('adminPass').value);
     if(typed !== hash){ show($('loginStatus'),'err','Contraseña incorrecta'); return; }
     $('loginCard').hidden=true; $('editorCard').hidden=false;
-    fillGeneral(); renderMesas();
+    fillGeneral(); renderMesas(); renderZones();
   }catch(e){ show($('loginStatus'),'err','No se pudo cargar config.json'); }
 };
 
-document.addEventListener('DOMContentLoaded', async ()=>{
-  // Intento cargar para mostrar pista de contraseña sin exponer hash (si existiera)
-  try{ cfg=await loadConfig(); }catch{}
-});
+document.addEventListener('DOMContentLoaded', async ()=>{ try{ cfg=await loadConfig(); }catch{} });
 </script>
 </body>
 </html>
