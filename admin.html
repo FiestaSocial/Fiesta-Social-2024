@@ -1,235 +1,203 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de administración · Fiesta Social</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--color-primary:#0b66ff;--color-primary-dark:#084dcc;--color-surface:#fff;--color-muted:#475569;--color-border:#e2e8f0;--color-success:#059669;--color-danger:#ef4444;--shadow-lg:0 24px 60px rgba(15,23,42,.18);--shadow-md:0 14px 35px rgba(15,23,42,.14);--radius-lg:28px;--radius-md:18px;--radius-sm:12px;font-family:'Poppins','Segoe UI',sans-serif}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,rgba(59,130,246,.35),transparent 50%),radial-gradient(circle at bottom right,rgba(236,72,153,.25),transparent 55%),linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:40px 16px 60px;display:flex;justify-content:center}
-    main{width:100%;max-width:1100px;display:grid;gap:24px} h1,h2,h3{margin:0 0 16px;color:#0f172a} p{margin:0 0 16px;color:var(--color-muted);line-height:1.6}
-    .card{background:var(--color-surface);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
-    .card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(11,102,255,.08),transparent 55%);pointer-events:none}
-    .card__header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
-    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;border:none;padding:12px 22px;font-weight:600;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;text-decoration:none}
-    .button[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none}
-    .button--primary{background:var(--color-primary);color:#fff;box-shadow:0 16px 30px rgba(11,102,255,.25)}
-    .button--primary:hover{background:var(--color-primary-dark);transform:translateY(-1px)}
-    .button--ghost{background:rgba(15,23,42,.05);color:var(--color-primary)}
-    .button--ghost:hover{background:rgba(15,23,42,.12)}
-    .button--danger{background:rgba(239,68,68,.12);color:var(--color-danger)}
-    .button--danger:hover{background:rgba(239,68,68,.2)}
-    form{display:grid;gap:20px} label{font-weight:600;display:block;margin-bottom:6px}
-    input,textarea{width:100%;padding:12px 14px;border-radius:var(--radius-sm);border:1px solid var(--color-border);font-size:15px;background:#f8fafc;transition:border .2s ease,box-shadow .2s ease}
-    input:focus,textarea:focus{outline:none;border-color:rgba(11,102,255,.8);box-shadow:0 0 0 4px rgba(11,102,255,.12)}
-    textarea{min-height:120px;resize:vertical} table{width:100%;border-collapse:collapse;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md)}
-    thead{background:rgba(15,23,42,.05)} th,td{padding:14px 16px;text-align:left;font-size:14px}
-    tbody tr:nth-child(even){background:rgba(148,163,184,.12)} tbody tr:hover{background:rgba(11,102,255,.08)} td input{padding:10px 12px;font-size:14px}
-    .grid-two{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-    .hint{font-size:13px;color:#94a3b8}.hint-panel{font-size:13px;color:#94a3b8;background:rgba(148,163,184,.12);border-radius:var(--radius-sm);padding:12px 16px;margin-top:12px}
-    .hint-panel summary{cursor:pointer;font-weight:600;color:#0f172a}
-    .hint-panel pre{margin:12px 0 0;padding:12px;border-radius:var(--radius-sm);background:#0f172a;color:#e2e8f0;overflow-x:auto;font-size:12px;line-height:1.5}
-    .hint-panel code{font-family:'Fira Code','Source Code Pro',monospace}
-    .status{padding:12px 16px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;display:none;align-items:center;gap:8px}
-    .status--success{background:rgba(5,150,105,.12);color:#059669}
-    .status--error{background:rgba(239,68,68,.12);color:#ef4444}
-    .status--info{background:rgba(59,130,246,.12);color:#0b66ff}
-    .status--warning{background:rgba(245,158,11,.16);color:#f59e0b}
-    .verification-block{margin-top:16px;padding:20px;border-radius:var(--radius-md);background:rgba(15,23,42,.04);border:1px solid rgba(148,163,184,.2)}
-    .verification-results{margin-top:16px;display:grid;gap:12px}
-    .verification-results__item{border-radius:var(--radius-sm);padding:16px;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.02)}
-    .verification-results__item--success{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.08)}
-    .verification-results__item--error{border-color:rgba(239,68,68,.45);background:rgba(239,68,68,.08)}
-    .verification-results__item--warning{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.1)}
-    .verification-results__item--info{border-color:rgba(59,130,246,.45);background:rgba(59,130,246,.08)}
-    .verification-results pre{margin:8px 0 0;padding:12px;border-radius:var(--radius-sm);background:#0f172a;color:#e2e8f0;overflow-x:auto;font-size:12px;line-height:1.5}
-    .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-    .table-actions{display:flex;gap:8px} .table-actions .button{padding:8px 14px}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(15,23,42,.06);font-size:13px;font-weight:500;color:rgba(15,23,42,.7)}
-    @media(max-width:720px){body{padding:24px 12px 48px}.toolbar{flex-direction:column;align-items:stretch}.toolbar .button{width:100%}.table-actions{flex-direction:column}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración · Fiesta Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#0b66ff;--c1d:#084dcc;--cs:#fff;--mut:#475569;--b:#e2e8f0;--ok:#059669;--err:#ef4444;--w:#f59e0b;--sh:0 24px 60px rgba(15,23,42,.18);--r:18px;font-family:Poppins,Segoe UI,sans-serif}
+  *{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
+  main{width:100%;max-width:1100px;display:grid;gap:24px}
+  .card{background:var(--cs);border-radius:24px;padding:28px;box-shadow:var(--sh)}
+  h1,h2{margin:0 0 12px} p{margin:0 0 12px;color:var(--mut)}
+  label{font-weight:600;display:block;margin:8px 0 6px}
+  input,textarea{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:10px;background:#f8fafc}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
+  .p{background:var(--c1);color:#fff}.p:hover{background:var(--c1d)}
+  .g{background:#eef2ff;color:var(--c1)} .d{background:#fee2e2;color:#b91c1c}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .status{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-weight:600}
+  .ok{display:block;background:rgba(5,150,105,.12);color:var(--ok)}
+  .err{display:block;background:rgba(239,68,68,.12);color:var(--err)}
+  .inf{display:block;background:rgba(59,130,246,.12);color:var(--c1)}
+  pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;overflow:auto;max-height:260px}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:8px;border-bottom:1px solid #e5e7eb;font-size:14px}
+</style>
 </head>
 <body>
-  <main>
-    <section class="card" id="loginCard">
-      <h1>Panel de administración</h1>
-      <p>Administra el contenido del sitio sin editar código. Ingresa la contraseña para desbloquear las configuraciones.</p>
-      <form id="loginForm">
-        <div>
-          <label for="adminPassword">Contraseña</label>
-          <input type="password" id="adminPassword" autocomplete="current-password" required>
-          <p class="hint" id="passwordHint"></p>
-        </div>
+<main>
+  <section class="card">
+    <h1>Panel de administración</h1>
+    <p>Verifica la conexión con Google Apps Script / CSV y edita la configuración del sitio.</p>
+
+    <div class="row">
+      <div>
+        <label>URL de Google Apps Script (termina en <code>/exec</code>)</label>
+        <input id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
         <div class="toolbar">
-          <button type="submit" class="button button--primary">Ingresar</button>
-          <a href="index.html" class="button button--ghost">Volver al sitio</a>
+          <button class="btn p" id="btnPing">Probar Apps Script</button>
+          <button class="btn g" id="btnDebug">Debug hoja (GET ?debug=1)</button>
         </div>
-        <div class="status status--error" id="loginStatus"></div>
-      </form>
-    </section>
-
-    <section class="card" id="editorCard" hidden>
-      <div class="card__header">
-        <div>
-          <h2>Configuración del evento</h2>
-          <p class="hint" id="fileAccessHint">Los cambios se guardan en tu navegador (localStorage). Descarga el archivo para compartirlo con el equipo.</p>
-        </div>
+        <div id="statusScript" class="status"></div>
+        <pre id="logScript"></pre>
+      </div>
+      <div>
+        <label>URL del CSV publicado (opcional)</label>
+        <input id="csvUrl" placeholder="https://docs.google.com/spreadsheets/.../pub?output=csv">
         <div class="toolbar">
-          <button class="button button--primary" id="saveConfigBtn">Guardar cambios</button>
-          <button class="button button--ghost" id="writeConfigBtn">Guardar en config.json</button>
-          <button class="button button--ghost" id="importConfigBtn">Importar JSON</button>
-          <button class="button button--ghost" id="downloadConfigBtn">Descargar copia</button>
-          <button class="button button--danger" id="resetConfigBtn">Restablecer valores</button>
+          <button class="btn p" id="btnCSV">Probar CSV</button>
         </div>
+        <div id="statusCSV" class="status"></div>
+        <pre id="logCSV"></pre>
       </div>
+    </div>
+  </section>
 
-      <div class="status status--success" id="saveStatus"></div>
-      <input type="file" id="importConfigInput" accept="application/json" style="display:none" aria-hidden="true">
-
-      <div class="grid-two">
-        <form id="generalSettingsForm">
-          <div>
-            <label for="siteTitleInput">Título del sitio</label>
-            <input id="siteTitleInput" required>
-          </div>
-          <div>
-            <label for="siteSubtitleInput">Subtítulo</label>
-            <input id="siteSubtitleInput" required>
-          </div>
-          <div>
-            <label for="siteDescriptionInput">Descripción breve</label>
-            <textarea id="siteDescriptionInput" required></textarea>
-          </div>
-          <div>
-            <label for="heroImageInput">Imagen principal (ruta o URL)</label>
-            <input id="heroImageInput" placeholder="Imagen de bienvenida.png">
-          </div>
-          <div>
-            <label for="reservationScriptInput">URL de Google Apps Script</label>
-            <input type="url" id="reservationScriptInput" placeholder="https://script.google.com/macros/s/...">
-            <p class="hint">Publica el Apps Script como aplicación web (Deploy → Manage deployments → Web app, acceso: cualquiera con el enlace). El sitio envía <code>POST</code> simple con <code>text/plain</code> y luego verifica leyendo con <code>?read=1</code>.</p>
-          </div>
-          <div>
-            <label for="guestsSheetInput">URL del CSV de invitados</label>
-            <input type="url" id="guestsSheetInput" placeholder="https://docs.google.com/spreadsheets/.../pub?output=csv">
-            <p class="hint">Opcional. Si no publicas CSV, el sitio usará el fallback al Apps Script para leer.</p>
-            <details class="hint-panel">
-              <summary>Encabezados esperados (Apps Script)</summary>
-<pre><code>Fecha (servidor) | Fecha enviada (cliente) | Mesa | Grado | Escalafón | Nombre | Apellido | Cédula | Correo | Menú titular | ¿Acompañante? | Cantidad de acompañantes | Acompañante 1 - Nombre | Acompañante 1 - Menú | ... | JSON original</code></pre>
-            </details>
-            <div class="verification-block">
-              <h3>Verificar conexión con la hoja</h3>
-              <div class="toolbar">
-                <button type="button" class="button button--primary" id="verifyAllBtn">Verificar todo</button>
-                <button type="button" class="button button--ghost" id="verifyScriptBtn">Probar Apps Script</button>
-                <button type="button" class="button button--ghost" id="verifySheetBtn">Probar hoja (CSV)</button>
-              </div>
-              <div class="status" id="verificationStatus"></div>
-              <div class="verification-results" id="verificationResults"></div>
-            </div>
-          </div>
-
-          <div>
-            <label for="defaultCapacityInput">Capacidad predeterminada por mesa</label>
-            <input type="number" id="defaultCapacityInput" min="1" step="1" required>
-          </div>
-        </form>
-
-        <form id="securityForm">
-          <div>
-            <label for="passwordHintInput">Pista de contraseña</label>
-            <input id="passwordHintInput">
-          </div>
-          <div>
-            <label for="newPasswordInput">Nueva contraseña (opcional)</label>
-            <input type="password" id="newPasswordInput" autocomplete="new-password">
-            <p class="hint">Se guarda un hash SHA-256.</p>
-          </div>
-          <div>
-            <label for="confirmPasswordInput">Confirmar nueva contraseña</label>
-            <input type="password" id="confirmPasswordInput" autocomplete="new-password">
-          </div>
-          <div class="badge" id="localConfigBadge"></div>
-        </form>
+  <section class="card">
+    <h2>Configuración del sitio</h2>
+    <div class="row">
+      <div>
+        <label>Título</label><input id="siteTitle">
+        <label>Subtítulo</label><input id="siteSubtitle">
+        <label>Descripción</label><textarea id="siteDescription"></textarea>
+        <label>Imagen héroe (ruta/URL)</label><input id="heroImage">
       </div>
-
-      <div class="card__header" style="margin-top: 32px;">
-        <h3>Mesas del salón</h3>
-        <div class="toolbar">
-          <button class="button button--primary" id="addMesaBtn">Agregar mesa</button>
-        </div>
+      <div>
+        <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1" value="10">
+        <label>Apps Script /exec</label><input id="reservationScriptUrl">
+        <label>CSV de invitados (opcional)</label><input id="guestsSheetCsvUrl">
       </div>
+    </div>
 
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>#</th><th>Etiqueta</th><th>Capacidad</th><th>Pos. X (%)</th><th>Pos. Y (%)</th><th></th></tr></thead>
-          <tbody id="mesasTableBody"></tbody>
-        </table>
-      </div>
+    <h3 style="margin-top:18px">Mesas</h3>
+    <table id="mesasTable"><thead><tr><th>#</th><th>Etiqueta</th><th>Cap.</th><th>X%</th><th>Y%</th><th></th></tr></thead><tbody></tbody></table>
+    <div class="toolbar"><button class="btn p" id="addMesa">Agregar mesa</button></div>
 
-      <div class="card__header" style="margin-top:40px;">
-        <h3>Zonas del salón</h3>
-        <div class="toolbar"><button class="button button--primary" id="addZoneBtn">Agregar zona</button></div>
-      </div>
+    <div class="toolbar" style="margin-top:16px">
+      <button class="btn p" id="saveLocal">Guardar (navegador)</button>
+      <button class="btn g" id="download">Descargar JSON</button>
+      <button class="btn d" id="reset">Resetear</button>
+      <a class="btn g" href="index.html">Volver al sitio</a>
+    </div>
+    <div id="statusCfg" class="status"></div>
+  </section>
+</main>
 
-      <p class="hint">Modifica texto y posiciones (0-100%) de elementos como pista, entrada o postres.</p>
+<script>
+let cfg = null;
 
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th>Pos. X (%)</th><th>Pos. Y (%)</th><th></th></tr></thead>
-          <tbody id="zonesTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+function $(id){return document.getElementById(id)}
+function show(el, cls, msg){ el.className='status '+cls; el.textContent=msg; el.style.display='block'; }
+function hide(el){ el.style.display='none'; }
 
-  <script>
-    let siteConfig=null, usingLocalOverride=false, lastFileHandle=null;
-    const DEFAULT_ZONES=[{id:'dance',label:'Pista de baile',className:'map-zone--dance',position:{x:50,y:45}},{id:'stage',label:'Estado Mayor',className:'map-zone--stage',position:{x:6,y:50}},{id:'entrance',label:'Entrada / Piscina',className:'map-zone--entrance',position:{x:50,y:6}},{id:'dj',label:'DJ',className:'map-zone--dj',position:{x:50,y:94}},{id:'dessertLeft',label:'Postres',className:'map-zone--dessert map-zone--dessert-left',position:{x:92,y:28}},{id:'dessertRight',label:'Postres',className:'map-zone--dessert map-zone--dessert-right',position:{x:92,y:72}}];
+async function loadConfig(){
+  try{
+    const local = localStorage.getItem('fiestaConfig');
+    if(local){ cfg = JSON.parse(local); fill(); return; }
+  }catch{}
+  try{
+    const r = await fetch('config.json?_='+Date.now());
+    cfg = await r.json();
+  }catch{ cfg = {}; }
+  fill();
+}
+function fill(){
+  $('siteTitle').value = cfg.siteTitle||'Fiesta Social 2024';
+  $('siteSubtitle').value = cfg.siteSubtitle||'Registro oficial de invitados';
+  $('siteDescription').value = cfg.siteDescription||'Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita.';
+  $('heroImage').value = cfg.heroImage||'Imagen de bienvenida.png';
+  $('defaultCapacity').value = cfg.defaultCapacity||10;
+  $('reservationScriptUrl').value = cfg.reservationScriptUrl||'';
+  $('guestsSheetCsvUrl').value = cfg.guestsSheetCsvUrl||'';
+  $('scriptUrl').value = cfg.reservationScriptUrl||'';
+  $('csvUrl').value = cfg.guestsSheetCsvUrl||'';
+  renderMesas(cfg.mesas||[]);
+}
+function readCfg(){
+  cfg.siteTitle = $('siteTitle').value.trim();
+  cfg.siteSubtitle = $('siteSubtitle').value.trim();
+  cfg.siteDescription = $('siteDescription').value.trim();
+  cfg.heroImage = $('heroImage').value.trim();
+  cfg.defaultCapacity = parseInt($('defaultCapacity').value,10)||10;
+  cfg.reservationScriptUrl = $('reservationScriptUrl').value.trim();
+  cfg.guestsSheetCsvUrl = $('guestsSheetCsvUrl').value.trim();
+  cfg.mesas = getMesasFromTable();
+}
+function renderMesas(mesas){
+  const tb = $('mesasTable').querySelector('tbody');
+  tb.innerHTML='';
+  mesas.forEach((m,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><input type="number" value="${m.number||i+1}" data-f="number"></td>
+      <td><input value="${m.label||`Mesa ${i+1}`}" data-f="label"></td>
+      <td><input type="number" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
+      <td><input type="number" step="0.1" value="${m.position?.x??0}" data-f="x"></td>
+      <td><input type="number" step="0.1" value="${m.position?.y??0}" data-f="y"></td>
+      <td><button class="btn d" data-del>Eliminar</button></td>`;
+    tr.querySelector('[data-del]').onclick=()=>{ tr.remove(); };
+    tb.appendChild(tr);
+  });
+}
+function getMesasFromTable(){
+  const rows = Array.from($('mesasTable').querySelectorAll('tbody tr'));
+  return rows.map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
+    return {
+      number: parseInt(get('number'),10)||0,
+      label: get('label')||'',
+      capacity: parseInt(get('capacity'),10)|| (parseInt($('defaultCapacity').value,10)||10),
+      position: { x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
+    };
+  }).sort((a,b)=>(a.number||0)-(b.number||0));
+}
 
-    async function loadConfig(){
-      let stored=null;
-      if(typeof localStorage!=='undefined'){try{stored=localStorage.getItem('fiestaConfig'); if(stored){stored=JSON.parse(stored); usingLocalOverride=true}}catch{stored=null}}
-      if(stored) return stored;
-      const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); usingLocalOverride=false; return await r.json();
-    }
-    async function hashPassword(p){const b=new TextEncoder().encode(p);const h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('')}
-    function showStatus(el,msg,type='success',{persist=false,duration=3200}={}){if(!el)return;el.textContent=msg;el.classList.remove('status--success','status--error','status--info','status--warning');el.classList.add(type==='error'?'status--error':type==='info'?'status--info':type==='warning'?'status--warning':'status--success');el.style.display='flex'; if(!persist){clearTimeout(el._t); el._t=setTimeout(()=>{el.style.display='none';},duration)}}
-    const VERIFICATION_TIMEOUT=8000, MAX_LOGS=6;
-    function appendCacheBuster(u){if(!u)return'';const s=u.includes('?')?'&':'?';return `${u}${s}_=${Date.now()}`} function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-    function clearResults(){const c=document.getElementById('verificationResults'); if(c) c.innerHTML=''} function addResult(kind,title,payload){const c=document.getElementById('verificationResults'); if(!c)return; const e=document.createElement('div');e.className=`verification-results__item verification-results__item--${kind}`;e.innerHTML=`<div class="verification-results__title">${title} · ${new Date().toLocaleTimeString()}</div><pre>${esc(typeof payload==='string'?payload:JSON.stringify(payload,null,2))}</pre>`;c.prepend(e); while(c.children.length>MAX_LOGS) c.removeChild(c.lastElementChild)}
+$('addMesa').onclick=()=>{ const ms = getMesasFromTable(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); renderMesas(ms); };
 
-    async function pingScript(url,{timeout=VERIFICATION_TIMEOUT,checkSheet=false}={}){
-      if(!url) throw new Error('Ingresa la URL del Apps Script.');
-      const fetchJson=async(u)=>{const ctrl=new AbortController(); const t=setTimeout(()=>ctrl.abort(),timeout); try{const res=await fetch(u,{method:'GET',mode:'cors',cache:'no-store',signal:ctrl.signal}); const text=await res.text(); clearTimeout(t); try{return {response:res,data:JSON.parse(text),raw:text}}catch{return {response:res,data:null,raw:text}} }catch(e){clearTimeout(t); try{const r=await fetch(u,{method:'GET',mode:'no-cors',cache:'no-store'}); return {response:r,opaque:true,error:e};}catch(er){er.previous=e; throw er;}}};
-      const pingUrl=url+(url.includes('?')?'&':'?')+'ping=1&ts='+Date.now(); const ping=await fetchJson(pingUrl);
-      const opaque=Boolean(ping.opaque||ping.response.type==='opaque'); if(!opaque && ping.response && !ping.response.ok) throw new Error(`Apps Script: HTTP ${ping.response.status}`);
-      let debug=null; if(checkSheet&&!opaque){const durl=url+(url.includes('?')?'&':'?')+'debug=1&ts='+Date.now(); debug=await fetchJson(durl); if(debug.response&&!debug.opaque&&!debug.response.ok) throw new Error(`Apps Script (debug): HTTP ${debug.response.status}`)}
-      return {opaque, ping: opaque?{ok:true,opaque:true}:(ping.data||{}), debug: debug?(debug.opaque?{opaque:true}:(debug.data||{})):null, raw: ping.raw};
-    }
-    async function verifyScript({checkSheet=true, skipStatus=false}={}){
-      const status=document.getElementById('verificationStatus'); const input=document.getElementById('reservationScriptInput'); const url=(input?.value || siteConfig?.reservationScriptUrl || '').trim();
-      if(!url){addResult('error','Apps Script',{error:'Falta URL'}); if(!skipStatus) showStatus(status,'Ingresa la URL del Apps Script.','error',{persist:true}); throw new Error('missing');}
-      try{
-        const r=await pingScript(url,{checkSheet}); const isOk=r.opaque || r.ping.ok===true; if(!isOk) throw new Error('Respuesta no exitosa.');
-        if(r.opaque){addResult('warning','Apps Script',{url, note:'Respuesta opaca (CORS). Verifica logs del Script.', ping:r.ping}); if(!skipStatus) showStatus(status,'Apps Script respondió (respuesta opaca por CORS).','warning',{persist:true});}
-        else{addResult('success','Apps Script',{url, ping:r.ping, debug:r.debug}); if(!skipStatus){const hint=r?.debug?.targetExists?` Hoja "${r.debug.targetSheet}".`:''; showStatus(status,'Apps Script respondió correctamente.'+hint,'success',{persist:true});}}
-        return r;
-      }catch(e){addResult('error','Apps Script',{error:e.message}); if(!skipStatus) showStatus(status,'No se pudo contactar el Apps Script: '+e.message,'error',{persist:true}); throw e;}
-    }
-    async function verifySheet({skipStatus=false}={}){
-      const status=document.getElementById('verificationStatus'); const input=document.getElementById('guestsSheetInput'); const url=(input?.value || siteConfig?.guestsSheetCsvUrl || '').trim();
-      if(!url){addResult('error','CSV',{error:'Falta URL CSV'}); if(!skipStatus) showStatus(status,'Ingresa la URL publicada del CSV.','error',{persist:true}); throw new Error('missing');}
-      try{
-        const res=await fetch(appendCacheBuster(url),{method:'GET',mode:'cors'}); if(!res.ok) throw new Error('HTTP '+res.status);
-        const text=(await res.text()).trim(); const lines=text?text.split(/\r?\n/):[]; addResult('success','CSV',{url, rows:lines.length, preview:lines.slice(0,5)}); if(!skipStatus){const s=lines.length===1?'':'s';showStatus(status,`CSV accesible (${lines.length} fila${s}).`,'success',{persist:true});} return {url,rows:lines.length};
-      }catch(e){addResult('error','CSV',{error:e.message}); if(!skipStatus) showStatus(status,'No se pudo leer el CSV: '+e.message,'error',{persist:true}); throw e;}
-    }
+$('saveLocal').onclick=()=>{
+  readCfg();
+  localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
+  show($('statusCfg'),'ok','Guardado en este navegador. (El sitio lo usará automáticamente)');
+};
+$('download').onclick=()=>{
+  readCfg();
+  const blob = new Blob([JSON.stringify(cfg,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
+};
+$('reset').onclick=()=>{
+  localStorage.removeItem('fiestaConfig');
+  location.reload();
+};
 
-    function clampPct(v){const n=parseFloat(v);return Number.isNaN(n)?0:Math.min(Math.max(n,0),100)}
-    function ensureZones(){ if(!siteConfig) siteConfig={}; if(!Array.isArray(siteConfig.zones)||!siteConfig.zones.length){siteConfig.zones=DEFAULT_ZONES.map(z=>({id:z.id,label:z.label,className:z.className,position:{x:clampPct(z.position?.x??0),y:clampPct(z.position?.y??0)}}));} else {siteConfig.zones=siteConfig.zones.map(z=>({id:z?.id||'',label:z?.label||'',className:z?.className||'',position:{x:clampPct(z?.position?.x??0),y:clampPct(z?.position?.y??0)}}));} }
-    function fillGeneral(){document.getElementById('siteTitleInput').value=siteConfig.siteTitle||'';document.getElementById('siteSubtitleInput').value=siteConfig.siteSubtitle||'';document.getElementById('siteDescriptionInput').value=siteConfig.siteDescription||'';document.getElementById('heroImageInput').value=siteConfig.heroImage||'';document.getElementById('reservationScriptInput').value=siteConfig.reservationScriptUrl||'';document.getElementById('guestsSheetInput').value=siteConfig.guestsSheetCsvUrl||'';document.getElementById('defaultCapacityInput').value=siteConfig.defaultCapacity||10;document.getElementById('passwordHintInput').value=siteConfig?.admin?.passwordHint||'';}
-    function renderMesas(){const tb=document.getElementById('mesasTableBody');tb.innerHTML=''; if(!Array.isArray(siteConfig.mesas)) siteConfig.mesas=[]; siteConfig.mesas.forEach((m,i)=>{const tr=document.createElement('tr'); tr.innerHTML=`<td><input type="number" min="1" step="1" value="${m.number??''}" data-field="number"></td><td><input value="${m.label||''}" data-field="label"></td><td><input type="number" min="1" step="1" value="${m.capacity??siteConfig.defaultCapacity??10}" data-field="capacity"></td><td><input type="number" step="0.1" min="0" max="100" value="${m.position?.x??0}" data-field="posX"></td><td><input type="number" step="0.1" min="0analysis
+$('btnPing').onclick=async()=>{
+  const elS=$('statusScript'), log=$('logScript'); hide(elS); log.textContent='';
+  const url=$('scriptUrl').value.trim(); if(!url){show(elS,'err','Ingresa la URL /exec');return;}
+  try{
+    const r=await fetch(url+(url.includes('?')?'&':'?')+'ping=1&ts='+Date.now(),{mode:'cors'}); const t=await r.text(); show(elS,'ok','Ping OK'); log.textContent=t;
+  }catch(e){ show(elS,'err','No se pudo leer la respuesta (CORS). Revisa los logs del Script.'); }
+};
+$('btnDebug').onclick=async()=>{
+  const elS=$('statusScript'), log=$('logScript'); hide(elS); log.textContent='';
+  const url=$('scriptUrl').value.trim(); if(!url){show(elS,'err','Ingresa la URL /exec');return;}
+  try{
+    const r=await fetch(url+(url.includes('?')?'&':'?')+'debug=1&ts='+Date.now(),{mode:'cors'}); const t=await r.text(); show(elS,'ok','Debug OK'); log.textContent=t;
+  }catch(e){ show(elS,'err','No se pudo leer la respuesta (CORS). Revisa los logs del Script.'); }
+};
+$('btnCSV').onclick=async()=>{
+  const el=$('statusCSV'), log=$('logCSV'); hide(el); log.textContent='';
+  const url=$('csvUrl').value.trim(); if(!url){show(el,'err','Ingresa la URL publicada del CSV');return;}
+  try{
+    const r=await fetch(url+(url.includes('?')?'&':'?')+'_='+Date.now(),{mode:'cors'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    const t=(await r.text()).trim(); const lines=t? t.split(/\r?\n/):[]; show(el,'ok',`CSV accesible (${lines.length} filas)`); log.textContent=lines.slice(0,5).join('\n');
+  }catch(e){ show(el,'err','No se pudo leer el CSV: '+e.message); }
+};
+
+loadConfig();
+</script>
+</body>
+</html>
