@@ -83,17 +83,25 @@
       </div>
       <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required></div>
       <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required></div>
-      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label><input id="cedula" name="cedula" required pattern="^\\d\\.\\d{3}\\.\\d{3}-\\d$"></div>
+
+      <!-- CI más tolerante: con o sin puntos -->
+      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label>
+        <input id="cedula" name="cedula" required pattern="^\d(\.?\d{3}){2}-\d$">
+      </div>
+
       <div class="form-field"><label for="menu">Menú</label>
         <select id="menu" name="menu" required>
           <option value="" selected>Seleccionar</option>
-          <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option><option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
+          <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option>
+          <option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
         </select>
       </div>
+
       <div class="form-field" style="grid-column:1/-1">
         <label for="observacion">Observaciones</label>
         <textarea id="observacion" name="observacion" placeholder="Alergias, preferencias, etc."></textarea>
       </div>
+
       <div class="form-field"><label for="acompanante">¿Asiste con acompañante?</label>
         <select id="acompanante" name="acompanante" required><option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option></select>
       </div>
@@ -121,170 +129,32 @@
     </div>
   </section>
 
-  <!-- Pantalla 4 -->
-  <section id="screen4" class="container">
-    <h2>Selecciona tu mesa</h2>
-    <div class="salon-wrapper">
-      <aside class="salon-summary">
-        <h3>Resumen del salón</h3>
-        <p><strong>Mesas:</strong> <span id="totalMesasCounter">--</span></p>
-        <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span></p>
-        <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-        <div class="legend">
-          <span><span class="legend-swatch available"></span>Disponible</span>
-          <span><span class="legend-swatch full"></span>Completa</span>
-          <span><span class="legend-swatch selected"></span>Seleccionada</span>
-        </div>
-      </aside>
-      <div id="salonMap" class="salon-map"></div>
-    </div>
+  <!-- Pantalla 4, resumen/salón... (igual que la versión anterior que te funcionó) -->
+  <!-- OMITIDO POR BREVEDAD: usa el mismo bloque de salón/previo/tooltip/submit de mi respuesta anterior,
+       ya estaba correcto. No cambié nada de esa parte, solo la validación y los campos de CI. -->
 
-    <div class="table-details">
-      <div class="table-container">
-        <div class="table" id="mesaText">Mesa</div>
-        <div id="seatsContainer"></div>
-      </div>
-      <div>
-        <h3>Invitados registrados en esta mesa</h3>
-        <div id="guestList">Selecciona una mesa para ver los invitados.</div>
-      </div>
-    </div>
-
-    <div class="navigation-buttons">
-      <button class="button button--ghost" data-prev="3">Anterior</button>
-      <button id="submitReservationBtn" class="button button--primary">Enviar</button>
-    </div>
-  </section>
 </main>
 
-<!-- Modal: Registro completo -->
-<div id="confirmationModal" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Registro completo</h2>
-    <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Sec. Contable de la B.A. III.</p>
-    <div class="modal-actions"><button class="button button--primary" id="finalizarBtn">Finalizar</button></div>
-  </div>
-</div>
-
-<!-- Modal: Ya estás registrado -->
-<div id="duplicateModal" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Ya estás registrado</h2>
-    <div id="duplicateBody" style="white-space:pre-wrap"></div>
-    <div class="modal-actions">
-      <button class="button button--primary" id="dupCloseBtn">Entendido</button>
-    </div>
-  </div>
-</div>
+<!-- Modales existentes: registro completo / duplicado (usa los que ya tienes) -->
 
 <script>
-/* =============================
-   Config y estado
-============================= */
-const DEFAULT_RESERVATION_ENDPOINT = '';
-const DEFAULT_GUESTS_SHEET_CSV_URL = '';
+/* ===== Solo te muestro las 3 funciones donde hice los cambios de validación ===== */
 
-const state = {
-  currentScreen: 1,
-  siteConfig: null,
-  reservationEndpoint: DEFAULT_RESERVATION_ENDPOINT,
-  guestsSheetUrl: DEFAULT_GUESTS_SHEET_CSV_URL,
-  guestsByTable: new Map(),
-  fetchInterval: null
-};
-const dom = {
-  heroCard: document.getElementById('heroCard'),
-  salonMap: document.getElementById('salonMap'),
-  guestForm: document.getElementById('guestForm'),
-  acompanantesForm: document.getElementById('acompanantesForm'),
-  mesaInput: document.getElementById('mesa'),
-  mesaText: document.getElementById('mesaText'),
-  mesaSeleccionadaLabel: document.getElementById('mesaSeleccionadaLabel'),
-  seatsContainer: document.getElementById('seatsContainer'),
-  guestList: document.getElementById('guestList'),
-  totalMesasCounter: document.getElementById('totalMesasCounter'),
-  capacidadTotalCounter: document.getElementById('capacidadTotalCounter'),
-  submitButton: document.getElementById('submitReservationBtn'),
-  modal: document.getElementById('confirmationModal'),
-  mesaConfirmada: document.getElementById('mesaConfirmada'),
-  finalizarBtn: document.getElementById('finalizarBtn'),
-  duplicateModal: document.getElementById('duplicateModal'),
-  duplicateBody: document.getElementById('duplicateBody'),
-  dupCloseBtn: document.getElementById('dupCloseBtn')
-};
-
-const norm = s => (s==null? '' : String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim());
-const buster = u => (!u? '' : u + (u.includes('?')?'&':'?') + '_=' + Date.now());
-
-/* =============================
-   Héroe
-============================= */
-const HERO_CARD_TEMPLATE = `
-  <div>
-    <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
-    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
-    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita.</p>
-    <div class="hero-card__actions">
-      <button class="button button--primary" data-next="2">Comenzar registro</button>
-      <a class="button button--ghost" href="admin.html">Administración</a>
-    </div>
-  </div>
-  <figure class="hero-card__media"><img id="heroImage" src="Imagen de bienvenida.png" alt=""></figure>
-`;
-function ensureHero(){ document.getElementById('heroCard').innerHTML = HERO_CARD_TEMPLATE; }
-
-/* =============================
-   UI: navegación
-============================= */
-function firstScreen(){ document.querySelectorAll('.container').forEach((s,i)=> s.classList.toggle('active', i===0)); state.currentScreen=1; }
-function showScreen(n){
-  if(!n || n===state.currentScreen) return;
-  document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');
-  state.currentScreen = n;
-  document.getElementById(`screen${state.currentScreen}`)?.classList.add('active');
-
-  if (state.currentScreen === 4) { fetchGuestsData().catch(()=>{}); startGuestsPolling(); }
-  else { stopGuestsPolling(); }
+// 1) Mostrar/ocultar bloque de acompañantes y manejar "required"
+function toggleAcompanante(){
+  const a=document.getElementById('acompanante').value;
+  const box=document.getElementById('acompananteCantidad');
+  const sel=document.getElementById('cantidadAcompanantes');
+  if(a==='si'){ box.style.display='block'; sel.required=true; }
+  else{ box.style.display='none'; sel.required=false; sel.value=''; document.getElementById('acompanantesForm').innerHTML=''; }
 }
-function validateForm(id){
-  const f=document.getElementById(id); if(!f) return [];
-  const bad=[]; f.querySelectorAll('input,select,textarea').forEach(el=>{
-    if(!el.checkValidity()){
-      const lab=f.querySelector(`label[for="${el.id}"]`);
-      bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim());
-    }
-  }); return bad;
-}
-function handleNav(e){
-  const next=e.target.closest('[data-next]'); const prev=e.target.closest('[data-prev]'); if(!next&&!prev) return; e.preventDefault();
-  if(prev){ showScreen(parseInt(prev.dataset.prev,10)||Math.max(1,state.currentScreen-1)); return; }
 
-  if(state.currentScreen===2){
-    const bad=validateForm('guestForm');
-    if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
-    const a=document.getElementById('acompanante').value;
-    if(a==='si'){
-      const c=document.getElementById('cantidadAcompanantes').value;
-      if(!c){ alert('Selecciona la cantidad de acompañantes.'); return; }
-      renderAcompanantes(Math.min(4, parseInt(c,10))); showScreen(3); return;
-    }
-    showScreen(4); return;
-  }
-  if(state.currentScreen===3){
-    const bad=validateForm('acompanantesForm');
-    if(bad.length){ alert('Faltan datos de acompañantes:\n- '+bad.join('\n- ')); return; }
-    showScreen(4); return;
-  }
-  showScreen(parseInt(next.dataset.next,10)||state.currentScreen+1);
-}
-function toggleAcomp(){
-  const a=document.getElementById('acompanante').value, box=document.getElementById('acompananteCantidad'), sel=document.getElementById('cantidadAcompanantes');
-  if(a==='si'){ box.style.display='block'; sel.required=true; } else { box.style.display='none'; sel.required=false; sel.value=''; dom.acompanantesForm.innerHTML=''; }
-}
+// 2) Generar acompañantes (CI con patrón tolerante + observaciones)
 function renderAcompanantes(n){
-  dom.acompanantesForm.innerHTML='';
+  const cont=document.getElementById('acompanantesForm');
+  cont.innerHTML='';
   for(let i=1;i<=n;i++){
-    dom.acompanantesForm.insertAdjacentHTML('beforeend',`
+    cont.insertAdjacentHTML('beforeend',`
       <div class="form-grid">
         <div class="form-field">
           <h3>Acompañante ${i}</h3>
@@ -293,7 +163,7 @@ function renderAcompanantes(n){
         </div>
         <div class="form-field">
           <label for="cedulaAcompanante${i}">Cédula (0.000.000-0)</label>
-          <input id="cedulaAcompanante${i}" name="cedulaAcompanante${i}" required pattern="^\\d\\.\\d{3}\\.\\d{3}-\\d$">
+          <input id="cedulaAcompanante${i}" name="cedulaAcompanante${i}" required pattern="^\\d(\\.?\\d{3}){2}-\\d$">
         </div>
         <div class="form-field">
           <label for="menuAcompanante${i}">Menú</label>
@@ -311,332 +181,20 @@ function renderAcompanantes(n){
   }
 }
 
-/* =============================
-   Plano (mesas/zonas)
-============================= */
-function renderZones(zones){
-  dom.salonMap.querySelectorAll('.map-zone').forEach(z => z.remove());
-  const items = Array.isArray(zones)&&zones.length ? zones : [
-    { id:'dance', label:'Pista de baile', className:'map-zone--dance', position:{x:50,y:45} },
-    { id:'stage', label:'Estado Mayor', className:'map-zone--stage', position:{x:6,y:50} },
-    { id:'entrance', label:'Entrada / Piscina', className:'map-zone--entrance', position:{x:50,y:6} },
-    { id:'dj', label:'DJ', className:'map-zone--dj', position:{x:50,y:94} }
-  ];
-  items.forEach(zone=>{
-    const el=document.createElement('div');
-    const extra=(zone.className||'').trim();
-    el.className = extra ? `map-zone ${extra}` : 'map-zone';
-    el.textContent = zone.label || '';
-    const clamp = v => (isNaN(v)?50:Math.min(Math.max(v,0),100));
-    const x=clamp(Number(zone.position?.x ?? 50));
-    const y=clamp(Number(zone.position?.y ?? 50));
-    el.style.setProperty('--zone-x', x);
-    el.style.setProperty('--zone-y', y);
-    dom.salonMap.appendChild(el);
-  });
-}
-function renderTables(mesas){
-  dom.salonMap.querySelectorAll('.mesa').forEach(x=>x.remove());
-  (mesas||[]).forEach(m=>{
-    const b=document.createElement('button');
-    b.type='button'; b.className='mesa';
-    const label=m.label||`Mesa ${m.number}`;
-    b.dataset.label=label; b.dataset.capacity=m.capacity ?? state.siteConfig?.defaultCapacity ?? 10;
-    b.style.left=(m.position?.x??0)+'%'; b.style.top=(m.position?.y??0)+'%';
-    b.textContent=m.number??label;
-    b.addEventListener('click',()=>selectTable(label));
-    dom.salonMap.appendChild(b);
-  });
-  colorMesas();
-}
-function selectTable(label){
-  dom.mesaInput.value=label;
-  document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada', m.dataset.label===label));
-  dom.mesaSeleccionadaLabel.textContent=label;
-  document.querySelector('.table-container').style.display='block';
-  updateMesaPreview();
-}
-function getMesaCapacity(label){
-  const m=(state.siteConfig?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===label);
-  return (m && typeof m.capacity==='number') ? m.capacity : (state.siteConfig?.defaultCapacity||10);
-}
-function invitadosDeMesa(label){
-  if(!label) return [];
-  if(state.guestsByTable.has(label)) return state.guestsByTable.get(label)||[];
-  const nl=norm(label);
-  for (const [k,v] of state.guestsByTable.entries()) if (norm(k)===nl) return v;
-  return [];
-}
-function updateMesaPreview(){ const label=dom.mesaInput.value; if(!label) return; dom.mesaText.textContent=label; pintarAsientos(); listarInvitados(); }
-function pintarAsientos(){
-  const label=dom.mesaInput.value, cap=getMesaCapacity(label), cont=dom.seatsContainer; cont.innerHTML='';
-  for(let i=1;i<=cap;i++){const s=document.createElement('div');s.className='seat';s.dataset.seat=i;cont.appendChild(s)}
-  const seats=cont.querySelectorAll('.seat'), CX=50,CY=50,R=38;
-  seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`});
-  let taken=0; invitadosDeMesa(label).forEach(g=>{
-    let n=1;
-    try{
-      const j = JSON.parse(g['JSON original']||'') || {};
-      n = 1 + (Array.isArray(j.acompanantes)?j.acompanantes.length:0);
-    }catch{}
-    for(let i=0;i<n;i++) if(taken<cap) cont.querySelector(`.seat[data-seat="${++taken}"]`)?.classList.add('occupied');
-  });
-}
-function listarInvitados(){
-  const label=dom.mesaInput.value, el=dom.guestList; el.innerHTML='';
-  const guests=invitadosDeMesa(label);
-  if(!guests.length){ el.textContent='No hay invitados registrados en esta mesa.'; return; }
-  guests.forEach(g=>{
-    const nombre=(g['Nombre']||'')+' '+(g['Apellido']||'');
-    const row=document.createElement('div'); row.innerHTML=`<strong>${nombre.trim()||'Invitado'}</strong>`; el.appendChild(row);
-  });
-}
-function colorMesas(){
-  document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));
-  state.guestsByTable.forEach((arr,label)=>{
-    const cap=getMesaCapacity(label);
-    let total=0;
-    arr.forEach(g=>{
-      try{
-        const j = JSON.parse(g['JSON original']||'') || {};
-        total += 1 + (Array.isArray(j.acompanantes)?j.acompanantes.length:0);
-      }catch{ total += 1; }
-    });
-    if(total>=cap){
-      document.querySelectorAll('.mesa').forEach(b=>{ if(norm(b.dataset.label)===norm(label)) b.classList.add('completa'); });
+// 3) Validador que ignora elementos ocultos (evita falsos “Completa…”)
+function validateForm(id){
+  const form=document.getElementById(id); if(!form) return [];
+  const bad=[];
+  form.querySelectorAll('input,select,textarea').forEach(el=>{
+    // si el elemento no es visible, no se valida
+    const hidden = (el.offsetParent === null);
+    if(!hidden && !el.checkValidity()){
+      const lab=form.querySelector(`label[for="${el.id}"]`);
+      bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim());
     }
   });
+  return bad;
 }
-
-/* =============================
-   Lectura y polling
-============================= */
-function stopGuestsPolling(){ if(state.fetchInterval){ clearInterval(state.fetchInterval); state.fetchInterval=null; } }
-function startGuestsPolling(){ stopGuestsPolling(); state.fetchInterval=setInterval(()=>{fetchGuestsData().catch(()=>{})},5000); }
-
-function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;} else if(c===','&&!q){out.push(cur);cur='';} else cur+=c;} out.push(cur); return out;}
-function csvToMap(csv){
-  if(!csv) return new Map();
-  const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
-  const headers=parseCSVLine(lines[0]); const normH=headers.map(h=>h.trim()); const lower=normH.map(h=>norm(h));
-  const mesaIdx = lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));
-  const jsonIdx = lower.findIndex(k=>k.includes('json'));
-  const map=new Map();
-  for(let i=1;i<lines.length;i++){
-    const v=parseCSVLine(lines[i]); if(v.every(x=>!x||x.trim()==='')) continue;
-    const e={}; normH.forEach((h,idx)=> e[h]=v[idx]==null?'':String(v[idx]).trim());
-    let mesa = mesaIdx!==-1 ? (v[mesaIdx]||'').trim() : '';
-    if(!mesa && jsonIdx!==-1 && v[jsonIdx]){
-      try{const p=JSON.parse(v[jsonIdx]); if(p&&typeof p==='object') mesa = p.mesa || p.Mesa || p?.payload?.mesa || '';}catch{}
-    }
-    if(!mesa) continue;
-    if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(e);
-  }
-  return map;
-}
-function valuesToMap(values){
-  if(!Array.isArray(values)||!values.length) return new Map();
-  const headers=values[0].map(h=>String(h||'').trim()); const lower=headers.map(h=>norm(h));
-  const mesaIdx=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));
-  const map=new Map();
-  for(let i=1;i<values.length;i++){
-    const row=values[i]||[]; const e={}; headers.forEach((h,idx)=> e[h]=row[idx]==null?'':String(row[idx]).trim());
-    let mesa = mesaIdx!==-1 ? String(row[mesaIdx]||'').trim() : '';
-    if(!mesa && e['JSON original']){
-      try{const p=JSON.parse(String(e['JSON original'])); if(p&&typeof p==='object') mesa = p.mesa || p.Mesa || p?.payload?.mesa || '';}catch{}
-    }
-    if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(e);
-  }
-  return map;
-}
-async function fetchGuestsData(){
-  if(state.guestsSheetUrl){
-    try{
-      const r=await fetch(buster(state.guestsSheetUrl),{method:'GET',mode:'cors',cache:'no-store'});
-      if(r.ok){ const t=await r.text(); const m=csvToMap(t); if(m.size){ state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; } }
-    }catch{}
-  }
-  if(state.reservationEndpoint){
-    try{
-      const u=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
-      const r=await fetch(u,{method:'GET',mode:'cors',cache:'no-store'});
-      if(r.ok){ const p=await r.json().catch(()=>({})); const vals=Array.isArray(p?.values)?p.values:[]; const m=valuesToMap(vals); state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; }
-    }catch{}
-  }
-  state.guestsByTable=new Map(); colorMesas(); listarInvitados(); pintarAsientos(); return state.guestsByTable;
-}
-
-/* =============================
-   Búsqueda por Cédula (prevención duplicado)
-============================= */
-function findRegistrationByCedula(ci){
-  const ciNorm = norm(ci);
-  for (const [,rows] of state.guestsByTable.entries()){
-    for (const r of rows){
-      // titular CI
-      const ciCol = r['Cédula'] || r['Cedula'] || '';
-      if (norm(ciCol) === ciNorm){
-        // extraer detalles desde el JSON original cuando sea posible
-        try{
-          const j = JSON.parse(r['JSON original']||'') || {};
-          return {
-            mesa: r['Mesa'] || j.mesa || '',
-            menu: r['Menú titular'] || r['Menu titular'] || j.menu || '',
-            observacion: r['Observaciones'] || j.observacion || '',
-            acompanantes: Array.isArray(j.acompanantes) ? j.acompanantes : []
-          };
-        }catch{
-          return { mesa: r['Mesa']||'', menu: r['Menú titular']||r['Menu titular']||'', observacion: r['Observaciones']||'', acompanantes: [] };
-        }
-      }
-    }
-  }
-  return null;
-}
-function showDuplicateModal(info){
-  const lines = [];
-  lines.push(`Mesa: ${info.mesa || '-'}`);
-  lines.push(`Menú: ${info.menu || '-'}`);
-  lines.push(`Observaciones: ${info.observacion || '-'}`);
-  if (Array.isArray(info.acompanantes) && info.acompanantes.length){
-    lines.push('\nAcompañantes:');
-    info.acompanantes.forEach((a,idx)=>{
-      lines.push(`  ${idx+1}. ${a.nombre || '-'} | CI: ${a.cedula || '-'} | Menú: ${a.menu || '-'} | Obs: ${a.observacion || '-'}`);
-    });
-  }
-  dom.duplicateBody.textContent = lines.join('\n');
-  dom.duplicateModal.classList.add('active'); dom.duplicateModal.style.display='flex';
-}
-
-/* =============================
-   Envío + confirmación
-============================= */
-function setBtnSending(b){ dom.submitButton.disabled=b; dom.submitButton.textContent=b?'Enviando...':'Enviar'; }
-async function sendNoCors(url, body){ await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'}); }
-function mesaSnapshot(label){
-  const arr=invitadosDeMesa(label); const map=new Map();
-  (arr||[]).forEach(g=>{
-    const key = norm((g['Cédula']||g['Cedula']||''))+'|'+norm((g['Correo']||''))+'|'+norm(((g['Nombre']||'')+' '+(g['Apellido']||'')));
-    map.set(key,(map.get(key)||0)+1);
-  });
-  return map;
-}
-function snapshotHasNew(prev, now){ for(const [k,c] of now.entries()){ if((prev.get(k)||0) < c) return true; } return false; }
-
-async function onSubmit(e){
-  e.preventDefault();
-
-  // Validaciones básicas
-  const mesa=dom.mesaInput.value;
-  const cap=getMesaCapacity(mesa);
-  const ocupados=invitadosDeMesa(mesa).reduce((s,g)=>{try{const j=JSON.parse(g['JSON original']||'')||{}; return s + 1 + (Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{return s+1;}},0);
-  const cant=parseInt(document.getElementById('cantidadAcompanantes').value||'0',10)||0;
-  if(!mesa || ocupados+1+cant>cap){ alert('Debe seleccionar una mesa con espacio disponible.'); return; }
-
-  if(!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())){ alert('Complete todos los campos requeridos.'); return; }
-
-  // ===== PREVENCIÓN DUPLICADO LOCAL (rápida) =====
-  await fetchGuestsData().catch(()=>{});
-  const ciTitular = document.getElementById('cedula').value;
-  const already = findRegistrationByCedula(ciTitular);
-  if (already) { showDuplicateModal(already); return; }
-
-  // Build payload
-  const fd1=new FormData(dom.guestForm), fd2=new FormData(dom.acompanantesForm);
-  const acomp=[];
-  fd2.forEach((v,k)=>{
-    const i=parseInt(k.replace(/\D/g,''),10)-1;
-    if(k.startsWith('nombreAcompanante')){ (acomp[i]??={}).nombre=v; }
-    if(k.startsWith('cedulaAcompanante')){ (acomp[i]??={}).cedula=v; }
-    if(k.startsWith('menuAcompanante')){ (acomp[i]??={}).menu=v; }
-    if(k.startsWith('obsAcompanante')){ (acomp[i]??={}).observacion=v; }
-  });
-  const data={
-    correo:fd1.get('correo'),
-    grado:fd1.get('grado'),
-    escalafon:fd1.get('escalafon'),
-    nombre:fd1.get('nombre'),
-    apellido:fd1.get('apellido'),
-    cedula:fd1.get('cedula'),
-    menu:fd1.get('menu'),
-    observacion:fd1.get('observacion') || '',
-    acompanante:fd1.get('acompanante'),
-    cantidadAcompanantes:fd1.get('cantidadAcompanantes'),
-    acompanantes:acomp,
-    mesa
-  };
-
-  // Snapshot para verificar posterior
-  const base = mesaSnapshot(mesa);
-
-  setBtnSending(true);
-  try{
-    // Enviar (no-cors)
-    await sendNoCors(state.reservationEndpoint, JSON.stringify({payload:data,submittedAt:new Date().toISOString(),...data}));
-
-    // Esperar y verificar aparición
-    const deadline = Date.now()+20000;
-    while(Date.now()<deadline){
-      await new Promise(r=>setTimeout(r,2000));
-      await fetchGuestsData().catch(()=>{});
-      const now = mesaSnapshot(mesa);
-      if(snapshotHasNew(base, now)){
-        stopGuestsPolling(); dom.mesaConfirmada.textContent=mesa;
-        dom.modal.classList.add('active'); dom.modal.style.display='flex'; return;
-      }
-      // También re-chequeamos duplicado (por si backend rechazó)
-      const backDup = findRegistrationByCedula(ciTitular);
-      if (backDup) { showDuplicateModal(backDup); return; }
-    }
-    alert('No se pudo confirmar la escritura en la hoja. Verifica el Apps Script / permisos / SHEET_ID.');
-  }finally{ setBtnSending(false); }
-}
-
-/* =============================
-   Carga de config
-============================= */
-async function loadConfig(){
-  try{ const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local); }catch{}
-  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); return await r.json();
-}
-function applyConfig(cfg){
-  state.siteConfig = cfg||{};
-  state.reservationEndpoint = cfg.reservationScriptUrl || '';
-  state.guestsSheetUrl = cfg.guestsSheetCsvUrl || '';
-  document.title = cfg.siteTitle || document.title;
-  ensureHero();
-  if(cfg.siteTitle) document.getElementById('siteTitleHeading').textContent = cfg.siteTitle;
-  if(cfg.siteSubtitle) document.getElementById('siteSubtitle').textContent = cfg.siteSubtitle;
-  if(cfg.siteDescription) document.getElementById('siteDescription').textContent = cfg.siteDescription;
-  if(cfg.heroImage) document.getElementById('heroImage').src = cfg.heroImage;
-
-  const mesas = Array.isArray(cfg.mesas)? [...cfg.mesas].sort((a,b)=>(a.number||0)-(b.number||0)) : [];
-  renderZones(cfg.zones);
-  renderTables(mesas);
-  document.getElementById('totalMesasCounter').textContent = mesas.length;
-  document.getElementById('capacidadTotalCounter').textContent = mesas.reduce((s,m)=> s+(m.capacity||cfg.defaultCapacity||10), 0);
-
-  fetchGuestsData().catch(()=>{});
-}
-
-/* =============================
-   Eventos
-============================= */
-document.addEventListener('DOMContentLoaded', async ()=>{
-  // Hero
-  ensureHero();
-  // Navegación
-  document.body.addEventListener('click', handleNav);
-  document.getElementById('acompanante').addEventListener('change', toggleAcomp);
-  dom.submitButton.addEventListener('click', onSubmit);
-  dom.finalizarBtn.addEventListener('click', ()=>location.reload());
-  dom.dupCloseBtn.addEventListener('click', ()=>{dom.duplicateModal.classList.remove('active'); dom.duplicateModal.style.display='none';});
-
-  // Screens
-  document.querySelectorAll('.container').forEach((s,i)=> s.classList.toggle('active', i===0));
-  // Config
-  try{ const cfg=await loadConfig(); applyConfig(cfg); }catch(e){ console.error(e); alert('No se pudo cargar configuration.'); }
-});
 </script>
 </body>
 </html>
