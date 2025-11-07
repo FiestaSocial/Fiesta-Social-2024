@@ -105,59 +105,35 @@
     <h2>Datos personales</h2>
     <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
     <form id="guestForm" class="form-grid" autocomplete="on">
-      <div class="form-field">
-        <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" required autocomplete="email">
-      </div>
-      <div class="form-field">
-        <label for="grado">Grado</label>
+      <div class="form-field"><label for="correo">Correo</label><input type="email" id="correo" name="correo" required autocomplete="email"></div>
+      <div class="form-field"><label for="grado">Grado</label>
         <select id="grado" name="grado" required>
-          <option value="" selected>Seleccionar</option>
-          <option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option>
-          <option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
+          <option value="" selected>Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
         </select>
       </div>
-      <div class="form-field">
-        <label for="escalafon">Escalafón</label>
+      <div class="form-field"><label for="escalafon">Escalafón</label>
         <select id="escalafon" name="escalafon" required>
-          <option value="" selected>Seleccionar</option>
-          <option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
+          <option value="" selected>Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
         </select>
       </div>
-      <div class="form-field">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" name="nombre" required autocomplete="given-name">
-      </div>
-      <div class="form-field">
-        <label for="apellido">Apellido</label>
-        <input id="apellido" name="apellido" required autocomplete="family-name">
-      </div>
-      <div class="form-field">
-        <label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
-        <input id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="Ejemplo: 4.646.789-2">
-      </div>
-      <div class="form-field">
-        <label for="acompanante">¿Asiste con acompañante?</label>
+      <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required autocomplete="given-name"></div>
+      <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required autocomplete="family-name"></div>
+      <div class="form-field"><label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
+        <input id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="Ejemplo: 4.646.789-2"></div>
+      <div class="form-field"><label for="acompanante">¿Asiste con acompañante?</label>
         <select id="acompanante" name="acompanante" required>
-          <option value="" selected>Seleccionar</option>
-          <option value="no">No</option><option value="si">Sí</option>
+          <option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option>
         </select>
       </div>
       <div class="form-field" id="acompananteCantidad" style="display:none;">
         <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
         <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-          <option value="" selected>Seleccionar</option>
-          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          <option value="" selected>Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
         </select>
       </div>
-      <div class="form-field">
-        <label for="menu">Menú</label>
+      <div class="form-field"><label for="menu">Menú</label>
         <select id="menu" name="menu" required>
-          <option value="" selected>Seleccionar</option>
-          <option value="normal">Normal</option>
-          <option value="vegetariano">Vegetariano</option>
-          <option value="vegano">Vegano</option>
-          <option value="celiaco">Celíaco</option>
+          <option value="" selected>Seleccionar</option><option value="normal">Normal</option><option value="vegetariano">Vegetariano</option><option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
         </select>
       </div>
       <input type="hidden" id="mesa" name="mesa">
@@ -242,8 +218,8 @@ const HERO_CARD_TEMPLATE = `
 `;
 
 /* ---------- Config por defecto ---------- */
-const DEFAULT_RESERVATION_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxad44B_xz6aUgvYywB4cC63saquVXYAnyGAtgsfiSenlWtyoHYg30lko7GEe9-4EdxHg/exec';
-const DEFAULT_GUESTS_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/13TU5Qzi7L1mqFY4DInLB_1iFHstz5nfeM-A-C-a9NvI/gviz/tq?tqx=out:csv&sheet=Datos%20de%20invitados';
+const DEFAULT_RESERVATION_ENDPOINT = 'REEMPLAZA-ESTE-VALOR-CON-TU-URL-/exec';
+const DEFAULT_GUESTS_SHEET_CSV_URL = ''; // opcional; si queda vacío, lee por Apps Script
 const DEFAULT_ZONES = [
   { id:'dance',label:'Pista de baile',className:'map-zone--dance',position:{x:50,y:45} },
   { id:'stage',label:'Estado Mayor',className:'map-zone--stage',position:{x:6,y:50} },
@@ -308,8 +284,7 @@ function extractCompanionNames(g){
 }
 function countGuestSeats(g){return 1+extractCompanionNames(g).length}
 function getGuestFullName(g){const n=getValueFromGuest(g,NOMBRE_KEYS);const a=getValueFromGuest(g,APELLIDO_KEYS);return [n,a].filter(Boolean).join(' ').trim()}
-function getGuestEmail(g){return getValueFromGuest(g,EMAIL_KEYS)}
-function getGuestCedula(g){return getValueFromGuest(g,CEDULA_KEYS)}
+function getGuestsForMesa(label){if(!label)return[];if(state.guestsByTable.has(label))return state.guestsByTable.get(label)||[];const n=normalizeString(label);for(const [k,g] of state.guestsByTable.entries()){if(normalizeString(k)===n)return g}return[]}
 
 /* ---------- Navegación ---------- */
 function enforceInitialScreen(){document.querySelectorAll('.container').forEach((s,i)=>{i===0?s.classList.add('active'):s.classList.remove('active')});state.currentScreen=1}
@@ -345,54 +320,43 @@ function generateAcompanantesForm(n){dom.acompanantesForm.innerHTML='';for(let i
   </div>`}}
 
 /* ---------- Plano ---------- */
-function renderZones(z){if(!dom.salonMap)return;dom.salonMap.querySelectorAll('.map-zone').forEach(x=>x.remove());const items=Array.isArray(z)&&z.length?z:DEFAULT_ZONES;items.forEach(zone=>{const el=document.createElement('div');el.className=['map-zone',zone.className||''].filter(Boolean).join(' ').trim();el.textContent=zone.label||'';el.dataset.zoneId=zone.id||'';const x=parseFloat(zone.position?.x),y=parseFloat(zone.position?.y);el.style.setProperty('--zone-x',Number.isNaN(x)?0:Math.min(Math.max(x,0),100));el.style.setProperty('--zone-y',Number.isNaN(y)?0:Math.min(Math.max(y,0),100));dom.salonMap.appendChild(el)})}
-function renderTables(mesas){if(!dom.salonMap)return;dom.salonMap.querySelectorAll('.mesa').forEach(x=>x.remove());(mesas||[]).forEach(m=>{const b=document.createElement('button');b.type='button';b.className='mesa';b.id=`mesa${m.number}`;const label=m.label||`Mesa ${m.number}`;b.dataset.label=label;b.dataset.capacity=m.capacity??state.siteConfig?.defaultCapacity??0;b.style.left=`${m.position?.x??0}%`;b.style.top=`${m.position?.y??0}%`;b.textContent=m.number??label;b.setAttribute('aria-label',`${label} (capacidad ${b.dataset.capacity})`);b.addEventListener('click',()=>selectTable(label));b.addEventListener('mouseover',ev=>showGuestsTooltip(label,ev));b.addEventListener('focus',ev=>showGuestsTooltip(label,ev));b.addEventListener('mouseleave',hideGuestsTooltip);b.addEventListener('blur',hideGuestsTooltip);dom.salonMap.appendChild(b)});updateMesasCompletaColor()}
+function renderZones(z){const DEFAULT_ZONES_ARR=[...DEFAULT_ZONES];const target=document.getElementById('salonMap'); if(!target) return; target.querySelectorAll('.map-zone').forEach(x=>x.remove()); const items=Array.isArray(z)&&z.length?z:DEFAULT_ZONES_ARR; items.forEach(zone=>{const el=document.createElement('div');el.className=['map-zone',zone.className||''].filter(Boolean).join(' ').trim();el.textContent=zone.label||'';el.dataset.zoneId=zone.id||'';const x=parseFloat(zone.position?.x),y=parseFloat(zone.position?.y);el.style.setProperty('--zone-x',Number.isNaN(x)?0:Math.min(Math.max(x,0),100));el.style.setProperty('--zone-y',Number.isNaN(y)?0:Math.min(Math.max(y,0),100));target.appendChild(el)})}
+function renderTables(mesas){const map=document.getElementById('salonMap'); if(!map)return; map.querySelectorAll('.mesa').forEach(x=>x.remove()); (mesas||[]).forEach(m=>{const b=document.createElement('button');b.type='button';b.className='mesa';b.id=`mesa${m.number}`;const label=m.label||`Mesa ${m.number}`;b.dataset.label=label;b.dataset.capacity=m.capacity??state.siteConfig?.defaultCapacity??0;b.style.left=`${m.position?.x??0}%`;b.style.top=`${m.position?.y??0}%`;b.textContent=m.number??label;b.addEventListener('click',()=>selectTable(label));b.addEventListener('mouseover',ev=>showGuestsTooltip(label,ev));b.addEventListener('focus',ev=>showGuestsTooltip(label,ev));b.addEventListener('mouseleave',hideGuestsTooltip);b.addEventListener('blur',hideGuestsTooltip);map.appendChild(b)});updateMesasCompletaColor()}
 function updateSummary(){const mesas=state.siteConfig?.mesas||[];dom.totalMesasCounter.textContent=mesas.length;const total=mesas.reduce((a,m)=>a+(m.capacity??state.siteConfig?.defaultCapacity??0),0);dom.capacidadTotalCounter.textContent=total}
-function selectTable(label){state.selectedTable=label;if(dom.mesaInput)dom.mesaInput.value=label;document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada',m.dataset.label===label));dom.mesaSeleccionadaLabel.textContent=label;document.querySelector('.table-container').style.display='block';updateMesaPreview()}
-function getMesaCapacity(label){const mesas=state.siteConfig?.mesas||[];const m=mesas.find(x=>(x.label||`Mesa ${x.number}`)===label);if(m&&typeof m.capacity==='number')return m.capacity;return state.siteConfig?.defaultCapacity||10}
-function getGuestsForMesa(label){if(!label)return[];if(state.guestsByTable.has(label))return state.guestsByTable.get(label)||[];const n=normalizeString(label);for(const [k,g] of state.guestsByTable.entries()){if(normalizeString(k)===n)return g}return[]}
-function updateMesaPreview(){const label=dom.mesaInput?.value;if(!label)return;dom.mesaText.textContent=label;updateSeats();updateGuestList()}
-function updateSeats(){if(!dom.seatsContainer)return;const label=dom.mesaInput?.value;const cap=getMesaCapacity(label);dom.seatsContainer.innerHTML='';for(let i=1;i<=cap;i++){const s=document.createElement('div');s.classList.add('seat');s.dataset.seat=i;dom.seatsContainer.appendChild(s)};const seats=dom.seatsContainer.querySelectorAll('.seat');const CX=50,CY=50,R=38;seats.forEach((s,i)=>{const ang=(i/seats.length)*2*Math.PI;const x=CX+R*Math.cos(ang),y=CY+R*Math.sin(ang);s.style.position='absolute';s.style.left=`${x}%`;s.style.top=`${y}%`;s.style.transform='translate(-50%,-50%)' });const mesaGuests=getGuestsForMesa(label);let taken=0;mesaGuests.forEach(g=>{const need=countGuestSeats(g);for(let i=0;i<need;i++){if(taken<cap){dom.seatsContainer.querySelector(`.seat[data-seat="${taken+1}"]`)?.classList.add('occupied');taken++}}})}
-function updateGuestList(){if(!dom.guestList)return;const label=dom.mesaInput?.value;dom.guestList.innerHTML='';const guests=getGuestsForMesa(label);if(label&&guests.length){guests.forEach(g=>{const full=getGuestFullName(g)||'Nombre no disponible';const div=document.createElement('div');div.innerHTML=`<strong>${full}</strong>`;dom.guestList.appendChild(div);extractCompanionNames(g).forEach(n=>{const c=document.createElement('div');c.textContent=n;dom.guestList.appendChild(c)})})}else{dom.guestList.textContent='No hay invitados registrados en esta mesa.'}}
-function showGuestsTooltip(mesa,ev){if(!dom.tooltip)return;let content='No hay invitados registrados en esta mesa.';const gs=getGuestsForMesa(mesa);if(gs.length){const names=gs.map(g=>{let s=getGuestFullName(g)||'Invitado';const comp=extractCompanionNames(g);if(comp.length)s+=` (+${comp.join(', ')})`;return s}).join(', ');if(names)content=names}dom.tooltip.textContent=content;dom.tooltip.style.display='block';let x=ev?.pageX,y=ev?.pageY;const t=ev?.currentTarget||ev?.target;if((!x||!y)&&t){const r=t.getBoundingClientRect();x=r.left+window.scrollX+r.width/2;y=r.top+window.scrollY+r.height/2}dom.tooltip.style.left=`${x}px`;dom.tooltip.style.top=`${y}px`}
+function selectTable(label){state.selectedTable=label;dom.mesaInput.value=label;document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada',m.dataset.label===label));dom.mesaSeleccionadaLabel.textContent=label;document.querySelector('.table-container').style.display='block';updateMesaPreview()}
+function getMesaCapacity(label){const mesas=state.siteConfig?.mesas||[];const m=mesas.find(x=>(x.label||`Mesa ${x.number}`)===label);return (m&&typeof m.capacity==='number')?m.capacity:(state.siteConfig?.defaultCapacity||10)}
+function updateMesaPreview(){const label=dom.mesaInput.value;if(!label)return;dom.mesaText.textContent=label;updateSeats();updateGuestList()}
+function updateSeats(){const cont=dom.seatsContainer, label=dom.mesaInput.value; if(!cont||!label)return; const cap=getMesaCapacity(label); cont.innerHTML=''; for(let i=1;i<=cap;i++){const s=document.createElement('div');s.classList.add('seat');s.dataset.seat=i;cont.appendChild(s)} const seats=cont.querySelectorAll('.seat'); const CX=50,CY=50,R=38; seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.position='absolute'; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`; s.style.transform='translate(-50%,-50%)' }); let taken=0; getGuestsForMesa(label).forEach(g=>{const need=1+extractCompanionNames(g).length; for(let i=0;i<need;i++){ if(taken<cap){cont.querySelector(`.seat[data-seat="${taken+1}"]`)?.classList.add('occupied'); taken++; } } })}
+function updateGuestList(){const label=dom.mesaInput.value;dom.guestList.innerHTML='';const guests=getGuestsForMesa(label);if(label&&guests.length){guests.forEach(g=>{const full=getGuestFullName(g)||'Invitado';const el=document.createElement('div');el.innerHTML=`<strong>${full}</strong>`;dom.guestList.appendChild(el);extractCompanionNames(g).forEach(n=>{const c=document.createElement('div');c.textContent=n;dom.guestList.appendChild(c)})})}else{dom.guestList.textContent='No hay invitados registrados en esta mesa.'}}
+function showGuestsTooltip(mesa,ev){if(!dom.tooltip)return;let content='No hay invitados registrados en esta mesa.';const guests=getGuestsForMesa(mesa);if(guests.length){const names=guests.map(g=>{let s=getGuestFullName(g)||'Invitado';const comp=extractCompanionNames(g);if(comp.length)s+=` (+${comp.join(', ')})`;return s}).join(', ');if(names)content=names}dom.tooltip.textContent=content;dom.tooltip.style.display='block';let x=ev?.pageX,y=ev?.pageY;const t=ev?.currentTarget||ev?.target;if((!x||!y)&&t){const r=t.getBoundingClientRect();x=r.left+window.scrollX+r.width/2;y=r.top+window.scrollY+r.height/2}dom.tooltip.style.left=`${x}px`;dom.tooltip.style.top=`${y}px`}
 function hideGuestsTooltip(){dom.tooltip.style.display='none'}
-function updateMesasCompletaColor(){document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));state.guestsByTable.forEach((guests,label)=>{const cap=getMesaCapacity(label);let total=0;guests.forEach(g=>total+=countGuestSeats(g));if(total>=cap){document.querySelectorAll('.mesa').forEach(b=>{if(normalizeString(b.dataset.label)===normalizeString(label))b.classList.add('completa')})}})}
-
-/* ---------- Polling / Lectura ---------- */
-function stopGuestsPolling(){if(state.fetchInterval){clearInterval(state.fetchInterval);state.fetchInterval=null}}
-function startGuestsPolling(){stopGuestsPolling();state.fetchInterval=setInterval(()=>{fetchGuestsData().catch(()=>{})},5000)}
-
-function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else{q=!q}}else if(c===','&&!q){out.push(cur);cur=''}else cur+=c}out.push(cur);return out}
-function csvToMap(csv){
-  if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
-  const headers=parseCSVLine(lines[0]); const normHeaders=headers.map(h=>h.trim()); const lower=normHeaders.map(h=>normalizeString(h));
-  const mesaCandidates=['mesa','mesa n','mesa n°','n','n°','numero','número'];
-  let mesaIndex=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaCandidates.some(c=>k===c||k.startsWith(c))){mesaIndex=i;break}}
+function updateMesasCompletaColor(){document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));state.guestsByTable.forEach((guests,label)=>{const cap=getMesaCapacity(label);let total=0;guests.forEach(g=>{total+=1+extractCompanionNames(g).length}); if(total>=cap){document.querySelectorAll('.mesa').forEach(b=>{if(normalizeString(b.dataset.label)===normalizeString(label))b.classList.add('completa')})}})}
+function getGuestsMapFromCSV(csv){
+  if(!csv)return new Map(); const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
+  const parseLine=l=>{const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++;}else q=!q;} else if(ch===','&&!q){r.push(c);c='';} else c+=ch} r.push(c); return r;};
+  const headers=parseLine(lines[0]); const norm=headers.map(h=>h.trim()); const lower=norm.map(h=>normalizeString(h));
+  const mesaKeys=['mesa','mesa n','mesa n°','n','n°','numero','número']; let mesaIdx=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaKeys.some(c=>k===c||k.startsWith(c))){mesaIdx=i;break}}
   const jsonIdx=lower.findIndex(k=>k.includes('json'));
   const map=new Map();
   for(let i=1;i<lines.length;i++){
-    const vals=parseCSVLine(lines[i]); if(vals.every(v=>!v||v.trim()==='')) continue;
-    const entry={}; normHeaders.forEach((h,idx)=>{entry[h]=vals[idx]==null?'':String(vals[idx]).trim()});
-    if(jsonIdx!==-1){const raw=vals[jsonIdx]; const parsed=tryParseJson(raw,null); if(parsed&&typeof parsed==='object'){entry.__sourceJson=raw;entry.__parsedJson=parsed;const merges=[parsed]; if(parsed.payload&&typeof parsed.payload==='object')merges.push(parsed.payload); merges.forEach(t=>{Object.entries(t).forEach(([k,v])=>{if(v==null||v==='')return; if(!entry[k]) entry[k]=v})})}}
-    let mesa=''; if(mesaIndex!==-1) mesa=(vals[mesaIndex]??'').trim();
-    if(!mesa&&entry.__parsedJson){const pm=entry.__parsedJson.mesa||entry.__parsedJson.Mesa||entry.__parsedJson.payload?.mesa; if(pm) mesa=String(pm).trim()}
-    if(!mesa){const prop=Object.keys(entry).find(k=>{const n=normalizeString(k);return mesaCandidates.some(c=>n===c||n.startsWith(c))}); if(prop) mesa=String(entry[prop]??'').trim()}
-    if(!mesa) continue;
-    if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(entry);
+    const vals=parseLine(lines[i]); if(vals.every(v=>!v||v.trim()==='')) continue;
+    const entry={}; norm.forEach((h,idx)=>entry[h]=vals[idx]==null?'':String(vals[idx]).trim());
+    if(jsonIdx!==-1){const raw=vals[jsonIdx]; const parsed=tryParseJson(raw,null); if(parsed&&typeof parsed==='object'){entry.__parsedJson=parsed; const merge=[parsed, parsed.payload||{}]; merge.forEach(t=>{Object.entries(t).forEach(([k,v])=>{if(v==null||v==='')return; if(!entry[k]) entry[k]=v})})}}
+    let mesa=''; if(mesaIdx!==-1) mesa=(vals[mesaIdx]??'').trim(); if(!mesa&&entry.__parsedJson){const pm=entry.__parsedJson.mesa||entry.__parsedJson.Mesa||entry.__parsedJson.payload?.mesa; if(pm) mesa=String(pm).trim()}
+    if(!mesa){const p=Object.keys(entry).find(k=>{const n=normalizeString(k);return mesaKeys.some(c=>n===c||n.startsWith(c))}); if(p) mesa=String(entry[p]??'').trim()}
+    if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(entry);
   }
   return map;
 }
-function valuesToMap(values){
+function getGuestsMapFromValues(values){
   if(!Array.isArray(values)||!values.length) return new Map();
   const headers=values[0].map(h=>String(h||'').trim()); const lower=headers.map(normalizeString);
-  const mesaCandidates=['mesa','mesa n','mesa n°','n','n°','numero','número'];
-  let mesaIndex=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaCandidates.some(c=>k===c||k.startsWith(c))){mesaIndex=i;break}}
+  const mesaKeys=['mesa','mesa n','mesa n°','n','n°','numero','número']; let mesaIdx=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaKeys.some(c=>k===c||k.startsWith(c))){mesaIdx=i;break}}
   const jsonIdx=lower.findIndex(k=>k.includes('json'));
   const map=new Map();
   for(let r=1;r<values.length;r++){
     const row=values[r]||[]; const entry={}; headers.forEach((h,idx)=>entry[h]=row[idx]==null?'':String(row[idx]).trim());
-    let mesa = mesaIndex!==-1 ? (row[mesaIndex]==null?'':String(row[mesaIndex]).trim()) : '';
-    if(!mesa && jsonIdx!==-1 && row[jsonIdx]){const p=tryParseJson(String(row[jsonIdx]),null); if(p&&typeof p==='object'){entry.__parsedJson=p; const pm=p.mesa||p.Mesa||p.payload?.mesa; if(pm) mesa=String(pm).trim()}}
+    let mesa=mesaIdx!==-1?(row[mesaIdx]==null?'':String(row[mesaIdx]).trim()):''; if(!mesa && jsonIdx!==-1 && row[jsonIdx]){const p=tryParseJson(String(row[jsonIdx]),null); if(p&&typeof p==='object'){entry.__parsedJson=p; const pm=p.mesa||p.Mesa||p.payload?.mesa; if(pm) mesa=String(pm).trim()}}
     if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(entry);
   }
   return map;
@@ -403,10 +367,10 @@ async function fetchGuestsData(){
     try{
       const res=await fetch(appendCacheBuster(state.guestsSheetUrl),{cache:'no-store',method:'GET',mode:'cors'});
       if(res.ok){
-        const csv=await res.text(); const map=csvToMap(csv);
+        const csv=await res.text(); const map=getGuestsMapFromCSV(csv);
         if(map.size>0){ state.guestsByTable=map; updateMesasCompletaColor(); updateGuestList(); updateSeats(); return map; }
       }
-    }catch(e){ console.warn('CSV no accesible, usando Apps Script:',e); }
+    }catch{}
   }
   // 2) Fallback Apps Script read=1
   if(state.reservationEndpoint){
@@ -414,83 +378,60 @@ async function fetchGuestsData(){
       const url=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
       const r=await fetch(url,{method:'GET',mode:'cors',cache:'no-store'});
       if(r.ok){
-        const payload=await r.json().catch(()=>({}));
-        const values=Array.isArray(payload?.values)?payload.values:[];
-        const map=valuesToMap(values);
+        const payload=await r.json().catch(()=>({})); const values=Array.isArray(payload?.values)?payload.values:[];
+        const map=getGuestsMapFromValues(values);
         state.guestsByTable=map; updateMesasCompletaColor(); updateGuestList(); updateSeats(); return map;
       }
-    }catch(e){ console.warn('Fallback Apps Script falló:',e); }
+    }catch{}
   }
   state.guestsByTable=new Map(); updateMesasCompletaColor(); updateGuestList(); updateSeats(); return state.guestsByTable;
 }
-
-/* ---------- Envío sin falso error ---------- */
 function setSubmissionState(b){if(!dom.submitButton)return;if(b){dom.submitButton.dataset.originalLabel=dom.submitButton.textContent;dom.submitButton.disabled=true;dom.submitButton.textContent='Enviando...'}else{dom.submitButton.disabled=false;dom.submitButton.textContent=dom.submitButton.dataset.originalLabel||'Enviar'}}
-
-async function postNoCors(url, body){
-  await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'});
-}
+async function postNoCors(url, body){await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'})}
 async function submitReservation(url, payload){
   if(!url) throw new Error('reservation_missing_endpoint');
   const submittedAt=new Date().toISOString();
   const body=JSON.stringify({payload,submittedAt,...payload});
-  try{
-    await postNoCors(url, body);
-  }catch(err){
-    const qs=new URLSearchParams({submittedAt,...Object.entries(payload).reduce((o,[k,v])=>{o[k]=typeof v==='object'?JSON.stringify(v):v;return o},{})}).toString();
-    const fallback=url+(url.includes('?')?'&':'?')+qs;
-    await fetch(fallback,{method:'GET',mode:'no-cors',cache:'no-store'}).catch(()=>{});
-  }
-  await new Promise(r=>setTimeout(r,1500)); // dar tiempo a que la hoja escriba
+  try{ await postNoCors(url, body); }
+  catch{ const qs=new URLSearchParams({submittedAt,...Object.entries(payload).reduce((o,[k,v])=>{o[k]=typeof v==='object'?JSON.stringify(v):v;return o},{})}).toString(); const fallback=url+(url.includes('?')?'&':'?')+qs; await fetch(fallback,{method:'GET',mode:'no-cors',cache:'no-store'}).catch(()=>{}); }
+  await new Promise(r=>setTimeout(r,1500));
   await fetchGuestsData().catch(()=>{});
   return true;
 }
-
+function getGuestsForMesaWrapper(label){return getGuestsForMesa(label)}
 async function submitForm(e){
   e.preventDefault();
-  const mesa=dom.mesaInput?.value;
-  const cap=getMesaCapacity(mesa);
-  const ya=getGuestsForMesa(mesa).reduce((s,g)=>s+countGuestSeats(g),0);
+  const mesa=dom.mesaInput.value;
+  const cap=(state.siteConfig?.mesas||[]).find(m=>(m.label||`Mesa ${m.number}`)===mesa)?.capacity || state.siteConfig?.defaultCapacity || 10;
+  const ya=(getGuestsForMesaWrapper(mesa)||[]).reduce((s,g)=>s+(1+extractCompanionNames(g).length),0);
   const cant=parseInt(document.getElementById('cantidadAcompanantes').value||'0',10)||0;
   if(!mesa || ya+1+cant>cap){alert('Debe seleccionar una mesa disponible.');return;}
   if(!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())){alert('Complete todos los campos requeridos.');return;}
 
   const fd1=new FormData(dom.guestForm); const fd2=new FormData(dom.acompanantesForm);
   const acomp=[]; fd2.forEach((v,k)=>{const i=parseInt(k.replace(/\D/g,''),10)-1; if(k.includes('nombreAcompanante')){ if(!acomp[i]) acomp[i]={}; acomp[i].nombre=v; } else if(k.includes('menuAcompanante')){ if(!acomp[i]) acomp[i]={}; acomp[i].menu=v; }});
-
-  const data={
-    correo:fd1.get('correo'),grado:fd1.get('grado'),escalafon:fd1.get('escalafon'),
-    nombre:fd1.get('nombre'),apellido:fd1.get('apellido'),cedula:fd1.get('cedula'),
-    acompanante:fd1.get('acompanante'),cantidadAcompanantes:fd1.get('cantidadAcompanantes'),
-    menu:fd1.get('menu'), acompanantes:acomp, mesa
-  };
+  const data={correo:fd1.get('correo'),grado:fd1.get('grado'),escalafon:fd1.get('escalafon'),nombre:fd1.get('nombre'),apellido:fd1.get('apellido'),cedula:fd1.get('cedula'),acompanante:fd1.get('acompanante'),cantidadAcompanantes:fd1.get('cantidadAcompanantes'),menu:fd1.get('menu'),acompanantes:acomp,mesa};
 
   setSubmissionState(true);
-  try{
-    await submitReservation(state.reservationEndpoint,data);
-    showConfirmation();
-  }catch(err){
-    console.error(err);
-    alert('Ocurrió un problema al enviar la reserva. Intenta nuevamente.');
-  }finally{ setSubmissionState(false); }
+  try{ await submitReservation(state.reservationEndpoint,data); showConfirmation(); }
+  catch{ alert('Ocurrió un problema al enviar la reserva.'); }
+  finally{ setSubmissionState(false); }
 }
-
-function showConfirmation(){stopGuestsPolling();const label=dom.mesaInput?.value||'tu mesa';dom.mesaConfirmada.textContent=label;dom.modal.classList.add('active');dom.modal.style.display='flex'}
+function showConfirmation(){const label=dom.mesaInput.value||'tu mesa';document.getElementById('mesaConfirmada').textContent=label;document.getElementById('confirmationModal').classList.add('active');document.getElementById('confirmationModal').style.display='flex'}
 function finalizarRegistro(){location.reload()}
 
 /* ---------- Config ---------- */
 async function loadConfig(){
   let local=null;
-  if(typeof localStorage!=='undefined'){try{local=localStorage.getItem('fiestaConfig'); if(local) local=JSON.parse(local);}catch{local=null}}
+  try{local=localStorage.getItem('fiestaConfig'); if(local) local=JSON.parse(local);}catch{local=null}
   if(local) return local;
-  const res=await fetch('config.json?_='+Date.now()); if(!res.ok) throw new Error('No se pudo cargar config.json'); return await res.json();
+  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) return {}; return await r.json();
 }
 function applyConfig(cfg){
-  if(!cfg) return;
   ensureSingleHero(); renderHeroCard();
-  state.siteConfig=cfg;
-  state.reservationEndpoint = cfg.reservationScriptUrl || cfg.integrations?.reservationScriptUrl || DEFAULT_RESERVATION_ENDPOINT;
-  state.guestsSheetUrl      = cfg.guestsSheetCsvUrl    || cfg.integrations?.guestsSheetCsvUrl    || DEFAULT_GUESTS_SHEET_CSV_URL;
+  state.siteConfig=cfg||{};
+  state.reservationEndpoint = cfg.reservationScriptUrl || DEFAULT_RESERVATION_ENDPOINT;
+  state.guestsSheetUrl      = cfg.guestsSheetCsvUrl    || DEFAULT_GUESTS_SHEET_CSV_URL;
 
   document.title = cfg.siteTitle || document.title;
   const h=document.getElementById('siteTitleHeading'), s=document.getElementById('siteSubtitle'), d=document.getElementById('siteDescription'), img=document.getElementById('heroImage');
@@ -499,10 +440,11 @@ function applyConfig(cfg){
   if(d) d.textContent = cfg.siteDescription || '';
   if(img && cfg.heroImage) img.src = cfg.heroImage;
 
-  if(Array.isArray(cfg.mesas)) cfg.mesas.sort((a,b)=>(a.number||0)-(b.number||0));
-  if(!Array.isArray(cfg.zones)||!cfg.zones.length){ cfg.zones=DEFAULT_ZONES.map(z=>({id:z.id,label:z.label,className:z.className,position:{...z.position}})); }
+  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
+  cfg.mesas.sort((a,b)=>(a.number||0)-(b.number||0));
+  if(!Array.isArray(cfg.zones)||!cfg.zones.length) cfg.zones=DEFAULT_ZONES.map(z=>({id:z.id,label:z.label,className:z.className,position:{...z.position}}));
 
-  renderZones(cfg.zones); renderTables(cfg.mesas||[]); updateSummary();
+  renderZones(cfg.zones); renderTables(cfg.mesas); updateSummary();
   fetchGuestsData().catch(()=>{});
 }
 function setupEvents(){
@@ -511,7 +453,7 @@ function setupEvents(){
   dom.submitButton.addEventListener('click',submitForm);
   dom.finalizarBtn.addEventListener('click',finalizarRegistro);
 }
-document.addEventListener('DOMContentLoaded',async()=>{enforceInitialScreen();ensureSingleHero();setupEvents(); try{const cfg=await loadConfig();applyConfig(cfg)}catch(e){console.error(e); const s=document.getElementById('siteSubtitle'); if(s) s.textContent='No se pudo cargar la configuración.';}});
+document.addEventListener('DOMContentLoaded',async()=>{enforceInitialScreen();ensureSingleHero();setupEvents(); const cfg=await loadConfig(); applyConfig(cfg);});
 </script>
 </body>
 </html>
