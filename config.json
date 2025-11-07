@@ -19,14 +19,15 @@
   ],
 
   "zones": [
-    { "id": "dance",        "label": "Pista de baile",     "className": "map-zone--dance",                          "position": { "x": 50, "y": 45 } },
-    { "id": "stage",        "label": "Estado Mayor",       "className": "map-zone--stage",                          "position": { "x": 6,  "y": 50 } },
-    { "id": "entrance",     "label": "Entrada / Piscina",  "className": "map-zone--entrance",                       "position": { "x": 50, "y": 6 } },
-    { "id": "dj",           "label": "DJ",                 "className": "map-zone--dj",                             "position": { "x": 50, "y": 94 } },
-    { "id": "dessertLeft",  "label": "Postres",            "className": "map-zone--dessert map-zone--dessert-left", "position": { "x": 92, "y": 28 } },
-    { "id": "dessertRight", "label": "Postres",            "className": "map-zone--dessert map-zone--dessert-right","position": { "x": 92, "y": 72 } }
+    { "id": "dance",       "label": "Pista de baile",     "className": "map-zone--dance",                          "position": { "x": 50, "y": 45 } },
+    { "id": "stage",       "label": "Estado Mayor",       "className": "map-zone--stage",                          "position": { "x": 6,  "y": 50 } },
+    { "id": "entrance",    "label": "Entrada / Piscina",  "className": "map-zone--entrance",                       "position": { "x": 50, "y": 6 } },
+    { "id": "dj",          "label": "DJ",                 "className": "map-zone--dj",                             "position": { "x": 50, "y": 94 } },
+    { "id": "dessertLeft", "label": "Postres",            "className": "map-zone--dessert map-zone--dessert-left", "position": { "x": 92, "y": 28 } },
+    { "id": "dessertRight","label": "Postres",            "className": "map-zone--dessert map-zone--dessert-right","position": { "x": 92, "y": 72 } }
   ],
 
-  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbxIaheHrdYASGM__blRWMvCSgyTETyTVQwGM0oiUHEf5uvpv8sxklShxQXrmUlRs1QMsQ/exec",
+  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbxU1IEgSWlhABD5NMBzUWOyaWMB58QUtLMtqxA7oPw8dGv5Q1yBeKsCWhqeSDBAggkhWA/exec",
+
   "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGt4uAnH7cwhk9v65pslz61nasqZn9kE1GXQD-bO8PkYh9bNgu_XzXVyTuIk6d1-l4D_I-hm1mj_o8/pub?gid=795589434&single=true&output=csv"
 }
