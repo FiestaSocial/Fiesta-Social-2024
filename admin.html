@@ -3,62 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de administración · Fiesta Social</title>
+<title>Administración · Fiesta Social</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--c1:#0b66ff;--c1d:#084dcc;--cs:#fff;--mut:#475569;--b:#e2e8f0;--ok:#059669;--err:#ef4444;--w:#f59e0b;--sh:0 24px 60px rgba(15,23,42,.18);--r:18px;font-family:Poppins,Segoe UI,sans-serif}
+  :root{--c1:#0b66ff;--c1d:#084dcc;--ok:#059669;--err:#ef4444;--bg:#fff;--mut:#475569;--b:#e2e8f0;--sh:0 24px 60px rgba(15,23,42,.18);--r:22px;font-family:Poppins,Segoe UI,sans-serif}
   *{box-sizing:border-box} body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
   main{width:100%;max-width:1100px;display:grid;gap:24px}
-  .card{background:var(--cs);border-radius:24px;padding:28px;box-shadow:var(--sh)}
+  .card{background:var(--bg);border-radius:var(--r);padding:28px;box-shadow:var(--sh)}
   h1,h2{margin:0 0 12px} p{margin:0 0 12px;color:var(--mut)}
   label{font-weight:600;display:block;margin:8px 0 6px}
   input,textarea{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:10px;background:#f8fafc}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
   .p{background:var(--c1);color:#fff}.p:hover{background:var(--c1d)}
   .g{background:#eef2ff;color:var(--c1)} .d{background:#fee2e2;color:#b91c1c}
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{padding:10px;border-bottom:1px solid #e5e7eb;font-size:14px}
   .status{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-weight:600}
   .ok{display:block;background:rgba(5,150,105,.12);color:var(--ok)}
   .err{display:block;background:rgba(239,68,68,.12);color:var(--err)}
-  .inf{display:block;background:rgba(59,130,246,.12);color:var(--c1)}
-  pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;overflow:auto;max-height:260px}
-  table{width:100%;border-collapse:collapse;margin-top:8px}
-  th,td{padding:8px;border-bottom:1px solid #e5e7eb;font-size:14px}
 </style>
 </head>
 <body>
 <main>
-  <section class="card">
+  <!-- Login -->
+  <section class="card" id="loginCard">
     <h1>Panel de administración</h1>
-    <p>Verifica la conexión con Google Apps Script / CSV y edita la configuración del sitio.</p>
-
-    <div class="row">
-      <div>
-        <label>URL de Google Apps Script (termina en <code>/exec</code>)</label>
-        <input id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
-        <div class="toolbar">
-          <button class="btn p" id="btnPing">Probar Apps Script</button>
-          <button class="btn g" id="btnDebug">Debug hoja (GET ?debug=1)</button>
-        </div>
-        <div id="statusScript" class="status"></div>
-        <pre id="logScript"></pre>
-      </div>
-      <div>
-        <label>URL del CSV publicado (opcional)</label>
-        <input id="csvUrl" placeholder="https://docs.google.com/spreadsheets/.../pub?output=csv">
-        <div class="toolbar">
-          <button class="btn p" id="btnCSV">Probar CSV</button>
-        </div>
-        <div id="statusCSV" class="status"></div>
-        <pre id="logCSV"></pre>
-      </div>
-    </div>
+    <p>Ingresa la contraseña para editar la configuración.</p>
+    <label>Contraseña</label>
+    <input type="password" id="adminPass">
+    <div style="margin-top:12px"><button class="btn p" id="loginBtn">Ingresar</button></div>
+    <div id="loginStatus" class="status"></div>
   </section>
 
-  <section class="card">
+  <!-- Editor -->
+  <section class="card" id="editorCard" hidden>
     <h2>Configuración del sitio</h2>
     <div class="row">
       <div>
@@ -68,136 +49,114 @@
         <label>Imagen héroe (ruta/URL)</label><input id="heroImage">
       </div>
       <div>
-        <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1" value="10">
-        <label>Apps Script /exec</label><input id="reservationScriptUrl">
-        <label>CSV de invitados (opcional)</label><input id="guestsSheetCsvUrl">
+        <label>URL Apps Script (/exec)</label><input id="reservationScriptUrl">
+        <label>CSV publicado (opcional)</label><input id="guestsSheetCsvUrl">
+        <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1">
       </div>
     </div>
 
-    <h3 style="margin-top:18px">Mesas</h3>
-    <table id="mesasTable"><thead><tr><th>#</th><th>Etiqueta</th><th>Cap.</th><th>X%</th><th>Y%</th><th></th></tr></thead><tbody></tbody></table>
-    <div class="toolbar"><button class="btn p" id="addMesa">Agregar mesa</button></div>
+    <h3 style="margin-top:16px">Mesas</h3>
+    <table id="mesasTable">
+      <thead><tr><th>#</th><th>Etiqueta</th><th>Cap.</th><th>X%</th><th>Y%</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div style="margin-top:10px"><button class="btn p" id="addMesa">Agregar mesa</button></div>
 
-    <div class="toolbar" style="margin-top:16px">
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn p" id="saveLocal">Guardar (navegador)</button>
-      <button class="btn g" id="download">Descargar JSON</button>
+      <button class="btn g" id="download">Descargar config.json</button>
       <button class="btn d" id="reset">Resetear</button>
       <a class="btn g" href="index.html">Volver al sitio</a>
     </div>
-    <div id="statusCfg" class="status"></div>
+    <div id="saveStatus" class="status"></div>
   </section>
 </main>
 
 <script>
-let cfg = null;
+let cfg=null, usingLocal=false;
 
 function $(id){return document.getElementById(id)}
-function show(el, cls, msg){ el.className='status '+cls; el.textContent=msg; el.style.display='block'; }
-function hide(el){ el.style.display='none'; }
+function show(el,cls,msg){el.className='status '+cls;el.textContent=msg;el.style.display='block'}
+function hide(el){el.style.display='none'}
+
+async function sha256(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
 
 async function loadConfig(){
-  try{
-    const local = localStorage.getItem('fiestaConfig');
-    if(local){ cfg = JSON.parse(local); fill(); return; }
-  }catch{}
-  try{
-    const r = await fetch('config.json?_='+Date.now());
-    cfg = await r.json();
-  }catch{ cfg = {}; }
-  fill();
+  try{const local=localStorage.getItem('fiestaConfig'); if(local){ usingLocal=true; return JSON.parse(local) }}catch{}
+  const r=await fetch('config.json?_='+Date.now()); usingLocal=false; return await r.json();
 }
-function fill(){
-  $('siteTitle').value = cfg.siteTitle||'Fiesta Social 2024';
-  $('siteSubtitle').value = cfg.siteSubtitle||'Registro oficial de invitados';
-  $('siteDescription').value = cfg.siteDescription||'Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita.';
-  $('heroImage').value = cfg.heroImage||'Imagen de bienvenida.png';
-  $('defaultCapacity').value = cfg.defaultCapacity||10;
-  $('reservationScriptUrl').value = cfg.reservationScriptUrl||'';
-  $('guestsSheetCsvUrl').value = cfg.guestsSheetCsvUrl||'';
-  $('scriptUrl').value = cfg.reservationScriptUrl||'';
-  $('csvUrl').value = cfg.guestsSheetCsvUrl||'';
-  renderMesas(cfg.mesas||[]);
+
+function fillGeneral(){
+  $('siteTitle').value=cfg.siteTitle||''; $('siteSubtitle').value=cfg.siteSubtitle||'';
+  $('siteDescription').value=cfg.siteDescription||''; $('heroImage').value=cfg.heroImage||'';
+  $('reservationScriptUrl').value=cfg.reservationScriptUrl||''; $('guestsSheetCsvUrl').value=cfg.guestsSheetCsvUrl||'';
+  $('defaultCapacity').value=cfg.defaultCapacity||10;
 }
-function readCfg(){
-  cfg.siteTitle = $('siteTitle').value.trim();
-  cfg.siteSubtitle = $('siteSubtitle').value.trim();
-  cfg.siteDescription = $('siteDescription').value.trim();
-  cfg.heroImage = $('heroImage').value.trim();
-  cfg.defaultCapacity = parseInt($('defaultCapacity').value,10)||10;
-  cfg.reservationScriptUrl = $('reservationScriptUrl').value.trim();
-  cfg.guestsSheetCsvUrl = $('guestsSheetCsvUrl').value.trim();
-  cfg.mesas = getMesasFromTable();
-}
-function renderMesas(mesas){
-  const tb = $('mesasTable').querySelector('tbody');
-  tb.innerHTML='';
-  mesas.forEach((m,i)=>{
+
+function renderMesas(){
+  const tb=$('mesasTable').querySelector('tbody'); tb.innerHTML='';
+  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
+  cfg.mesas.forEach((m,i)=>{
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><input type="number" value="${m.number||i+1}" data-f="number"></td>
       <td><input value="${m.label||`Mesa ${i+1}`}" data-f="label"></td>
-      <td><input type="number" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
-      <td><input type="number" step="0.1" value="${m.position?.x??0}" data-f="x"></td>
-      <td><input type="number" step="0.1" value="${m.position?.y??0}" data-f="y"></td>
+      <td><input type="number" min="1" step="1" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
+      <td><input type="number" step="0.1" min="0" max="100" value="${m.position?.x??0}" data-f="x"></td>
+      <td><input type="number" step="0.1" min="0" max="100" value="${m.position?.y??0}" data-f="y"></td>
       <td><button class="btn d" data-del>Eliminar</button></td>`;
-    tr.querySelector('[data-del]').onclick=()=>{ tr.remove(); };
+    tr.querySelector('[data-del]').onclick=()=>{ cfg.mesas.splice(i,1); renderMesas(); };
     tb.appendChild(tr);
   });
 }
+
 function getMesasFromTable(){
-  const rows = Array.from($('mesasTable').querySelectorAll('tbody tr'));
+  const rows=[...$('mesasTable').querySelectorAll('tbody tr')];
   return rows.map(r=>{
     const get=f=>r.querySelector(`[data-f="${f}"]`).value;
     return {
       number: parseInt(get('number'),10)||0,
       label: get('label')||'',
-      capacity: parseInt(get('capacity'),10)|| (parseInt($('defaultCapacity').value,10)||10),
-      position: { x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
+      capacity: parseInt(get('capacity'),10)||parseInt($('defaultCapacity').value,10)||10,
+      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
     };
   }).sort((a,b)=>(a.number||0)-(b.number||0));
 }
 
-$('addMesa').onclick=()=>{ const ms = getMesasFromTable(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); renderMesas(ms); };
+$('addMesa').onclick=()=>{ const ms=getMesasFromTable(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); cfg.mesas=ms; renderMesas(); };
 
 $('saveLocal').onclick=()=>{
-  readCfg();
-  localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
-  show($('statusCfg'),'ok','Guardado en este navegador. (El sitio lo usará automáticamente)');
+  cfg.siteTitle=$('siteTitle').value.trim(); cfg.siteSubtitle=$('siteSubtitle').value.trim(); cfg.siteDescription=$('siteDescription').value.trim();
+  cfg.heroImage=$('heroImage').value.trim(); cfg.reservationScriptUrl=$('reservationScriptUrl').value.trim(); cfg.guestsSheetCsvUrl=$('guestsSheetCsvUrl').value.trim();
+  cfg.defaultCapacity=parseInt($('defaultCapacity').value,10)||10; cfg.mesas=getMesasFromTable();
+  localStorage.setItem('fiestaConfig', JSON.stringify(cfg)); show($('saveStatus'),'ok','Guardado en este navegador.');
 };
 $('download').onclick=()=>{
-  readCfg();
-  const blob = new Blob([JSON.stringify(cfg,null,2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
+  const blob=new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
 };
-$('reset').onclick=()=>{
-  localStorage.removeItem('fiestaConfig');
-  location.reload();
+$('reset').onclick=()=>{ localStorage.removeItem('fiestaConfig'); location.reload(); };
+
+$('loginBtn').onclick=async()=>{
+  hide($('loginStatus'));
+  try{
+    cfg = await loadConfig();
+    const hash = cfg?.admin?.passwordHash || '';
+    if(!hash){ show($('loginStatus'),'err','No hay contraseña definida en config.json'); return; }
+    const typed = await sha256($('adminPass').value);
+    if(typed !== hash){ show($('loginStatus'),'err','Contraseña incorrecta'); return; }
+    $('loginCard').hidden=true; $('editorCard').hidden=false;
+    fillGeneral(); renderMesas();
+  }catch(e){ show($('loginStatus'),'err','No se pudo cargar config.json'); }
 };
 
-$('btnPing').onclick=async()=>{
-  const elS=$('statusScript'), log=$('logScript'); hide(elS); log.textContent='';
-  const url=$('scriptUrl').value.trim(); if(!url){show(elS,'err','Ingresa la URL /exec');return;}
-  try{
-    const r=await fetch(url+(url.includes('?')?'&':'?')+'ping=1&ts='+Date.now(),{mode:'cors'}); const t=await r.text(); show(elS,'ok','Ping OK'); log.textContent=t;
-  }catch(e){ show(elS,'err','No se pudo leer la respuesta (CORS). Revisa los logs del Script.'); }
-};
-$('btnDebug').onclick=async()=>{
-  const elS=$('statusScript'), log=$('logScript'); hide(elS); log.textContent='';
-  const url=$('scriptUrl').value.trim(); if(!url){show(elS,'err','Ingresa la URL /exec');return;}
-  try{
-    const r=await fetch(url+(url.includes('?')?'&':'?')+'debug=1&ts='+Date.now(),{mode:'cors'}); const t=await r.text(); show(elS,'ok','Debug OK'); log.textContent=t;
-  }catch(e){ show(elS,'err','No se pudo leer la respuesta (CORS). Revisa los logs del Script.'); }
-};
-$('btnCSV').onclick=async()=>{
-  const el=$('statusCSV'), log=$('logCSV'); hide(el); log.textContent='';
-  const url=$('csvUrl').value.trim(); if(!url){show(el,'err','Ingresa la URL publicada del CSV');return;}
-  try{
-    const r=await fetch(url+(url.includes('?')?'&':'?')+'_='+Date.now(),{mode:'cors'}); if(!r.ok) throw new Error('HTTP '+r.status);
-    const t=(await r.text()).trim(); const lines=t? t.split(/\r?\n/):[]; show(el,'ok',`CSV accesible (${lines.length} filas)`); log.textContent=lines.slice(0,5).join('\n');
-  }catch(e){ show(el,'err','No se pudo leer el CSV: '+e.message); }
-};
-
-loadConfig();
+document.addEventListener('DOMContentLoaded', async ()=>{
+  // Intento cargar para mostrar pista de contraseña sin exponer hash (si existiera)
+  try{ cfg=await loadConfig(); }catch{}
+});
 </script>
 </body>
 </html>
