@@ -1,100 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fiesta Social 2024</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --color-primary:#0b66ff;--color-primary-dark:#084dcc;--color-secondary:#f59e0b;
-      --color-surface:#ffffff;--color-muted:#6b7280;--color-border:#e5e7eb;
-      --color-success:#22c55e;--color-danger:#ef4444;
-      --shadow-lg:0 24px 60px rgba(15,23,42,.25);--shadow-md:0 14px 35px rgba(15,23,42,.18);
-      --radius-lg:28px;--radius-md:18px;--radius-sm:12px
-    }
+    :root{--c1:#0b66ff;--c1d:#084dcc;--c2:#f59e0b;--bg:#ffffff;--mut:#6b7280;--b:#e5e7eb;--ok:#22c55e;--err:#ef4444;--sh:0 24px 60px rgba(15,23,42,.25);--shm:0 14px 35px rgba(15,23,42,.18);--r:28px;--r2:18px;--r3:12px}
     *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;font-family:'Poppins','Segoe UI',sans-serif;
-      background:radial-gradient(circle at top left,rgba(59,130,246,.45),transparent 55%),
-                 radial-gradient(circle at bottom right,rgba(234,179,8,.35),transparent 55%),
-                 linear-gradient(135deg,#0f172a,#1e293b 45%,#0f172a 90%);
-      color:#0f172a;padding:40px 16px 60px;display:flex;justify-content:center}
+    body{margin:0;min-height:100vh;font-family:Poppins,'Segoe UI',sans-serif;background:
+      radial-gradient(circle at top left,rgba(59,130,246,.45),transparent 55%),
+      radial-gradient(circle at bottom right,rgba(234,179,8,.35),transparent 55%),
+      linear-gradient(135deg,#0f172a,#1e293b 45%,#0f172a 90%);color:#0f172a;padding:40px 16px 60px;display:flex;justify-content:center}
     main{width:100%;max-width:1080px}
-    h1,h2,h3{color:#0f172a;margin:0 0 12px}
-    p{margin:0 0 16px;color:var(--color-muted);line-height:1.6}
-    .container{background:#fff;border-radius:var(--radius-lg);padding:32px 32px 40px;
-      box-shadow:var(--shadow-lg);display:none;margin-bottom:32px;position:relative;overflow:hidden}
+    h1,h2,h3{margin:0 0 12px}
+    p{margin:0 0 16px;color:var(--mut);line-height:1.6}
+    .container{background:#fff;border-radius:var(--r);padding:32px 32px 40px;box-shadow:var(--sh);display:none;margin-bottom:32px;position:relative;overflow:hidden}
     .container::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(11,102,255,.08),transparent 55%);pointer-events:none}
-    .container.active{display:block;animation:fadeIn .45s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+    .container.active{display:block;animation:fade .45s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
     .hero-card{display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:center}
-    .hero-card__content{position:relative;z-index:1}
-    .hero-card__eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(11,102,255,.1);color:var(--color-primary);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .hero-card__eyebrow{display:inline-flex;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(11,102,255,.1);color:var(--c1);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
     .hero-card__title{font-size:clamp(32px,5vw,48px);font-weight:700;margin-bottom:16px}
     .hero-card__description{font-size:16px;color:rgba(15,23,42,.8);margin-bottom:24px}
-    .hero-card__actions{display:flex;flex-wrap:wrap;gap:12px}
-    .hero-card__media{margin:0;position:relative;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md)}
-    .hero-card__media::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,23,42,.15),rgba(15,23,42,.05))}
-    .hero-card__media img{width:100%;height:100%;object-fit:cover;display:block}
-    .section-description{font-size:15px;color:rgba(15,23,42,.7);margin-bottom:24px}
+    .hero-card__media{border-radius:var(--r2);overflow:hidden;box-shadow:var(--shm)}
+    .hero-card__media img{width:100%;display:block}
     .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
     .form-field{display:flex;flex-direction:column;gap:8px}
-    label{font-weight:600;color:rgba(15,23,42,.85);font-size:14px}
-    input,select{padding:12px 14px;border-radius:var(--radius-sm);border:1px solid var(--color-border);font-size:15px;transition:border .2s ease,box-shadow .2s ease;background:#f8fafc}
+    label{font-weight:600}
+    input,select{padding:12px 14px;border-radius:var(--r3);border:1px solid var(--b);background:#f8fafc;font-size:15px}
     input:focus,select:focus{outline:none;border-color:rgba(11,102,255,.8);box-shadow:0 0 0 4px rgba(11,102,255,.12)}
-    input:invalid,select:invalid{border-color:rgba(239,68,68,.6)}
-    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:12px 24px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;text-decoration:none}
-    .button--primary{background:var(--color-primary);color:#fff;box-shadow:0 16px 30px rgba(11,102,255,.25)}
-    .button--primary:hover{background:var(--color-primary-dark);transform:translateY(-1px)}
-    .button--ghost{background:rgba(15,23,42,.04);color:var(--color-primary)}
-    .button--ghost:hover{background:rgba(15,23,42,.1)}
-    .navigation-buttons{margin-top:32px;display:flex;justify-content:flex-end;gap:16px}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:12px 24px;font-weight:600;cursor:pointer}
+    .button--primary{background:var(--c1);color:#fff;box-shadow:0 16px 30px rgba(11,102,255,.25)}
+    .button--primary:hover{background:var(--c1d)}
+    .button--ghost{background:rgba(15,23,42,.05);color:var(--c1)}
+    .navigation-buttons{margin-top:32px;display:flex;gap:16px;justify-content:flex-end}
     .salon-wrapper{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-bottom:32px;align-items:start}
-    .salon-summary{background:rgba(248,250,252,.9);border-radius:var(--radius-md);padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.08);position:sticky;top:32px}
-    .salon-summary h3{font-size:18px;margin-bottom:12px}
-    .salon-summary p{margin-bottom:12px;color:rgba(15,23,42,.75)}
-    .legend{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .legend span{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:rgba(15,23,42,.8)}
-    .legend-swatch{width:16px;height:16px;border-radius:4px;display:inline-block}
-    .legend-swatch--available{background:var(--color-primary)}
-    .legend-swatch--full{background:var(--color-danger)}
-    .legend-swatch--selected{background:var(--color-secondary)}
-    .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--radius-md);box-shadow:0 20px 40px rgba(15,23,42,.18);overflow:hidden}
-    .map-zone{position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);transform:translate(var(--zone-tx,-50%),var(--zone-ty,-50%)) rotate(var(--zone-rotate,0deg));transform-origin:var(--zone-origin,center);padding:6px 16px;border-radius:999px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:rgba(15,23,42,.7);pointer-events:none;z-index:1;white-space:nowrap}
+    .salon-summary{background:rgba(248,250,252,.9);border-radius:var(--r2);padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.08);position:sticky;top:32px}
+    .legend{display:flex;flex-direction:column;gap:8px}
+    .legend-swatch{width:16px;height:16px;border-radius:4px;display:inline-block;margin-right:8px}
+    .legend .available{background:var(--c1)} .legend .full{background:var(--err)} .legend .selected{background:var(--c2)}
+    .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--r2);box-shadow:0 20px 40px rgba(15,23,42,.18);overflow:hidden}
+    .map-zone{position:absolute;left:calc(var(--x,50)*1%);top:calc(var(--y,50)*1%);transform:translate(-50%,-50%);padding:6px 16px;border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;font-size:12px}
     .map-zone--dance{background:rgba(34,197,94,.85)}
-    .map-zone--stage{--zone-tx:0%;--zone-ty:-50%;--zone-rotate:-90deg;--zone-origin:left center;background:rgba(59,130,246,.9)}
-    .map-zone--entrance{--zone-ty:0%;background:rgba(59,130,246,.9)}
-    .map-zone--dj{--zone-ty:-100%;background:rgba(59,130,246,.9)}
-    .map-zone--dessert{width:24px;text-align:center;writing-mode:vertical-rl;letter-spacing:.2em;padding:12px 6px;background:rgba(59,130,246,.9)}
-    .mesa{position:absolute;width:52px;height:52px;border-radius:16px;background:var(--color-primary);color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 22px rgba(11,102,255,.22);transform:translate(-50%,-50%);border:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease;z-index:2}
-    .mesa:hover,.mesa:focus{transform:translate(-50%,-50%) scale(1.05);box-shadow:0 14px 30px rgba(11,102,255,.3);outline:none}
-    .mesa.completa{background:var(--color-danger);box-shadow:0 12px 26px rgba(239,68,68,.3)}
-    .mesa.seleccionada{background:var(--color-secondary);box-shadow:0 14px 32px rgba(243,156,18,.35)}
+    .mesa{position:absolute;width:52px;height:52px;border-radius:16px;background:var(--c1);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:none;cursor:pointer}
+    .mesa.completa{background:var(--err)} .mesa.seleccionada{background:var(--c2)}
     .table-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:24px}
-    .table-container{position:relative;width:100%;padding-top:100%;border-radius:var(--radius-md);background:rgba(248,250,252,.9);box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);display:none}
+    .table-container{position:relative;width:100%;padding-top:100%;border-radius:var(--r2);background:rgba(248,250,252,.9);box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);display:none}
     #seatsContainer{position:absolute;inset:0}
-    .table{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:var(--color-primary);color:#fff;font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(11,102,255,.25)}
-    #seatsContainer .seat{width:42px;height:42px;border-radius:12px;background:var(--color-success);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;transition:transform .2s ease,background .2s ease}
-    #seatsContainer .seat.occupied{background:var(--color-danger)}
-    #guestList{min-height:180px;background:rgba(248,250,252,.85);border-radius:var(--radius-md);padding:20px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);font-size:14px;display:grid;gap:6px}
-    #guestList strong{color:rgba(15,23,42,.9)}
-    #acompanantesForm{display:grid;gap:16px}
-    #acompanantesForm h3{margin-top:24px}
-    #acompananteCantidad{transition:opacity .2s ease}
-    .tooltip{position:absolute;background:rgba(15,23,42,.88);color:#fff;padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;display:none;max-width:280px;line-height:1.4;z-index:50;pointer-events:none}
+    .table{position:absolute;inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center}
+    .seat{width:42px;height:42px;border-radius:12px;background:var(--ok);position:absolute;transform:translate(-50%,-50%)} .seat.occupied{background:var(--err)}
+    #guestList{min-height:160px;background:rgba(248,250,252,.85);border-radius:var(--r2);padding:16px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08)}
+    .tooltip{position:absolute;background:rgba(15,23,42,.88);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;display:none;z-index:50}
     .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
     .modal-overlay.active{display:flex}
-    .modal-content{background:#fff;border-radius:var(--radius-lg);padding:32px;max-width:420px;text-align:center;box-shadow:var(--shadow-lg)}
-    .modal-content h2{margin-bottom:12px}.modal-content p{color:rgba(15,23,42,.75);margin-bottom:24px}
-    @media(max-width:900px){body{padding:24px 12px 48px}.salon-wrapper{grid-template-columns:1fr}.salon-summary{position:relative;top:auto}}
-    @media(max-width:600px){.hero-card{grid-template-columns:1fr}.navigation-buttons{flex-direction:column-reverse;align-items:stretch}.navigation-buttons .button{width:100%}}
+    .modal-content{background:#fff;border-radius:24px;padding:32px;max-width:420px;text-align:center;box-shadow:var(--sh)}
+    @media(max-width:900px){body{padding:24px 12px 48px}.salon-wrapper{grid-template-columns:1fr}}
   </style>
 </head>
-
 <body>
 <main>
   <section id="screen1" class="container active">
@@ -103,9 +68,9 @@
 
   <section id="screen2" class="container">
     <h2>Datos personales</h2>
-    <p class="section-description">Completa tus datos para asegurar tu lugar en la celebración.</p>
+    <p>Completa tus datos para asegurar tu lugar.</p>
     <form id="guestForm" class="form-grid" autocomplete="on">
-      <div class="form-field"><label for="correo">Correo</label><input type="email" id="correo" name="correo" required autocomplete="email"></div>
+      <div class="form-field"><label for="correo">Correo</label><input id="correo" name="correo" type="email" required></div>
       <div class="form-field"><label for="grado">Grado</label>
         <select id="grado" name="grado" required>
           <option value="" selected>Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
@@ -116,14 +81,11 @@
           <option value="" selected>Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
         </select>
       </div>
-      <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required autocomplete="given-name"></div>
-      <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required autocomplete="family-name"></div>
-      <div class="form-field"><label for="cedula">Cédula de Identidad (formato 0.000.000-0)</label>
-        <input id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$" title="Ejemplo: 4.646.789-2"></div>
+      <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required></div>
+      <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required></div>
+      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label><input id="cedula" name="cedula" required pattern="^\d\.\d{3}\.\d{3}-\d$"></div>
       <div class="form-field"><label for="acompanante">¿Asiste con acompañante?</label>
-        <select id="acompanante" name="acompanante" required>
-          <option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option>
-        </select>
+        <select id="acompanante" name="acompanante" required><option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option></select>
       </div>
       <div class="form-field" id="acompananteCantidad" style="display:none;">
         <label for="cantidadAcompanantes">¿Cuántos acompañantes?</label>
@@ -146,7 +108,6 @@
 
   <section id="screen3" class="container">
     <h2>Información de acompañantes</h2>
-    <p class="section-description">Agrega los datos de cada invitado adicional.</p>
     <form id="acompanantesForm"></form>
     <div class="navigation-buttons">
       <button class="button button--ghost" data-prev="2">Anterior</button>
@@ -156,7 +117,6 @@
 
   <section id="screen4" class="container">
     <h2>Selecciona tu mesa</h2>
-    <p class="section-description">Explora el plano interactivo del salón y elige tu mesa.</p>
     <div class="salon-wrapper">
       <aside class="salon-summary">
         <h3>Resumen del salón</h3>
@@ -164,12 +124,12 @@
         <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span></p>
         <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
         <div class="legend">
-          <span><span class="legend-swatch legend-swatch--available"></span>Disponible</span>
-          <span><span class="legend-swatch legend-swatch--full"></span>Completa</span>
-          <span><span class="legend-swatch legend-swatch--selected"></span>Seleccionada</span>
+          <span><span class="legend-swatch available"></span>Disponible</span>
+          <span><span class="legend-swatch full"></span>Completa</span>
+          <span><span class="legend-swatch selected"></span>Seleccionada</span>
         </div>
       </aside>
-      <div class="salon-map" id="salonMap"></div>
+      <div id="salonMap" class="salon-map"></div>
     </div>
 
     <div class="table-details">
@@ -201,9 +161,9 @@
 <div id="tooltip" class="tooltip"></div>
 
 <script>
-/* ---------- Héroe ---------- */
+/* ---------- Texto héroe ---------- */
 const HERO_CARD_TEMPLATE = `
-  <div class="hero-card__content">
+  <div>
     <span class="hero-card__eyebrow" id="siteSubtitle">Registro oficial de invitados</span>
     <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
     <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita.</p>
@@ -212,248 +172,329 @@ const HERO_CARD_TEMPLATE = `
       <a class="button button--ghost" href="admin.html">Administración</a>
     </div>
   </div>
-  <figure class="hero-card__media">
-    <img id="heroImage" src="Imagen de bienvenida.png" alt="Celebración en el salón principal">
-  </figure>
+  <figure class="hero-card__media"><img id="heroImage" src="Imagen de bienvenida.png" alt=""></figure>
 `;
 
-/* ---------- Config por defecto ---------- */
-const DEFAULT_RESERVATION_ENDPOINT = 'REEMPLAZA-ESTE-VALOR-CON-TU-URL-/exec';
-const DEFAULT_GUESTS_SHEET_CSV_URL = ''; // opcional; si queda vacío, lee por Apps Script
+/* ---------- Config/estado ---------- */
+const DEFAULT_RESERVATION_ENDPOINT = ''; // se toma de config.json
+const DEFAULT_GUESTS_SHEET_CSV_URL = ''; // opcional
 const DEFAULT_ZONES = [
-  { id:'dance',label:'Pista de baile',className:'map-zone--dance',position:{x:50,y:45} },
-  { id:'stage',label:'Estado Mayor',className:'map-zone--stage',position:{x:6,y:50} },
-  { id:'entrance',label:'Entrada / Piscina',className:'map-zone--entrance',position:{x:50,y:6} },
-  { id:'dj',label:'DJ',className:'map-zone--dj',position:{x:50,y:94} },
-  { id:'dessertLeft',label:'Postres',className:'map-zone--dessert map-zone--dessert-left',position:{x:92,y:28} },
-  { id:'dessertRight',label:'Postres',className:'map-zone--dessert map-zone--dessert-right',position:{x:92,y:72} }
+  { id:'dance', label:'Pista de baile', className:'map-zone map-zone--dance', position:{x:50,y:45} },
+  { id:'stage', label:'Estado Mayor',   className:'map-zone',                 position:{x:6, y:50} },
+  { id:'entrance', label:'Entrada / Piscina', className:'map-zone',           position:{x:50,y:6} },
+  { id:'dj', label:'DJ', className:'map-zone', position:{x:50,y:94} }
 ];
-const EMAIL_KEYS=['correo','correo electronico','correo electrónico','email','e-mail'];
-const CEDULA_KEYS=['cedula','cédula','documento','documento de identidad','documento identidad','ci'];
-const NOMBRE_KEYS=['nombre','nombres'];
-const APELLIDO_KEYS=['apellido','apellidos'];
-const ACOMPANANTE_NAME_PREFIX='nombre acompanante';
 
-const state={ currentScreen:1, siteConfig:null,
-  reservationEndpoint:DEFAULT_RESERVATION_ENDPOINT,
-  guestsSheetUrl:DEFAULT_GUESTS_SHEET_CSV_URL,
-  guestsByTable:new Map(), fetchInterval:null, selectedTable:null };
-
-const dom={
-  heroCard:document.getElementById('heroCard'),
-  salonMap:document.getElementById('salonMap'),
-  guestForm:document.getElementById('guestForm'),
-  acompanantesForm:document.getElementById('acompanantesForm'),
-  mesaInput:document.getElementById('mesa'),
-  mesaText:document.getElementById('mesaText'),
-  mesaSeleccionadaLabel:document.getElementById('mesaSeleccionadaLabel'),
-  seatsContainer:document.getElementById('seatsContainer'),
-  guestList:document.getElementById('guestList'),
-  totalMesasCounter:document.getElementById('totalMesasCounter'),
-  capacidadTotalCounter:document.getElementById('capacidadTotalCounter'),
-  tooltip:document.getElementById('tooltip'),
-  submitButton:document.getElementById('submitReservationBtn'),
-  modal:document.getElementById('confirmationModal'),
-  mesaConfirmada:document.getElementById('mesaConfirmada'),
-  finalizarBtn:document.getElementById('finalizarBtn')
+const state = {
+  currentScreen: 1,
+  siteConfig: null,
+  reservationEndpoint: DEFAULT_RESERVATION_ENDPOINT,
+  guestsSheetUrl: DEFAULT_GUESTS_SHEET_CSV_URL,
+  guestsByTable: new Map(),
+  fetchInterval: null,
+  selectedTable: null
 };
 
-/* ---------- Utils ---------- */
-function normalizeString(v){if(v==null)return'';return v.toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
-function appendCacheBuster(url){if(!url)return'';return url+(url.includes('?')?'&':'?')+'_='+Date.now()}
-function tryParseJson(v,fb=null){if(v==null)return fb;if(typeof v==='object')return v;if(typeof v!=='string')return fb;const t=v.trim();if(!t)return fb;try{return JSON.parse(t)}catch{return fb}}
-function getValueFromGuest(guest,candidates){
-  if(!guest||typeof guest!=='object')return'';const want=candidates.map(normalizeString);
-  for(const k of Object.keys(guest)){const n=normalizeString(k);if(want.includes(n)){const val=guest[k];if(val!==undefined&&val!==null&&val!=='')return val}}
-  return''
-}
-function extractCompanionNames(g){
-  if(!g||typeof g!=='object')return[];
-  const names=Object.keys(g).filter(k=>normalizeString(k).startsWith(ACOMPANANTE_NAME_PREFIX)).map(k=>g[k]).filter(Boolean);
-  const seen=new Set(names); const add=n=>{if(n==null)return;const t=String(n).trim();if(!t||seen.has(t))return;seen.add(t);names.push(t)};
-  const parse=(col)=>{
-    if(col==null)return;
-    if(Array.isArray(col)){col.forEach(i=>{ if(i&&typeof i==='object') add(i.nombre||i.name||i.label||''); else add(i) });return;}
-    if(typeof col==='string'){const raw=col.trim(); if(!raw) return; const p=tryParseJson(raw,null); if(p&&p!==raw){parse(p);return;} raw.split(/[|;,]/).forEach(s=>add(s)); return;}
-    if(typeof col==='object'){Object.values(col).forEach(parse);}
-  };
-  const cands=[g.acompanantes,g['acompañantes'],g.companions,g.payload?.acompanantes,g.__parsedJson?.acompanantes,g.__parsedJson?.payload?.acompanantes];
-  if(g.__parsedJson&&'acompañantes'in g.__parsedJson) cands.push(g.__parsedJson['acompañantes']);
-  if(g.__parsedJson?.payload&&'acompañantes' in g.__parsedJson.payload) cands.push(g.__parsedJson.payload['acompañantes']);
-  cands.forEach(parse); return names.filter(Boolean)
-}
-function countGuestSeats(g){return 1+extractCompanionNames(g).length}
-function getGuestFullName(g){const n=getValueFromGuest(g,NOMBRE_KEYS);const a=getValueFromGuest(g,APELLIDO_KEYS);return [n,a].filter(Boolean).join(' ').trim()}
-function getGuestsForMesa(label){if(!label)return[];if(state.guestsByTable.has(label))return state.guestsByTable.get(label)||[];const n=normalizeString(label);for(const [k,g] of state.guestsByTable.entries()){if(normalizeString(k)===n)return g}return[]}
+const dom = {
+  heroCard: document.getElementById('heroCard'),
+  salonMap: document.getElementById('salonMap'),
+  guestForm: document.getElementById('guestForm'),
+  acompanantesForm: document.getElementById('acompanantesForm'),
+  mesaInput: document.getElementById('mesa'),
+  mesaText: document.getElementById('mesaText'),
+  mesaSeleccionadaLabel: document.getElementById('mesaSeleccionadaLabel'),
+  seatsContainer: document.getElementById('seatsContainer'),
+  guestList: document.getElementById('guestList'),
+  totalMesasCounter: document.getElementById('totalMesasCounter'),
+  capacidadTotalCounter: document.getElementById('capacidadTotalCounter'),
+  tooltip: document.getElementById('tooltip'),
+  submitButton: document.getElementById('submitReservationBtn'),
+  modal: document.getElementById('confirmationModal'),
+  mesaConfirmada: document.getElementById('mesaConfirmada'),
+  finalizarBtn: document.getElementById('finalizarBtn')
+};
+
+/* ---------- Utilidades ---------- */
+const norm = s => (s==null? '' : String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim());
+const buster = u => !u ? '' : u + (u.includes('?')?'&':'?') + '_=' + Date.now();
 
 /* ---------- Navegación ---------- */
-function enforceInitialScreen(){document.querySelectorAll('.container').forEach((s,i)=>{i===0?s.classList.add('active'):s.classList.remove('active')});state.currentScreen=1}
-function renderHeroCard(){if(!dom.heroCard)return;dom.heroCard.innerHTML=HERO_CARD_TEMPLATE}
-function ensureSingleHero(){const screen=document.getElementById('screen1');if(!screen)return;if(!dom.heroCard){screen.innerHTML=`<div class="hero-card" id="heroCard">${HERO_CARD_TEMPLATE}</div>`;dom.heroCard=document.getElementById('heroCard')}else if(dom.heroCard.children.length===0){dom.heroCard.innerHTML=HERO_CARD_TEMPLATE}}
-function showScreen(t){if(!t||t===state.currentScreen)return;document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');state.currentScreen=t;document.getElementById(`screen${state.currentScreen}`)?.classList.add('active'); if(state.currentScreen===4){fetchGuestsData().catch(()=>{});startGuestsPolling()}else{stopGuestsPolling()}}
-function validateForm(id){const f=document.getElementById(id);if(!f)return[];const bad=[];f.querySelectorAll('input,select').forEach(el=>{if(!el.checkValidity()){const lab=f.querySelector(`label[for="${el.id}"]`);bad.push((lab?lab.textContent.replace(':',''):el.name||el.id).trim())}});return bad}
-function handleNavigation(e){
-  const next=e.target.closest('[data-next]'); const prev=e.target.closest('[data-prev]'); if(!next&&!prev)return; e.preventDefault();
-  if(prev){const t=parseInt(prev.dataset.prev,10)||Math.max(1,state.currentScreen-1);showScreen(t);return;}
-  if(state.currentScreen===2){const bad=validateForm('guestForm'); if(bad.length){alert('Por favor, complete: \n- '+bad.join('\n- '));return;}
-    const a=document.getElementById('acompanante').value; if(a==='si'){const c=document.getElementById('cantidadAcompanantes').value; if(!c){alert('Seleccione cantidad de acompañantes.');return;} generateAcompanantesForm(parseInt(c,10)); showScreen(3); return;}
-    showScreen(4); return;}
-  if(state.currentScreen===3){const bad=validateForm('acompanantesForm'); if(bad.length){alert('Complete acompañantes: \n- '+bad.join('\n- '));return;} showScreen(4); return;}
-  const t=parseInt(next.dataset.next,10)||state.currentScreen+1; showScreen(t);
+function ensureHero(){ dom.heroCard.innerHTML = HERO_CARD_TEMPLATE; }
+function firstScreen(){ document.querySelectorAll('.container').forEach((s,i)=> s.classList.toggle('active', i===0)); state.currentScreen=1; }
+function showScreen(n){
+  if(!n || n===state.currentScreen) return;
+  document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');
+  state.currentScreen = n;
+  document.getElementById(`screen${state.currentScreen}`)?.classList.add('active');
+  if (state.currentScreen === 4) { fetchGuestsData().catch(()=>{}); startGuestsPolling(); }
+  else { stopGuestsPolling(); }
 }
-function toggleAcompanante(){const a=document.getElementById('acompanante').value;const cont=document.getElementById('acompananteCantidad');const sel=document.getElementById('cantidadAcompanantes'); if(a==='si'){cont.style.display='block';cont.style.opacity='1';sel.setAttribute('required','required')}else{cont.style.opacity='0';cont.style.display='none';sel.removeAttribute('required');sel.value='';dom.acompanantesForm.innerHTML=''}}
-function generateAcompanantesForm(n){dom.acompanantesForm.innerHTML='';for(let i=1;i<=n;i++){dom.acompanantesForm.innerHTML+=`
-  <div class="form-grid">
-    <div class="form-field">
-      <h3>Acompañante ${i}</h3>
-      <label for="nombreAcompanante${i}">Nombre</label>
-      <input id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
-    </div>
-    <div class="form-field">
-      <label for="menuAcompanante${i}">Menú</label>
-      <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
-        <option value="" selected>Seleccionar</option>
-        <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option>
-        <option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
-      </select>
-    </div>
-  </div>`}}
+function validateForm(id){
+  const f=document.getElementById(id); if(!f) return [];
+  const bad=[]; f.querySelectorAll('input,select').forEach(el=>{
+    if(!el.checkValidity()){ const lab=f.querySelector(`label[for="${el.id}"]`); bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim()); }
+  }); return bad;
+}
+function handleNav(e){
+  const next=e.target.closest('[data-next]'); const prev=e.target.closest('[data-prev]'); if(!next&&!prev) return;
+  e.preventDefault();
+  if(prev){ showScreen(parseInt(prev.dataset.prev,10)||Math.max(1,state.currentScreen-1)); return; }
+  if(state.currentScreen===2){
+    const bad=validateForm('guestForm'); if(bad.length){ alert('Completa: \n- '+bad.join('\n- ')); return; }
+    const a=document.getElementById('acompanante').value;
+    if(a==='si'){ const cant=document.getElementById('cantidadAcompanantes').value; if(!cant){ alert('Selecciona la cantidad de acompañantes.'); return; } renderAcompanantes(parseInt(cant,10)); showScreen(3); return; }
+    showScreen(4); return;
+  }
+  if(state.currentScreen===3){
+    const bad=validateForm('acompanantesForm'); if(bad.length){ alert('Faltan datos de acompañantes:\n- '+bad.join('\n- ')); return; }
+    showScreen(4); return;
+  }
+  showScreen(parseInt(next.dataset.next,10)||state.currentScreen+1);
+}
+function toggleAcomp(){
+  const a=document.getElementById('acompanante').value, box=document.getElementById('acompananteCantidad'), sel=document.getElementById('cantidadAcompanantes');
+  if(a==='si'){ box.style.display='block'; sel.required=true; } else { box.style.display='none'; sel.required=false; sel.value=''; dom.acompanantesForm.innerHTML=''; }
+}
+function renderAcompanantes(n){
+  dom.acompanantesForm.innerHTML='';
+  for(let i=1;i<=n;i++){
+    dom.acompanantesForm.insertAdjacentHTML('beforeend',`
+      <div class="form-grid">
+        <div class="form-field">
+          <h3>Acompañante ${i}</h3>
+          <label for="nombreAcompanante${i}">Nombre</label>
+          <input id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
+        </div>
+        <div class="form-field">
+          <label for="menuAcompanante${i}">Menú</label>
+          <select id="menuAcompanante${i}" name="menuAcompanante${i}" required>
+            <option value="" selected>Seleccionar</option>
+            <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option><option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
+          </select>
+        </div>
+      </div>`);
+  }
+}
 
 /* ---------- Plano ---------- */
-function renderZones(z){const DEFAULT_ZONES_ARR=[...DEFAULT_ZONES];const target=document.getElementById('salonMap'); if(!target) return; target.querySelectorAll('.map-zone').forEach(x=>x.remove()); const items=Array.isArray(z)&&z.length?z:DEFAULT_ZONES_ARR; items.forEach(zone=>{const el=document.createElement('div');el.className=['map-zone',zone.className||''].filter(Boolean).join(' ').trim();el.textContent=zone.label||'';el.dataset.zoneId=zone.id||'';const x=parseFloat(zone.position?.x),y=parseFloat(zone.position?.y);el.style.setProperty('--zone-x',Number.isNaN(x)?0:Math.min(Math.max(x,0),100));el.style.setProperty('--zone-y',Number.isNaN(y)?0:Math.min(Math.max(y,0),100));target.appendChild(el)})}
-function renderTables(mesas){const map=document.getElementById('salonMap'); if(!map)return; map.querySelectorAll('.mesa').forEach(x=>x.remove()); (mesas||[]).forEach(m=>{const b=document.createElement('button');b.type='button';b.className='mesa';b.id=`mesa${m.number}`;const label=m.label||`Mesa ${m.number}`;b.dataset.label=label;b.dataset.capacity=m.capacity??state.siteConfig?.defaultCapacity??0;b.style.left=`${m.position?.x??0}%`;b.style.top=`${m.position?.y??0}%`;b.textContent=m.number??label;b.addEventListener('click',()=>selectTable(label));b.addEventListener('mouseover',ev=>showGuestsTooltip(label,ev));b.addEventListener('focus',ev=>showGuestsTooltip(label,ev));b.addEventListener('mouseleave',hideGuestsTooltip);b.addEventListener('blur',hideGuestsTooltip);map.appendChild(b)});updateMesasCompletaColor()}
-function updateSummary(){const mesas=state.siteConfig?.mesas||[];dom.totalMesasCounter.textContent=mesas.length;const total=mesas.reduce((a,m)=>a+(m.capacity??state.siteConfig?.defaultCapacity??0),0);dom.capacidadTotalCounter.textContent=total}
-function selectTable(label){state.selectedTable=label;dom.mesaInput.value=label;document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada',m.dataset.label===label));dom.mesaSeleccionadaLabel.textContent=label;document.querySelector('.table-container').style.display='block';updateMesaPreview()}
-function getMesaCapacity(label){const mesas=state.siteConfig?.mesas||[];const m=mesas.find(x=>(x.label||`Mesa ${x.number}`)===label);return (m&&typeof m.capacity==='number')?m.capacity:(state.siteConfig?.defaultCapacity||10)}
-function updateMesaPreview(){const label=dom.mesaInput.value;if(!label)return;dom.mesaText.textContent=label;updateSeats();updateGuestList()}
-function updateSeats(){const cont=dom.seatsContainer, label=dom.mesaInput.value; if(!cont||!label)return; const cap=getMesaCapacity(label); cont.innerHTML=''; for(let i=1;i<=cap;i++){const s=document.createElement('div');s.classList.add('seat');s.dataset.seat=i;cont.appendChild(s)} const seats=cont.querySelectorAll('.seat'); const CX=50,CY=50,R=38; seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.position='absolute'; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`; s.style.transform='translate(-50%,-50%)' }); let taken=0; getGuestsForMesa(label).forEach(g=>{const need=1+extractCompanionNames(g).length; for(let i=0;i<need;i++){ if(taken<cap){cont.querySelector(`.seat[data-seat="${taken+1}"]`)?.classList.add('occupied'); taken++; } } })}
-function updateGuestList(){const label=dom.mesaInput.value;dom.guestList.innerHTML='';const guests=getGuestsForMesa(label);if(label&&guests.length){guests.forEach(g=>{const full=getGuestFullName(g)||'Invitado';const el=document.createElement('div');el.innerHTML=`<strong>${full}</strong>`;dom.guestList.appendChild(el);extractCompanionNames(g).forEach(n=>{const c=document.createElement('div');c.textContent=n;dom.guestList.appendChild(c)})})}else{dom.guestList.textContent='No hay invitados registrados en esta mesa.'}}
-function showGuestsTooltip(mesa,ev){if(!dom.tooltip)return;let content='No hay invitados registrados en esta mesa.';const guests=getGuestsForMesa(mesa);if(guests.length){const names=guests.map(g=>{let s=getGuestFullName(g)||'Invitado';const comp=extractCompanionNames(g);if(comp.length)s+=` (+${comp.join(', ')})`;return s}).join(', ');if(names)content=names}dom.tooltip.textContent=content;dom.tooltip.style.display='block';let x=ev?.pageX,y=ev?.pageY;const t=ev?.currentTarget||ev?.target;if((!x||!y)&&t){const r=t.getBoundingClientRect();x=r.left+window.scrollX+r.width/2;y=r.top+window.scrollY+r.height/2}dom.tooltip.style.left=`${x}px`;dom.tooltip.style.top=`${y}px`}
-function hideGuestsTooltip(){dom.tooltip.style.display='none'}
-function updateMesasCompletaColor(){document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));state.guestsByTable.forEach((guests,label)=>{const cap=getMesaCapacity(label);let total=0;guests.forEach(g=>{total+=1+extractCompanionNames(g).length}); if(total>=cap){document.querySelectorAll('.mesa').forEach(b=>{if(normalizeString(b.dataset.label)===normalizeString(label))b.classList.add('completa')})}})}
-function getGuestsMapFromCSV(csv){
-  if(!csv)return new Map(); const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
-  const parseLine=l=>{const r=[];let c='',q=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++;}else q=!q;} else if(ch===','&&!q){r.push(c);c='';} else c+=ch} r.push(c); return r;};
-  const headers=parseLine(lines[0]); const norm=headers.map(h=>h.trim()); const lower=norm.map(h=>normalizeString(h));
-  const mesaKeys=['mesa','mesa n','mesa n°','n','n°','numero','número']; let mesaIdx=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaKeys.some(c=>k===c||k.startsWith(c))){mesaIdx=i;break}}
-  const jsonIdx=lower.findIndex(k=>k.includes('json'));
-  const map=new Map();
-  for(let i=1;i<lines.length;i++){
-    const vals=parseLine(lines[i]); if(vals.every(v=>!v||v.trim()==='')) continue;
-    const entry={}; norm.forEach((h,idx)=>entry[h]=vals[idx]==null?'':String(vals[idx]).trim());
-    if(jsonIdx!==-1){const raw=vals[jsonIdx]; const parsed=tryParseJson(raw,null); if(parsed&&typeof parsed==='object'){entry.__parsedJson=parsed; const merge=[parsed, parsed.payload||{}]; merge.forEach(t=>{Object.entries(t).forEach(([k,v])=>{if(v==null||v==='')return; if(!entry[k]) entry[k]=v})})}}
-    let mesa=''; if(mesaIdx!==-1) mesa=(vals[mesaIdx]??'').trim(); if(!mesa&&entry.__parsedJson){const pm=entry.__parsedJson.mesa||entry.__parsedJson.Mesa||entry.__parsedJson.payload?.mesa; if(pm) mesa=String(pm).trim()}
-    if(!mesa){const p=Object.keys(entry).find(k=>{const n=normalizeString(k);return mesaKeys.some(c=>n===c||n.startsWith(c))}); if(p) mesa=String(entry[p]??'').trim()}
-    if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(entry);
-  }
-  return map;
+function renderZones(zones){
+  dom.salonMap.querySelectorAll('.map-zone').forEach(x=>x.remove());
+  const items = Array.isArray(zones)&&zones.length ? zones : DEFAULT_ZONES;
+  items.forEach(z=>{
+    const el=document.createElement('div');
+    el.className = z.className || 'map-zone';
+    el.textContent = z.label || '';
+    el.style.setProperty('--x', z.position?.x ?? 50);
+    el.style.setProperty('--y', z.position?.y ?? 50);
+    dom.salonMap.appendChild(el);
+  });
 }
-function getGuestsMapFromValues(values){
-  if(!Array.isArray(values)||!values.length) return new Map();
-  const headers=values[0].map(h=>String(h||'').trim()); const lower=headers.map(normalizeString);
+function renderTables(mesas){
+  dom.salonMap.querySelectorAll('.mesa').forEach(x=>x.remove());
+  (mesas||[]).forEach(m=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='mesa'; const label=m.label||`Mesa ${m.number}`;
+    b.dataset.label = label; b.dataset.capacity = m.capacity ?? state.siteConfig?.defaultCapacity ?? 10;
+    b.style.left = (m.position?.x ?? 0) + '%'; b.style.top = (m.position?.y ?? 0) + '%';
+    b.textContent = m.number ?? label;
+    b.addEventListener('click',()=>selectTable(label));
+    dom.salonMap.appendChild(b);
+  });
+  colorMesas();
+}
+function selectTable(label){
+  state.selectedTable=label; dom.mesaInput.value=label;
+  document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada', m.dataset.label===label));
+  dom.mesaSeleccionadaLabel.textContent=label;
+  document.querySelector('.table-container').style.display='block';
+  updateMesaPreview();
+}
+function getMesaCapacity(label){
+  const m=(state.siteConfig?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===label);
+  return (m && typeof m.capacity==='number') ? m.capacity : (state.siteConfig?.defaultCapacity||10);
+}
+function invitadosDeMesa(label){
+  if(!label) return [];
+  if (state.guestsByTable.has(label)) return state.guestsByTable.get(label)||[];
+  const nl = norm(label); for(const [k,v] of state.guestsByTable.entries()){ if(norm(k)===nl) return v; }
+  return [];
+}
+function updateMesaPreview(){
+  const label = dom.mesaInput.value; if(!label) return;
+  dom.mesaText.textContent = label; pintarAsientos(); listarInvitados();
+}
+function pintarAsientos(){
+  const label=dom.mesaInput.value, cap=getMesaCapacity(label), cont=dom.seatsContainer;
+  cont.innerHTML=''; for(let i=1;i<=cap;i++){const s=document.createElement('div');s.className='seat';s.dataset.seat=i;cont.appendChild(s)}
+  const seats=cont.querySelectorAll('.seat'), CX=50,CY=50,R=38;
+  seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`});
+  let taken=0; invitadosDeMesa(label).forEach(g=>{const n=1+(Array.isArray(g.acompanantes)?g.acompanantes.length:0); for(let i=0;i<n;i++){ if(taken<cap){cont.querySelector(`.seat[data-seat="${++taken}"]`)?.classList.add('occupied');}}});
+}
+function listarInvitados(){
+  const el=dom.guestList, label=dom.mesaInput.value; el.innerHTML='';
+  const guests=invitadosDeMesa(label);
+  if(!guests.length){ el.textContent='No hay invitados registrados en esta mesa.'; return; }
+  guests.forEach(g=>{
+    const full = [g['Nombre']||g.nombre,g['Apellido']||g.apellido].filter(Boolean).join(' ') || 'Invitado';
+    const row = document.createElement('div'); row.innerHTML = `<strong>${full}</strong>`; el.appendChild(row);
+    const acomp = Array.isArray(g.acompanantes)?g.acompanantes:[]; acomp.forEach(a=>{const d=document.createElement('div'); d.textContent = a?.nombre || a; el.appendChild(d);});
+  });
+}
+function colorMesas(){
+  document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));
+  state.guestsByTable.forEach((arr,label)=>{
+    const cap=getMesaCapacity(label);
+    const total = arr.reduce((s,g)=> s + 1 + (Array.isArray(g.acompanantes)?g.acompanantes.length:0), 0);
+    if(total>=cap){
+      document.querySelectorAll('.mesa').forEach(b=>{ if(norm(b.dataset.label)===norm(label)) b.classList.add('completa'); });
+    }
+  });
+}
+
+/* ---------- Polling / lectura ---------- */
+function stopGuestsPolling(){ if(state.fetchInterval){ clearInterval(state.fetchInterval); state.fetchInterval=null; } }
+function startGuestsPolling(){ stopGuestsPolling(); state.fetchInterval=setInterval(()=>{fetchGuestsData().catch(()=>{})},5000); }
+
+function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;} else if(c===','&&!q){out.push(cur);cur='';} else cur+=c;} out.push(cur); return out;}
+function csvToMap(csv){
+  if(!csv) return new Map(); const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
+  const headers=parseCSVLine(lines[0]); const normH=headers.map(h=>h.trim()); const lower=normH.map(h=>norm(h));
   const mesaKeys=['mesa','mesa n','mesa n°','n','n°','numero','número']; let mesaIdx=-1; for(let i=0;i<lower.length;i++){const k=lower[i]; if(mesaKeys.some(c=>k===c||k.startsWith(c))){mesaIdx=i;break}}
-  const jsonIdx=lower.findIndex(k=>k.includes('json'));
-  const map=new Map();
-  for(let r=1;r<values.length;r++){
-    const row=values[r]||[]; const entry={}; headers.forEach((h,idx)=>entry[h]=row[idx]==null?'':String(row[idx]).trim());
-    let mesa=mesaIdx!==-1?(row[mesaIdx]==null?'':String(row[mesaIdx]).trim()):''; if(!mesa && jsonIdx!==-1 && row[jsonIdx]){const p=tryParseJson(String(row[jsonIdx]),null); if(p&&typeof p==='object'){entry.__parsedJson=p; const pm=p.mesa||p.Mesa||p.payload?.mesa; if(pm) mesa=String(pm).trim()}}
-    if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(entry);
-  }
-  return map;
+  const jsonIdx=lower.findIndex(k=>k.includes('json')); const map=new Map();
+  for(let i=1;i<lines.length;i++){
+    const v=parseCSVLine(lines[i]); if(v.every(x=>!x||x.trim()==='')) continue;
+    const e={}; normH.forEach((h,idx)=> e[h]=v[idx]==null?'':String(v[idx]).trim());
+    if(jsonIdx!==-1){const raw=v[jsonIdx]; try{const p=JSON.parse(raw); if(p&&typeof p==='object'){e.__parsedJson=p; if(!e.mesa && (p.mesa||p.Mesa||p?.payload?.mesa)) e.mesa = p.mesa||p.Mesa||p.payload.mesa;}}catch{}}
+    const mesa = String(e.mesa || e['Mesa'] || '').trim(); if(!mesa) continue;
+    if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(e);
+  } return map;
+}
+function valuesToMap(values){
+  if(!Array.isArray(values)||!values.length) return new Map();
+  const headers=values[0].map(h=>String(h||'').trim()); const lower=headers.map(h=>norm(h)); const map=new Map();
+  let mesaIdx = lower.findIndex(k=>['mesa','mesa n','mesa n°','n','n°','numero','número'].some(c=>k===c||k.startsWith(c)));
+  const jsonIdx = lower.findIndex(k=>k.includes('json'));
+  for(let i=1;i<values.length;i++){
+    const row=values[i]||[]; const e={}; headers.forEach((h,idx)=> e[h]=row[idx]==null?'':String(row[idx]).trim());
+    let mesa = mesaIdx!==-1 ? String(row[mesaIdx]||'').trim() : '';
+    if(!mesa && jsonIdx!==-1 && row[jsonIdx]){ try{const p=JSON.parse(String(row[jsonIdx])); if(p&&typeof p==='object'){e.__parsedJson=p; mesa = p.mesa||p.Mesa||p?.payload?.mesa||'';}}catch{} }
+    if(!mesa) continue; if(!map.has(mesa)) map.set(mesa,[]); map.get(mesa).push(e);
+  } return map;
 }
 async function fetchGuestsData(){
-  // 1) CSV publicado
+  // 1) CSV publicado (si existe)
   if(state.guestsSheetUrl){
     try{
-      const res=await fetch(appendCacheBuster(state.guestsSheetUrl),{cache:'no-store',method:'GET',mode:'cors'});
-      if(res.ok){
-        const csv=await res.text(); const map=getGuestsMapFromCSV(csv);
-        if(map.size>0){ state.guestsByTable=map; updateMesasCompletaColor(); updateGuestList(); updateSeats(); return map; }
-      }
+      const res=await fetch(buster(state.guestsSheetUrl),{method:'GET',mode:'cors',cache:'no-store'});
+      if(res.ok){ const text=await res.text(); const m=csvToMap(text); if(m.size){ state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; } }
     }catch{}
   }
-  // 2) Fallback Apps Script read=1
+  // 2) Fallback Apps Script ?read=1
   if(state.reservationEndpoint){
     try{
-      const url=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
-      const r=await fetch(url,{method:'GET',mode:'cors',cache:'no-store'});
-      if(r.ok){
-        const payload=await r.json().catch(()=>({})); const values=Array.isArray(payload?.values)?payload.values:[];
-        const map=getGuestsMapFromValues(values);
-        state.guestsByTable=map; updateMesasCompletaColor(); updateGuestList(); updateSeats(); return map;
-      }
+      const url=state.reservationEndpoint + (state.reservationEndpoint.includes('?')?'&':'?') + 'read=1&limit=1000&_=' + Date.now();
+      const r=await fetch(url,{method:'GET',mode:'cors',cache:'no-store'}); if(r.ok){ const payload=await r.json().catch(()=>({})); const values=Array.isArray(payload?.values)?payload.values:[]; const m=valuesToMap(values); state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; }
     }catch{}
   }
-  state.guestsByTable=new Map(); updateMesasCompletaColor(); updateGuestList(); updateSeats(); return state.guestsByTable;
+  state.guestsByTable=new Map(); colorMesas(); listarInvitados(); pintarAsientos(); return state.guestsByTable;
 }
-function setSubmissionState(b){if(!dom.submitButton)return;if(b){dom.submitButton.dataset.originalLabel=dom.submitButton.textContent;dom.submitButton.disabled=true;dom.submitButton.textContent='Enviando...'}else{dom.submitButton.disabled=false;dom.submitButton.textContent=dom.submitButton.dataset.originalLabel||'Enviar'}}
-async function postNoCors(url, body){await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'})}
+
+/* ---------- Envío + confirmación real ---------- */
+function setBtnSending(b){ if(!dom.submitButton) return; dom.submitButton.disabled=b; dom.submitButton.textContent=b?'Enviando...':'Enviar'; }
+function fingerprint(d){ return norm(d.cedula)+'|'+norm(d.correo)+'|'+norm((d.nombre||'')+' '+(d.apellido||'')); }
+function mesaSnapshot(label){ const arr=invitadosDeMesa(label); const map=new Map(); (arr||[]).forEach(g=>{ const key = norm((g['Cédula']||g['Cedula']||g.cedula||''))+'|'+norm((g['Correo']||g.correo||''))+'|'+norm(((g['Nombre']||g.nombre||'')+' '+(g['Apellido']||g.apellido||''))); map.set(key,(map.get(key)||0)+1); }); return map; }
+function snapshotHasNew(prev, now){ for(const [k,c] of now.entries()){ if((prev.get(k)||0) < c) return true; } return false; }
+
+async function sendNoCors(url, body){ await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'}); }
+
 async function submitReservation(url, payload){
-  if(!url) throw new Error('reservation_missing_endpoint');
-  const submittedAt=new Date().toISOString();
-  const body=JSON.stringify({payload,submittedAt,...payload});
-  try{ await postNoCors(url, body); }
-  catch{ const qs=new URLSearchParams({submittedAt,...Object.entries(payload).reduce((o,[k,v])=>{o[k]=typeof v==='object'?JSON.stringify(v):v;return o},{})}).toString(); const fallback=url+(url.includes('?')?'&':'?')+qs; await fetch(fallback,{method:'GET',mode:'no-cors',cache:'no-store'}).catch(()=>{}); }
-  await new Promise(r=>setTimeout(r,1500));
+  const body = JSON.stringify({ payload, submittedAt: new Date().toISOString(), ...payload });
+  // 1) estado base de la mesa
   await fetchGuestsData().catch(()=>{});
-  return true;
+  const base = mesaSnapshot(payload.mesa);
+
+  // 2) envío
+  try{ await sendNoCors(url, body); }
+  catch(e){
+    // fallback GET si el POST falla
+    const qs = new URLSearchParams({ ...payload, submittedAt: new Date().toISOString() });
+    await fetch(url+(url.includes('?')?'&':'?')+qs.toString(), {method:'GET',mode:'no-cors'}).catch(()=>{});
+  }
+
+  // 3) verificar aparición del registro (hasta ~20s)
+  const deadline = Date.now()+20000;
+  while(Date.now()<deadline){
+    await new Promise(r=>setTimeout(r,2000));
+    await fetchGuestsData().catch(()=>{});
+    const now = mesaSnapshot(payload.mesa);
+    if(snapshotHasNew(base, now)) return true;
+  }
+  throw new Error('no_confirmed');
 }
-function getGuestsForMesaWrapper(label){return getGuestsForMesa(label)}
-async function submitForm(e){
+
+async function onSubmit(e){
   e.preventDefault();
   const mesa=dom.mesaInput.value;
-  const cap=(state.siteConfig?.mesas||[]).find(m=>(m.label||`Mesa ${m.number}`)===mesa)?.capacity || state.siteConfig?.defaultCapacity || 10;
-  const ya=(getGuestsForMesaWrapper(mesa)||[]).reduce((s,g)=>s+(1+extractCompanionNames(g).length),0);
-  const cant=parseInt(document.getElementById('cantidadAcompanantes').value||'0',10)||0;
-  if(!mesa || ya+1+cant>cap){alert('Debe seleccionar una mesa disponible.');return;}
-  if(!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())){alert('Complete todos los campos requeridos.');return;}
+  const cap=getMesaCapacity(mesa);
+  const ocupados = invitadosDeMesa(mesa).reduce((s,g)=> s + 1 + (Array.isArray(g.acompanantes)?g.acompanantes.length:0), 0);
+  const cant = parseInt(document.getElementById('cantidadAcompanantes').value||'0',10)||0;
+  if(!mesa || ocupados+1+cant>cap){ alert('Debe seleccionar una mesa con espacio disponible.'); return; }
+  if(!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())){ alert('Complete todos los campos requeridos.'); return; }
 
-  const fd1=new FormData(dom.guestForm); const fd2=new FormData(dom.acompanantesForm);
-  const acomp=[]; fd2.forEach((v,k)=>{const i=parseInt(k.replace(/\D/g,''),10)-1; if(k.includes('nombreAcompanante')){ if(!acomp[i]) acomp[i]={}; acomp[i].nombre=v; } else if(k.includes('menuAcompanante')){ if(!acomp[i]) acomp[i]={}; acomp[i].menu=v; }});
-  const data={correo:fd1.get('correo'),grado:fd1.get('grado'),escalafon:fd1.get('escalafon'),nombre:fd1.get('nombre'),apellido:fd1.get('apellido'),cedula:fd1.get('cedula'),acompanante:fd1.get('acompanante'),cantidadAcompanantes:fd1.get('cantidadAcompanantes'),menu:fd1.get('menu'),acompanantes:acomp,mesa};
+  // armar payload
+  const fd1 = new FormData(dom.guestForm), fd2 = new FormData(dom.acompanantesForm);
+  const acomp=[]; fd2.forEach((v,k)=>{const i=parseInt(k.replace(/\D/g,''),10)-1; if(k.includes('nombreAcompanante')){ (acomp[i]??={}).nombre=v; } else if(k.includes('menuAcompanante')){ (acomp[i]??={}).menu=v; }});
+  const data = { correo:fd1.get('correo'), grado:fd1.get('grado'), escalafon:fd1.get('escalafon'), nombre:fd1.get('nombre'),
+                 apellido:fd1.get('apellido'), cedula:fd1.get('cedula'), acompanante:fd1.get('acompanante'),
+                 cantidadAcompanantes:fd1.get('cantidadAcompanantes'), menu:fd1.get('menu'), acompanantes:acomp, mesa };
 
-  setSubmissionState(true);
-  try{ await submitReservation(state.reservationEndpoint,data); showConfirmation(); }
-  catch{ alert('Ocurrió un problema al enviar la reserva.'); }
-  finally{ setSubmissionState(false); }
+  if(!state.reservationEndpoint){ alert('Falta la URL del Apps Script. Configúrala en admin.html.'); return; }
+
+  setBtnSending(true);
+  try{
+    await submitReservation(state.reservationEndpoint, data);
+    stopGuestsPolling();
+    dom.mesaConfirmada.textContent = mesa;
+    dom.modal.classList.add('active'); dom.modal.style.display='flex';
+  }catch(err){
+    console.error(err);
+    alert('No se pudo confirmar la escritura en la hoja. Revisa el Apps Script / permisos / SHEET_ID.');
+  }finally{ setBtnSending(false); }
 }
-function showConfirmation(){const label=dom.mesaInput.value||'tu mesa';document.getElementById('mesaConfirmada').textContent=label;document.getElementById('confirmationModal').classList.add('active');document.getElementById('confirmationModal').style.display='flex'}
-function finalizarRegistro(){location.reload()}
 
 /* ---------- Config ---------- */
 async function loadConfig(){
-  let local=null;
-  try{local=localStorage.getItem('fiestaConfig'); if(local) local=JSON.parse(local);}catch{local=null}
-  if(local) return local;
-  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) return {}; return await r.json();
+  try{ const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local); }catch{}
+  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); return await r.json();
 }
 function applyConfig(cfg){
-  ensureSingleHero(); renderHeroCard();
-  state.siteConfig=cfg||{};
+  state.siteConfig = cfg||{};
   state.reservationEndpoint = cfg.reservationScriptUrl || DEFAULT_RESERVATION_ENDPOINT;
-  state.guestsSheetUrl      = cfg.guestsSheetCsvUrl    || DEFAULT_GUESTS_SHEET_CSV_URL;
+  state.guestsSheetUrl = cfg.guestsSheetCsvUrl || DEFAULT_GUESTS_SHEET_CSV_URL;
 
   document.title = cfg.siteTitle || document.title;
-  const h=document.getElementById('siteTitleHeading'), s=document.getElementById('siteSubtitle'), d=document.getElementById('siteDescription'), img=document.getElementById('heroImage');
-  if(h) h.textContent = cfg.siteTitle || 'Fiesta Social';
-  if(s) s.textContent = cfg.siteSubtitle || 'Registro de invitados';
-  if(d) d.textContent = cfg.siteDescription || '';
-  if(img && cfg.heroImage) img.src = cfg.heroImage;
+  ensureHero();
+  if(cfg.siteTitle) document.getElementById('siteTitleHeading').textContent = cfg.siteTitle;
+  if(cfg.siteSubtitle) document.getElementById('siteSubtitle').textContent = cfg.siteSubtitle;
+  if(cfg.siteDescription) document.getElementById('siteDescription').textContent = cfg.siteDescription;
+  if(cfg.heroImage) document.getElementById('heroImage').src = cfg.heroImage;
 
-  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
-  cfg.mesas.sort((a,b)=>(a.number||0)-(b.number||0));
-  if(!Array.isArray(cfg.zones)||!cfg.zones.length) cfg.zones=DEFAULT_ZONES.map(z=>({id:z.id,label:z.label,className:z.className,position:{...z.position}}));
-
-  renderZones(cfg.zones); renderTables(cfg.mesas); updateSummary();
+  const mesas = Array.isArray(cfg.mesas)? [...cfg.mesas].sort((a,b)=>(a.number||0)-(b.number||0)) : [];
+  renderZones(cfg.zones); renderTables(mesas);
+  dom.totalMesasCounter.textContent = mesas.length;
+  dom.capacidadTotalCounter.textContent = mesas.reduce((s,m)=> s+(m.capacity||cfg.defaultCapacity||10), 0);
   fetchGuestsData().catch(()=>{});
 }
-function setupEvents(){
-  document.body.addEventListener('click',handleNavigation);
-  document.getElementById('acompanante').addEventListener('change',toggleAcompanante);
-  dom.submitButton.addEventListener('click',submitForm);
-  dom.finalizarBtn.addEventListener('click',finalizarRegistro);
-}
-document.addEventListener('DOMContentLoaded',async()=>{enforceInitialScreen();ensureSingleHero();setupEvents(); const cfg=await loadConfig(); applyConfig(cfg);});
+
+/* ---------- Eventos ---------- */
+document.addEventListener('DOMContentLoaded', async ()=>{
+  firstScreen(); ensureHero();
+  document.body.addEventListener('click', handleNav);
+  document.getElementById('acompanante').addEventListener('change', toggleAcomp);
+  dom.submitButton.addEventListener('click', onSubmit);
+  dom.finalizarBtn.addEventListener('click', ()=>location.reload());
+  try{ const cfg = await loadConfig(); applyConfig(cfg); }catch(e){ console.error(e); alert('No se pudo cargar la configuración.'); }
+});
 </script>
 </body>
 </html>
