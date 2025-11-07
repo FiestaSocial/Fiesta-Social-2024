@@ -28,7 +28,7 @@
     h1,h2,h3{margin:0 0 12px}
     p{margin:0 0 16px;color:var(--mut);line-height:1.6}
 
-    .container{background:#fff;border-radius:var(--r);padding:32px 32px 40px;box-shadow:var(--sh);display:none;margin-bottom:32px;position:relative;overflow:hidden}
+    .container{background:#fff;border-radius:var(--r);padding:32px 32px 40px;box-shadow:var(--sh);display:none;margin-bottom:32px}
     .container.active{display:block;animation:fade .45s ease}
     @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
@@ -46,25 +46,19 @@
     input:focus,select:focus,textarea:focus{outline:none;border-color:rgba(11,102,255,.8);box-shadow:0 0 0 4px rgba(11,102,255,.12)}
 
     .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:12px 24px;font-weight:600;cursor:pointer}
-    .button--primary{background:var(--c1);color:#fff}
-    .button--primary:hover{background:var(--c1d)}
+    .button--primary{background:var(--c1);color:#fff}.button--primary:hover{background:var(--c1d)}
     .button--ghost{background:rgba(15,23,42,.05);color:var(--c1)}
     .navigation-buttons{margin-top:32px;display:flex;gap:16px;justify-content:flex-end}
 
     .salon-wrapper{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-bottom:32px;align-items:start}
-    .salon-summary{background:rgba(248,250,252,.9);border-radius:var(--r2);padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.08);position:sticky;top:32px}
+    .salon-summary{background:rgba(248,250,252,.9);border-radius:var(--r2);padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
     .legend{display:flex;flex-direction:column;gap:8px}
     .legend-swatch{width:16px;height:16px;border-radius:4px;display:inline-block;margin-right:8px}
     .legend .available{background:var(--c1)} .legend .full{background:var(--err)} .legend .selected{background:var(--c2)}
 
-    .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--r2);box-shadow:0 20px 40px rgba(15,23,42,.18);overflow:hidden}
-    .map-zone{
-      position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);
-      transform:translate(-50%,-50%);padding:6px 16px;border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;font-size:12px;z-index:1
-    }
-    .map-zone--dance{background:rgba(34,197,94,.85)}
-    .map-zone--stage,.map-zone--entrance,.map-zone--dj,.map-zone--dessert{background:rgba(59,130,246,.9)}
-
+    .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--r2);box-shadow:0 20px 40px rgba(15,23,42,.18)}
+    .map-zone{position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);transform:translate(-50%,-50%);padding:6px 16px;border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;font-size:12px;z-index:1}
+    .map-zone--dance{background:rgba(34,197,94,.85)} .map-zone--stage,.map-zone--entrance,.map-zone--dj,.map-zone--dessert{background:rgba(59,130,246,.9)}
     .mesa{position:absolute;width:52px;height:52px;border-radius:16px;background:var(--c1);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:none;cursor:pointer}
     .mesa.completa{background:var(--err)} .mesa.seleccionada{background:var(--c2)}
 
@@ -106,12 +100,7 @@
       </div>
       <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required></div>
       <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required></div>
-
-      <!-- CI tolerante: con o sin puntos -->
-      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label>
-        <input id="cedula" name="cedula" required pattern="^\d(\.?\d{3}){2}-\d$">
-      </div>
-
+      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label><input id="cedula" name="cedula" required pattern="^\d(\.?\d{3}){2}-\d$"></div>
       <div class="form-field"><label for="menu">Menú</label>
         <select id="menu" name="menu" required>
           <option value="" selected>Seleccionar</option>
@@ -119,12 +108,10 @@
           <option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
         </select>
       </div>
-
       <div class="form-field" style="grid-column:1/-1">
         <label for="observacion">Observaciones</label>
         <textarea id="observacion" name="observacion" placeholder="Alergias, preferencias, etc."></textarea>
       </div>
-
       <div class="form-field"><label for="acompanante">¿Asiste con acompañante?</label>
         <select id="acompanante" name="acompanante" required><option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option></select>
       </div>
@@ -161,13 +148,13 @@
         <p><strong>Mesas:</strong> <span id="totalMesasCounter">--</span></p>
         <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span></p>
         <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-        <div class="legend">
+        <button class="button button--ghost" id="refreshNowBtn">🔄 Refrescar ahora</button>
+        <div class="legend" style="margin-top:10px">
           <span><span class="legend-swatch available"></span>Disponible</span>
           <span><span class="legend-swatch full"></span>Completa</span>
           <span><span class="legend-swatch selected"></span>Seleccionada</span>
         </div>
       </aside>
-
       <div id="salonMap" class="salon-map"></div>
     </div>
 
@@ -193,7 +180,7 @@
 <div id="confirmationModal" class="modal-overlay">
   <div class="modal-content">
     <h2>Registro completo</h2>
-    <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>. Si deseas realizar un cambio, comunícate con la Sec. Contable de la B.A. III.</p>
+    <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>.</p>
     <div class="modal-actions"><button class="button button--primary" id="finalizarBtn">Finalizar</button></div>
   </div>
 </div>
@@ -203,9 +190,7 @@
   <div class="modal-content">
     <h2>Ya estás registrado</h2>
     <div id="duplicateBody" style="white-space:pre-wrap"></div>
-    <div class="modal-actions">
-      <button class="button button--primary" id="dupCloseBtn">Entendido</button>
-    </div>
+    <div class="modal-actions"><button class="button button--primary" id="dupCloseBtn">Entendido</button></div>
   </div>
 </div>
 
@@ -243,7 +228,8 @@ const dom = {
   finalizarBtn: document.getElementById('finalizarBtn'),
   duplicateModal: document.getElementById('duplicateModal'),
   duplicateBody: document.getElementById('duplicateBody'),
-  dupCloseBtn: document.getElementById('dupCloseBtn')
+  dupCloseBtn: document.getElementById('dupCloseBtn'),
+  refreshNowBtn: document.getElementById('refreshNowBtn')
 };
 
 /* =============================
@@ -286,7 +272,7 @@ function validateForm(id){
   const form=document.getElementById(id); if(!form) return [];
   const bad=[];
   form.querySelectorAll('input,select,textarea').forEach(el=>{
-    const hidden = (el.offsetParent === null); // ignora ocultos
+    const hidden = (el.offsetParent === null);
     if(!hidden && !el.checkValidity()){
       const lab=form.querySelector(`label[for="${el.id}"]`);
       bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim());
@@ -296,12 +282,9 @@ function validateForm(id){
 }
 function handleNav(e){
   const next=e.target.closest('[data-next]'); const prev=e.target.closest('[data-prev]'); if(!next&&!prev) return; e.preventDefault();
-
   if(prev){ showScreen(parseInt(prev.dataset.prev,10)||Math.max(1,state.currentScreen-1)); return; }
-
   if(state.currentScreen===2){
-    const bad=validateForm('guestForm');
-    if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
+    const bad=validateForm('guestForm'); if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
     const a=document.getElementById('acompanante').value;
     if(a==='si'){
       const c=document.getElementById('cantidadAcompanantes').value;
@@ -437,10 +420,11 @@ function colorMesas(){
 }
 
 /* =============================
-   Lectura y polling
+   Lectura y polling (antiparpadeo)
 ============================= */
 function stopGuestsPolling(){ if(state.fetchInterval){ clearInterval(state.fetchInterval); state.fetchInterval=null; } }
-function startGuestsPolling(){ stopGuestsPolling(); state.fetchInterval=setInterval(()=>{fetchGuestsData().catch(()=>{})},5000); }
+function startGuestsPolling(){ stopGuestsPolling(); state.fetchInterval=setInterval(()=>{fetchGuestsData({silent:true}).catch(()=>{})},8000); }
+function snapshotForMesa(map,label){ const rows=(map&&label)?(map.get(label)||[]):[]; try{ return JSON.stringify(rows.map(r=>({n:(r['Nombre']||'')+' '+(r['Apellido']||''),j:r['JSON original']||''}))); }catch{ return '[]'; } }
 
 function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;} else if(c===','&&!q){out.push(cur);cur='';} else cur+=c;} out.push(cur); return out;}
 function csvToMap(csv){
@@ -448,7 +432,8 @@ function csvToMap(csv){
   const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim()!==''); if(!lines.length) return new Map();
   const headers=parseCSVLine(lines[0]); const normH=headers.map(h=>h.trim()); const lower=normH.map(h=>norm(h));
   const mesaIdx = lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));
-  const jsonIdx = lower.findIndex(k=>k.includes('json')); const map=new Map();
+  const jsonIdx = lower.findIndex(k=>k.includes('json'));
+  const map=new Map();
   for(let i=1;i<lines.length;i++){
     const v=parseCSVLine(lines[i]); if(v.every(x=>!x||x.trim()==='')) continue;
     const e={}; normH.forEach((h,idx)=> e[h]=v[idx]==null?'':String(v[idx]).trim());
@@ -476,21 +461,32 @@ function valuesToMap(values){
   }
   return map;
 }
-async function fetchGuestsData(){
+async function fetchGuestsData({silent=false}={}){
+  const prevMap=state.guestsByTable;
+  const selected=document.getElementById('mesa')?.value||'';
+  const prevSnap=snapshotForMesa(prevMap,selected);
+  let newMap=null;
+
   if(state.guestsSheetUrl){
     try{
-      const r=await fetch(buster(state.guestsSheetUrl),{method:'GET',mode:'cors',cache:'no-store'});
-      if(r.ok){ const t=await r.text(); const m=csvToMap(t); if(m.size){ state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; } }
+      const res=await fetch(buster(state.guestsSheetUrl),{method:'GET',mode:'cors',cache:'no-store'});
+      if(res.ok){ const csv=await res.text(); const map=csvToMap(csv); if(map&&map.size){ newMap=map; } }
     }catch{}
   }
-  if(state.reservationEndpoint){
+  if(!newMap&&state.reservationEndpoint){
     try{
-      const u=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
-      const r=await fetch(u,{method:'GET',mode:'cors',cache:'no-store'});
-      if(r.ok){ const p=await r.json().catch(()=>({})); const vals=Array.isArray(p?.values)?p.values:[]; const m=valuesToMap(vals); state.guestsByTable=m; colorMesas(); listarInvitados(); pintarAsientos(); return m; }
+      const url=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
+      const r=await fetch(url,{method:'GET',mode:'cors',cache:'no-store'});
+      if(r.ok){ const p=await r.json().catch(()=>({})); const values=Array.isArray(p?.values)?p.values:[]; const map=valuesToMap(values); newMap=map; }
     }catch{}
   }
-  state.guestsByTable=new Map(); colorMesas(); listarInvitados(); pintarAsientos(); return state.guestsByTable;
+
+  if(!newMap){ if(!silent) console.warn('Sin actualización, se conserva el estado.'); return prevMap; }
+
+  state.guestsByTable=newMap; colorMesas();
+  const nextSnap=snapshotForMesa(newMap,selected);
+  if(prevSnap!==nextSnap){ listarInvitados(); pintarAsientos(); }
+  return newMap;
 }
 
 /* =============================
@@ -559,13 +555,11 @@ async function onSubmit(e){
 
   if(!(dom.guestForm.checkValidity() && dom.acompanantesForm.checkValidity())){ alert('Complete todos los campos requeridos.'); return; }
 
-  // Prevención local de duplicado por CI
   await fetchGuestsData().catch(()=>{});
   const ciTitular = document.getElementById('cedula').value;
   const already = findRegistrationByCedula(ciTitular);
   if (already) { showDuplicateModal(already); return; }
 
-  // Construir payload
   const fd1=new FormData(dom.guestForm), fd2=new FormData(dom.acompanantesForm);
   const acomp=[];
   fd2.forEach((v,k)=>{
@@ -584,7 +578,6 @@ async function onSubmit(e){
   };
 
   const base = mesaSnapshot(mesa);
-
   setBtnSending(true);
   try{
     await sendNoCors(state.reservationEndpoint, JSON.stringify({payload:data,submittedAt:new Date().toISOString(),...data}));
@@ -606,7 +599,7 @@ async function onSubmit(e){
 }
 
 /* =============================
-   Config
+   Config y eventos
 ============================= */
 async function loadConfig(){
   try{ const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local); }catch{}
@@ -633,9 +626,6 @@ function applyConfig(cfg){
   fetchGuestsData().catch(()=>{});
 }
 
-/* =============================
-   Eventos
-============================= */
 document.addEventListener('DOMContentLoaded', async ()=>{
   firstScreen(); ensureHero();
   document.body.addEventListener('click', handleNav);
@@ -643,6 +633,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
   dom.submitButton.addEventListener('click', onSubmit);
   dom.finalizarBtn.addEventListener('click', ()=>location.reload());
   dom.dupCloseBtn.addEventListener('click', ()=>{dom.duplicateModal.classList.remove('active'); dom.duplicateModal.style.display='none';});
+  dom.refreshNowBtn.addEventListener('click', ()=>{fetchGuestsData().then(()=>alert('Información actualizada')).catch(()=>alert('No se pudo refrescar'));});
 
   try{ const cfg=await loadConfig(); applyConfig(cfg); }
   catch(e){ console.error(e); alert('No se pudo cargar la configuración.'); }
