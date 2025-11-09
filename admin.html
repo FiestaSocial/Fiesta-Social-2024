@@ -25,6 +25,7 @@
   .status{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-weight:600}
   .ok{display:block;background:rgba(5,150,105,.12);color:var(--ok)}
   .err{display:block;background:rgba(239,68,68,.12);color:var(--err)}
+  @media (max-width: 720px){.row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -52,6 +53,18 @@
         <label>URL Apps Script (/exec)</label><input id="reservationScriptUrl">
         <label>CSV publicado (opcional)</label><input id="guestsSheetCsvUrl">
         <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1">
+      </div>
+    </div>
+
+    <h3 style="margin-top:16px">Tamaños de la representación (UI)</h3>
+    <div class="row">
+      <div>
+        <label>Tamaño de botón de mesa (px)</label><input id="uiMesaSize" type="number" min="24" step="1">
+        <label>Tamaño de asiento (px)</label><input id="uiSeatSize" type="number" min="20" step="1">
+      </div>
+      <div>
+        <label>Diámetro de mesa circular (px)</label><input id="uiTableSize" type="number" min="80" step="1">
+        <label>Escala de zonas (chips/etiquetas)</label><input id="uiZoneScale" type="number" min="0.6" step="0.1">
       </div>
     </div>
 
@@ -101,6 +114,12 @@ function fillGeneral(){
   $('siteDescription').value=cfg.siteDescription||''; $('heroImage').value=cfg.heroImage||'';
   $('reservationScriptUrl').value=cfg.reservationScriptUrl||''; $('guestsSheetCsvUrl').value=cfg.guestsSheetCsvUrl||'';
   $('defaultCapacity').value=cfg.defaultCapacity||10;
+
+  const ui = cfg.ui || {};
+  $('uiMesaSize').value  = ui.mesaSize  ?? 52;
+  $('uiSeatSize').value  = ui.seatSize  ?? 42;
+  $('uiTableSize').value = ui.tableSize ?? 120;
+  $('uiZoneScale').value = ui.zoneScale ?? 1;
 }
 
 function renderMesas(){
@@ -172,8 +191,18 @@ $('saveLocal').onclick=()=>{
   cfg.reservationScriptUrl=$('reservationScriptUrl').value.trim();
   cfg.guestsSheetCsvUrl=$('guestsSheetCsvUrl').value.trim();
   cfg.defaultCapacity=parseInt($('defaultCapacity').value,10)||10;
+
+  // guardar UI
+  cfg.ui = {
+    mesaSize:  parseFloat($('uiMesaSize').value)||52,
+    seatSize:  parseFloat($('uiSeatSize').value)||42,
+    tableSize: parseFloat($('uiTableSize').value)||120,
+    zoneScale: parseFloat($('uiZoneScale').value)||1
+  };
+
   cfg.mesas=getMesasFromTable();
   cfg.zones=getZonesFromTable();
+
   localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
   show($('saveStatus'),'ok','Guardado en este navegador.');
 };
