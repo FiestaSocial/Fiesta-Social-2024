@@ -1,251 +1,682 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Administración · Fiesta Social</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{--c1:#0b66ff;--c1d:#084dcc;--ok:#059669;--err:#ef4444;--bg:#fff;--mut:#475569;--b:#e2e8f0;--sh:0 24px 60px rgba(15,23,42,.18);--r:22px;font-family:Poppins,Segoe UI,sans-serif}
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
-  main{width:100%;max-width:1100px;display:grid;gap:24px}
-  .card{background:var(--bg);border-radius:var(--r);padding:28px;box-shadow:var(--sh)}
-  h1,h2{margin:0 0 12px} p{margin:0 0 12px;color:var(--mut)}
-  label{font-weight:600;display:block;margin:8px 0 6px}
-  input,textarea{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:10px;background:#f8fafc}
-  .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
-  .p{background:var(--c1);color:#fff}.p:hover{background:var(--c1d)}
-  .g{background:#eef2ff;color:#0b66ff}.d{background:#fee2e2;color:#b91c1c}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  table{width:100%;border-collapse:collapse;margin-top:10px}
-  th,td{padding:10px;border-bottom:1px solid #e5e7eb;font-size:14px}
-  .narrow{width:90px}
-  .status{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-weight:600}
-  .ok{display:block;background:rgba(5,150,105,.12);color:#0b8a3b}
-  .err{display:block;background:rgba(239,68,68,.12);color:#b91c1c}
-  @media (max-width: 720px){.row{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fiesta Social 2024</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --c1:#0b67ff; --c1d:#0b4fb6; --c2:#f59e0b; --mut:#6b7280; --b:#e5e7eb;
+      --ok:#22c55e; --err:#ef4444; --bg:#ffffff; --sh:0 24px 60px rgba(15,23,42,.20);
+      --r:28px; --r2:18px; --r3:12px;
+      /* Tamaños UI (se sobreescriben desde config.ui) */
+      --mesa-size:52px;      /* diámetro de cada casilla de silla */
+      --seat-size:42px;      /* diámetro de la silla en la vista de mesa */
+      --table-size:120px;    /* diámetro de la mesa circular */
+      --zone-scale:1;        /* escala de tamaño de chips de zonas */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(59,130,246,.35), transparent 50%),
+        radial-gradient(circle at 85% 90%, rgba(234,179,8,.25), transparent 50%),
+        #0f172a;
+      color:#0f172a;
+      padding:40px 16px 60px;
+      display:flex; justify-content:center;
+    }
+    main{width:100%;max-width:1100px}
+    h1,h2,h3{margin:0 0 12px}
+    p{margin:0 0 12px;color:var(--mut)}
+    .container{background:var(--bg);border-radius:var(--r);padding:28px;box-shadow:var(--sh);margin-bottom:28px}
+    .container:not(.active){display:none}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+    .eyebrow{display:inline-block;background:rgba(11,103,255,.12);color:#0b67ff;padding:6px 12px;border-radius:999px;font-weight:600}
+    .hero img{width:100%;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.15)}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
+    .btn--pri{background:var(--c1);color:#fff} .btn--pri:hover{background:var(--c1d)}
+    .btn--ghost{background:rgba(15,23,42,.06);color:#0b67ff}
+
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field>label{font-weight:600}
+    .field>input,.field>select,.field>textarea{padding:10px 12px;border:1px solid var(--b);border-radius:var(--r3);background:#f8fafc;font-size:15px}
+    textarea{min-height:84px;resize:vertical}
+
+    .flex{display:flex;gap:12px;align-items:center}
+    .actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
+
+    .panel{background:#f8fafc;border:1px solid var(--b);border-radius:12px;padding:16px}
+    .legend{display:grid;gap:8px;margin-top:12px}
+    .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
+    .dot.blue{background:var(--c1)} .dot.orange{background:var(--c2)} .dot.red{background:var(--err)}
+
+    .map{position:relative;border-radius:16px;background:linear-gradient(135deg, rgba(226,232,240,.85), rgba(203,213,225,.6));box-shadow:0 12px 30px rgba(0,0,0,.15);aspect-ratio:16/9}
+    .zone{position:absolute;left:calc(var(--x,50)*1%);top:calc(var(--y,50)*1%);transform:translate(-50%,-50%);white-space:nowrap;
+      padding:calc(6px*var(--zone-scale,1)) calc(16px*1.1*var(--zone-scale,1));
+      border-radius:999px;background:rgba(15,23,42,.80);color:#fff;font-size:calc(12px*var(--zone-scale,1));font-weight:600}
+    .zone.stage,.zone.entrance,.zone.dj,.zone.dessert{background:#3b82f6}
+    .zone.dance{background:#22c55e}
+
+    .seat{position:absolute;width:var(--seat-size);height:var(--seat-size);border-radius:12px;background:var(--ok);transform:translate(-50%,-50%)}
+    .seat.full{background:var(--err)}
+    .table{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--table-size);height:var(--table-size);border-radius:999px;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+    .chair{position:absolute;width:var(--mesa-size);height:var(--mesa-size);border-radius:16px;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;transform:translate(-50%,-50%)}
+    .chair.full{background:var(--err)} .chair.sel{background:var(--c2)}
+
+    /* mobile */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .map{aspect-ratio:auto; height:56vw; min-height:280px}
+    }
+  </style>
 </head>
 <body>
 <main>
-  <!-- Login -->
-  <section class="card" id="loginCard">
-    <h1>Panel de administración</h1>
-    <p>Ingresa la contraseña para editar la configuración.</p>
-    <label>Contraseña</label>
-    <input type="password" id="adminPass" autocomplete="current-password">
-    <div style="margin-top:12px">
-      <button class="btn p" id="loginBtn">Ingresar</button>
-    </div>
-    <div id="loginStatus" class="status"></div>
+  <!-- Pantalla 1 -->
+  <section id="scr1" class="container active">
+    <div class="hero" id="heroBox"></div>
   </section>
 
-  <!-- Editor -->
-  <section class="card" id="editorCard" hidden>
-    <h2>Configuración del sitio</h2>
-    <div class="row">
-      <div>
-        <label>Título</label><input id="siteTitle">
-        <label>Subtítulo</label><input id="siteSubtitle">
-        <label>Descripción</label><textarea id="siteDescription"></textarea>
-        <label>Imagen héroe (URL)</label><input id="heroImage">
+  <!-- Pantalla 2: datos -->
+  <section id="scr2" class="container">
+    <h2>Datos personales</h2>
+    <p>Completa tus datos para asegurar tu lugar.</p>
+    <form id="formMain" class="grid" autocomplete="on">
+      <div class="field"><label for="email">Correo</label><input id="email" name="correo" type="email" required></div>
+      <div class="field"><label for="grado">Grado</label>
+        <select id="grado" name="grado" required>
+          <option value="">Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
+        </select>
       </div>
-      <div>
-        <label>URL Google Apps Script (/exec)</label><input id="reservationScriptUrl">
-        <label>CSV de invitados (opcional)</label><input id="guestsSheetCsvUrl">
-        <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1">
+      <div class="field"><label for="escalafon">Escalafón</label>
+        <select id="escalafon" name="escalafon" required>
+          <option value="">Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
+        </select>
       </div>
+      <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required></div>
+      <div class="field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required></div>
+      <div class="field"><label for="ci">Cédula (0.000.000-0)</label><input id="ci" name="cedula" required pattern="^\d(\.?\d{3}){2}-\d$"></div>
+      <div class="field"><label for="menu">Menú</label>
+        <select id="menu" name="menu" required>
+          <option value="">Seleccionar</option><option value="normal">Normal</option><option value="vegetariano">Vegetariano</option><option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column:1 / -1">
+        <label for="obs">Observaciones</label>
+        <textarea id="obs" name="observacion" placeholder="Alergias, preferencias, etc."></textarea>
+      </div>
+      <div class="field"><label for="acomp">¿Asiste con acompañante?</label>
+        <select id="acomp" name="acompanante" required>
+          <option value="">Seleccionar</option><option value="no">No</option><option value="si">Sí</option>
+        </select>
+      </div>
+      <div class="field" id="boxCount" style="display:none">
+        <label for="acompCount">¿Cuántos acompañantes? (máx. 4)</label>
+        <select id="acompCount" name="cantidadAcompanantes">
+          <option value="">Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option>
+        </select>
+      </div>
+      <input type="hidden" id="selTable" name="mesa">
+    </form>
+    <div class="actions">
+      <button class="btn btn--ghost" data-prev="1">Anterior</button>
+      <button class="btn btn--pri" data-next="3">Continuar</button>
     </div>
-
-    <h3 style="margin-top:18px">Tamaños de la representación (UI)</h3>
-    <div class="row">
-      <div>
-        <label>Tamaño de botón de mesa (px)</label><input id="uiMesaSize" type="number" class="narrow" min="24" step="1">
-        <label>Tamaño de asiento (px)</label><input id="uiSeatSize" type="number" class="narrow" min="20" step="1">
-      </div>
-      <div>
-        <label>Diámetro de mesa circular (px)</label><input id="uiTableSize" type="number" class="narrow" min="80" step="1">
-        <label>Escala global de zonas (chips)</label><input id="uiZoneScale" type="number" class="narrow" min="0.6" step="0.1">
-      </div>
-    </div>
-
-    <h3 style="margin-top:18px">Mesas</h3>
-    <table id="mesasTable">
-      <thead><tr><th class="narrow">#</th><th>Etiqueta</th><th class="narrow">Cap.</th><th class="narrow">X%</th><th class="narrow">Y%</th><th></th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <div style="margin-top:10px"><button class="btn p" id="addMesa">Agregar mesa</button></div>
-
-    <h3 style="margin-top:24px">Zonas</h3>
-    <table id="zonesTable">
-      <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th class="narrow">X%</th><th class="narrow">Y%</th><th class="narrow">Tamaño</th><th></th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <div style="margin-top:10px"><button class="btn g" id="addZone">Agregar zona</button></div>
-
-    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn p" id="saveLocal">Guardar (navegador)</button>
-      <button class="btn g" id="download">Descargar config.json</button>
-      <button class="btn d" id="reset">Resetear</button>
-      <a class="btn g" href="index.html">Volver al sitio</a>
-    </div>
-    <div id="saveStatus" class="status"></div>
   </section>
+
+  <!-- Pantalla 3: acompañantes -->
+  <section id="scr3" class="container">
+    <h2>Información de acompañantes</h2>
+    <form id="formAcomp" class="grid"></form>
+    <div class="actions">
+      <button class="btn btn--ghost" data-prev="2">Anterior</button>
+      <button class="btn btn--pri" data-next="4">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Pantalla 4: salón y envío -->
+  <section id="scr4" class="container">
+    <h2>Selecciona tu mesa</h75>
+    <div class="salon-wrapper">
+      <aside class="salon-summary panel">
+        <h3>Resumen del salón</h3>
+        <p><strong>Mesas:</strong> <span id="totMesas">—</span></p>
+        <p><strong>Capacidad total:</strong> <span id="totCap">—</span></p>
+        <p><strong>Mesa seleccionada:</strong> <span id="tagMesa">Sin seleccionar</span></p>
+        <button class="btn btn--ghost" id="btnRefresh">🔄 Refrescar ahora</button>
+        <div class="legend">
+          <div><span class="dot blue"></span>Disponible</div>
+          <div><span class="dot red"></span>Completa</div>
+          <div><span class="dot" style="background:var(--c2)"></span>Seleccionada</div>
+        </div>
+      </aside>
+      <div id="map" class="map"></div>
+    </div>
+
+    <div class="grid">
+      <div class="table-container">
+        <div id="tableCanvas" class="table"></div>
+        <div id="seating"></div>
+      </div>
+      <div class="panel">
+        <h3>Invitados registrados en esta mesa</h3>
+        <div id="guestList" style="min-height:160px">Selecciona una mesa para ver los invitados.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn--ghost" data-prev="3">Anterior</button>
+      <button id="btnSend" class="btn btn--pri">Enviar</button>
+    </div>
+  </section>
+
+  <!-- Modales -->
+  <div id="okModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Registro completo</h3>
+      <p>Tu reserva se guardó en <strong id="okMesa"></strong>. Si deseas realizar un cambio, comunícate con la Sec. Contable de la B.A. III.</p>
+      <div class="modal-actions"><button id="btnOkClose" class="btn btn--pri">Cerrar</button></div>
+    </div>
+  </div>
+
+  <div id="dupModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Ya estás registrado</h3>
+      <pre id="dupInfo" style="white-space:pre-wrap"></pre>
+      <div class="modal-actions"><button id="btnDupClose" class="btn btn--pri">Entendido</button></div>
+    </div>
+  </div>
 </main>
 
 <script>
-let cfg=null;
+/* ============================== */
+/* ESTADO & UTILIDADES            */
+/* ============================== */
+const state = {
+  cfg:null,
+  guests:new Map(),      // Map<mesa, array de filas>
+  poll:null
+};
 
-function $(id){return document.getElementById(id)}
-function show(el,cls,msg){el.className='status '+cls;el.textContent=msg;el.style.display='block'}
-function hide(el){el.style.display='none'}
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const norm = s => (s??'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+const bust = url => !url ? '' : url + (url.includes('?')?'&':'?') + '_=' + Date.now();
 
-async function sha256(text){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+/* ============ HERO ============ */
+function paintHero(){
+  const box = $('#heroBox');
+  box.innerHTML = `
+    <div>
+      <span class="eyebrow" id="ey">${state.cfg?.siteSubtitle||'Registro oficial de invitados'}</span>
+      <h1 class="hero-card__title" id="ttl">${state.cfg?.siteTitle||'Fiesta Social 2024'}</h1>
+      <p id="desc">${state.cfg?.siteDescription||'Confirma tu asistencia, elige tu menú y selecciona tu mesa.'}</p>
+      <div class="flex">
+        <button class="btn btn--pri" data-next="2">Comenzar registro</button>
+        <a class="btn btn--ghost" href="admin.html">Administración</a>
+      </div>
+    </div>
+    <img id="heroImg" src="${state.cfg?.['heroImage']||'Imagen de bienvenida.png'}" alt="Imagen de portada">
+  `;
 }
 
-async function loadConfig(){
-  try{const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local);}catch{}
-  const r=await fetch('config.json?_='+Date.now()); return await r.json();
+/* ======== NAVEGACIÓN ========= */
+function show(n){
+  $$('.container').forEach((el,i)=>el.classList.toggle('active', el.id===`scr${n}`));
+}
+document.body.addEventListener('click', e=>{
+  const goNext = e.target.closest('[data-next]');
+  const goPrev = e.target.closest('[data-prev]');
+  if(goNext){ e.preventDefault(); const t = +goNext.dataset.next; nextFrom(t); }
+  if(goPrev){ e.preventDefault(); show(+goPrev.dataset.prev); }
+});
+
+/* ========== FORM STEPS ========= */
+function nextFrom(n){
+  if(n===3){ // pasar a acomp
+    const bad = validateForm('#scr2');
+    if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
+    const want = $('#acomp').value;
+    const qty  = +($('#acompCount').value||0);
+    renderAcompanantes(want==='si'? Math.min(4, Math.max(1,qty)) : 0);
+    show(3);
+  }else if(n===4){
+    const bad = validateForm('#scr3', true);
+    if(bad.length){ alert('Faltan datos de acompañantes:\n- '+bad.join('\n- ')); return; }
+    show(4);
+    // primer pintado del salón
+    paintHall();
+    refreshGuests();
+    startPoll();
+  }else{
+    show(n);
+  }
 }
 
-/* ====== UI helpers ====== */
-function fillGeneral(){
-  $('siteTitle').value      = cfg.siteTitle || '';
-  $('siteSubtitle').value   = cfg.siteSubtitle || '';
-  $('siteDescription').value= cfg.siteDescription || '';
-  $('heroImage').value      = cfg.heroImage || '';
-  $('reservationScriptUrl').value = cfg.reservationScriptUrl || '';
-  $('guestsSheetCsvUrl').value    = cfg.guestsSheetCsvUrl || '';
-  $('defaultCapacity').value      = cfg.default91 || cfg.defaultCap || cfg.defaultCapacity || 10;
-
-  const ui = cfg.ui || {};
-  $('uiMesaSize').value  = ui.mesaSize  ?? 52;
-  $('uiSeatSize').value  = ui.seatSize  ?? 42;
-  $('uiTableSize').value = ui.tableSize ?? 120;
-  $('uiZoneScale').value = ui.zoneScale ?? 1;
-
-  renderMesas();
-  renderZones();
+function validateForm(rootSel, skipIfEmpty=false){
+  const scope = $(rootSel);
+  const bad = [];
+  $$('input,select,textarea', scope).forEach(el=>{
+    const hidden = (el.offsetParent === null);
+    if(hidden) return;
+    if(skipIfEmpty && !el.required) return;
+    if(!el.checkValidity()) {
+      const lab = scope.querySelector(`label[for="${el.id}"]`);
+      bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim());
+    }
+  });
+  return bad;
 }
 
-function renderMesas(){
-  const tb=$('mesasTable').querySelector('tbody'); tb.innerHTML='';
-  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
-  cfg.mesas.forEach((m,i)=>{
-    const tr=document.createElement('div'); // use tr
-    tr.innerHTML=`
-      <tr>
-        <td><input class="narrow" type="number" value="${m.number||i+1}" data-f="number"></td>
-        <td><input value="${m.label||`Mesa ${i+1}`}" data-f="label"></td>
-        <td><input class="narrow" type="number" min="1" step="1" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
-        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.x??0}" data-f="x"></td>
-        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.y??0}" data-f="y"></td>
-        <td><button class="btn d" data-del>Eliminar</button></td>
-      </tr>`;
-    const row = tr.firstElementChild;
-    row.querySelector('[data-del]').onclick=()=>{ cfg.mesas.splice(i,1); renderMesas(); };
-    tb.appendChild(row);
+/* ====== ACOMPANANTES ====== */
+function renderAcompanantes(n){
+  const box = $('#formAcomp');
+  box.innerHTML='';
+  for(let i=1;i<=n;i++){
+    box.insertAdjacentHTML('beforeend', `
+      <div class="field"><label for="an${i}">Nombre (Acompañante ${i})</label><input id="an${i}" name="nombreA${i}" required></div>
+      <div class="field"><label for="aa${i}">Apellido (Acompañante ${i})</label><input id="aa${i}" name="apellidoA${i}"></div>
+      <div class="field"><label for="ac${i}">Cédula (0.000.000-0)</label><input id="ac${i}" name="cedulaA${i}" pattern="^\\d(\\.?\\d{3}){2}-\\d$" required></div>
+      <div class="field"><label for="am${i}">Menú</label>
+        <select id="am${i}" name="menuA${i}">
+          <option value="" selected>Seleccionar</option>
+          <option value="normal">Normal</option>
+          <option value="vegetariano">Vegetariano</option>
+          <option value="vegano">Vegano</option>
+          <option value="celiaco">Celíaco</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column:1/-1">
+        <label for="ao${i}">Observaciones</label>
+        <textarea id="ao${i}" name="obsA${i}" placeholder="Alergias, preferencias, etc."></textarea>
+      </div>
+    `);
+  }
+}
+
+/* ======= SALÓN ========= */
+function paintHall(){
+  const m = $('#map'); m.innerHTML='';
+  // zonas
+  const zones = (state.cfg?.zones && state.cfg.zones.length) ? state.cfg.zones : [
+    {id:'stage', label:'Estado Mayor', className:'zone stage', position:{x:20,y:55}},
+    {id:'entrance', label:'Entrada / Piscina', className:'zone entrance', position:{x:55,y:12}},
+    {id:'dance', label:'Pista de baile', className:'zone dance', position:{x:50,y:45}},
+    {id:'dj', label:'DJ', className:'zone dj', position:{x:55,y:92}},
+    {id:'dessertL', label:'Postres', className:'zone dessert', position:{x:85,y:30}},
+    {id:'dessertR', label:'Postres', className:'zone dessert', position:{x:85,y:70}}
+  ];
+  zones.forEach(z=>{
+    const el = document.createElement('div');
+    el.className = z.className?.includes('zone') ? z.className : `zone ${z.className||''}`;
+    el.style.setProperty('--x', (z.position?.x??50));
+    el.style.setProperty('--y', (z.position?.y??50));
+    el.style.setProperty('--zone-scale', z?.scale!=null ? +z.scale : (state.cfg?.ui?.zoneScale ?? 1));
+    el.textContent = z.label || z.id || '';
+    m.appendChild(el);
+  });
+
+  // mesas
+  const mesas = (state.cfg?.mesas||[]).slice().sort((a,b)=>(a.number||0)-(b.number||0));
+  mesas.forEach(mm=>{
+    const b = document.createElement('button');
+    b.className='chair';
+    b.style.left=(mm.position?.x??0)+'%';
+    b.style.top =(mm.position?.y??0)+'%';
+    b.textContent = mm.number || '';
+    b.dataset.mesa = mm.label || `Mesa ${mm.number}`;
+    b.dataset.capacity = mm.capacity || state.cfg?.defaultCapacity || 10;
+    b.addEventListener('click', ()=>selectTable(b.dataset.mesa));
+    m.appendChild(b);
+  });
+
+  // pintar leyenda contadores
+  $('#totMesas').textContent = mesas.length;
+  const totalCap = mesas.reduce((s,x)=> s + (x.capacity || state.cfg?.defaultCapacity || 10), 0);
+  $('#totCap').textContent = totalCap;
+}
+
+function selectTable(label){
+  $('#selTable').value = label;
+  $('#tagMesa').textContent = label;
+  $$('#map .chair').forEach(c=> c.classList.toggle('sel', c.dataset.mesa===label));
+  updateTablePreview();
+  paintGuestList();
+}
+
+function updateTablePreview(){
+  const label = $('#selTable').value;
+  if(!label){ $('.table-container').style.display='none'; return; }
+  $('.table-container').style.display='block';
+  $('#tableCanvas').textContent = label;
+
+  const cap = getMesaCapacity(label);
+  const cont = $('#seating'); cont.innerHTML='';
+  const tableSize = +getComputedStyle(document.documentElement).getPropertyValue('--table-size').replace('px','')||120;
+  const seatSize  = +getComputedStyle(document.documentElement).getPropertyValue('--seat-size').replace('px','')||42;
+
+  const CX=50, CY=50, R = Math.max(28, tableSize*0.32) + seatSize*0.25;
+  for(let i=1;i<=cap;i++){
+    const s = document.createElement('div'); s.className='seat'; s.dataset.pos=i;
+    const ang = (i / cap) * Math.PI * 2;
+    s.style.left = `${CX + R*Math.cos(ang)}%`;
+    s.style.top  = `${CY + R*Math.sin(ang)}%`;
+    cont.appendChild(s);
+  }
+
+  const rows = state.guests.get(label) || [];
+  let used = 0;
+  rows.forEach(r=>{
+    let n = 1;
+    try{
+      const j = JSON.parse(r['JSON original']||'') || {};
+      n = 1 + (Array.isArray(j.acompanantes)? j.acompanantes.length : 0);
+    }catch{}
+    for(let i=0;i<n;i++){
+      const s = cont.querySelector(`.seat[data-pos="${++used}"]`);
+      if(s) s.classList.add('full');
+    }
   });
 }
 
-function renderZones(){
-  const tb=$('zonesTable').querySelector('tbody'); tb.innerHTML='';
-  if(!Array.isArray(cfg.zones)) cfg.zones=[];
-  cfg.zones.forEach((z,i)=>{
-    const tr=document.createElement('div');
-    tr.innerHTML=`
-      <tr>
-        <td><input value="${z.id||''}" data-f="id"></td>
-        <td><input value="${z.label||''}" data-f="label"></td>
-        <td><input value="${z.className||''}" data-f="class"></td>
-        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.[ 'x']??0}" data-f="x"></td>
-        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.[ 'y']??0}" data-f="y"></td>
-        <td><input class="narrow" type="number" step="0.1" min="0.6" value="${z.scale ?? (cfg?.ui?.zoneScale ?? 1)}" data-f="scale"></td>
-        <td><button class="btn d" data-del>Eliminar</button></td>
-      </tr>`;
-    const row=tr.firstElementChild;
-    row.querySelector('[data-del]').onclick=()=>{ cfg.zones.splice(i,1); renderZones(); };
-    tb.appendChild(row);
+function getMesaCapacity(label){
+  const m = (state.cfg?.mesas||[]).find(x => (x.label||`Mesa ${x.number}`)===label);
+  return m ? (m.capacity || state.cfg?.defaultCapacity || 10) : (state.cfg?.defaultCapacity || 10);
+}
+
+function paintGuestList(){
+  const label = $('#selTable').value;
+  const box = $('#guestList'); box.innerHTML='';
+  const rows = state.guests.get(label) || [];
+  if(!rows.length){ box.textContent = 'No hay invitados registrados en esta mesa.'; return; }
+
+  // SOLO Nombre Apellido para titular y cada acompañante
+  rows.forEach(r=>{
+    const titular = `${r['Nombre']||''} ${r['Apellido']||''}`.trim() || 'Invitado';
+    const li = document.createElement('div'); li.innerHTML = `• <strong>${titular}</strong>`;
+    box.appendChild(li);
+    // companions desde JSON original
+    try{
+      const j = JSON.parse(r['JSON original']||'') || {};
+      const A = Array.isArray(j.acompanantes) ? j.acompanantes : [];
+      A.forEach(a=>{
+        const nm = [a?.nombre||'', a?.apellido||''].filter(Boolean).join(' ').trim();
+        const li2 = document.createElement('div'); li2.textContent = `• ${nm||'Acompañante'}`;
+        box.appendChild(li2);
+      });
+    }catch{}
   });
 }
 
-function collectMesas(){
-  const rows=[...$('mesasTable').querySelectorAll('tbody tr')];
-  return rows.map(r=>{
-    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
-    return {
-      number: parseInt(get('number'),10)||0,
-      label: (get('label')||'').trim(),
-      capacity: parseInt(get('capacity'),10)||parseInt($('defaultCapacity').value,10)||10,
-      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
-    };
-  }).sort((a,b)=>(a.number||0)-(b.number||0));
-}
-
-function collectZones(){
-  const rows=[...$('zonesTable').querySelectorAll('tbody tr')];
-  return rows.map(r=>{
-    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
-    return {
-      id:(get('id')||'').trim(),
-      label:(get('label')||'').trim(),
-      className:(get('class')||'').trim(),
-      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 },
-      scale: parseFloat(get('scale')) || null
-    };
-  }).filter(z=>z.id && z.label);
-}
-
-$('addMesa').onclick=()=>{ const ms=collectMesas(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); cfg.mesas=ms; renderMesas(); };
-$('addZone').onclick=()=>{ (cfg.zones||(cfg.zones=[])).push({id:`zona-${Math.random().toString(36).slice(2,7)}`,label:'Nueva zona',className:'',position:{x:50,y:50},scale:cfg?.ui?.zoneScale||1}); renderZones(); };
-
-$('saveLocal').onclick=()=>{
-  cfg.siteTitle           = $('siteTitle').value.trim();
-  cfg.siteSubtitle        = $('siteSubtitle').value.trim();
-  cfg.siteDescription     = $('siteDescription').value.trim();
-  cfg.heroImage           = $('heroImage').value.trim();
-  cfg.reservationScriptUrl= $('reservationScriptUrl').value.trim();
-  cfg.guestsSheetCsvUrl   = $('guestsSheetCsvUrl').value.trim();
-  cfg.defaultCapacity     = parseInt($('defaultCapacity').value,10) || 10;
-
-  cfg.ui = {
-    mesaSize:  parseFloat($371=$('uiMesaSize').value)  || 52,
-    seatSize:  parseFloat($('uiSeatSize').value)       || 42,
-    tableSize: parseFloat($('uiTableSize').value)      || 120,
-    zoneScale: parseFloat($('uiZoneScale').value)      || 1
-  };
-
-  cfg.mesas = collectMesas();
-  cfg.zones = collectZones();
-
-  localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
-  show($('saveStatus'),'ok','Guardado en este navegador. (Descarga el JSON para llevarlo a producción si no usas localStorage).');
-};
-$('download').onclick=()=>{
-  const blob=new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
-};
-$('reset').onclick=()=>{ localanguage=localStorage.removeItem('fiestaConfig'); location.reload(); };
-
-$('loginBtn').onclick=async()=>{
-  hide($('loginStatus'));
+/* === lectura de invitados (CSV/Fallback) con protección anti-parpadeo === */
+function snapFor(label, map){
+  const rows = (map.get(label)||[]);
   try{
-    cfg = await loadConfig();
-    const hash = cfg?.admin?.passwordHash || '';
-    if(!hash){ show($('loginStatus'),'err','No hay contraseña en config.json'); return; }
-    const typed = await sha256($('adminPass').value);
-    if (typed !== hash){ show($('loginStatus'),'err','Contraseña incorrecta'); return; }
-    $('loginCard').hidden=true; $('editorCard').hidden=false;
-    fillGeneral();
-  }catch(e){ show($('loginStatus'),'err','No se pudo cargar config.json'); }
-};
+    return JSON.stringify(rows.map(r => `${r['Nombre']||''}|${r['Apellido']||''}|${r['JSON original']||''}`));
+  }catch{ return ''; }
+}
 
-document.addEventListener('DOMContentLoaded', async ()=>{ try{ cfg = await loadConfig(); }catch{} });
+async function refreshGuests(silent=false){
+  const prevMap = new Map(state.guests);
+  const selected = $('#selTable').value;
+  const prevSig  = snapFor(selected, prevMap);
+
+  let next = null;
+
+  // 1) CSV si existe
+  if (state.cfg?.guestsSheetCsvUrl){
+    try{
+      const r = await fetch(bust(state.cfg.guestsSheetCsvUrl), {method:'GET',mode:'cors',cache:'no-store'});
+      if(r.ok){
+        const txt = await r.read ? await r.text() : await r.text();
+        next = csvToMap(txt);
+      }
+    }catch(_){}
+  }
+  // 2) Fallback Script
+  if(!next && state.cfg?.reservationScriptUrl){
+    try{
+      const url = state.cfg.reservationScriptUrl + (state.cfg.reservationUri?.includes('?')? '&':'?') + 'read=1&limit=1000&_=' + Date.now();
+      const r = await fetch(url, {method:'GET',mode:'cors',cache:'no-store'});
+      if(r.ok){ const json = await r.json(); const vals = Array.isArray(json?.values)? json.values:[]; next = valuesToMap(vals); }
+    }catch(_){}
+  }
+
+  if(!next){
+    if(!silent) console.warn('No se pudo obtener la lista; se mantiene la anterior.');
+    return;
+  }
+
+  state.guests = next;
+  // pintar estado global (mesas completas)
+  updateChairsFull();
+
+  // repintar panel solo si cambió la mesa actual
+  const nextSig = snapFor(selected, next);
+  if(selected && prevSig !== nextSig){
+    paintGuestList();
+    updatePreviewSeatsOnly();
+  }
+}
+
+function updateChairsFull(){
+  const map = state.guests;
+  $$('#map .chair').forEach(ch=>{
+    const label = ch.dataset.mesa;
+    const cap   = +ch.dataset.capacity;
+    const rows  = map.get(label) || [];
+    let used = 0;
+    rows.forEach(r=>{
+      let n=1;
+      try{ const j = JSON.parse(r['JSON original']||'')||{}; n = 1 + (Array.isArray(j.acompanantes)? j.acompanantes.length:0);}catch{}
+      used += n;
+    });
+    ch.classList.toggle('full', used >= cap);
+  });
+}
+function updatePreviewSeatsOnly(){
+  // vuelve a “pintar” las sillas ocupadas sin tocar la tabla
+  const label = $('#selTable').value;
+  if(!label) return;
+  const cap = getMesaCapacity(label);
+  const cont = $('#seating');
+  $$('#seating .seat').forEach(s=> s.classList.remove('full'));
+  const rows = state.guests.get(label) || [];
+  let used=0;
+  rows.forEach(r=>{
+    let n=1; try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{}
+    for(let i=0;i<n;i++){ const s = cont.querySelector(`.seat[data-pos="${++used}"]`); if(s) s.classList.add('full');}
+  });
+}
+
+/* ====== PARSERS ====== */
+function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
+function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonI=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const row={};normH.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m='';if(mesaI!==-1)m=row[normH[mesaI]]||'';if(!m&&jsonI!==-1&&row[normH[jsonI]]){try{const p=JSON.parse(row[normH[jsonI]]);if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
+function valuesToMap(vals){if(!Array.isArray(vals)||!vals.length)return new Map();const headers=vals[0].map(h=>String(h||'').trim());const lower=headers.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<vals.length;i++){const v=vals[i]||[];const row={};headers.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
+
+/* ====== POLL ====== */
+function startPoll(){ stopPoll(); state.poll = setInterval(()=>refreshGuests(true), 8000); }
+function stopPoll(){ if(state.poll){ clearInterval(state.poll); state.poll=null; } }
+
+/* ====== CARGA INICIAL ====== */
+async function loadConfig(){
+  const local = localStorage.getItem('fiestaConfig');
+  if(local){ state.cfg = JSON.parse(local); return; }
+  const r = await fetch('config.json?_='+Date.now());
+  if(!r.ok) throw new Error('No se pudo cargar config.json');
+  state.cfg = await r.json();
+}
+
+/* ====== EVENTOS ====== */
+$('#btnRefresh')?.addEventListener('click', ()=>{ refreshGuests(false).then(()=>alert('Información actualizada')); });
+$('#btnOkClose') .addEventListener('click', ()=>{ $('#okModal').style.display='none'; $('#okModal').classList.remove('active'); location.reload(); });
+$('#btnDupClose').addEventListener('click', ()=>{ $('#dupModal').style.display='none'; $('#dupModal').classList.remove('active'); });
+
+/* ====== ENVÍO ====== */
+async function send(){
+  const mesa = $('#selTable').value;
+  const cap  = getMesaCapacity(mesa);
+  const rows = state.guests.get(mesa)||[];
+  let used=0; rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
+  const cnt = +($('#acomp').value==='si' ? ($('#acompCount').value||0) : 0);
+  if(!mesa || used + 1 + cnt > cap){ alert('Debe seleccionar una mesa con espacio disponible.'); return; }
+
+  // validar formularios visibles
+  const bad2 = validateForm('#scr2');
+  if(bad2.length){ alert('Completa:\n- '+bad2.join('\n- ')); show(2); return; }
+  if($('#acomp').value==='si'){
+    const bad3 = validateForm('#scr3', true);
+    if(bad3.length){ alert('Faltan datos de acompañantes:\n- '+bad3.join('\n- ')); show(3); return; }
+  }
+
+  // duplicado local por CI
+  await refreshGuests(true);
+  const ci = $('#ci').value;
+  const dup = findDuplicate(ci);
+  if(dup){ showDup(dup); return; }
+
+  // construir payload
+  const payload = collectPayload(mesa);
+  try{
+    await sendNoCors(payload);
+    // esperar confirmación leyendo
+    const snap0 = snapFor(mesa, state.guests);
+    let timeout = Date.now()+20000, ok=false, dupe=null;
+    while(Date.now()<timeout){
+      await refreshGuests(true);
+      const snap1 = snapFor(mesa, state.guests);
+      if(snap0!==snap1){ ok=true; break; }
+      dupe = findDuplicate(ci);
+      if(dupe){ showDup(dupe); return; }
+      await new Promise(r=>setTimeout(r,1500));
+    }
+    if(!ok){ alert('No se pudo confirmar la escritura en la hoja.'); return; }
+    $('#okMesa').textContent = mesa;
+    $('#okModal').style.display='flex'; $('#okModal').classList.add('active');
+    stopPoll();
+  }catch(e){
+    console.error(e);
+    alert('Error enviando la reserva. Verifique su conexión y el /exec.');
+  }
+}
+
+$('#btnSend').addEventListener('click', e=>{ e.preventDefault(); send(); });
+
+function collectPayload(mesa){
+  const A=[];
+  $$('#formAcomp [name^="nombreA"]').forEach(inp=>{
+    const i = inp.name.replace('nombreA','');
+    A.push({
+      nombre: inp.value.trim(),
+      apellido: ($('#aa'+i).value||'').trim(),
+      cedula:   ($('#ac'+i).value||'').trim(),
+      menu:     ($('#am'+i).value||'').trim(),
+      observacion: ($('#ao'+i).value||'').trim()
+    });
+  });
+
+  return {
+    correo: $('#email').value.trim(),
+    grado: $('#grado').value,
+    escalafon: $('#escalafon').value,
+    nombre: $('#nombre').value.trim(),
+    apellido: $('#apellido').value.trim(),
+    cedula: $('#ci').value.trim(),
+    menu: $('#menu').value,
+    observacion: ($('#obs').value||'').trim(),
+    acompanante: $('#acomp').value,
+    cantidadAcompanantes: $('#acompCount').value || ( $('#acomp').value==='si' ? A.length : 0 ),
+    acompanantes: A,
+    mesa
+  };
+}
+
+function sendNoCors(payload){
+  if(!state.cfg?.reservationScriptUrl){ return Promise.reject(new Error('Sin URL /exec en config')); }
+  const url = state.cfg.reservationScriptUrl;
+  const body = JSON.stringify({payload, submittedAt:new Date().toISOString(), ...payload});
+  return fetch(url, { method:'POST', mode:'no-cors', body, cache:'no-store' });
+}
+
+function findDuplicate(ci){
+  const needle = norm(ci);
+  for(const [,rows] of state.guests){
+    for(const r of rows){
+      const c = r['Cédula']||r['Cedula']||'';
+      if(norm(c)===needle){
+        let info = {mesa:r['Mesa']||'', menu:r['Menú titular']||r['Menu titular']||'', observacion:r['Observaciones']||'', acompanantes:[]};
+        try{
+          const j = JSON.parse(r['JSON original']||'') || {};
+          if(Array.isArray(j.acompanantes)) info.acompanantes = j.acompanantes;
+          if(j.mesa) info.mesa = j.mesa;
+          if(j.menu) info.menu = j.menu;
+          if(j.observacion) info.observacion = j.observacion;
+          return info;
+        }catch{ return info; }
+      }
+    }
+  }
+  return null;
+}
+
+function showDup(info){
+  const lines = [];
+  lines.push('Mesa: '+(info.mesa||'-'));
+  lines.push('Menú: '+(info.menu||'-'));
+  if(info.observacion) lines.push('Obs.: '+info.observacion);
+  if(Array.isArray(info.acompanantes) && info.acompanantes.length){
+    lines.push('');
+    info.acompanantes.forEach((a,i)=>{
+      const nm = [a?.nombre||'', a?.apellido||''].filter(Boolean).join(' ').trim();
+      lines.push(`${i+1}. ${nm||'Acompañante'}`);
+    });
+  }
+  $('#dupInfo').textContent = lines.join('\n');
+  $('#dupModal').style.display='flex';
+  $('#dupModal').classList.add('active');
+}
+
+/* ======== helpers ======== */
+function updateMesasCompletaColor(){ // tras cada refresh
+  $$('#map .chair').forEach(ch=>{
+    const label = ch.dataset.mesa;
+    const cap   = +ch.dataset.capacity;
+    const rows  = state.guests.get(label)||[];
+    let used=0; rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
+    ch.classList.toggle('full', used>=cap);
+  });
+}
+
+/* ====== BOOT ====== */
+(async function init(){
+  await loadConfig();
+  // aplicar tamaños UI desde config
+  const ui = state.cfg?.ui || {};
+  const root = document.documentElement;
+  if(ui.mesaSize)  root.style.setProperty('--mesa-size',  `${ui.mesaSize}px`);
+  if(ui.seatSize)  root.style.setProperty('--seat-size',  `${ui.seatSize}px`);
+  if(ui.tableSize) root.style.setProperty('--table-size', `${ui.tableSize}px`);
+  if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
+
+  paintHero();
+  show(1);
+
+  // listeners extra
+  $('#btnRefresh').addEventListener('click', ()=> refreshGuests().then(()=>alert('Información actualizada')));
+  $('#acomp').addEventListener('change', e=>{
+    const v = e.target.value;
+    $('#boxCount').style.display = (v==='si') ? 'block' : 'none';
+  });
+})();
 </script>
 </body>
 </html>
