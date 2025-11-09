@@ -1,356 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fiesta Social 2024</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      /* colores */
-      --c1:#0b66ff; --c1d:#084dcc; --c2:#f59e0b; --mut:#6b7280; --b:#e5e7eb;
-      --ok:#22c55e; --err:#ef4444; --sh:0 24px 60px rgba(15,23,42,.25);
-
-      /* radios */
-      --r:28px; --r2:18px; --r3:12px;
-
-      /* tamaños UI (se sobreescriben desde config.ui) */
-      --mesa-size:52px;
-      --seat-size:42px;
-      --table-size:120px;
-      --zone-scale:1;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;font-family:Poppins,'Segoe UI',sans-serif;
-      background:
-        radial-gradient(circle at top left,rgba(59,130,246,.45),transparent 55%),
-        radial-gradient(circle at bottom right,rgba(234,179,8,.35),transparent 55%),
-        linear-gradient(135deg,#0f172a,#1e293b 45%,#0f172a 90%);
-      color:#0f172a;padding:40px 16px 60px;display:flex;justify-content:center
-    }
-    main{width:100%;max-width:1080px}
-    h1,h2,h3{margin:0 0 12px}
-    p{margin:0 0 16px;color:var(--mut);line-height:1.6}
-
-    .container{background:#fff;border-radius:var(--r);padding:32px 32px 40px;box-shadow:var(--sh);display:none;margin-bottom:32px}
-    .container.active{display:block;animation:fade .45s ease}
-    @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-    /* hero */
-    .hero-card{display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:center}
-    .hero-card__eyebrow{display:inline-flex;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(11,102,255,.1);color:var(--c1);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
-    .hero-card__title{font-size:clamp(32px,5vw,48px);font-weight:700;margin-bottom:16px}
-    .hero-card__media{border-radius:16px;overflow:hidden;box-shadow:0 14px 35px rgba(15,23,42,.18)}
-    .hero-card__media img{width:100%;display:block}
-
-    /* form */
-    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-    .form-field{display:flex;flex-direction:column;gap:8px}
-    label{font-weight:600}
-    input,select,textarea{padding:12px 14px;border-radius:var(--r3);border:1px solid var(--b);background:#f8fafc;font-size:15px}
-    textarea{min-height:84px;resize:vertical}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:rgba(11,102,255,.8);box-shadow:0 0 0 4px rgba(11,102,255,.12)}
-    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:12px 24px;font-weight:600;cursor:pointer}
-    .button--primary{background:var(--c1);color:#fff}.button--primary:hover{background:var(--c1d)}
-    .button--ghost{background:rgba(15,23,42,.05);color:var(--c1)}
-    .navigation-buttons{margin-top:32px;display:flex;gap:16px;justify-content:flex-end}
-
-    /* salón */
-    .salon-wrapper{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-bottom:32px;align-items:start}
-    .salon-summary{background:rgba(248,250,252,.9);border-radius:var(--r2);padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.08);position:relative}
-    .legend{display:flex;flex-direction:column;gap:8px}
-    .legend-swatch{width:16px;height:16px;border-radius:4px;display:inline-block;margin-right:8px}
-    .legend .available{background:var(--c1)}
-    .legend .full{background:var(--err)}
-    .legend .selected{background:var(--c2)}
-
-    .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--r2);box-shadow:0 20px 40px rgba(15,23,42,.18)}
-    .map-zone{
-      position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);
-      transform:translate(-50%,-50%);
-      padding:calc(6px*var(--zone-scale,1)) calc(16px*var(--zone-scale,1));
-      border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;
-      font-size:calc(12px*var(--zone-scale,1));white-space:nowrap;z-index:1
-    }
-    .map-zone--dance{background:rgba(34,197,94,.85)}
-    .map-zone--stage,.map-zone--entrance,.map-zone--dj,.map-zone--dessert{background:rgba(59,130,246,.9)}
-
-    .mesa{position:absolute;width:var(--mesa-size);height:var(--mesa-size);border-radius:calc(var(--mesa-size)/3);background:var(--c1);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:none;cursor:pointer;z-index:1}
-    .mesa.completa{background:var(--err)} .mesa.seleccionada{background:var(--c2)}
-
-    .table-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:24px}
-    .table-container{position:relative;width:100%;padding-top:100%;border-radius:var(--r2);background:rgba(248,250,252,.9);box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);display:none}
-    #seating{position:absolute;inset:0}
-    .table{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--table-size);height:var(--table-size);border-radius:50%;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center}
-    .seat{width:var(--seat-size);height:var(--seat-size);border-radius:calc(var(--seat-size)/3);background:var(--ok);position:absolute;transform:translate(-50%,-50%)} .seat.occupied{background:var(--err)}
-    #guestList{min-height:160px;background:rgba(248,250,252,.85);border-radius:var(--r2);padding:16px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08)}
-
-    .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
-    .modal-overlay.active{display:flex}
-    .modal-content{background:#fff;border-radius:24px;padding:28px;max-width:520px;box-shadow:var(--sh)}
-    .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
-
-    /* móvil */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-    @media (max-width: 720px){
-      body{padding:24px 12px 48px}
-      .hero-card{grid-template-columns:1fr}
-      .hero-card__media{order: -1}
-      .hero-card__media img{aspect-ratio:16/9;object-fit:cover}
-      .salon-wrapper{grid-template-columns:1fr}
-      .salon-summary{position:relative;margin-bottom:12px}
-      .salon-map{aspect-ratio:auto; height:56vw; min-height:280px}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administración · Fiesta Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--c1:#0b66ff;--c1d:#084dcc;--ok:#059669;--err:#ef4444;--bg:#fff;--mut:#475569;--b:#e2e8f0;--sh:0 24px 60px rgba(15,23,42,.18);--r:22px;font-family:Poppins,Segoe UI,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e293b 60%,#0f172a);color:#0f172a;padding:32px;display:flex;justify-content:center}
+  main{width:100%;max-width:1100px;display:grid;gap:24px}
+  .card{background:var(--bg);border-radius:var(--r);padding:28px;box-shadow:var(--sh)}
+  h1,h2{margin:0 0 12px} p{margin:0 0 12px;color:var(--mut)}
+  label{font-weight:600;display:block;margin:8px 0 6px}
+  input,textarea{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:10px;background:#f8fafc}
+  .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
+  .p{background:var(--c1);color:#fff}.p:hover{background:var(--c1d)}
+  .g{background:#eef2ff;color:#0b66ff}.d{background:#fee2e2;color:#b91c1c}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{padding:10px;border-bottom:1px solid #e5e7eb;font-size:14px}
+  .narrow{width:90px}
+  .status{display:none;margin-top:10px;padding:10px 12px;border-radius:10px;font-weight:600}
+  .ok{display:block;background:rgba(5,150,105,.12);color:#0b8a3b}
+  .err{display:block;background:rgba(239,68,68,.12);color:#b91c1c}
+  @media (max-width: 720px){.row{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <main>
-  <!-- Pantalla 1 -->
-  <section id="screen1" class="container active">
-    <div class="hero-card" id="heroCard"></div>
+  <!-- Login -->
+  <section class="card" id="loginCard">
+    <h1>Panel de administración</h1>
+    <p>Ingresa la contraseña para editar la configuración.</p>
+    <label>Contraseña</label>
+    <input type="password" id="adminPass" autocomplete="current-password">
+    <div style="margin-top:12px">
+      <button class="btn p" id="loginBtn">Ingresar</button>
+    </div>
+    <div id="loginStatus" class="status"></div>
   </section>
 
-  <!-- Pantalla 2 -->
-  <section id="screen2" class="container">
-    <h2>Datos personales</h2>
-    <p>Completa tus datos para asegurar tu lugar.</p>
-    <form id="guestForm" class="form-grid" autocomplete="on">
-      <div class="form-field"><label for="correo">Correo</label><input id="correo" name="correo" type="email" required></div>
-      <div class="form-field"><label for="grado">Grado</label>
-        <select id="grado" name="grado" required>
-          <option value="" selected>Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
-        </select>
-      </div>
-      <div class="form-field"><label for="escalafon">Escalafón</label>
-        <select id="escalafon" name="escalafon" required>
-          <option value="" selected>Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
-        </select>
-      </div>
-      <div class="form-field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required></div>
-      <div class="form-field"><label for="apellido">Apellido</label><input id="apellido" name="apellido" required></div>
-      <div class="form-field"><label for="cedula">Cédula (0.000.000-0)</label><input id="cedula" name="cedula" required pattern="^\d(\.?\d{3}){2}-\d$"></div>
-      <div class="form-field"><label for="menu">Menú</label>
-        <select id="menu" name="menu" required>
-          <option value="" selected>Seleccionar</option>
-          <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option>
-          <option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
-        </select>
-      </div>
-      <div class="form-field" style="grid-column:1/-1">
-        <label for="observacion">Observaciones</label>
-        <textarea id="observacion" name="observacion" placeholder="Alergias, preferencias, etc."></textarea>
-      </div>
-      <div class="form-field"><label for="acompanante">¿Asiste con acompañante?</label>
-        <input type="hidden" id="mesa" name="mesa">
-        <select id="acempañado" style="display:none"></select>
-        <select id="acompanante" name="acompanante" required>
-          <option value="" selected>Seleccionar</option><option value="no">No</option><option value="si">Sí</option>
-        </select>
-      </div>
-      <div class="form-field" id="acompananteCantidad" style="display:none;">
-        <label for="cantidadAcompanantes">¿Cuántos acompañantes? (máx. 4)</label>
-        <select id="cantidadAcompanantes" name="cantidadAcompanantes">
-          <option value="" selected>Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option>
-        </select>
-      </div>
-    </form>
-    <div class="navigation-buttons">
-      <button class="button button--ghost" data-prev="1">Anterior</button>
-      <button class="button button--primary" data-next>Continuar</button>
-    </div>
-  </section>
-
-  <!-- Pantalla 3 -->
-  <section id="screen3" class="container">
-    <h2>Información de acompañantes</h2>
-    <form id="acompanantesForm"></form>
-    <div class="navigation-buttons">
-      <button class="button button--ghost" data-prev="2">Anterior</button>
-      <button class="button button--primary" data-next="4">Continuar</button>
-    </div>
-  </section>
-
-  <!-- Pantalla 4 -->
-  <section id="screen4" class="container">
-    <h2>Selecciona tu mesa</h2>
-    <div class="salon-wrapper">
-      <aside class="salon-summary">
-        <h3>Resumen del salón</h3>
-        <p><strong>Mesas:</strong> <span id="totalMesasCounter">--</span></p>
-        <p><strong>Capacidad total:</strong> <span id="capacidadTotalCounter">--</span></p>
-        <p><strong>Mesa seleccionada:</strong> <span id="mesaSeleccionadaLabel">Sin seleccionar</span></p>
-        <button class="button button--ghost" id="refreshNowBtn">🔄 Refrescar ahora</button>
-        <div class="legend" style="margin-top:10px">
-          <span><span class="legend-swatch available"></span>Disponible</span>
-          <span><span class="legend-swatch full"></span>Completa</span>
-          <span><span class="legend-swatch selected"></span>Seleccionada</span>
-        </div>
-      </aside>
-
-      <div id="salonMap" class="salon-map"></div>
-    </div>
-
-    <div class="table-details">
-      <div class="table-container">
-        <div class="table" id="mesaText">Mesa</div>
-        <div id="seating"></div>
+  <!-- Editor -->
+  <section class="card" id="editorCard" hidden>
+    <h2>Configuración del sitio</h2>
+    <div class="row">
+      <div>
+        <label>Título</label><input id="siteTitle">
+        <label>Subtítulo</label><input id="siteSubtitle">
+        <label>Descripción</label><textarea id="siteDescription"></textarea>
+        <label>Imagen héroe (URL)</label><input id="heroImage">
       </div>
       <div>
-        <h3>Invitados registrados en esta mesa</h3>
-        <div id="guestList">Selecciona una mesa para ver los invitados.</div>
+        <label>URL Google Apps Script (/exec)</label><input id="reservationScriptUrl">
+        <label>CSV de invitados (opcional)</label><input id="guestsSheetCsvUrl">
+        <label>Capacidad por defecto</label><input id="defaultCapacity" type="number" min="1" step="1">
       </div>
     </div>
 
-    <div class="navigation-buttons">
-      <button class="button button--ghost" data-prev="3">Anterior</button>
-      <button id="submitReservationBtn" class="button button--primary">Enviar</button>
+    <h3 style="margin-top:18px">Tamaños de la representación (UI)</h3>
+    <div class="row">
+      <div>
+        <label>Tamaño de botón de mesa (px)</label><input id="uiMesaSize" type="number" class="narrow" min="24" step="1">
+        <label>Tamaño de asiento (px)</label><input id="uiSeatSize" type="number" class="narrow" min="20" step="1">
+      </div>
+      <div>
+        <label>Diámetro de mesa circular (px)</label><input id="uiTableSize" type="number" class="narrow" min="80" step="1">
+        <label>Escala global de zonas (chips)</label><input id="uiZoneScale" type="number" class="narrow" min="0.6" step="0.1">
+      </div>
     </div>
+
+    <h3 style="margin-top:18px">Mesas</h3>
+    <table id="mesasTable">
+      <thead><tr><th class="narrow">#</th><th>Etiqueta</th><th class="narrow">Cap.</th><th class="narrow">X%</th><th class="narrow">Y%</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div style="margin-top:10px"><button class="btn p" id="addMesa">Agregar mesa</button></div>
+
+    <h3 style="margin-top:24px">Zonas</h3>
+    <table id="zonesTable">
+      <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th class="narrow">X%</th><th class="narrow">Y%</th><th class="narrow">Tamaño</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div style="margin-top:10px"><button class="btn g" id="addZone">Agregar zona</button></div>
+
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn p" id="saveLocal">Guardar (navegador)</button>
+      <button class="btn g" id="download">Descargar config.json</button>
+      <button class="btn d" id="reset">Resetear</button>
+      <a class="btn g" href="index.html">Volver al sitio</a>
+    </div>
+    <div id="saveStatus" class="status"></div>
   </section>
 </main>
 
-<!-- Modales -->
-<div id="confirmationModal" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Registro completo</h2>
-    <p>Tu reserva se guardó en <strong id="mesaConfirmada"></strong>.</p>
-    <div class="modal-actions"><button class="button button--primary" id="finalizarBtn">Finalizar</button></div>
-  </div>
-</div>
-
-<div id="duplicateModal" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Ya estás registrado</h2>
-    <div id="duplicateBody" style="white-space:pre-wrap"></div>
-    <div class="modal-actions"><button class="button button--primary" id="dupCloseBtn">Entendido</button></div>
-  </div>
-</div>
-
 <script>
-/* ==== estado & utilidades ==== */
-const state={currentScreen:1,siteConfig:null,reservationEndpoint:'',guestsSheetUrl:'',guestsByTable:new Map(),fetchInterval:null};
-const dom={
-  heroCard:document.getElementById('heroCard'),
-  salonMap:document.getElementById('salonMap'),
-  guestForm:document.getElementById('guestForm'),
-  acompanantesForm:document.getElementById('acompanantesForm'),
-  mesaInput:document.getElementById('mesa'),
-  mesaText:document.getElementById('mesaText'),
-  mesaSeleccionadaLabel:document.getElementById('mesaSeleccionadaLabel'),
-  seating:document.getElementById('seating'),
-  guestList:document.getElementById('guestList'),
-  totalMesasCounter:document.getElementById('totalMesasCounter'),
-  capacidadTotalCounter:document.getElementById('capacidadTotalCounter'),
-  submitButton:document.getElementById('submitReservationBtn'),
-  modal:document.getElementById('confirmationModal'),
-  mesaConfirmada:document.getElementById('mesaConfirmada'),
-  finalizarBtn:document.getElementById('finalizarBtn'),
-  duplicateModal:document.getElementById('duplicateModal'),
-  duplicateBody:document.getElementById('duplicateBody'),
-  dupCloseBtn:document.getElementById('dupCloseBtn'),
-  refreshNowBtn:document.getElementById('refreshNowBtn')
+let cfg=null;
+
+function $(id){return document.getElementById(id)}
+function show(el,cls,msg){el.className='status '+cls;el.textContent=msg;el.style.display='block'}
+function hide(el){el.style.display='none'}
+
+async function sha256(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function loadConfig(){
+  try{const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local);}catch{}
+  const r=await fetch('config.json?_='+Date.now()); return await r.json();
+}
+
+/* ====== UI helpers ====== */
+function fillGeneral(){
+  $('siteTitle').value      = cfg.siteTitle || '';
+  $('siteSubtitle').value   = cfg.siteSubtitle || '';
+  $('siteDescription').value= cfg.siteDescription || '';
+  $('heroImage').value      = cfg.heroImage || '';
+  $('reservationScriptUrl').value = cfg.reservationScriptUrl || '';
+  $('guestsSheetCsvUrl').value    = cfg.guestsSheetCsvUrl || '';
+  $('defaultCapacity').value      = cfg.default91 || cfg.defaultCap || cfg.defaultCapacity || 10;
+
+  const ui = cfg.ui || {};
+  $('uiMesaSize').value  = ui.mesaSize  ?? 52;
+  $('uiSeatSize').value  = ui.seatSize  ?? 42;
+  $('uiTableSize').value = ui.tableSize ?? 120;
+  $('uiZoneScale').value = ui.zoneScale ?? 1;
+
+  renderMesas();
+  renderZones();
+}
+
+function renderMesas(){
+  const tb=$('mesasTable').querySelector('tbody'); tb.innerHTML='';
+  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
+  cfg.mesas.forEach((m,i)=>{
+    const tr=document.createElement('div'); // use tr
+    tr.innerHTML=`
+      <tr>
+        <td><input class="narrow" type="number" value="${m.number||i+1}" data-f="number"></td>
+        <td><input value="${m.label||`Mesa ${i+1}`}" data-f="label"></td>
+        <td><input class="narrow" type="number" min="1" step="1" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
+        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.x??0}" data-f="x"></td>
+        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.y??0}" data-f="y"></td>
+        <td><button class="btn d" data-del>Eliminar</button></td>
+      </tr>`;
+    const row = tr.firstElementChild;
+    row.querySelector('[data-del]').onclick=()=>{ cfg.mesas.splice(i,1); renderMesas(); };
+    tb.appendChild(row);
+  });
+}
+
+function renderZones(){
+  const tb=$('zonesTable').querySelector('tbody'); tb.innerHTML='';
+  if(!Array.isArray(cfg.zones)) cfg.zones=[];
+  cfg.zones.forEach((z,i)=>{
+    const tr=document.createElement('div');
+    tr.innerHTML=`
+      <tr>
+        <td><input value="${z.id||''}" data-f="id"></td>
+        <td><input value="${z.label||''}" data-f="label"></td>
+        <td><input value="${z.className||''}" data-f="class"></td>
+        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.[ 'x']??0}" data-f="x"></td>
+        <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.[ 'y']??0}" data-f="y"></td>
+        <td><input class="narrow" type="number" step="0.1" min="0.6" value="${z.scale ?? (cfg?.ui?.zoneScale ?? 1)}" data-f="scale"></td>
+        <td><button class="btn d" data-del>Eliminar</button></td>
+      </tr>`;
+    const row=tr.firstElementChild;
+    row.querySelector('[data-del]').onclick=()=>{ cfg.zones.splice(i,1); renderZones(); };
+    tb.appendChild(row);
+  });
+}
+
+function collectMesas(){
+  const rows=[...$('mesasTable').querySelectorAll('tbody tr')];
+  return rows.map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
+    return {
+      number: parseInt(get('number'),10)||0,
+      label: (get('label')||'').trim(),
+      capacity: parseInt(get('capacity'),10)||parseInt($('defaultCapacity').value,10)||10,
+      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
+    };
+  }).sort((a,b)=>(a.number||0)-(b.number||0));
+}
+
+function collectZones(){
+  const rows=[...$('zonesTable').querySelectorAll('tbody tr')];
+  return rows.map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
+    return {
+      id:(get('id')||'').trim(),
+      label:(get('label')||'').trim(),
+      className:(get('class')||'').trim(),
+      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 },
+      scale: parseFloat(get('scale')) || null
+    };
+  }).filter(z=>z.id && z.label);
+}
+
+$('addMesa').onclick=()=>{ const ms=collectMesas(); ms.push({number:(ms[ms.length-1]?.number||0)+1,label:'',capacity:parseInt($('defaultCapacity').value,10)||10,position:{x:50,y:50}}); cfg.mesas=ms; renderMesas(); };
+$('addZone').onclick=()=>{ (cfg.zones||(cfg.zones=[])).push({id:`zona-${Math.random().toString(36).slice(2,7)}`,label:'Nueva zona',className:'',position:{x:50,y:50},scale:cfg?.ui?.zoneScale||1}); renderZones(); };
+
+$('saveLocal').onclick=()=>{
+  cfg.siteTitle           = $('siteTitle').value.trim();
+  cfg.siteSubtitle        = $('siteSubtitle').value.trim();
+  cfg.siteDescription     = $('siteDescription').value.trim();
+  cfg.heroImage           = $('heroImage').value.trim();
+  cfg.reservationScriptUrl= $('reservationScriptUrl').value.trim();
+  cfg.guestsSheetCsvUrl   = $('guestsSheetCsvUrl').value.trim();
+  cfg.defaultCapacity     = parseInt($('defaultCapacity').value,10) || 10;
+
+  cfg.ui = {
+    mesaSize:  parseFloat($371=$('uiMesaSize').value)  || 52,
+    seatSize:  parseFloat($('uiSeatSize').value)       || 42,
+    tableSize: parseFloat($('uiTableSize').value)      || 120,
+    zoneScale: parseFloat($('uiZoneScale').value)      || 1
+  };
+
+  cfg.mesas = collectMesas();
+  cfg.zones = collectZones();
+
+  localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
+  show($('saveStatus'),'ok','Guardado en este navegador. (Descarga el JSON para llevarlo a producción si no usas localStorage).');
 };
-const norm=s=>(s==null?'':String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim());
-const buster=u=>(!u?'':u+(u.includes('?')?'&':'?')+'_='+Date.now());
+$('download').onclick=()=>{
+  const blob=new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
+};
+$('reset').onclick=()=>{ localanguage=localStorage.removeItem('fiestaConfig'); location.reload(); };
 
-/* ==== hero ==== */
-const HERO_CARD_TEMPLATE=`
-  <div>
-    <span class="hero-card__eyebrow" id="siteTitleEy">Registro oficial de invitados</span>
-    <h1 class="hero-card__title" id="siteTitleHeading">Fiesta Social 2024</h1>
-    <p class="hero-card__description" id="siteDescription">Confirma tu asistencia, elige tu menú y selecciona tu mesa favorita.</p>
-    <div class="hero-card__actions">
-      <button class="button button--primary" data-next="2">Comenzar registro</button>
-      <a class="button button--ghost" href="admin.html">Administración</a>
-    </div>
-  </div>
-  <figure class="hero-card__media"><img id="heroImage" src="Imagen de bienvenida.png" alt=""></figure>
-`;
-function ensureHero(){dom.heroCard.innerHTML=HERO_CARD_TEMPLATE;}
+$('loginBtn').onclick=async()=>{
+  hide($('loginStatus'));
+  try{
+    cfg = await loadConfig();
+    const hash = cfg?.admin?.passwordHash || '';
+    if(!hash){ show($('loginStatus'),'err','No hay contraseña en config.json'); return; }
+    const typed = await sha256($('adminPass').value);
+    if (typed !== hash){ show($('loginStatus'),'err','Contraseña incorrecta'); return; }
+    $('loginCard').hidden=true; $('editorCard').hidden=false;
+    fillGeneral();
+  }catch(e){ show($('loginStatus'),'err','No se pudo cargar config.json'); }
+};
 
-/* ==== navegación & validación ==== */
-function firstScreen(){document.querySelectorAll('.container').forEach((s,i)=>s.classList.toggle('active',i===0));state.currentTime=1;}
-function showScreen(n){if(!n||n===state.currentScreen)return;document.getElementById(`screen${state.currentScreen}`)?.classList.remove('active');state.currentScreen=n;document.getElementById(`screen${state.currentScreen}`)?.classList.add('active');if(state.currentScreen===4){fetchGuestsData({silent:false}).catch(()=>{});startGuestsPolling();}else{stopGuestsPolling();}}
-function validateForm(id){const f=document.getElementById(id);if(!f)return[];const bad=[];f.querySelectorAll('input,select,textarea').forEach(el=>{const hidden=(el.offsetParent===null);if(!hidden&&!el.checkValidity()){const lab=f.querySelector(`label[for="${el.id}"]`);bad.push((lab?lab.textContent:el.name||el.id).replace(':','').trim());}});return bad;}
-document.body.addEventListener('click',e=>{const next=e.target.closest('[diNext]')||e.target.closest('[data-next]');const prev=e.target.closest('[data-prev]');if(!next&&!prev)return; e.preventDefault(); if(prev){showBean(parseInt(prev.dataset.prev,10)||Math.max(1,state.currentScreen-1));return;} if(state.currentScreen===2){const bad=validateForm('guestForm');if(bad.length){alert('Completa:\n- '+bad.join('\n- '));return;}const a=document.getElementById('acompanante').value;if(a==='si'){const c=document.getElementById('cantidadAcompanantes').value;if(!c){alert('Selecciona la cantidad de acompañantes.');return;}renderAcompanantes(Math.min(4,parseInt(c,10)));showScreen(3);return;}showScreen(4);return;} if(state.currentScreen===3){const bad=validateForm('acompanantesForm');if(bad.length){alert('Faltan datos de acompañantes:\n- '+bad.join('\n- '));return;}showScreen(4);return;} showScreen(parseInt((next.dataset.next||'4'),10));});
-
-/* ==== acompañantes ==== */
-function toggleAcompanante(){const a=document.getElementById('acompanante').value;const box=document.getElementById('acompananteCantidad');const sel=document.getElementById('cantidadAcompanantes');if(a==='si'){box.style.display='block';sel.required=true;}else{box.style.display='none';sel.required=false;sel.value='';dom.acompanantesForm.innerHTML='';}}
-document.getElementById('acompanante').addEventListener('change',toggleAcompanante);
-function renderAcompanantes(n){dom.acompanantesForm.innerHTML='';for(let i=1;i<=n;i++){dom.acompanantesForm.insertAdjacentHTML('beforeend',`
-  <div class="form-grid">
-    <div class="form-field">
-      <h3>Acompañante ${i}</h3>
-      <label for="nombreAcompanante${i}">Nombre</label>
-      <input id="nombreAcompanante${i}" name="nombreAcompanante${i}" required>
-    </div>
-    <div class="form-field">
-      <label for="apellidoAcompanante${i}">Apellido</label>
-      <input id="apellidoAcompanante${i}" name="apellidoAcompanante${i}">
-    </div>
-    <div class="form-field">
-      <label for="cedulaAcompanante${i}">Cédula (0.000.000-0)</label>
-      <input id="cedulaAcompanante${i}" name="cedulaAcompanante${i}" required pattern="^\\d(\\.?\\d{3}){2}-\\d$">
-    </div>
-    <div class="form-field">
-      <label for="menuAcompanante${i}">Menú</label>
-      <select id="menuAcompanante${i}" name="menuAcompanante${i}">
-        <option value="" selected>Seleccionar</option>
-        <option value="normal">Normal</option><option value="vegetariano">Vegetariano</option>
-        <option value="vegano">Vegano</option><option value="celiaco">Celíaco</option>
-      </select>
-    </div>
-    <div class="form-field" style="grid-column:1/-1">
-      <label for="obsAcompanante${i}">Observaciones</label>
-      <textarea id="obsAcompanante${i}" name="obsAcompanante${i}" placeholder="Alergias, preferencias, etc."></textarea>
-    </div>
-  </div>`);}}
-
-/* ==== salón ==== */
-function renderZones(zones){dom.salonMap.innerHTML='';const items=Array.isArray(zones)&&zones.length?zones:[{id:'dance',label:'Pista de baile',className:'map-zone--dance',position:{x:50,y:45}},{id:'stage',label:'Estado Mayor',className:'map-zone--stage',position:{x:6,y:50}},{id:'entrance',label:'Entrada / Piscina',className:'map-zone--entrance',position:{x:50,y:6}},{id:'dj',label:'DJ',className:'map-zone--dj',position:{x:50,y:94} }];items.forEach(z=>{const el=document.createElement('div'); el.className=`map-zone ${z.className||''}`.trim(); el.textContent=z.label||''; const x=isNaN(+z?.position?.x)?50:Math.min(100,Math.max(0,+z.position.x)); const y=isNaN(+z?.position?.y)?50:Math.min(100,Math.max(0,+z.position.y)); el.style.setProperty('left',`${x}%`); el.style.setProperty('top', `${y}%`); const scale=(z?.scale!=null? +z.scale : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zone-scale'))||1); el.style.setProperty('--zone-scale',scale); dom.salonMap.appendChild(el);}); renderTables(state.siteConfig?.mesas||[]);}
-function renderTables(mesas){mesas.forEach(m=>{const b=document.createElement('button');b.type='button';b.className='mesa';const label=m.label||`Mesa ${m.number}`;b.dataset.label=label;b.dataset.capacity=m.capacity??state.siteConfig?.defaultCapacity??10;b.style.left=(m.position?.x??0)+'%';b.style.top=(m.position?.y??0)+'%';b.textContent=m.number??label;b.addEventListener('click',()=>selectTable(label));dom.salonMap.appendChild(b);}); updateMesasCompletaColor();}
-
-function getMesaCapacity(label){const m=(state.siteConfig?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===label);return (m&&typeof m.capacity==='number')?m.capacity:(state.siteConfig?.defaultCapacity||10);}
-function invitadosDeMesa(label){if(!label)return[];if(state.guestsByTable.has(label))return state.guestsByTable.get(label)||[];const nl=norm(label);for(const[k,v]of state.guestsByTable.entries())if(norm(k)===nl)return v;return[];}
-function selectTable(label){dom.mesaInput.value=label;document.querySelectorAll('.mesa').forEach(m=>m.classList.toggle('seleccionada',m.dataset.label===label));dom.mesaSeleccionadaLabel.textContent=label;document.querySelector('.table-container').style.display='block';updateMesaPreview();}
-function updateMesaPreview(){const label=dom.mesaInput.value;if(!label)return;dom.mesaText.textContent=label;pintarAsientos();listarInvitados();}
-function pintarAsientos(){const label=dom.mesaInput.value, cap=getMesaCapacity(label), cont=dom.seating;cont.innerHTML='';const tableSize=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--table-size'))||120;const seatSize=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--seat-size'))||42;const table=document.createElement('div');table.className='table';table.textContent=label;cont.appendChild(table);const CX=50,CY=50, radius=Math.max(28,tableSize*0.32)+seatSize*0.2;for(let i=1;i<=cap;i++){const s=document.createElement('div');s.className='seat';s.dataset.seat=i;cont.appendChild(s);const a=(i/cap)*2*Math.PI;s.style.left=`${CX+radius*Math.cos(a)}%`;s.style.top=`${CY+radius*Math.sin(a)}%`;}let taken=0;invitadosDeMesa(label).forEach(g=>{let n=1;try{const j=JSON.parse(g['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{ }for(let i=0;i<n;i++){if(taken<cap){cont.querySelector(`.seat[data-seat="${++taken}"]`)?.classList.add('occupied');}}});}
-function listarInvitados(){const label=dom.mesaInput.value, el=dom.guestList;el.innerHTML='';const rows=invitadosDeMesa(label);if(!rows.length){el.textContent='Selecciona una mesa para ver los invitados.';return;}rows.forEach(r=>{const titular=((r['Nombre']||'')+' '+(r['Apellido']||'')).trim()||'Invitado';const t=document.createElement('div');t.innerHTML=`• <strong>${titular}</strong>`;el.appendChild(t);try{const j=JSON.parse(r['JSON original']||'')||{};const A=Array.isArray(j.acompanantes)?j.acompanantes:[];A.forEach(a=>{const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();const d=document.createElement('div');d.textContent='• '+(nm||'Acompañante');el.appendChild(d);});}catch{}});}
-function updateMesasCompletaColor(){document.querySelectorAll('.mesa').forEach(m=>m.classList.remove('completa'));state.guestsByTable.forEach((arr,label)=>{const cap=getMesaCapacity(label);let total=0;arr.forEach(g=>{try{const j=JSON.parse(g['JSON original']||'')||{};total+=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{total+=1}});if(total>=cap){document.querySelectorAll('.mesa').forEach(b=>{if(norm(b.dataset.label)===norm(label))b.classList.add('completa');});}});}
-
-/* ==== lectura & antiparpadeo ==== */
-function stopGuestsPolling(){if(state.fetchInterval){clearInterval(state.fetchInterval);state.fetchInterval=null;}}
-function startGuestsPolling(){stopGuestsPolling();state.fetchInterval=setInterval(()=>{fetchGuestsData({silent:true}).catch(()=>{})},8000);}
-function snapshotForMesa(map,label){const rows=(map&&label)?(map.get(label)||[]):[];try{return JSON.stringify(rows.map(r=>({n:(r['Nombre']||'')+' '+(r['Apellido']||''),j:r['JSON original']||''})))}catch{return'[]';}}
-function parseCSVLine(s){const a=[];let c='',q=false;for(let i=0;i<s.length;i++){const ch=s[i];if(ch=='"'){if(q&&s[i+1]=='"'){c+='"';i++;}else q=!q;}else if(ch==','&&!q){a.push(c);c='';}else c+=ch;}a.push(c);return a;}
-function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>norm(h));const mesaIdx=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonIdx=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const e={};normH.forEach((h,idx)=>e[h]=v[idx]==null?'':String(v[idx]).trim());let m='';if(mesaIdx!==-1)m=v[mesaIdx]||'';if(!m&&jsonIdx!==-1&&v[jsonIdx]){try{const p=JSON.parse(v[jsonIdx]);if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(e);}return map;}
-function valuesToMap(values){if(!Array.isArray(values)||!values.length)return new Map();const headers=values[0].map(h=>String(h||'').trim());const lower=headers.map(h=>norm(h));const mesaIdx=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<values.length;i++){const row=values[i]||[];const e={};headers.forEach((h,idx)=>e[h]=row[idx]==null?'':String(row[idx]).trim());let m=mesaIdx!==-1?String(row[mesaIdx]||'').trim():'';if(!m&&e['JSON original']){try{const p=JSON.parse(String(e['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(e);}return map;}
-async function fetchGuestsData({silent=false}={}){const prev=state.guestsByTable;const sel=document.getElementById('mesa')?.value||'';const prevSnap=snapshotForMesa(prev,sel);let next=null;if(state.guestsSheetUrl){try{const r=await fetch(buster(state.guestsSheetUrl),{method:'GET',mode:'cors',cache:'no-store'});if(r.ok){const t=await r.text();const m=csvToMap(t);if(m&&m.size)next=m;}}catch{}}if(!next&&state.reservationEndpoint){try{const url=state.reservationEndpoint+(state.reservationEndpoint.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();const r=await fetch(url,{method:'GET',mode:'cors',cache:'no-store'});if(r.ok){const p=await r.json().catch(()=>({}));const vals=Array.isArray(p?.values)?p.values:[];const m=valuesToMap(vals);next=m;}}catch{}}if(!next){if(!silent)console.warn('Sin actualización, se conserva el estado.');return prev;}state.guestsByTable=next;updateMesasCompletaColor();const nowSnap=snapshotForMesa(next,sel);if(prevSnap!==nowSnap){listarInvitados();pintarAsientos();}return next;}
-
-/* ==== duplicados ==== */
-function findRegistrationByCedula(ci){const C=norm(ci);for(const[,rows]of state.guestsByTable.entries()){for(const r of rows){const c=r['Cédula']||r['Cedula']||'';if(norm(c)===C){try{const j=JSON.parse(r['JSON original']||'')||{};return{mesa:r['Mesa']||j.mesa||'',menu:r['Menú titular']||r['Menu titular']||j.menu||'',observacion:r['Observaciones']||j.observacion||'',acompanantes:Array.isArray(j.acompanantes)?j.acompanantes:[]};}catch{return{mesa:r['Mesa']||'',menu:r['Menú titular']||r['Menu titular']||'',observacion:r['Observaciones']||'',acompanantes:[]};}}}return null;}
-function showDuplicateModal(info){const L=[];L.push(`Mesa: ${info.mesa||'-'}`);L.push(`Menú: ${info.menu||'-'}`);L.push(`Observaciones: ${info.observacion||'-'}`);if(Array.isArray(info.acompanantes)&&info.acompanantes.length){L.push('');info.acompanantes.forEach((a,i)=>{const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ');L.push(`${i+1}. ${nm||'Acompañante'}`);});}dom.duplicateBody.textContent=L.join('\n');dom.duplicateModal.classList.add('active');dom.duplicateModal.style.display='flex';}
-
-/* ==== envío ==== */
-function setBtnSending(b){dom.submitButton.disabled=b;dom.submitButton.textContent=b?'Enviando...':'Enviar';}
-async function sendNoCors(url,body){await fetch(url,{method:'POST',mode:'no-cors',body,cache:'no-store'});}
-function mesaSnapshot(label){const arr=invitadosDeMesa(label);const map=new Map();(arr||[]).forEach(g=>{const key=norm((g['Cédula']||g['Cedula']||''))+'|'+norm((g['Correo']||''))+'|'+norm(((g['Nombre']||'')+' '+(g['Apellido']||'')));map.set(key,(map.get(key)||0)+1);});return map;}
-function snapshotHasNew(a,b){for(const[k,c]of b.entries())if((a.get(k)||0)<c)return true;return false;}
-async function onSubmit(e){e.preventDefault();const m=dom.mesaInput.value;const cap=getMesaCapacity(m);const occ=invitadosDeMesa(m).reduce((s,g)=>{try{const j=JSON.parse(g['JSON original']||'')||{};return s+1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{return s+1;}},0);const cnt=parseInt(document.getElementById('cantidadAcompanantes').value||'0',10)||0;if(!m||occ+1+cnt>cap){alert('Debe seleccionar una mesa con espacio disponible.');return;}if(!(dom.guestForm.checkValidity()&&dom.acompanantesForm.checkValidity())){alert('Complete todos los campos requeridos.');return;}await fetchGuestsData().catch(()=>{});const ci=document.getElementById('cedula').value;const dup=findRegistrationByCedula(ci);if(dup){showDuplicateModal(dup);return;}const fd1=new FormData(dom.guestForm), fd2=new FormData(dom.acompanantesForm);const A=[];fd2.forEach((v,k)=>{const i=parseInt(k.replace(/\D/g,''),10)-1;if(k.startsWith('nombreAcompanante')){(A[i]??={}).nombre=v;}if(k.startsWith('apellidoAcompanante')){(A[i]??={}).apellido=v;}if(k.startsWith('cedulaAcompanante')){(A[i]??={}).cedula=v;}if(k.startsWith('menuAcompanante')){(A[i]??={}).menu=v;}if(k.startsWith('obsAcompanante')){(A[i]??={}).observacion=v;}});const payload={correo:fd1.get('correo'),grado:fd1.get('grado'),escalafon:fd1.get('escalafon'),nombre:fd1.get('nombre'),apellido:fd1.get('apellido'),cedula:fd1.get('cedula'),menu:fd1.get('menu'),observacion:fd1.get('observacion')||'',acompanante:fd1.get('acompanante'),cantidadAcompanantes:fd1.get('cantidadAcompanantes'),acompanantes:A,mesa:m};const base=mesaSnapshot(m);setBtnSending(true);try{await sendNoCors(state.reservationEndpoint,JSON.stringify({payload,submittedAt:new Date().toISOString(),...payload}));const deadline=Date.now()+20000;while(Date.now()<deadline){await new Promise(r=>setTimeout(r,2000));await fetchGuestsData().catch(()=>{});const now=mesaSnapshot(m);if(snapshotHasNew(base,now)){stopGuestsPolling();dom.mesaConfirmada.textContent=m;document.getElementById('confirmationModal').classList.add('active');document.getElementById('confirmationModal').style.display='flex';return;}const back=findRegistrationByCedula(ci);if(back){showDuplicateModal(back);return;}}alert('No se pudo confirmar la escritura en la hoja.');}finally{setBtnSending(false);}}
-dom.submitButton.addEventListener('click',onSubjects=false);
-
-/* ==== config & boot ==== */
-async function loadConfig(){try{const local=localStorage.getItem('fiestaConfig');if(local)return JSON.parse(local);}catch{}const r=await fetch('config.json?_='+Date.now());if(!r.ok)throw new Error('No se pudo cargar config.json');return await r.json();}
-function applyConfig(cfg){state.siteConfig=cfg||{};state.reservationEndpoint=cfg.reservationScriptUrl||'';state.guestsSheetUrl=cfg.guestsSheetCsvUrl||'';document.title=cfg.siteTitle||document.title;ensureHero();if(cfg.siteTitle)document.getElementById('siteTitleHeading').textContent=cfg.siteTitle;if(cfg.siteSubtitle)document.getElementById('siteTitleEy').textContent=cfg.siteSubtitle;if(cfg.siteDescription)document.getElementById('siteDescription').textContent=cfg.description||cfg.siteDescription;if(cfg.heroImage)document.getElementById('heroImage').src=cfg.heroImage;const root=document.documentElement;const ui=cfg.ui||{}; if(ui.mesaSize)root.style.setProperty('--mesa-size',(parseFloat(ui.mesaSize)||52)+'px'); if(ui.seatSize)root.style.setProperty('--seat-size',(parseFloat(ui.seatSize)||42)+'px'); if(ui.tableSize)root.style.setProperty('--table-size',(parseFloat(ui.tableSize)||120)+'px'); if(ui.zoneScale!=null)root.style.setProperty('--zone-scale',parseFloat(ui.zoneScale)||1); const mesas=Array.isArray(cfg.mesas)?[...cfg.mesas].sort((a,b)=>(a.number||0)-(b.number||0)):[]; renderZones(cfg.zones); renderTables(mesas); dom.totalMesasCounter.textContent=mesas.length; dom.capacidadTotalCounter.textContent=mesas.reduce((s,m)=>s+(m.capacity||cfg.defaultCapacity||10),0); fetchGuestsData().catch(()=>{});}
-document.getElementById('finalizarBtn').addEventListener('click',()=>location.reload());
-document.getElementById('refreshNowBtn').addEventListener('click',()=>{fetchGuestsData().then(()=>alert('Información actualizada')).catch(()=>alert('No se pudo refrescar'));});
-document.getElementById('dupCloseBtn').addEventListener('click',()=>{dom.duplicateModal.classList.remove('active');dom.duplicateModal.style.display='none';});
-document.addEventListener('DOMContentLoaded',async()=>{firstScreen();ensureHero();try{const cfg=await loadConfig();applyConfig(cfg);}catch(e){console.error(e);alert('No se pudo cargar la configuración.');}});
+document.addEventListener('DOMContentLoaded', async ()=>{ try{ cfg = await loadConfig(); }catch{} });
 </script>
 </body>
 </html>
