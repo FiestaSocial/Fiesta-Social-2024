@@ -11,10 +11,20 @@
 
   <style>
     :root{
+      /* Colores */
       --c1:#0b66ff;--c1d:#084dcc;--c2:#f59e0b;--mut:#6b7280;--b:#e5e7eb;
       --ok:#22c55e;--err:#ef4444;--sh:0 24px 60px rgba(15,23,42,.25);
-      --r:28px;--r2:18px;--r3:12px
+
+      /* Radios */
+      --r:28px;--r2:18px;--r3:12px;
+
+      /* Tamaños (editables desde config.ui) */
+      --mesa-size:52px;         /* botón mesa */
+      --seat-size:42px;         /* asiento en la vista previa circular */
+      --table-size:120px;       /* diámetro de la mesa circular previa */
+      --zone-scale:1;           /* escala de fuentes/padding para zonas */
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;min-height:100vh;font-family:Poppins,'Segoe UI',sans-serif;
@@ -61,17 +71,27 @@
     .legend .available{background:var(--c1)} .legend .full{background:var(--err)} .legend .selected{background:var(--c2)}
 
     .salon-map{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(226,232,240,.8),rgba(203,213,225,.6));border-radius:var(--r2);box-shadow:0 20px 40px rgba(15,23,42,.18);overflow:hidden;z-index:1}
-    .map-zone{position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);transform:translate(-50%,-50%);padding:6px 16px;border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;font-size:12px;z-index:1;white-space:nowrap}
+    .map-zone{
+      position:absolute;left:calc(var(--zone-x,50)*1%);top:calc(var(--zone-y,50)*1%);
+      transform:translate(-50%,-50%);padding:calc(6px*var(--zone-scale,1)) calc(16px*var(--zone-scale,1));
+      border-radius:999px;background:rgba(15,23,42,.7);color:#fff;font-weight:600;
+      font-size:calc(12px*var(--zone-scale,1));z-index:1;white-space:nowrap
+    }
     .map-zone--dance{background:rgba(34,197,94,.85)} .map-zone--stage,.map-zone--entrance,.map-zone--dj,.map-zone--dessert{background:rgba(59,130,246,.9)}
 
-    .mesa{position:absolute;width:52px;height:52px;border-radius:16px;background:var(--c1);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);border:none;cursor:pointer;z-index:1}
+    .mesa{
+      position:absolute;width:var(--mesa-size,52px);height:var(--mesa-size,52px);
+      border-radius:calc(var(--mesa-size,52px)/3);
+      background:var(--c1);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;
+      transform:translate(-50%,-50%);border:none;cursor:pointer;z-index:1
+    }
     .mesa.completa{background:var(--err)} .mesa.seleccionada{background:var(--c2)}
 
     .table-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:24px}
     .table-container{position:relative;width:100%;padding-top:100%;border-radius:var(--r2);background:rgba(248,250,252,.9);box-shadow:inset 0 0 0 1px rgba(15,23,42,.08);display:none}
     #seatsContainer{position:absolute;inset:0}
-    .table{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:50%;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center}
-    .seat{width:42px;height:42px;border-radius:12px;background:var(--ok);position:absolute;transform:translate(-50%,-50%)} .seat.occupied{background:var(--err)}
+    .table{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--table-size,120px);height:var(--table-size,120px);border-radius:50%;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center}
+    .seat{width:var(--seat-size,42px);height:var(--seat-size,42px);border-radius:calc(var(--seat-size,42px)/3);background:var(--ok);position:absolute;transform:translate(-50%,-50%)} .seat.occupied{background:var(--err)}
     #guestList{min-height:160px;background:rgba(248,250,252,.85);border-radius:var(--r2);padding:16px;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08)}
 
     .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
@@ -83,17 +103,12 @@
     @media (max-width: 720px){
       body{padding:24px 12px 48px}
       .hero-card{grid-template-columns:1fr}
-      /* muestra la imagen arriba del texto */
       .hero-card__media{order:-1}
       .hero-card__media img{aspect-ratio:16/9;object-fit:cover}
 
       .salon-wrapper{grid-template-columns:1fr}
       .salon-summary{position:relative;top:auto;margin-bottom:12px}
       .salon-map{aspect-ratio:auto;height:56vw;min-height:280px}
-      .map-zone{font-size:11px;padding:4px 10px}
-      .mesa{width:40px;height:40px;border-radius:12px}
-      .table{width:100px;height:100px}
-      .seat{width:32px;height:32px}
     }
   </style>
 </head>
@@ -379,6 +394,7 @@ function renderZones(zones){
     const y=clamp(Number(zone.position?.y ?? 50));
     el.style.setProperty('--zone-x', x);
     el.style.setProperty('--zone-y', y);
+    el.style.setProperty('--zone-scale', getComputedStyle(document.documentElement).getPropertyValue('--zone-scale') || 1);
     dom.salonMap.appendChild(el);
   });
 }
@@ -416,9 +432,12 @@ function invitadosDeMesa(label){
 function updateMesaPreview(){ const label=dom.mesaInput.value; if(!label) return; dom.mesaText.textContent=label; pintarAsientos(); listarInvitados(); }
 function pintarAsientos(){
   const label=dom.mesaInput.value, cap=getMesaCapacity(label), cont=dom.seatsContainer; cont.innerHTML='';
+  const tableSize=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--table-size'))||120;
+  const seatSize =parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--seat-size')) ||42;
   for(let i=1;i<=cap;i++){const s=document.createElement('div');s.className='seat';s.dataset.seat=i;cont.appendChild(s)}
-  const seats=cont.querySelectorAll('.seat'), CX=50,CY=50,R=38;
-  seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`});
+  const seats=cont.querySelectorAll('.seat');
+  const CX=50,CY=50; const radius=Math.max(28, tableSize*0.32) + seatSize*0.2;
+  seats.forEach((s,i)=>{const a=(i/seats.length)*2*Math.PI; s.style.left=`${CX+radius*Math.cos(a)}%`; s.style.top=`${CY+radius*Math.sin(a)}%`});
   let taken=0; invitadosDeMesa(label).forEach(g=>{
     let n=1; try{const j=JSON.parse(g['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{}
     for(let i=0;i<n;i++) if(taken<cap) cont.querySelector(`.seat[data-seat="${++taken}"]`)?.classList.add('occupied');
@@ -427,10 +446,24 @@ function pintarAsientos(){
 function listarInvitados(){
   const label=dom.mesaInput.value, el=dom.guestList; el.innerHTML='';
   const guests=invitadosDeMesa(label);
-  if(!guests.length){ el.textContent='No hay invitados registrados en esta mesa.'; return; }
+  if(!guests.length){ el.textContent='Selecciona una mesa para ver los invitados.'; return; }
+  // Mostrar titular + acompañantes (desglosado)
   guests.forEach(g=>{
-    const nombre=(g['Nombre']||'')+' '+(g['Apellido']||'');
-    const row=document.createElement('div'); row.innerHTML=`<strong>${nombre.trim()||'Invitado'}</strong>`; el.appendChild(row);
+    const titular = `${g['Nombre']||''} ${g['Apellido']||''}`.trim() || 'Invitado';
+    const titularRow = document.createElement('div'); titularRow.innerHTML = `<strong>${titular}</strong>`; el.appendChild(titularRow);
+    try{
+      const j = JSON.parse(g['JSON original']||'') || {};
+      const acomp = Array.isArray(j.acompanantes)? j.acompanantes : [];
+      acomp.forEach(a=>{
+        const d = document.createElement('div');
+        const parts = [];
+        if (a?.nombre) parts.push(a.nombre);
+        if (a?.cedula) parts.push(`CI: ${a.cedula}`);
+        if (a?.menu)   parts.push(`Menú: ${a.menu}`);
+        d.textContent = '• ' + (parts.join(' · ') || 'Acompañante');
+        el.appendChild(d);
+      });
+    }catch{/* ignorar */}
   });
 }
 function colorMesas(){
@@ -639,6 +672,14 @@ function applyConfig(cfg){
   if(cfg.siteSubtitle) document.getElementById('siteSubtitle').textContent = cfg.siteSubtitle;
   if(cfg.siteDescription) document.getElementById('siteDescription').textContent = cfg.siteDescription;
   if(cfg.heroImage) document.getElementById('heroImage').src = cfg.heroImage;
+
+  /* === aplicar tamaños (ui) === */
+  const ui = cfg.ui || {};
+  const root = document.documentElement;
+  if (ui.mesaSize)  root.style.setProperty('--mesa-size',  (parseFloat(ui.mesaSize)  || 52)+'px');
+  if (ui.seatSize)  root.style.setProperty('--seat-size',  (parseFloat(ui.seatSize)  || 42)+'px');
+  if (ui.tableSize) root.style.setProperty('--table-size', (parseFloat(ui.tableSize) ||120)+'px');
+  if (ui.zoneScale) root.style.setProperty('--zone-scale', (parseFloat(ui.zoneScale)||  1));
 
   const mesas = Array.isArray(cfg.mesas)? [...cfg.mesas].sort((a,b)=>(a.number||0)-(b.number||0)) : [];
   renderZones(cfg.zones);
