@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiesta Social 2024</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --c1:#0b67ff;--c1d:#0b4fb6;--c2:#f59e0b;--mut:#6b7280;--b:#e5e7eb;
   --ok:#22c55e;--err:#ef4444;--bg:#fff;--sh:0 24px 60px rgba(15,23,42,.2);
   --r:28px;--r2:18px;--r3:12px;
-  /* UI (sobrescritos por config.ui) */
-  --mesa-size:52px; --seat-size:42px; --table-size:120px; --zone-scale:1;
+
+  /* TAMAÑOS UI (sobrescritos por config.ui) */
+  --mesa-size:52px;      /* botón de mesa en el mapa */
+  --seat-size:42px;      /* silla en la vista previa circular */
+  --table-size:120px;    /* diámetro mesa circular (previa) */
+  --zone-scale:1;        /* tamaño de chips de zonas */
 }
+
+/* Base */
 *{box-sizing:border-box}
 body{
   margin:0;min-height:100vh;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -83,7 +89,9 @@ textarea{min-height:84px;resize:vertical}
 .modal-content{background:#fff;border-radius:24px;padding:28px;max-width:520px;box-shadow:var(--sh)}
 .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
 
-/* MÓVIL – giro 90° del salón */
+/* ===========================
+   MÓVIL – usar TODO el espacio y rotar 90°
+   =========================== */
 @media (max-width: 640px){
   body{padding:20px 10px 32px}
   .hero{grid-template-columns:1fr;gap:16px}
@@ -91,8 +99,24 @@ textarea{min-height:84px;resize:vertical}
   .salon-wrapper{grid-template-columns:1fr;gap:16px}
   .panel{position:static !important;top:auto !important}
 
-  .map-frame{width:100%;height:56vh;min-height:320px;aspect-ratio:auto;overflow:hidden}
-  .map{left:50%;top:50%;width:auto;height:100%;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center center}
+  .map-frame{
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100svh;
+    aspect-ratio: auto;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .map{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100svh;   /* al rotar, el ancho es el alto del viewport */
+    height: 100svw;  /* al rotar, el alto es el ancho del viewport */
+    transform-origin: center center;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
 
   :root{--mesa-size:40px;--seat-size:30px;--table-size:100px}
   .table-wrap{min-height:260px}
@@ -111,7 +135,7 @@ textarea{min-height:84px;resize:vertical}
 </head>
 <body>
 <main>
-  <!-- HERO estático (se actualiza desde config.json si carga) -->
+  <!-- HERO (estático, se actualiza con config.json si carga) -->
   <section id="scr1" class="container active">
     <div class="hero" id="heroBox">
       <div>
@@ -180,11 +204,7 @@ textarea{min-height:84px;resize:vertical}
         <p><strong>Capacidad total:</strong> <span id="totCap">—</span></p>
         <p><strong>Mesa seleccionada:</strong> <span id="tagMesa">Sin seleccionar</span></p>
         <button class="btn btn--ghost" id="btnRefresh">🔄 Refrescar ahora</button>
-        <div class="legend">
-          <div><span class="dot blue"></span>Disponible</div>
-          <div><span class="dot red"></span>Completa</div>
-          <div><span class="dot" style="background:#f59e0b"></span>Seleccionada</div>
-        </div>
+        <div class="legend"><div><span class="dot blue"></span>Disponible</div><div><span class="dot red"></span>Completa</div><div><span class="dot" style="background:#f59e0b"></span>Seleccionada</div></div>
       </aside>
 
       <div class="map-frame">
@@ -225,40 +245,37 @@ textarea{min-height:84px;resize:vertical}
 </main>
 
 <script>
-/* ===== Estado / utils ===== */
+/* =========================
+   Estado / utilidades
+========================= */
 const state={cfg:null,guests:new Map(),poll:null};
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=s=>(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const bust=u=>!u?'':u+(u.includes('?')?'&':'?')+'_='+Date.now();
 
 /* ===== Navegación ===== */
-function show(n){ $$('.container').forEach(el=>el.classList.toggle('active',el.id===`scr${n}`)); }
+function show(n){ $$('.container').forEach(el=>el.classList.toggle('active', el.id===`scr${n}`)); }
 document.body.addEventListener('click',e=>{
   const next=e.target.closest('[data-next]'), prev=e.target.closest('[data-prev]');
-  if(next){ e.preventDefault(); handleNext(parseInt(next.dataset.next||'0',10)); }
+  if(next){ e.preventDefault(); const step=parseInt(next.dataset.next||'0',10)||2; nextFrom(step); }
   if(prev){ e.preventDefault(); show(parseInt(prev.dataset.prev||'1',10)); }
 });
-function handleNext(step){
+function validate(selector,skip=false){
+  const sc=$(selector), bad=[]; sc?.querySelectorAll('input,select,textarea').forEach(el=>{
+    if(el.offsetParent===null) return; if(skip && !el.required) return; if(!el.checkValidity()) bad.push(el.id||'campo');
+  }); return bad;
+}
+function nextFrom(step){
+  const acomp=$('#acomp')?.value||'';
   if(step===3){
-    const bad = validate('#formMain'); if(bad.length){ alert('Completa todos los campos obligatorios.'); return; }
-    if($('#acomp').value==='si'){
-      const n= parseInt($('#acompCount').value||'0',10); if(!n){ alert('Indica cuántos acompañantes.'); return; }
+    const bad=validate('#formMain'); if(bad.length){ alert('Completa todos los campos requeridos.'); return; }
+    if(acomp==='si'){
+      const n=parseInt($('#acompCount').value||'0',10); if(!n){ alert('Indica cuántos acompañantes.'); return; }
       renderAcompanantes(Math.min(4,Math.max(1,n))); show(3);
     }else{ renderAcompanantes(0); show(4); paintHall(); refreshGuests(); }
   }else if(step===4){
-    if($('#acomp').value==='si'){
-      const bad = validate('#formAcomp',true); if(bad.length){ alert('Completa los datos de acompañantes.'); return; }
-    }
+    if(acomp==='si'){ const bad=validate('#formAcomp',true); if(bad.length){ alert('Faltan datos de acompañantes.'); return; } }
     show(4); paintHall(); refreshGuests();
-  }else{ show(step||2); }
-}
-function validate(selector, skipOptional=false){
-  const sc=$(selector); const bad=[];
-  sc?.querySelectorAll('input,select,textarea').forEach(el=>{
-    if(el.offsetParent===null) return;
-    if(skipOptional && !el.required) return;
-    if(!el.checkValidity()) bad.push(el.id||'campo');
-  }); return bad;
+  }else{ show(step); }
 }
 function renderAcompanantes(n){
   const f=$('#formAcomp'); f.innerHTML='';
@@ -276,24 +293,21 @@ function renderAcompanantes(n){
 /* ===== Salón ===== */
 function paintHall(){
   const map=$('#map'); map.innerHTML='';
-  const z=(state.cfg?.zones?.length?state.cfg.zones:[
+  const zones=(state.cfg?.zones?.length?state.cfg.zones:[
     {id:'stage',label:'Estado Mayor',className:'zone stage',position:{x:20,y:55}},
     {id:'entrance',label:'Entrada / Piscina',className:'zone entrance',position:{x:55,y:12}},
     {id:'dance',label:'Pista de baile',className:'zone dance',position:{x:50,y:45}},
     {id:'dj',label:'DJ',className:'zone dj',position:{x:55,y:92}}
   ]);
-  z.forEach(zone=>{
-    const el=document.createElement('div');
-    el.className = zone.className?.includes('zone')? zone.className : `zone ${zone.className||''}`;
-    el.style.setProperty('--x', (zone.position?.x??50));
-    el.style.setProperty('--y', (zone.position?.y??50));
-    el.style.setProperty('--zone-scale', zone?.scale!=null ? +zone.scale : (state.cfg?.ui?.zoneScale ?? 1));
-    el.textContent = zone.label || zone.id || '';
-    map.appendChild(el);
+  zones.forEach(z=>{
+    const el=document.createElement('div'); el.className=z.className?.includes('zone')?z.className:`zone ${z.className||''}`;
+    el.style.setProperty('--x',(z.position?.x??50));
+    el.style.setProperty('--y',(z.position?.y??50));
+    el.style.setProperty('--zone-scale', z?.scale!=null ? +z.scale : (state.cfg?.ui?.zoneScale ?? 1));
+    el.textContent=z.label||z.id||''; map.appendChild(el);
   });
 
-  const mesas=(state.cfg?.mesas||[]).slice().sort((a,b)=>(a.number||0)-(b.number||0));
-  mesas.forEach(m=>{
+  (state.cfg?.mesas||[]).slice().sort((a,b)=>(a.number||0)-(b.number||0)).forEach(m=>{
     const b=document.createElement('button'); b.type='button'; b.className='chair';
     b.style.left=(m.position?.x??0)+'%'; b.style.top=(m.position?.y??0)+'%';
     b.textContent=m.number||''; b.dataset.mesa=m.label||`Mesa ${m.number}`;
@@ -301,8 +315,8 @@ function paintHall(){
     b.addEventListener('click',()=>selectTable(b.dataset.mesa)); map.appendChild(b);
   });
 
-  $('#totMesas').textContent=mesas.length;
-  $('#totCap').textContent=mesas.reduce((s,x)=>s+(x.capacity||state.cfg?.defaultCapacity||10),0);
+  $('#totMesas').textContent=state.cfg?.mesas?.length||0;
+  $('#totCap').textContent=(state.cfg?.mesas||[]).reduce((s,x)=>s+(x.capacity||state.cfg?.defaultCapacity||10),0);
 }
 $('#map')?.addEventListener('click',e=>{ const b=e.target.closest('.chair'); if(b?.dataset?.mesa) selectTable(b.dataset.mesa); });
 function selectTable(label){
@@ -314,9 +328,19 @@ function getMesaCapacity(label){
   const m=(state.cfg?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===label);
   return m?(m.capacity||state.cfg?.defaultCapacity||10):(state.cfg?.defaultCapacity||10);
 }
+
+/* === Vista previa + coloreo asientos ocupados === */
 function updateTablePreview(){
-  const label=$('#selTable').value; const wrap=document.querySelector('.table-wrap'); if(!label){ if(wrap) wrap.style.display='none'; return; } wrap.style.display='block';
-  $('#tableCanvas').textContent=label; const cap=getMesaCapacity(label), cont=$('#seating'); cont.innerHTML='';
+  const label=$('#selTable')?.value; const wrap=document.querySelector('.table-wrap');
+  if(!label){ if(wrap) wrap.style.display='none'; return; }
+  wrap.style.display='block';
+
+  // Título de la mesa
+  $('#tableCanvas').textContent=label;
+
+  // Construye los asientos
+  const cont=$('#seating'); cont.innerHTML='';
+  const cap=getMesaCapacity(label);
   const ts=+getComputedStyle(document.documentElement).getPropertyValue('--table-size').replace('px','')||120;
   const ss=+getComputedStyle(document.documentElement).getPropertyValue('--seat-size').replace('px','')||42;
   const CX=50,CY=50,R=Math.max(28,ts*0.32)+ss*0.25;
@@ -325,106 +349,88 @@ function updateTablePreview(){
     const a=(i/cap)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`;
     cont.appendChild(s);
   }
+
+  // === Colorea ocupados (ROJO) ===
+  const rows=state.guests.get(label)||[];
+  let used=0;
+  rows.forEach(r=>{
+    // titular + acompañantes
+    let n=1;
+    try{
+      const j=JSON.parse(r['JSON original']||'')||{};
+      const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
+      n = 1 + A.length;
+    }catch{}
+    for(let i=0;i<n;i++){
+      used++;
+      const seat=cont.querySelector(`.seat[data-pos="${used}"]`);
+      if(seat) seat.classList.add('full');
+    }
+  });
 }
 
-/* ===== Lista invitados ===== */
+/* Lista invitados */
 function paintGuestList(){
-  const label=$('#selTable').value; const box=$('#guestList'); box.innerHTML='';
+  const label=$('#selTable')?.value, box=$('#guestList'); if(!box) return; box.innerHTML='';
   if(!label){ box.textContent='Selecciona una mesa para ver los invitados.'; return; }
   const rows=state.guests.get(label)||[]; if(!rows.length){ box.textContent='No hay invitados registrados en esta mesa.'; return; }
   rows.forEach(r=>{
-    const titular=`${r['Nombre']||''} ${r['Apellido']||''}`.trim()||'Invitado';
-    box.insertAdjacentHTML('beforeend',`<div>• <strong>${titular}</strong></div>`);
+    const tit=`${r['Nombre']||''} ${r['Apellido']||''}`.trim()||'Invitado';
+    box.insertAdjacentHTML('beforeend',`<div>• <strong>${tit}</strong></div>`);
     try{
       const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
-      A.forEach(a=>{
-        const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
-        box.insertAdjacentHTML('beforeend',`<div>• ${nm||'Acompañante'}</div>`);
-      });
+      A.forEach(a=>{ const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
+        box.insertAdjacentHTML('beforeend',`<div>• ${nm||'Acompañante'}</div>`);});
     }catch{}
   });
 }
 
-/* ===== Antiparpadeo: lectura CSV + Script ===== */
+/* === Antiparpadeo / refresco === */
 function snapFor(lbl,map){const rows=(map.get(lbl)||[]);try{return JSON.stringify(rows.map(r=>`${r['Nombre']||''}|${r['Apellido']||''}|${r['JSON original']||''}`))}catch{return''}}
 async function refreshGuests(silent=false){
-  const prev=new Map(state.guests); const sel=$('#selTable').value; const before=snapFor(sel,prev); let next=null;
+  const prev=new Map(state.guests); const sel=$('#selTable')?.value; const before=snapFor(sel,prev); let next=null;
   if(state.cfg?.guestsSheetCsvUrl){ try{ const r=await fetch(state.cfg.guestsSheetCsvUrl+'?_='+Date.now(),{mode:'cors'}); if(r.ok){ next=csvToMap(await r.text()); }}catch{} }
   if(!next&&state.cfg?.reservationScriptUrl){ try{
     const u=state.cfg.reservationScriptUrl+(state.cfg.reservationScriptUrl.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
     const r=await fetch(u,{mode:'cors'}); if(r.ok){ const j=await r.json(); next=valuesToMap(Array.isArray(j?.values)?j.values:[]); }}catch{} }
   if(!next){ if(!silent) console.warn('No se pudo leer la hoja.'); return; }
   state.guests=next; updateChairsFull();
-  const after=snapFor(sel,next); if(sel && before!==after){ paintGuestList(); }
+  const after=snapFor(sel,next);
+  if(sel && before!==after){ paintGuestList(); updatePreviewSeatsOnly(); }  // recolorea asientos
 }
-function updateChairsFull(){
-  $$('#map .chair').forEach(ch=>{
-    const label=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(label)||[]; let used=0;
-    rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
-    ch.classList.toggle('full',used>=cap);
+function updateChairsFull(){ $$('#map .chair').forEach(ch=>{ const label=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(label)||[]; let used=0;
+  rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
+  ch.classList.toggle('full', used>=cap); }); }
+function updatePreviewSeatsOnly(){
+  const label=$('#selTable')?.value; if(!label) return;
+  $$('#seating .seat').forEach(s=>s.classList.remove('full'));
+  const rows=state.guests.get(label)||[]; let used=0;
+  rows.forEach(r=>{
+    let n=1;
+    try{
+      const j=JSON.parse(r['JSON original']||'')||{};
+      const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
+      n = 1 + A.length;
+    }catch{}
+    for(let i=0;i<n;i++){
+      used++;
+      const s=document.querySelector(`#seating .seat[data-pos="${used}"]`);
+      if(s) s.classList.add('full');
+    }
   });
 }
 
-/* ===== Parsers ===== */
+/* === Parsers CSV/values === */
 function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
 function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>h.toLowerCase());const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonI=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const row={};normH.forEach((h,idx)=>row[h]=v[idx]??'');let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
 function valuesToMap(vals){if(!Array.isArray(vals)||!vals.length)return new Map();const headers=vals[0].map(h=>String(h||'').trim());const lower=headers.map(h=>h.toLowerCase());const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<vals.length;i++){const v=vals[i]||[];const row={};headers.forEach((h,idx)=>row[h]=v[idx]??'');let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
 
-/* ===== Duplicados / envío ===== */
-function findDuplicate(ci){
-  const needle=(ci||'').toLowerCase().trim(); if(!needle) return null;
-  for(const[,rows]of state.guests){ for(const r of rows){
-    const c=(r['Cédula']||r['Cedula']||'').toLowerCase().trim(); if(c===needle) return r;
-  }} return null;
-}
-function showDup(r){ $('#dupInfo').textContent=`Mesa: ${r?.Mesa||'-'}`; const m=$('#dupModal'); m.style.display='flex'; m.classList.add('active'); }
-$('#btnDupClose')?.addEventListener('click',()=>{const m=$('#dupModal'); m.classList.remove('active'); m.style.display='none';});
-
-async function send(){
-  const label=$('#selTable').value; if(!label){ alert('Selecciona una mesa.'); return; }
-  const cap=getMesaCapacity(label); const rows=state.guests.get(label)||[]; let used=0;
-  rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
-  const acomp=$('#acomp').value; const cnt=+(acomp==='si'?($('#acompCount').value||0):0);
-  if(used+1+cnt>cap){ alert('Mesa sin espacio suficiente.'); return; }
-  const bad2=validate('#formMain'); if(bad2.length){ alert('Completa todos los campos.'); show(2); return; }
-  if(acomp==='si'){ const bad3=validate('#formAcomp',true); if(bad3.length){ alert('Faltan datos de acompañantes.'); show(3); return; } }
-
-  await refreshGuests(true); const dup=findDuplicate($('#ci').value); if(dup){ showDup(dup); return; }
-
-  const acompRows=$$('#formAcomp .grid'); const A=[];
-  acompRows.forEach(r=>{
-    const inp=r.querySelectorAll('input,select'); const nombre=inp[0]?.value?.trim()||''; const apellido=inp[1]?.value?.trim()||''; const ced=inp[2]?.value?.trim()||''; const men=inp[3]?.value||'';
-    if(nombre||apellido||ced||men) A.push({nombre: nombre, apellido: apellido, cedula: ced, menu: men});
-  });
-  const payload={
-    correo:$('#email').value.trim(),grado:$('#grado').value,escalafon:$('#escalafon').value,
-    nombre:$('#nombre').value.trim(),apellido:$('#apellido').value.trim(),cedula:$('#ci').value.trim(),
-    menu:$('#menu').value,observacion:$('#obs').value.trim(),acompanante:acomp,
-    cantidadAcompanantes:cnt,acompanantes:A,mesa:label
-  };
-
-  const url=state.cfg?.reservationScriptUrl; if(!url){ alert('Falta URL /exec en config.json'); return; }
-  await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify({payload,submittedAt:new Date().toISOString(),...payload}),cache:'no-store'});
-
-  const before=snapFor(label,state.guests); const t0=Date.now(); const timeout=20000;
-  while(Date.now()-t0<timeout){
-    await new Promise(r=>setTimeout(r,1500)); await refreshGuests(true);
-    if(snapFor(label,state.guests)!==before){
-      $('#okMesa').textContent=label; const m=$('#okModal'); m.style.display='flex'; m.classList.add('active'); return;
-    }
-    const d2=findDuplicate($('#ci').value); if(d2){ showDup(d2); return; }
-  }
-  alert('No se pudo confirmar la escritura en la hoja.');
-}
-$('#btnSend')?.addEventListener('click',e=>{ e.preventDefault(); send(); });
-$('#btnOkClose')?.addEventListener('click',()=>{const m=$('#okModal'); m.classList.remove('active'); m.style.display='none'; location.reload();});
-
-/* ===== Cargar config / aplicar tamaños / actualizar héroe ===== */
+/* === Config y tamaños === */
 async function loadConfig(){
   try{
     const local=localStorage.getItem('fiestaConfig');
     state.cfg = local ? JSON.parse(local) : await (await fetch('config.json?_='+Date.now())).json();
-  }catch{ state.cfg={}; }
+  }catch(e){ state.cfg={}; }
 }
 function applyUiSizes(){
   const ui=state.cfg?.ui||{}; const root=document.documentElement;
@@ -434,22 +440,17 @@ function applyUiSizes(){
   if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
 }
 
-/* ===== CSV/Script parsers ===== */
-function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
-function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>h.toLowerCase());const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonI=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const row={};normH.forEach((h,idx)=>row[h]=v[idx]??'');let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
-function valuesToMap(vals){if(!Array.isArray(vals)||!vals.length)return new Map();const headers=vals[0].map(h=>String(h||'').trim());const lower=headers.map(h=>h.toLowerCase());const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<vals.length;i++){const v=vals[i]||[];const row={};headers.forEach((h,idx)=>row[h]=v[idx]??'');let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
+/* Envío (placeholder) */
+document.getElementById('btnSend')?.addEventListener('click', (e)=>{ e.preventDefault(); alert('Envío de ejemplo. Integra tu Apps Script aquí si lo necesitas.'); });
 
-/* ===== INIT ===== */
+/* INIT */
 (async function init(){
   await loadConfig(); applyUiSizes();
-  // actualizar textos del héroe si existen en config
+  // Actualiza textos del hero si existen en config
   if(state.cfg?.siteSubtitle) document.querySelector('.eyebrow').textContent = state.cfg.siteSubtitle;
   if(state.cfg?.siteTitle) document.querySelector('#scr1 h1').textContent = state.cfg.siteTitle;
   if(state.cfg?.siteDescription) document.querySelector('#scr1 p').textContent = state.cfg.siteDescription;
   if(state.cfg?.heroImage) document.querySelector('#scr1 img').src = state.cfg.heroImage;
-
-  // pre-pintar salón si el usuario ya llega a esa pantalla
-  // (el render real se dispara al pasar a la pantalla 4)
 })();
 </script>
 </body>
