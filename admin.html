@@ -23,8 +23,7 @@
   input,textarea{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:10px;background:#f8fafc}
   .btn{border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
   .btn.primary{background:var(--c1);color:#fff}.btn.primary:hover{background:var(--c1d)}
-  .btn.ghost{background:#eef2ff;color:#0b67ff}
-  .btn.danger{background:#fee2e2;color:#b91c1c}
+  .btn.ghost{background:#eef2ff;color:#0b67ff}.btn.danger{background:#fee2e2;color:#b91c1c}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   @media (max-width: 800px){.row{grid-template-columns:1fr}}
   table{width:100%;border-collapse:collapse;margin-top:10px}
@@ -41,9 +40,9 @@
   <!-- LOGIN -->
   <section class="card" id="loginCard">
     <h1>Panel de administración</h1>
-    <p>Ingresa la contraseña para editar la configuración (valida con <code>admin.passwordHash</code> de tu <code>config.json</code>).</p>
+    <p>Introduce la contraseña (se valida contra <code>admin.passwordHash</code> en <code>config.json</code>).</p>
     <label>Contraseña</label>
-    <input type="password" id="pw" autocomplete="current-password">
+    <input type="password" id="pw">
     <div style="margin-top:12px">
       <button class="btn primary" id="btnLogin">Ingresar</button>
     </div>
@@ -76,7 +75,7 @@
       </div>
       <div>
         <label>Diámetro de mesa circular (px)</label><input id="uiTableSize" type="number" class="narrow" min="80" step="1">
-        <label>Escala global de zonas (chips)</label><input id="uiZoneScale" type="number" class="narrow" min="0.6" step="0.1">
+        <label>Escala global de zonas</label><input id="uiZoneScale" type="number" class="narrow" min="0.6" step="0.1">
       </div>
     </div>
 
@@ -89,7 +88,7 @@
 
     <h3 style="margin-top:24px">Zonas</h3>
     <table id="tblZones">
-      <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th class="narrow">X%</th><th class="narrow">Y%</th><th class="narrow">Escala</th><th></th></tr></thead>
+      <thead><tr><th>ID</th><th>Etiqueta</th><th>Clases CSS</th><th class="narrow">X%</th><th class="narrow">Y%</th><th></th></tr></thead>
       <tbody></tbody>
     </table>
     <button class="btn primary" id="addZone" style="margin-top:8px">Agregar zona</button>
@@ -108,7 +107,7 @@
     <h2>Verificar & pruebas</h2>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
       <button class="btn primary" id="vPing">Ping Apps Script</button>
-      <button class="btn primary" id="vDebug">Debug hoja (?debug=1)</button>
+      <button class="btn primary" id="vDebug">Debug (?debug=1)</button>
       <button class="btn primary" id="vCSV">Probar CSV</button>
       <button class="btn ghost"   id="vWrite">Escribir fila de prueba</button>
     </div>
@@ -119,38 +118,32 @@
 </main>
 
 <script>
-let cfg = null;
+let cfg=null;
 
 /* Helpers */
-const $  = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
-function showStatus(el, cls, msg){ el.className='status '+cls; el.textContent=msg; el.style.display='block'; }
-async function sha256(text){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+function show(el,cls,msg){ el.className='status '+cls; el.textContent=msg; el.style.display='block'; }
+async function sha256(text){ const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)); return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
 async function loadConfig(){
-  try{ const local = localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local); }catch{}
-  const r = await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); return await r.json();
+  try{ const local=localStorage.getItem('fiestaConfig'); if(local) return JSON.parse(local); }catch{}
+  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('Sin config.json'); return await r.json();
 }
 
-/* LOGIN */
+/* Login */
 $('#btnLogin').addEventListener('click', async ()=>{
   $('#loginMsg').style.display='none';
   try{
     cfg = await loadConfig();
     const hash = cfg?.admin?.passwordHash || '';
-    if(!hash){ showStatus($('#loginMsg'),'err','No hay admin.passwordHash en config.json'); return; }
+    if(!hash){ show($('#loginMsg'),'err','Falta admin.passwordHash en config.json'); return; }
     const typed = await sha256($('#pw').value);
-    if(typed !== hash){ showStatus($('#loginMsg'),'err','Contraseña incorrecta'); return; }
-    $('#loginCard').style.display='none';
-    $('#editCard').style.display='block';
-    $('#verifyCard').style.display='block';
+    if(typed !== hash){ show($('#loginMsg'),'err','Contraseña incorrecta'); return; }
+    $('#loginCard').style.display='none'; $('#editCard').style.display='block'; $('#verifyCard').style.display='block';
     paintForms();
-  }catch(e){ showStatus($('#loginMsg'),'err','Error cargando configuración'); }
+  }catch{ show($('#loginMsg'),'err','No se pudo cargar configuración'); }
 });
 
-/* PINTAR FORMULARIOS */
+/* Pintar */
 function paintForms(){
   $('#siteTitle').value        = cfg.siteTitle || '';
   $('#siteSubtitle').value     = cfg.siteSubtitle || '';
@@ -160,91 +153,81 @@ function paintForms(){
   $('#guestsSheetCsvUrl').value    = cfg.guestsSheetCsvUrl || '';
   $('#defaultCapacity').value      = cfg.defaultCapacity || 10;
 
-  const ui = cfg.ui || {};
+  const ui=cfg.ui||{};
   $('#uiMesaSize').value  = ui.mesaSize  ?? 52;
   $('#uiSeatSize').value  = ui.seatSize  ?? 42;
   $('#uiTableSize').value = ui.tableSize ?? 120;
   $('#uiZoneScale').value = ui.zoneScale ?? 1;
 
-  renderMesas();
-  renderZones();
+  renderMesas(); renderZones();
 }
 
-/* MESAS */
+/* Mesas */
 function renderMesas(){
-  const tbody = $('#tblMesas tbody'); tbody.innerHTML='';
-  if(!Array.isArray(cfg.mesas)) cfg.mesas=[];
-  cfg.mesas.forEach((m,i)=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+  const tb=$('#tblMesas tbody'); tb.innerHTML='';
+  (cfg.mesas||[]).forEach((m,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
       <td><input class="narrow" type="number" value="${m.number||i+1}" data-f="number"></td>
       <td><input value="${m.label||`Mesa ${i+1}`}" data-f="label"></td>
       <td><input class="narrow" type="number" min="1" step="1" value="${m.capacity||cfg.defaultCapacity||10}" data-f="capacity"></td>
       <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.x??0}" data-f="x"></td>
       <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${m.position?.y??0}" data-f="y"></td>
-      <td><button class="btn danger" data-del>Eliminar</button></td>
-    `;
-    tr.querySelector('[data-del]').addEventListener('click', ()=>{ cfg.mesas.splice(i,1); renderMesas(); });
-    tbody.appendChild(tr);
+      <td><button class="btn danger" data-del>Eliminar</button></td>`;
+    tr.querySelector('[data-del]').addEventListener('click',()=>{ cfg.mesas.splice(i,1); renderMesas(); });
+    tb.appendChild(tr);
   });
 }
 function collectMesas(){
-  const rows = $$('#tblMesas tbody tr');
-  return rows.map(r=>{
-    const get = f => r.querySelector(`[data-f="${f}"]`).value;
+  return $$('#tblMesas tbody tr').map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
     return {
-      number:   parseInt(get('number'),10)||0,
-      label:    (get('label')||'').trim(),
+      number: parseInt(get('number'),10)||0,
+      label: (get('label')||'').trim(),
       capacity: parseInt(get('capacity'),10)||parseInt($('#defaultCapacity').value,10)||10,
-      position: { x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
+      position:{ x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 }
     };
   }).sort((a,b)=>(a.number||0)-(b.number||0));
 }
 $('#addMesa').addEventListener('click', ()=>{
-  const ms = collectMesas();
-  const next = (ms.reduce((mx,m)=>Math.max(mx,m.number||0),0) || 0) + 1;
-  ms.push({ number: next, label:`Mesa ${next}`, capacity: parseInt($('#defaultCapacity').value,10)||10, position:{x:50,y:50} });
-  cfg.mesas = ms; renderMesas();
+  const ms=collectMesas(); const next=(ms.reduce((mx,m)=>Math.max(mx,m.number||0),0)||0)+1;
+  ms.push({ number:next, label:`Mesa ${next}`, capacity:parseInt($('#defaultCapacity').value,10)||10, position:{x:50,y:50} });
+  cfg.mesas=ms; renderMesas();
 });
 
-/* ZONAS */
+/* Zonas */
 function renderZones(){
-  const tbody = $('#tblZones tbody'); tbody.innerHTML='';
-  if(!Array.isArray(cfg.zones)) cfg.zones=[];
-  cfg.zones.forEach((z,i)=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
+  const tb=$('#tblZones tbody'); tb.innerHTML='';
+  (cfg.zones||[]).forEach((z,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
       <td><input value="${z.id||''}" data-f="id"></td>
       <td><input value="${z.label||''}" data-f="label"></td>
       <td><input value="${z.className||''}" data-f="class"></td>
       <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.x??0}" data-f="x"></td>
       <td><input class="narrow" type="number" step="0.1" min="0" max="100" value="${z.position?.y??0}" data-f="y"></td>
-      <td><input class="narrow" type="number" step="0.1" min="0.6" value="${z.scale ?? (cfg?.ui?.zoneScale ?? 1)}" data-f="scale"></td>
-      <td><button class="btn danger" data-del>Eliminar</button></td>
-    `;
-    tr.querySelector('[data-del]').addEventListener('click', ()=>{ cfg.zones.splice(i,1); renderZones(); });
-    tbody.appendChild(tr);
+      <td><button class="btn danger" data-del>Eliminar</button></td>`;
+    tr.querySelector('[data-del]').addEventListener('click',()=>{ cfg.zones.splice(i,1); renderZones(); });
+    tb.appendChild(tr);
   });
 }
 function collectZones(){
-  const rows = $$('#tblZones tbody tr');
-  return rows.map(r=>{
-    const get = f => r.querySelector(`[data-f="${f}"]`).value;
+  return $$('#tblZones tbody tr').map(r=>{
+    const get=f=>r.querySelector(`[data-f="${f}"]`).value;
     return {
-      id: (get('id')||'').trim(),
-      label: (get('label')||'').trim(),
-      className: (get('class')||'').trim(),
-      position: { x: parseFloat(get('x'))||0, y: parseFloat(get('y'))||0 },
-      scale: parseFloat(get('scale')) || null
+      id:(get('id')||'').trim(),
+      label:(get('label')||'').trim(),
+      className:(get('class')||'').trim(),
+      position:{ x:parseFloat(get('x'))||0, y:parseFloat(get('y'))||0 }
     };
   }).filter(z=>z.id && z.label);
 }
 $('#addZone').addEventListener('click', ()=>{
-  (cfg.zones ||= []).push({ id:`zona-${Math.random().toString(36).slice(2,7)}`, label:'Nueva zona', className:'', position:{x:50,y:50}, scale: cfg?.ui?.zoneScale || 1 });
+  (cfg.zones ||= []).push({ id:`zona-${Math.random().toString(36).slice(2,7)}`, label:'Nueva zona', className:'', position:{x:50,y:50} });
   renderZones();
 });
 
-/* GUARDAR / DESCARGAR / RESET */
+/* Guardar / Descargar / Reset */
 $('#saveLocal').addEventListener('click', ()=>{
   cfg.siteTitle        = $('#siteTitle').value.trim();
   cfg.siteSubtitle     = $('#siteSubtitle').value.trim();
@@ -254,6 +237,7 @@ $('#saveLocal').addEventListener('click', ()=>{
   cfg.guestsSheetCsvUrl    = $('#guestsSheetCsvUrl').value.trim();
   cfg.defaultCapacity      = parseInt($('#defaultCapacity').value,10) || 10;
 
+  /* ===== GUARDAR TAMAÑOS UI ===== */
   cfg.ui = {
     mesaSize:  parseFloat($('#uiMesaSize').value)  || 52,
     seatSize:  parseFloat($('#uiSeatSize').value)  || 42,
@@ -265,58 +249,52 @@ $('#saveLocal').addEventListener('click', ()=>{
   cfg.zones = collectZones();
 
   localStorage.setItem('fiestaConfig', JSON.stringify(cfg));
-  showStatus($('#saveMsg'),'ok','Guardado en este navegador. (Descarga config.json para producción si no usas localStorage).');
+  show($('#saveMsg'),'ok','Guardado en este navegador. (Descarga config.json para producción si no usas localStorage).');
 });
 $('#download').addEventListener('click', ()=>{
-  if(!cfg){ showStatus($('#saveMsg'),'err','Carga la configuración primero'); return; }
-  const blob = new Blob([JSON.stringify(cfg,null,2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'config.json'; a.click(); URL.revokeObjectURL(a.href);
+  if(!cfg){ show($('#saveMsg'),'err','Carga la configuración primero'); return; }
+  const blob=new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='config.json'; a.click(); URL.revokeObjectURL(a.href);
 });
 $('#reset').addEventListener('click', ()=>{ localStorage.removeItem('fiestaConfig'); location.reload(); });
 
-/* VERIFICACIÓN & PRUEBAS */
+/* Verificación */
 function buster(u){ return !u ? '' : u + (u.includes('?')?'&':'?') + '_=' + Date.now(); }
 $('#vPing').addEventListener('click', async ()=>{
   $('#vMsg').style.display='none'; $('#vLog').textContent='';
-  const url = $('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
-  if(!url){ showStatus($('#vMsg'),'err','Completa la URL /exec'); return; }
-  try{
-    const r = await fetch(buster(url)+'&ping=1', {mode:'cors'}); const t = await r.text();
-    showStatus($('#vMsg'),'ok','Ping OK'); $('#vLog').textContent = t;
-  }catch(e){ showStatus($('#vMsg'),'err','No se pudo hacer ping (CORS o URL incorrecta)'); }
+  const url=$('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
+  if(!url){ show($('#vMsg'),'err','Completa la URL /exec'); return; }
+  try{ const r=await fetch(buster(url)+'&ping=1',{mode:'cors'}); const t=await r.text(); show($('#vMsg'),'ok','Ping OK'); $('#vLog').textContent=t; }
+  catch{ show($('#vMsg'),'err','No se pudo hacer ping (CORS/URL)'); }
 });
 $('#vDebug').addEventListener('click', async ()=>{
   $('#vMsg').style.display='none'; $('#vLog').textContent='';
-  const url = $('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
-  if(!url){ showStatus($('#vMsg'),'err','Completa la URL /exec'); return; }
-  try{
-    const r = await fetch(buster(url)+'&debug=1', {mode:'cors'}); const t = await r.text();
-    showStatus($('#vMsg'),'ok','Debug OK'); $('#vLog').textContent = t;
-  }catch(e){ showStatus($('#vMsg'),'err','No se pudo leer debug (CORS o URL)'); }
+  const url=$('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
+  if(!url){ show($('#vMsg'),'err','Completa la URL /exec'); return; }
+  try{ const r=await fetch(buster(url)+'&debug=1',{mode:'cors'}); const t=await r.text(); show($('#vMsg'),'ok','Debug OK'); $('#vLog').textContent=t; }
+  catch{ show($('#vMsg'),'err','No se pudo leer debug (CORS/URL)'); }
 });
 $('#vCSV').addEventListener('click', async ()=>{
   $('#vMsg').style.display='none'; $('#vLog').textContent='';
-  const url = $('#guestsSheetCsvUrl').value.trim() || cfg?.guestsSheetCsvUrl || '';
-  if(!url){ showStatus($('#vMsg'),'err','Completa la URL del CSV'); return; }
-  try{
-    const r = await fetch(buster(url), {mode:'cors'}); const t = await r.text();
-    const lines = t.trim().split(/\r?\n/); const preview = lines.slice(0,5).join('\n');
-    showStatus($('#vMsg'),'ok',`CSV accesible (${lines.length} filas)`); $('#vLog').textContent = preview;
-  }catch(e){ showStatus($('#vMsg'),'err','No se pudo leer el CSV (publicación/permisos)'); }
+  const url=$('#guestsSheetCsvUrl').value.trim() || cfg?.guestsSheetCsvUrl || '';
+  if(!url){ show($('#vMsg'),'err','Completa la URL del CSV'); return; }
+  try{ const r=await fetch(buster(url),{mode:'cors'}); const t=await r.text(); const lines=t.trim().split(/\r?\n/);
+    show($('#vMsg'),'ok',`CSV accesible (${lines.length} filas)`); $('#vLog').textContent=lines.slice(0,5).join('\n'); }
+  catch{ show($('#vMsg'),'err','No se pudo leer el CSV'); }
 });
 $('#vWrite').addEventListener('click', async ()=>{
   $('#vMsg').style.display='none'; $('#vLog').textContent='';
-  const url = $('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
-  if(!url){ showStatus($('#vMsg'),'err','Completa la URL /exec'); return; }
+  const url=$('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
+  if(!url){ show($('#vMsg'),'err','Completa la URL /exec'); return; }
   try{
-    const mesa = (cfg?.mesas?.[0]?.label) || 'Mesa 1';
-    const r = await fetch(buster(url)+`&write=1&mesa=${encodeURIComponent(mesa)}&nombre=Prueba&apellido=Admin&cedula=0.000.000-0&correo=admin@test.com`, {mode:'cors'});
-    const t = await r.text(); showStatus($('#vMsg'),'ok','Escritura de prueba enviada'); $('#vLog').textContent = t;
-  }catch(e){ showStatus($('#vMsg'),'err','No se pudo escribir (CORS/URL).'); }
+    const mesa=(cfg?.mesas?.[0]?.label)||'Mesa 1';
+    const r=await fetch(buster(url)+`&write=1&mesa=${encodeURIComponent(mesa)}&nombre=Prueba&apellido=Admin&cedula=0.000.000-0&correo=admin@test.com`,{mode:'cors'});
+    const t=await r.text(); show($('#vMsg'),'ok','Escritura de prueba enviada'); $('#vLog').textContent=t;
+  }catch{ show($('#vMsg'),'err','No se pudo escribir (CORS/URL)'); }
 });
 
-/* BOOT */
-document.addEventListener('DOMContentLoaded', async ()=>{ try{ cfg = await loadConfig(); }catch{} });
+/* Boot */
+document.addEventListener('DOMContentLoaded', async ()=>{ try{ cfg=await loadConfig(); }catch{} });
 </script>
 </body>
 </html>
