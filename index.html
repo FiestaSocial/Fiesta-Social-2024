@@ -11,10 +11,10 @@
   --ok:#22c55e;--err:#ef4444;--bg:#fff;--sh:0 24px 60px rgba(15,23,42,.2);
   --r:28px;--r2:18px;--r3:12px;
 
-  /* ===== TAMAÑOS UI (sobrescritos por config.ui) ===== */
+  /* TAMAÑOS UI (sobrescritos por config.ui) */
   --mesa-size:52px;      /* botón de mesa en el mapa */
-  --seat-size:42px;      /* silla en la previa circular */
-  --table-size:120px;    /* diámetro mesa circular previa */
+  --seat-size:42px;      /* silla en la vista previa circular */
+  --table-size:120px;    /* diámetro mesa circular (previa) */
   --zone-scale:1;        /* tamaño de chips de zonas */
 }
 
@@ -52,7 +52,7 @@ p{margin:0 0 12px;color:#6b7280}
 .field>input,.field>select,.field>textarea{padding:10px 12px;border:1px solid var(--b);border-radius:var(--r3);background:#f8fafc;font-size:15px}
 textarea{min-height:84px;resize:vertical}
 
-/* Salón (panel + contenedor) */
+/* Salón */
 .salon-wrapper{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-bottom:32px}
 .panel{background:#f8fafc;border:1px solid var(--b);border-radius:12px;padding:16px}
 .legend{display:grid;gap:8px;margin-top:12px}
@@ -100,7 +100,7 @@ textarea{min-height:84px;resize:vertical}
 .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
 
 /* ===========================
-   MÓVIL – rotar 90° el salón
+   MÓVIL – girar 90° el salón
    =========================== */
 @media (max-width: 640px) {
   body { padding: 20px 10px 32px; }
@@ -139,7 +139,7 @@ textarea{min-height:84px;resize:vertical}
 </head>
 <body>
 <main>
-  <!-- HERO | ahora con contenido estático para que siempre se vea -->
+  <!-- HERO estático (si config.json carga, se actualiza con JS) -->
   <section id="scr1" class="container active">
     <div class="hero" id="heroBox">
       <div>
@@ -204,6 +204,7 @@ textarea{min-height:84px;resize:vertical}
         <div class="legend"><div><span class="dot blue"></span>Disponible</div><div><span class="dot red"></span>Completa</div><div><span class="dot orange"></span>Seleccionada</div></div>
       </aside>
 
+      <!-- Marco que rota el salón completo en móvil -->
       <div class="map-frame">
         <div id="map" class="map"></div>
       </div>
@@ -227,17 +228,19 @@ textarea{min-height:84px;resize:vertical}
 </main>
 
 <script>
-/* === estado / utils === */
+/* =========================
+   Estado / utilidades
+========================= */
 const state={cfg:null,guests:new Map(),poll:null};
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const bust=u=>!u?'':u+(u.includes('?')?'&':'?')+'_='+Date.now();
 
-/* Cambia de pantalla */
+/* ===== Navegación entre pantallas ===== */
 function show(n){ $$('.container').forEach(el=>el.classList.toggle('active', el.id===`scr${n}`)); }
 document.body.addEventListener('click',e=>{
   const nx=e.target.closest('[data-next]'), pv=e.target.closest('[data-prev]');
-  if(nx){ e.preventDefault(); nextFrom(+nx.dataset.next); }
-  if(pv){ e.preventDefault(); show(+pv.dataset.prev); }
+  if(nx){ e.preventDefault(); const step=parseInt(nx.dataset.next||'0',10)||2; nextFrom(step); }
+  if(pv){ e.preventDefault(); show(parseInt(pv.dataset.prev||'1',10)); }
 });
 function validateScope(rootSel,skip=false){
   const sc=$(rootSel), bad=[];
@@ -283,8 +286,10 @@ function paintHall(){
     {id:'dj',label:'DJ',className:'zone dj',position:{x:55,y:92}}
   ]);
   zones.forEach(z=>{
-    const el=document.createElement('div'); el.className=z.className?.includes('zone')?z.className:`zone ${z.className||''}`;
-    el.style.setProperty('--x',(z.position?.x??50)); el.style.setProperty('--y',(z.position?.y??50));
+    const el=document.createElement('div');
+    el.className=z.className?.includes('zone')?z.className:`zone ${z.className||''}`;
+    el.style.setProperty('--x',(z.position?.x??50));
+    el.style.setProperty('--y',(z.position?.y??50));
     el.style.setProperty('--zone-scale', z?.scale!=null ? +z.scale : (state.cfg?.ui?.zoneScale ?? 1));
     el.textContent=z.label||z.id||''; map.appendChild(el);
   });
@@ -366,13 +371,20 @@ function applyUiSizes(){
   if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
 }
 
-/* Envío (si lo usas) */
-document.getElementById('btnSend')?.addEventListener('click', (e)=>{ e.preventDefault(); alert('Envío de ejemplo. Integra tu Apps Script si es necesario.'); });
+/* Envío (ejemplo; si usas Apps Script descomenta el bloque) */
+document.getElementById('btnSend')?.addEventListener('click', async (e)=>{
+  e.preventDefault();
+  alert('Envío de ejemplo. Integra aquí tu Apps Script si corresponde.');
+  /*
+  const url=state.cfg?.reservationScriptUrl; if(!url){ alert('Falta URL /exec en config.json'); return; }
+  const payload={ ... } // arma tu payload
+  await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)});
+  */
+});
 
-/* Boot */
+/* Cargar config + aplicar tamaños + actualizar textos del héroe */
 (async function init(){
   await loadConfig(); applyUiSizes();
-  // Si config viene con textos, actualizamos el hero estático
   if(state.cfg?.siteSubtitle) document.querySelector('.eyebrow').textContent = state.cfg.siteSubtitle;
   if(state.cfg?.siteTitle) document.querySelector('#scr1 h1').textContent = state.cfg.siteTitle;
   if(state.cfg?.siteDescription) document.querySelector('#scr1 p').textContent = state.cfg.siteDescription;
