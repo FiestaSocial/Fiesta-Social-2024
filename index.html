@@ -100,13 +100,11 @@ textarea{min-height:84px;resize:vertical}
           <option value="">Seleccionar</option><option value="no" selected>No</option><option value="si">Sí</option>
         </select>
       </div>
-
       <div class="field" id="boxCount" style="display:none"><label for="acompCount">¿Cuántos acompañantes? (máx. 5)</label>
         <select id="acompCount" disabled>
           <option value="" selected>Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
         </select>
       </div>
-
       <input type="hidden" id="selTable">
     </form>
     <div class="actions"><button class="btn btn--ghost" data-prev="1">Anterior</button><button class="btn btn--pri" data-next="3">Continuar</button></div>
@@ -155,13 +153,14 @@ textarea{min-height:84px;resize:vertical}
 </main>
 
 <script>
-const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9-0xkSXU1-JKCslP7CA1X42fQ6CxO_ysq4ogVGk_s0UExBHBxFH48_0T9poJu-ZMC1w/exec";
+// NUEVO ENLACE por defecto (si no viene en config.json)
+const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSsehCFAx0fC-CHkMHt8UgJBBXQmZpNPYhVEj6QHOQ3PddqCpHnwiT6JCDH2kR6Po1cw/exec";
+
 const state={cfg:null,guests:new Map(),poll:null};
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const norm=s=>(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
+const norm=s=>(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const bust=u=>!u?'':u+(u.includes('?')?'&':'?')+'_='+Date.now();
 
-/* HERO (sin logo) */
 function paintHero(){ document.getElementById('heroBox').innerHTML=`
   <div>
     <span class="eyebrow">${state.cfg?.siteSubtitle||'Registro oficial de invitados'}</span>
@@ -174,7 +173,6 @@ function paintHero(){ document.getElementById('heroBox').innerHTML=`
   </div>
   <img src="${state.cfg?.heroImage||'Imagen de bienvenida.png'}" alt="Imagen de portada">`; }
 
-/* Navegación + validación */
 function show(n){ $$('.container').forEach(el=>el.classList.toggle('active', el.id===`scr${n}`)); }
 document.body.addEventListener('click',e=>{ const nx=e.target.closest('[data-next]'), pv=e.target.closest('[data-prev]'); if(nx){e.preventDefault(); nextFrom(+nx.dataset.next);} if(pv){e.preventDefault(); show(+pv.dataset.prev); stopPoll();} });
 function validateScope(rootSel,onlyRequired=false){ const sc=$(rootSel), bad=[];
@@ -183,9 +181,8 @@ function validateScope(rootSel,onlyRequired=false){ const sc=$(rootSel), bad=[];
     if(!el.checkValidity()){ const lab=sc.querySelector(`label[for="${el.id}"]`); bad.push((lab?lab.textContent:el.id).replace(':','')); }
   }); return bad; }
 
-/* Acompañantes: ocultar si NO */
 function updateAcompUI(){ const sel=$('#acomp'), box=$('#boxCount'), cnt=$('#acompCount');
-  const raw=(sel?.value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
+  const raw=(sel?.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const on=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
   if(box) box.style.display = on ? '' : 'none';
   if(cnt){ cnt.disabled=!on; if(!on) cnt.value=''; }
@@ -193,16 +190,14 @@ function updateAcompUI(){ const sel=$('#acomp'), box=$('#boxCount'), cnt=$('#aco
 }
 document.getElementById('acomp')?.addEventListener('change', updateAcompUI);
 
-/* Paso siguiente controlando acompañantes */
-function nextFrom(n){ const raw=($('#acomp')?.value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim(); const withComp=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
-  if(n===3){ const bad=validateScope('#scr2'); if(bad.length){ alert('Completa:\\n- '+bad.join('\\n- ')); return; } if(withComp){ const q=parseInt($('#acompCount').value||'1',10)||1; renderAcompanantes(Math.min(5,Math.max(1,q))); show(3);}
+function nextFrom(n){ const raw=($('#acomp')?.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(); const withComp=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
+  if(n===3){ const bad=validateScope('#scr2'); if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; } if(withComp){ const q=parseInt($('#acompCount').value||'1',10)||1; renderAcompanantes(Math.min(5,Math.max(1,q))); show(3);}
     else{ renderAcompanantes(0); show(4); paintHall(); refreshGuests(); startPoll(); applyHallMobileRotation(); } }
-  else if(n===4){ if(withComp){ const bad=validateScope('#scr3',true); if(bad.length){ alert('Faltan datos:\\n- '+bad.join('\\n- ')); return; } }
+  else if(n===4){ if(withComp){ const bad=validateScope('#scr3',true); if(bad.length){ alert('Faltan datos:\n- '+bad.join('\n- ')); return; } }
     show(4); paintHall(); refreshGuests(); startPoll(); applyHallMobileRotation(); }
   else show(n);
 }
 
-/* Acompañantes con Observaciones */
 function renderAcompanantes(n){ const box=$('#formAcomp'); box.innerHTML='';
   for(let i=1;i<=n;i++){ box.insertAdjacentHTML('beforeend',`
     <div class="field"><label>Nombre (Acompañante ${i})</label><input required></div>
@@ -214,22 +209,20 @@ function renderAcompanantes(n){ const box=$('#formAcomp'); box.innerHTML='';
     <div class="field" style="grid-column:1/-1"><label>Observaciones</label><textarea placeholder="Alergias, restricciones…"></textarea></div>`); }
 }
 
-/* Salón con remapeo móvil */
 function makeRemapFn(points, marginX=6, marginY=6){ const xs=points.map(p=>p.x), ys=points.map(p=>p.y); let minX=Math.min(...xs), maxX=Math.max(...xs); let minY=Math.min(...ys), maxY=Math.max(...ys); if(minX===maxX){minX=0;maxX=100} if(minY===maxY){minY=0;maxY=100} const rx=(maxX-minX)||1, ry=(maxY-minY)||1; return ({x,y})=>({ x: marginX + ((x-minX)/rx)*(100-2*marginX), y: marginY + ((y-minY)/ry)*(100-2*marginY) }); }
 function paintHall(){ const map=$('#map'); map.innerHTML='';
   const zones=(state.cfg?.zones?.length?state.cfg.zones:[
-    {id:'stage',label:'Estado Mayor',className:'zone stage',position:{x:20,y:90},scale:1.2},
-    {id:'entrance',label:'Entrada / Lido',className:'zone entrance',position:{x:48,y:95},scale:1.1},
-    {id:'dance',label:'Pista de baile',className:'zone dance',position:{x:48,y:45},scale:1},
-    {id:'dj',label:'DJ',className:'zone dj',position:{x:53,y:5},scale:0.95},
-    {id:'dessertLeft',label:'Barra',className:'zone dessert',position:{x:45,y:5},scale:0.95}
+    {id:'stage',label:'Estado Mayor',className:'zone stage',position:{x:20,y:90}},
+    {id:'entrance',label:'Entrada / Lido',className:'zone entrance',position:{x:48,y:95}},
+    {id:'dance',label:'Pista de baile',className:'zone dance',position:{x:48,y:45}},
+    {id:'dj',label:'DJ',className:'zone dj',position:{x:53,y:5}},
+    {id:'dessertLeft',label:'Barra',className:'zone dessert',position:{x:45,y:5}}
   ]);
   const mesas=(state.cfg?.mesas||[]).slice().sort((a,b)=>(a.number||0)-(b.number||0));
   const isPortraitMobile = window.matchMedia('(max-width: 640px) and (orientation: portrait)').matches;
   let remap = p=>p; if(isPortraitMobile){ const points=[...zones.map(z=>z.position), ...mesas.map(m=>m.position)]; remap = makeRemapFn(points, 6, 6); }
   zones.forEach(z=>{ const p = z.position ? remap(z.position) : {x:50,y:50}; const el=document.createElement('div'); el.className = z.className?.includes('zone') ? z.className : `zone ${z.className||''}`; el.style.setProperty('--x', p.x); el.style.setProperty('--y', p.y); el.style.setProperty('--zone-scale', z?.scale!=null ? +z.scale : (state.cfg?.ui?.zoneScale ?? 1)); el.textContent = z.label || z.id || ''; map.appendChild(el); });
-  mesas.forEach(mm=>{ const p = mm.position ? remap(mm.position) : {x:50,y:50}; const b=document.createElement('button'); b.type='button'; b.className='chair'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.textContent=mm.number||'';
-    b.dataset.mesa=mm.label||`Mesa ${mm.number}`; b.dataset.capacity=mm.capacity||state.cfg?.defaultCapacity||10; b.addEventListener('click',()=>selectTable(b.dataset.mesa)); map.appendChild(b); });
+  mesas.forEach(mm=>{ const p = mm.position ? remap(mm.position) : {x:50,y:50}; const b=document.createElement('button'); b.type='button'; b.className='chair'; b.style.left=p.x+'%'; b.style.top=p.y+'%'; b.textContent=mm.number||''; b.dataset.mesa=mm.label||`Mesa ${mm.number}`; b.dataset.capacity=mm.capacity||state.cfg?.defaultCapacity||10; b.addEventListener('click',()=>selectTable(b.dataset.mesa)); map.appendChild(b); });
   document.getElementById('totMesas').textContent=mesas.length; document.getElementById('totCap').textContent=mesas.reduce((s,x)=>s+(x.capacity||state.cfg?.defaultCapacity||10),0);
 }
 document.getElementById('map')?.addEventListener('click',(e)=>{ const btn=e.target.closest('.chair'); if(btn?.dataset?.mesa) selectTable(btn.dataset.mesa); });
@@ -238,7 +231,6 @@ function getMesaCapacity(lbl){ const m=(state.cfg?.mesas||[]).find(x=>(x.label||
 function updateTablePreview(){ const lbl=document.getElementById('selTable')?.value; const wrap=document.querySelector('.table-wrap'); if(!lbl){ if(wrap) wrap.style.display='none'; return; } if(wrap) wrap.style.display='block'; document.getElementById('tableCanvas').textContent=lbl; const cap=getMesaCapacity(lbl), cont=document.getElementById('seating'); cont.innerHTML=''; const tableSize=+getComputedStyle(document.documentElement).getPropertyValue('--table-size').replace('px','')||120; const seatSize =+getComputedStyle(document.documentElement).getPropertyValue('--seat-size').replace('px','')||42; const CX=50,CY=50,R=Math.max(28,tableSize*0.32)+seatSize*0.25; for(let i=1;i<=cap;i++){ const s=document.createElement('div'); s.className='seat'; s.dataset.pos=i; const a=(i/cap)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`; cont.appendChild(s); } let used=0; (state.guests.get(lbl)||[]).forEach(r=>{ let n=1; try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} for(let i=0;i<n;i++){ const s=cont.querySelector(`.seat[data-pos="${++used}"]`); if(s) s.classList.add('full');} }); }
 function paintGuestList(){ const lbl=document.getElementById('selTable')?.value, box=document.getElementById('guestList'); if(!box) return; box.innerHTML=''; if(!lbl){ box.textContent='Selecciona una mesa para ver los invitados.'; return; } const rows=state.guests.get(lbl)||[]; if(!rows.length){ box.textContent='No hay invitados registrados en esta mesa.'; return; } rows.forEach(r=>{ const tit=((r['Nombre']||'')+' '+(r['Apellido']||'')).trim()||'Invitado'; box.insertAdjacentHTML('beforeend',`<div>• <strong>${tit}</strong></div>`); try{ const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[]; A.forEach(a=>{ const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim(); box.insertAdjacentHTML('beforeend',`<div>• ${nm||'Acompañante'}</div>`);}); }catch{} }); }
 
-/* Lectura ocupación */
 function snapFor(lbl,map){const rows=(map.get(lbl)||[]);try{return JSON.stringify(rows.map(r=>`${r['Nombre']||''}|${r['Apellido']||''}|${r['JSON original']||''}`))}catch{return''}}
 async function refreshGuests(silent=false){ const prev=new Map(state.guests); const sel=document.getElementById('selTable')?.value; const prevSig=snapFor(sel,prev);
   let next=null;
@@ -250,32 +242,21 @@ async function refreshGuests(silent=false){ const prev=new Map(state.guests); co
 }
 function updateChairsFull(){ Array.from(document.querySelectorAll('#map .chair')).forEach(ch=>{ const lbl=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(lbl)||[]; let used=0; rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;}); ch.classList.toggle('full', used>=cap); }); }
 function updatePreviewSeatsOnly(){ const lbl=document.getElementById('selTable')?.value; if(!lbl) return; Array.from(document.querySelectorAll('#seating .seat')).forEach(s=>s.classList.remove('full')); const rows=state.guests.get(lbl)||[]; let used=0; rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} for(let i=0;i<n;i++){ const s=document.querySelector('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }}); }
-
-/* Parsers */
-function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}}out.push(cur);return out;}
+function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
 function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonI=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const row={};normH.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m='';if(mesaI!==-1)m=row[normH[mesaI]]||'';if(!m&&jsonI!==-1&&row[normH[jsonI]]){try{const p=JSON.parse(row[normH[jsonI]]);if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
 function valuesToMap(vals){if(!Array.isArray(vals)||!vals.length)return new Map();const headers=vals[0].map(h=>String(h||'').trim());const lower=headers.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<vals.length;i++){const v=vals[i]||[];const row={};headers.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
-
-/* UI desde config */
 async function loadConfig(){ try{ const local=localStorage.getItem('fiestaConfig'); if(local){ state.cfg=JSON.parse(local); } else { const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); state.cfg=await r.json(); } }catch{ state.cfg={}; } state.cfg.reservationScriptUrl = state.cfg.reservationScriptUrl || DEFAULT_SCRIPT_URL; }
 function applyUiSizes(){ const ui=state.cfg?.ui||{}; const root=document.documentElement; if(ui.mesaSize) root.style.setProperty('--mesa-size', `${ui.mesaSize}px`); if(ui.seatSize) root.style.setProperty('--seat-size', `${ui.seatSize}px`); if(ui.tableSize) root.style.setProperty('--table-size', `${ui.tableSize}px`); if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale); }
-
-/* Rotación centrada en móvil */
 function applyHallMobileRotation(){ const vp=document.querySelector('.map-viewport'); const map=document.getElementById('map'); if(!vp||!map) return;
   const isPortraitMobile = window.matchMedia('(max-width: 640px) and (orientation: portrait)').matches; vp.classList.toggle('rotate', isPortraitMobile);
-  if(!isPortraitMobile){ map.style.removeProperty('--map-scale'); return; } const prev = map.style.transform; map.style.transform='none'; map.style.width='100%'; map.style.height='';
-  const vw = vp.clientWidth, vh = vp.clientHeight; const mw = map.clientWidth, mh = map.clientHeight; const safe = 0.96; const k = safe*Math.min(vw/mh, vh/mw);
-  map.style.setProperty('--map-scale', k.toFixed(5)); map.style.transform = prev || '';
-}
+  if(!isPortraitMobile){ map.style.removeProperty('--map-scale'); return; } const prev = map.style.transform; map.style.transform='none'; map.style.width='100%'; map.style.height=''; const vw = vp.clientWidth, vh = vp.clientHeight; const mw = map.clientWidth, mh = map.clientHeight; const safe = 0.96; const k = safe*Math.min(vw/mh, vh/mw); map.style.setProperty('--map-scale', k.toFixed(5)); map.style.transform = prev || ''; }
 window.addEventListener('resize', applyHallMobileRotation);
-
-/* Envío y confirmación */
 function get(id){ return document.getElementById(id)?.value?.trim() || ''; }
 function collectPayload(){ const payload = {
   correo:get('email'), grado:get('grado'), escalafon:get('escalafon'), nombre:get('nombre'), apellido:get('apellido'), cedula:get('ci'),
   menu:get('menu'), observaciones:get('obs'), mesa:get('selTable'), acompanantes:[], submittedAt:new Date().toISOString(), source:'web'
 };
-  const raw=(document.getElementById('acomp')?.value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
+  const raw=(document.getElementById('acomp')?.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const withComp=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
   if(withComp){
     const n=parseInt(document.getElementById('acompCount').value||'1',10)||1;
@@ -290,42 +271,33 @@ function collectPayload(){ const payload = {
   }
   return payload;
 }
-function findDuplicate(email, ci){ const matches=[]; for(const [mesa, arr] of state.guests.entries()){ for(const r of arr){ const keys=Object.keys(r||{});
-  const g=k=>(r[k]||'').toString().trim(); const ciClean=s=>(s||'').toString().replace(/\\D/g,''); const mailKey=keys.find(k=>/correo|email/i.test(k)); const ciKey=keys.find(k=>/c[eé]dula|cedula|ci/i.test(k)); let ok=false;
-  if(email && mailKey && g(mailKey).toLowerCase()===email.toLowerCase()) ok=true; if(ci && ciKey && ciClean(g(ciKey))===ciClean(ci)) ok=true;
-  try{ const j=JSON.parse(r['JSON original']||'{}'); if(j?.correo && email && j.correo.toLowerCase()===email.toLowerCase()) ok=true; if(j?.cedula && ci && ciClean(j.cedula)===ciClean(ci)) ok=true; }catch{} if(ok) matches.push({mesa, r}); } } return matches; }
+function rowMatches(row, email, ci){ const keys=Object.keys(row||{}); const g=k=>(row[k]||'').toString().trim(); const ciClean=s=>(s||'').toString().replace(/\D/g,''); const mailKey=keys.find(k=>/correo|email/i.test(k)); const ciKey=keys.find(k=>/c[eé]dula|cedula|ci/i.test(k)); let ok=false; if(email && mailKey && g(mailKey).toLowerCase()===email.toLowerCase()) ok=true; if(ci && ciKey && ciClean(g(ciKey))===ciClean(ci)) ok=true; try{ const j=JSON.parse(row['JSON original']||'{}'); if(j?.correo && email && j.correo.toLowerCase()===email.toLowerCase()) ok=true; if(j?.cedula && ci && ciClean(j.cedula)===ciClean(ci)) ok=true; }catch{} return ok; }
+function findDuplicate(email, ci){ const matches=[]; for(const [mesa, arr] of state.guests.entries()){ for(const r of arr){ if(rowMatches(r, email, ci)) matches.push({mesa, r}); } } return matches; }
 function mesaOcupacion(lbl){ const rows=state.guests.get(lbl)||[]; let used=0; rows.forEach(r=>{ let n=1; try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n; }); return used; }
-function looksLikeSuccess(text, contentType){ const t=(text||'').toLowerCase(); if(/application\\/json/i.test(contentType||'')){ try{ const j=JSON.parse(text); if(j && (j.ok||j.success||j.status==='ok')) return true; }catch{} } return /(ok|success|escrito|guardado|done)/i.test(t); }
+function looksLikeSuccess(text, contentType){ const t=(text||'').toLowerCase(); if(/application\/json/i.test(contentType||'')){ try{ const j=JSON.parse(text); if(j && (j.ok||j.success||j.status==='ok')) return true; }catch{} } return /(ok|success|escrito|guardado|done)/i.test(t); }
 async function confirmWritten(email, ci, tries=4){ for(let i=0;i<tries;i++){ await refreshGuests(true); if(findDuplicate(email, ci).length) return true; await new Promise(r=>setTimeout(r, 500)); } return false; }
 async function sendReservation(e){ if(e) e.preventDefault();
-  const bad=validateScope('#scr2'); if(bad.length){ alert('Completa:\\n- '+bad.join('\\n- ')); return; }
-  const raw=(document.getElementById('acomp')?.value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim(); const withComp=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
-  if(withComp){ const badA=validateScope('#scr3',true); if(badA.length){ alert('Faltan datos:\\n- '+badA.join('\\n- ')); return; } }
+  const bad=validateScope('#scr2'); if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
+  const raw=(document.getElementById('acomp')?.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(); const withComp=(raw==='si'||raw==='s'||raw==='yes'||raw==='y'||raw==='1'||raw==='true');
+  if(withComp){ const badA=validateScope('#scr3',true); if(badA.length){ alert('Faltan datos:\n- '+badA.join('\n- ')); return; } }
   const mesa=get('selTable'); if(!mesa){ alert('Selecciona tu mesa antes de enviar.'); return; }
-  const cap=getMesaCapacity(mesa); const P=collectPayload(); const total = 1 + (Array.isArray(P.acompanantes)?P.acompanantes.length:0); const ocup = mesaOcupacion(mesa);
-  if(ocup + total > cap){ alert(`La mesa "${mesa}" no tiene suficientes lugares.\\nDisponibles: ${Math.max(0, cap-ocup)}.`); return; }
+  const cap=getMesaCapacity(mesa); const P=collectPayload(); const total = 1 + (Array.isArray(P.acompanantes)?P.acompanantes.length:0); const ocup = mesaOcupacion(mesa); if(ocup + total > cap){ alert(`La mesa "${mesa}" no tiene suficientes lugares.\nDisponibles: ${Math.max(0, cap-ocup)}.`); return; }
   const base = state.cfg?.reservationScriptUrl || DEFAULT_SCRIPT_URL; if(!base){ alert('Falta la URL del Apps Script'); return; }
   let wrote=false, respText='', ctype='';
   try{ const r=await fetch(base, {method:'POST', mode:'cors', headers:{'Content-Type':'application/json'}, body: JSON.stringify(P)}); ctype=r.headers.get('content-type')||''; respText=await r.text(); wrote = r.ok && looksLikeSuccess(respText, ctype); }catch{}
   if(!wrote){ try{ const q=new URLSearchParams({write:'1', payload: JSON.stringify(P)}); const r=await fetch(base+(base.includes('?')?'&':'?')+q.toString(), {mode:'cors'}); ctype=r.headers.get('content-type')||''; respText=await r.text(); wrote = r.ok && looksLikeSuccess(respText, ctype);}catch{} }
   let confirmed=false; if(wrote){ try{ confirmed = await confirmWritten(P.correo, P.cedula, 4); }catch{} }
   if(wrote && confirmed){ document.getElementById('okMesa').textContent=P.mesa; const m=document.getElementById('okModal'); m.style.display='flex'; m.classList.add('active'); try{ await refreshGuests(true); updateTablePreview(); }catch{} }
-  else{ alert('No se pudo confirmar la escritura en la hoja.\\n\\nRespuesta del servidor:\\n'+(respText||'—')); }
+  else{ alert('No se pudo confirmar la escritura en la hoja.\n\nRespuesta del servidor:\n'+(respText||'—')); }
 }
-
-/* Eventos */
 document.getElementById('btnRefresh')?.addEventListener('click',()=>refreshGuests().then(()=>alert('Información actualizada')));
 document.getElementById('btnSend')?.addEventListener('click', sendReservation);
 document.getElementById('btnOkClose')?.addEventListener('click',()=>{const m=document.getElementById('okModal'); m.classList.remove('active'); m.style.display='none'; location.reload();});
 document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=document.getElementById('dupModal'); m.classList.remove('active'); m.style.display='none';});
-
-/* Poll */
 function startPoll(){ stopPoll(); state.poll=setInterval(()=>refreshGuests(true),20000); }
 function stopPoll(){ if(state.poll){ clearInterval(state.poll); state.poll=null; } }
 window.addEventListener('visibilitychange', ()=>{ if(document.hidden){ stopPoll(); } else { startPoll(); } });
 window.addEventListener('beforeunload', stopPoll);
-
-/* Boot */
 (async function init(){ try{ await loadConfig(); applyUiSizes(); document.title = state.cfg?.siteTitle || document.title; paintHero(); show(1); updateAcompUI(); }catch(e){ alert('No se pudo cargar config.json'); } } )();
 </script>
 </body>
