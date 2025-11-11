@@ -338,6 +338,6 @@
       "scale": 0.95
     }
   ],
-  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbxU1IEgSWlhABD5NMBzUWOyaWMB58QUtLMtqxA7oPw8dGv5Q1yBeKsCWhqeSDBAggkhWA/exec",
-  "guestsSheetCsvUrl": ""
+  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycby9-0xkSXU1-JKCslP7CA1X42fQ6CxO_ysq4ogVGk_s0UExBHBxFH48_0T9poJu-ZMC1w/exec",
+  "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGt4uAnH7cwhk9v65pslz61nasqZn9kE1GXQD-bO8PkYh9bNgu_XzXVyTuIk6d1-l4D_I-hm1mj_o8/pub?gid=795589434&single=true&output=csv"
 }
