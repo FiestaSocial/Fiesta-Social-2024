@@ -10,14 +10,22 @@
   --c1:#0b67ff;--c1d:#0b4fb6;--c2:#f59e0b;--mut:#6b7280;--b:#e5e7eb;
   --ok:#22c55e;--err:#ef4444;--bg:#fff;--sh:0 24px 60px rgba(15,23,42,.2);
   --r:28px;--r2:18px;--r3:12px;
-  /* UI (editable desde config.ui) */
-  --mesa-size:52px;--seat-size:42px;--table-size:120px;--zone-scale:1;
+
+  /* TAMAÑOS UI (sobrescritos por config.ui) */
+  --mesa-size:52px;      /* botón de mesa en el mapa */
+  --seat-size:42px;      /* silla en la vista previa circular */
+  --table-size:120px;    /* diámetro mesa circular (previa) */
+  --zone-scale:1;        /* tamaño de chips de zonas */
 }
+
+/* Base */
 *{box-sizing:border-box}
 body{
   margin:0;min-height:100vh;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:radial-gradient(circle at 15% 10%,rgba(59,130,246,.35),transparent 50%),
-             radial-gradient(circle at 85% 90%,rgba(234,179,8,.25),transparent 50%),#0f172a;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(59,130,246,.35),transparent 50%),
+    radial-gradient(circle at 85% 90%,rgba(234,179,8,.25),transparent 50%),
+    #0f172a;
   color:#0f172a;padding:40px 16px 60px;display:flex;justify-content:center
 }
 main{width:100%;max-width:1100px}
@@ -26,32 +34,38 @@ main{width:100%;max-width:1100px}
 h1,h2,h3{margin:0 0 12px}
 p{margin:0 0 12px;color:#6b7280}
 
-/* botones */
+/* Botones */
 .btn{display:inline-flex;align-items:center;gap:.5rem;border:none;border-radius:999px;padding:10px 18px;font-weight:600;cursor:pointer}
 .btn--pri{background:var(--c1);color:#fff}.btn--pri:hover{background:var(--c1d)}
 .btn--ghost{background:rgba(15,23,42,.06);color:#0b67ff}
 .actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
 
-/* hero */
+/* Hero */
 .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
 .hero img{width:100%;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.15)}
 .eyebrow{display:inline-block;background:rgba(11,103,255,.12);color:#0b67ff;padding:6px 12px;border-radius:999px;font-weight:600}
 
-/* formularios */
+/* Formularios */
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field>label{font-weight:600}
 .field>input,.field>select,.field>textarea{padding:10px 12px;border:1px solid var(--b);border-radius:var(--r3);background:#f8fafc;font-size:15px}
 textarea{min-height:84px;resize:vertical}
 
-/* salón */
+/* Salón */
 .salon-wrapper{display:grid;grid-template-columns:260px 1fr;gap:28px;margin-bottom:32px}
 .panel{background:#f8fafc;border:1px solid var(--b);border-radius:12px;padding:16px}
 .legend{display:grid;gap:8px;margin-top:12px}
 .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
 .dot.blue{background:var(--c1)}.dot.orange{background:var(--c2)}.dot.red{background:var(--err)}
 
-.map{position:relative;border-radius:16px;background:linear-gradient(135deg,rgba(226,232,240,.85),rgba(203,213,225,.6));box-shadow:0 12px 30px rgba(0,0,0,.15);aspect-ratio:16/9}
+/* Marco del mapa + mapa (gris) */
+.map-frame{
+  position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.15)
+}
+.map{position:absolute;inset:0;background:linear-gradient(135deg,rgba(226,232,240,.85),rgba(203,213,225,.6));border-radius:16px}
+
+/* Zonas y mesas */
 .zone{position:absolute;left:calc(var(--x,50)*1%);top:calc(var(--y,50)*1%);transform:translate(-50%,-50%);
   padding:calc(6px*var(--zone-scale)) calc(16px*var(--zone-scale));
   border-radius:999px;background:rgba(15,23,42,.8);color:#fff;font-size:calc(12px*var(--zone-scale));font-weight:600;
@@ -60,111 +74,113 @@ textarea{min-height:84px;resize:vertical}
 .chair{position:absolute;width:var(--mesa-size);height:var(--mesa-size);border-radius:calc(var(--mesa-size)/3);
   background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;
   transform:translate(-50%,-50%); z-index:2; cursor:pointer }
-.chair.full{background:var(--err)}.chair.sel{background:var(--c2)}
 
+/* Vista previa mesa seleccionada */
 .table-wrap{position:relative;width:100%;padding-top:100%;border-radius:16px;background:#f8fafc;border:1px solid var(--b)}
 .table{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--table-size);height:var(--table-size);
   border-radius:999px;background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
 .seat{position:absolute;width:var(--seat-size);height:var(--seat-size);border-radius:calc(var(--seat-size)/3);background:var(--ok);transform:translate(-50%,-50%)}
 .seat.full{background:var(--err)}
 
-/* modales */
+/* Modales */
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
 .modal-overlay.active{display:flex}
 .modal-content{background:#fff;border-radius:24px;padding:28px;max-width:520px;box-shadow:var(--sh)}
 .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:16px}
 
 /* ===========================
-   MÓVIL – mejoras de layout + ROTACIÓN de la representación
+   MÓVIL – usar TODO el espacio y rotar 90°
    =========================== */
-@media (max-width: 640px) {
-  body { padding: 20px 10px 32px; }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.2rem; }
-  h3 { font-size: 1rem; }
+@media (max-width: 640px){
+  body{padding:20px 10px 32px}
+  .hero{grid-template-columns:1fr;gap:16px}
+  .grid{grid-template-columns:1fr}
+  .salon-wrapper{grid-template-columns:1fr;gap:16px}
+  .panel{position:static !important;top:auto !important}
 
-  .hero { grid-template-columns: 1fr; gap: 16px; }
-  .hero img { aspect-ratio: 16/9; object-fit: cover; }
-
-  .grid { grid-template-columns: 1fr; }
-  .salon-wrapper { grid-template-columns: 1fr; gap: 16px; }
-
-  .panel { position: static !important; top: auto !important; }
-
-  .map {
+  /* ► Usa todo el alto seguro del viewport */
+  .map-frame{
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100svh;            /* ocupa prácticamente todo el alto visible */
     aspect-ratio: auto;
-    height: 56vh;
-    min-height: 320px;
     overflow: hidden;
-
-    /* ►► Rotación de TODO el rectángulo (mapa + elementos) ◄◄ */
+    border-radius: 16px;
+  }
+  /* ► El mapa rotado se ajusta al ancho tras la rotación */
+  .map{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100svh;             /* al rotar, el ancho es el alto del viewport */
+    height: 100svw;            /* al rotar, el alto es el ancho del viewport */
     transform-origin: center center;
-    transform: rotate(90deg);
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 
-  .zone {
-    font-size: calc(11px * var(--zone-scale));
-    padding: calc(4px * var(--zone-scale)) calc(10px * var(--zone-scale));
-    max-width: 80%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  :root {
-    --mesa-size: 40px;
-    --seat-size: 30px;
-    --table-size: 100px;
-  }
-
-  .table-wrap { min-height: 260px; }
-  #guestList {
-    min-height: 180px;
-    max-height: 35vh;
-    overflow: auto;
-  }
-
-  .actions { gap: 10px; padding-bottom: env(safe-area-inset-bottom, 12px); }
+  :root{--mesa-size:40px;--seat-size:30px;--table-size:100px}
+  .table-wrap{min-height:260px}
+  #guestList{min-height:180px;max-height:35vh;overflow:auto}
+  .actions{gap:10px;padding-bottom:env(safe-area-inset-bottom,12px)}
 }
-@media (max-width: 380px) {
-  :root { --mesa-size: 36px; --seat-size: 28px; --table-size: 92px; }
-  .zone { max-width: 90%; }
-  .btn { padding: 10px 14px; }
+@media (max-width:380px){
+  :root{--mesa-size:36px;--seat-size:28px;--table-size:92px}
+  .btn{padding:10px 14px}
 }
-@media (max-height: 420px) and (orientation: landscape) {
-  :root { --table-size: 88px; --seat-size: 26px; }
-  .map { height: 48vh; min-height: 240px; }
+@media (max-height:420px) and (orientation:landscape){
+  :root{--table-size:88px;--seat-size:26px}
+  .map-frame{height:48vh;min-height:240px}
 }
 </style>
 </head>
 <body>
 <main>
-  <!-- HERO -->
+  <!-- HERO (estático, se actualiza con config.json si carga) -->
   <section id="scr1" class="container active">
-    <div class="hero" id="heroBox"></div>
+    <div class="hero" id="heroBox">
+      <div>
+        <span class="eyebrow">Registro oficial de invitados</span>
+        <h1>Fiesta Social 2024</h1>
+        <p>Confirma tu asistencia, elige tu menú y selecciona tu mesa.</p>
+        <div class="actions" style="justify-content:flex-start;gap:12px">
+          <button class="btn btn--pri" data-next="2">Comenzar registro</button>
+          <a class="btn btn--ghost" href="admin.html">Administración</a>
+        </div>
+      </div>
+      <img src="Imagen de bienvenida.png" alt="Imagen de portada">
+    </div>
   </section>
 
-  <!-- DATOS -->
+  <!-- PANTALLA 2: DATOS -->
   <section id="scr2" class="container">
     <h2>Datos personales</h2>
-    <form id="formMain" class="grid">
+    <form id="formMain" class="grid" autocomplete="on">
       <div class="field"><label>Correo</label><input id="email" type="email" required></div>
-      <div class="field"><label>Grado</label><select id="grado" required>
-        <option value="">Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
-      </select></div>
-      <div class="field"><label>Escalafón</label><select id="escalafon" required>
-        <option value="">Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
-      </select></div>
+      <div class="field"><label>Grado</label>
+        <select id="grado" required>
+          <option value="">Seleccionar</option><option>Cnel.</option><option>Tte. Cnel.</option><option>May.</option><option>Cap.</option><option>Tte. 1°</option><option>Tte. 2°</option><option>Alf.</option>
+        </select>
+      </div>
+      <div class="field"><label>Escalafón</label>
+        <select id="escalafon" required>
+          <option value="">Seleccionar</option><option>(Av.)</option><option>(Nav.)</option><option>(Esp.)</option><option>(T.P.)</option>
+        </select>
+      </div>
       <div class="field"><label>Nombre</label><input id="nombre" required></div>
       <div class="field"><label>Apellido</label><input id="apellido" required></div>
       <div class="field"><label>Cédula (0.000.000-0)</label><input id="ci" required pattern="^\d(\.?\d{3}){2}-\d$"></div>
-      <div class="field"><label>Menú</label><select id="menu" required>
-        <option value="">Seleccionar</option><option>Normal</option><option>Vegetariano</option><option>Vegano</option><option>Celíaco</option>
-      </select></div>
+      <div class="field"><label>Menú</label>
+        <select id="menu" required>
+          <option value="">Seleccionar</option><option>Normal</option><option>Vegetariano</option><option>Vegano</option><option>Celíaco</option>
+        </select>
+      </div>
       <div class="field" style="grid-column:1/-1"><label>Observaciones</label><textarea id="obs"></textarea></div>
-      <div class="field"><label>¿Asiste con acompañante?</label><select id="acomp" required>
-        <option value="">Seleccionar</option><option value="no">No</option><option value="si">Sí</option>
-      </select></div>
-      <div class="field" id="boxCount" style="display:none"><label>¿Cuántos acompañantes? (máx. 4)</label>
+      <div class="field"><label>¿Asiste con acompañante?</label>
+        <select id="acomp" required><option value="">Seleccionar</option><option value="no">No</option><option value="si">Sí</option></select>
+      </div>
+      <div class="field" id="boxCount" style="display:none">
+        <label>¿Cuántos acompañantes? (máx. 4)</label>
         <select id="acompCount"><option value="">Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
       </div>
       <input type="hidden" id="selTable">
@@ -172,14 +188,14 @@ textarea{min-height:84px;resize:vertical}
     <div class="actions"><button class="btn btn--ghost" data-prev="1">Anterior</button><button class="btn btn--pri" data-next="3">Continuar</button></div>
   </section>
 
-  <!-- ACOMPAÑANTES -->
+  <!-- PANTALLA 3: ACOMPAÑANTES -->
   <section id="scr3" class="container">
     <h2>Información de acompañantes</h2>
     <form id="formAcomp" class="grid"></form>
     <div class="actions"><button class="btn btn--ghost" data-prev="2">Anterior</button><button class="btn btn--pri" data-next="4">Continuar</button></div>
   </section>
 
-  <!-- MESAS -->
+  <!-- PANTALLA 4: SALÓN -->
   <section id="scr4" class="container">
     <h2>Selecciona tu mesa</h2>
     <div class="salon-wrapper">
@@ -189,20 +205,19 @@ textarea{min-height:84px;resize:vertical}
         <p><strong>Capacidad total:</strong> <span id="totCap">—</span></p>
         <p><strong>Mesa seleccionada:</strong> <span id="tagMesa">Sin seleccionar</span></p>
         <button class="btn btn--ghost" id="btnRefresh">🔄 Refrescar ahora</button>
-        <div class="legend"><div><span class="dot blue"></span>Disponible</div><div><span class="dot red"></span>Completa</div><div><span class="dot orange"></span>Seleccionada</div></div>
+        <div class="legend">
+          <div><span class="dot blue"></span>Disponible</div>
+          <div><span class="dot red"></span>Completa</div>
+          <div><span class="dot" style="background:#f59e0b"></span>Seleccionada</div>
+        </div>
       </aside>
-      <div id="map" class="map"></div>
+
+      <div class="map-frame"><div id="map" class="map"></div></div>
     </div>
 
     <div class="grid">
-      <div class="table-wrap">
-        <div id="tableCanvas" class="table"></div>
-        <div id="seating"></div>
-      </div>
-      <div class="panel">
-        <h3>Invitados registrados en esta mesa</h3>
-        <div id="guestList" style="min-height:160px">Selecciona una mesa para ver los invitados.</div>
-      </div>
+      <div class="table-wrap"><div id="tableCanvas" class="table">Mesa</div><div id="seating"></div></div>
+      <div class="panel"><h3>Invitados registrados en esta mesa</h3><div id="guestList" style="min-height:160px">Selecciona una mesa para ver los invitados.</div></div>
     </div>
 
     <div class="actions"><button class="btn btn--ghost" data-prev="3">Anterior</button><button id="btnSend" class="btn btn--pri">Enviar</button></div>
@@ -210,11 +225,12 @@ textarea{min-height:84px;resize:vertical}
 
   <!-- MODALES -->
   <div id="okModal" class="modal-overlay" style="display:none">
-    <div class="modal-content"><h3>Registro completo</h3><p>Tu reserva se guardó en <strong id="okMesa"></strong>.</p>
-      <div class="modal-actions"><button id="btnOkClose" class="btn btn--pri">Cerrar</button></div></div></div>
+    <div class="modal-content"><h3>Registro completo</h3><p>Tu reserva se guardó en <strong id="okMesa"></strong>.</p><div class="modal-actions"><button id="btnOkClose" class="btn btn--pri">Cerrar</button></div></div>
+  </div>
+
   <div id="dupModal" class="modal-overlay" style="display:none">
-    <div class="modal-content"><h3>Ya estás registrado</h3><pre id="dupInfo" style="white-space:pre-wrap"></pre>
-      <div class="modal-actions"><button id="btnDupClose" class="btn btn--pri">Entendido</button></div></div></div>
+    <div class="modal-content"><h3>Ya estás registrado</h3><pre id="dupInfo" style="white-space:pre-wrap"></pre><div class="modal-actions"><button id="btnDupClose" class="btn btn--pri">Entendido</button></div></div>
+  </div>
 </main>
 
 <script>
@@ -307,9 +323,7 @@ function paintHall(){
 
   const mesas=(state.cfg?.mesas||[]).slice().sort((a,b)=>(a.number||0)-(b.number||0));
   mesas.forEach(mm=>{
-    const b=document.createElement('button');
-    b.type='button';
-    b.className='chair';
+    const b=document.createElement('button'); b.type='button'; b.className='chair';
     b.style.left=(mm.position?.x??0)+'%';
     b.style.top =(mm.position?.y??0)+'%';
     b.textContent=mm.number||'';
@@ -332,22 +346,32 @@ function getMesaCapacity(lbl){
   const m=(state.cfg?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===lbl);
   return m?(m.capacity||state.cfg?.defaultCapacity||10):(state.cfg?.defaultCapacity||10);
 }
+
+/* Vista previa + coloreo asientos (ocupados en rojo) */
 function updateTablePreview(){
-  const lbl=$('#selTable')?.value; const wrap=document.querySelector('.table-wrap'); if(!lbl){ if(wrap) wrap.style.display='none'; return; }
-  if(wrap) wrap.style.display='block';
+  const lbl=$('#selTable')?.value; const wrap=document.querySelector('.table-wrap');
+  if(!lbl){ if(wrap) wrap.style.display='none'; return; }
+  wrap.style.display='block';
   $('#tableCanvas').textContent=lbl;
-  const cap=getMesaCapacity(lbl), cont=$('#seating'); cont.innerHTML='';
-  const tableSize=+getComputedStyle(document.documentElement).getPropertyValue('--table-size').replace('px','')||120;
-  const seatSize =+getComputedStyle(document.documentElement).getPropertyValue('--seat-size').replace('px','')||42;
-  const CX=50,CY=50,R=Math.max(28,tableSize*0.32)+seatSize*0.25;
+
+  const cont=$('#seating'); cont.innerHTML='';
+  const cap=getMesaCapacity(lbl);
+  const ts=+getComputedStyle(document.documentElement).getPropertyValue('--table-size').replace('px','')||120;
+  const ss=+getComputedStyle(document.documentElement).getPropertyValue('--seat-size').replace('px','')||42;
+  const CX=50,CY=50,R=Math.max(28,ts*0.32)+ss*0.25;
   for(let i=1;i<=cap;i++){
     const s=document.createElement('div'); s.className='seat'; s.dataset.pos=i;
     const a=(i/cap)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`;
     cont.appendChild(s);
   }
+  const rows=state.guests.get(lbl)||[]; let used=0;
+  rows.forEach(r=>{
+    let n=1; try{const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[]; n=1+A.length;}catch{}
+    for(let i=0;i<n;i++){ used++; const seat=cont.querySelector(`.seat[data-pos="${used}"]`); if(seat) seat.classList.add('full'); }
+  });
 }
 
-/* LISTA invitados (mensaje si mesa vacía) */
+/* Lista invitados */
 function paintGuestList(){
   const lbl=$('#selTable')?.value, box=$('#guestList'); if(!box) return; box.innerHTML='';
   if(!lbl){ box.textContent='Selecciona una mesa para ver los invitados.'; return; }
@@ -363,13 +387,15 @@ function paintGuestList(){
   });
 }
 
-/* antiparpadeo / lectura */
+/* Antiparpadeo: lectura CSV + fallback Script */
 function snapFor(lbl,map){const rows=(map.get(lbl)||[]);try{return JSON.stringify(rows.map(r=>`${r['Nombre']||''}|${r['Apellido']||''}|${r['JSON original']||''}`))}catch{return''}}
 async function refreshGuests(silent=false){
   const prev=new Map(state.guests); const sel=$('#selTable')?.value; const prevSig=snapFor(sel,prev);
   let next=null;
   if(state.cfg?.guestsSheetCsvUrl){ try{ const r=await fetch(bust(state.cfg.guestsSheetCsvUrl),{mode:'cors'}); if(r.ok){ next=csvToMap(await r.text()); }}catch{} }
-  if(!next&&state.cfg?.reservationScriptUrl){ try{ const u=state.cfg.reservationScriptUrl+(state.cfg.reservationScriptUrl.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now(); const r=await fetch(u,{mode:'cors'}); if(r.ok){ const j=await r.json(); next=valuesToMap(Array.isArray(j?.values)?j.values:[]); }}catch{} }
+  if(!next&&state.cfg?.reservationScriptUrl){ try{
+    const u=state.cfg.reservationScriptUrl+(state.cfg.reservationScriptUrl.includes('?')?'&':'?')+'read=1&limit=1000&_='+Date.now();
+    const r=await fetch(u,{mode:'cors'}); if(r.ok){ const j=await r.json(); next=valuesToMap(Array.isArray(j?.values)?j.values:[]); }}catch{} }
   if(!next){ if(!silent) console.warn('No se pudo leer la hoja; mantengo estado.'); return; }
   state.guests=next; updateChairsFull();
   const nextSig=snapFor(sel,next); if(sel && prevSig!==nextSig){ paintGuestList(); updatePreviewSeatsOnly(); }
@@ -379,16 +405,17 @@ function updateChairsFull(){ $$('#map .chair').forEach(ch=>{ const lbl=ch.datase
 function updatePreviewSeatsOnly(){ const lbl=$('#selTable')?.value; if(!lbl) return; $$('#seating .seat').forEach(s=>s.classList.remove('full')); const rows=state.guests.get(lbl)||[]; let used=0;
   rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} for(let i=0;i<n;i++){ const s=$('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }});}
 
-/* Parsers CSV/values */
+/* Parsers */
 function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
 function csvToMap(csv){if(!csv)return new Map();const lines=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(x=>x.trim()!=='');if(!lines.length)return new Map();const headers=parseCSVLine(lines[0]);const normH=headers.map(h=>h.trim());const lower=normH.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const jsonI=lower.findIndex(k=>k.includes('json'));const map=new Map();for(let i=1;i<lines.length;i++){const v=parseCSVLine(lines[i]);if(v.every(x=>!x||x.trim()===''))continue;const row={};normH.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m='';if(mesaI!==-1)m=row[normH[mesaI]]||'';if(!m&&jsonI!==-1&&row[normH[jsonI]]){try{const p=JSON.parse(row[normH[jsonI]]);if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
 function valuesToMap(vals){if(!Array.isArray(vals)||!vals.length)return new Map();const headers=vals[0].map(h=>String(h||'').trim());const lower=headers.map(h=>norm(h));const mesaI=lower.findIndex(k=>['mesa','mesa n','numero','n°','n'].some(c=>k===c||k.startsWith(c)));const map=new Map();for(let i=1;i<vals.length;i++){const v=vals[i]||[];const row={};headers.forEach((h,idx)=>row[h]=v[idx]==null?'':String(v[idx]).trim());let m=mesaI!==-1?String(v[mesaI]||'').trim():'';if(!m&&row['JSON original']){try{const p=JSON.parse(String(row['JSON original']));if(p&&typeof p==='object')m=p.mesa||p.Mesa||p?.payload?.mesa||'';}catch{}}if(!m)continue;if(!map.has(m))map.set(m,[]);map.get(m).push(row);}return map;}
 
 /* Config y tamaños */
 async function loadConfig(){
-  const local=localStorage.getItem('fiestaConfig');
-  if(local){ state.cfg=JSON.parse(local); return; }
-  const r=await fetch('config.json?_='+Date.now()); if(!r.ok) throw new Error('No se pudo cargar config.json'); state.cfg=await r.json();
+  try{
+    const local=localStorage.getItem('fiestaConfig');
+    state.cfg = local ? JSON.parse(local) : await (await fetch('config.json?_='+Date.now())).json();
+  }catch(e){ state.cfg={}; }
 }
 function applyUiSizes(){
   const ui=state.cfg?.ui||{}; const root=document.documentElement;
@@ -398,17 +425,17 @@ function applyUiSizes(){
   if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
 }
 
-/* Eventos */
-document.getElementById('btnRefresh')?.addEventListener('click',()=>refreshGuests().then(()=>alert('Información actualizada')));
-document.getElementById('btnSend')?.addEventListener('click',e=>{e.preventDefault();alert('Integra aquí tu envío real si lo necesitas.');});
-document.getElementById('btnOkClose')?.addEventListener('click',()=>{const m=document.getElementById('okModal'); m.classList.remove('active'); m.style.display='none'; location.reload();});
-document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=document.getElementById('dupModal'); m.classList.remove('active'); m.style.display='none';});
+/* Envío (placeholder real) */
+document.getElementById('btnSend')?.addEventListener('click', (e)=>{ e.preventDefault(); alert('Envío de ejemplo. Integra tu Apps Script aquí si lo necesitas.'); });
 
-/* Boot */
+/* INIT */
 (async function init(){
-  try{
-    await loadConfig(); applyUiSizes(); paintHero(); show(1);
-  }catch(e){ alert('No se pudo cargar config.json'); }
+  await loadConfig(); applyUiSizes();
+  // Actualiza textos del hero si existen en config
+  if(state.cfg?.siteSubtitle) document.querySelector('.eyebrow').textContent = state.cfg.siteSubtitle;
+  if(state.cfg?.siteTitle) document.querySelector('#scr1 h1').textContent = state.cfg.siteTitle;
+  if(state.cfg?.siteDescription) document.querySelector('#scr1 p').textContent = state.cfg.siteDescription;
+  if(state.cfg?.heroImage) document.querySelector('#scr1 img').src = state.cfg.heroImage;
 })();
 </script>
 </body>
