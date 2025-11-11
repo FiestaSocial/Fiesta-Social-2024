@@ -89,7 +89,7 @@ textarea{min-height:84px;resize:vertical}
       </select></div>
       <div class="field"><label for="nombre">Nombre</label><input id="nombre" required autocomplete="given-name"></div>
       <div class="field"><label for="apellido">Apellido</label><input id="apellido" required autocomplete="family-name"></div>
-      <!-- C.I. flexible: con o sin puntos/guion -->
+      <!-- CI flexible: con o sin puntos/guion -->
       <div class="field"><label for="ci">Cédula (0.000.000-0)</label>
         <input id="ci" required
                pattern="^(?:\d{7,8}-?\d|\d{1,2}(?:\.?\d{3}){2}-?\d)$"
@@ -105,13 +105,11 @@ textarea{min-height:84px;resize:vertical}
           <option value="">Seleccionar</option><option value="no" selected>No</option><option value="si">Sí</option>
         </select>
       </div>
-
       <div class="field" id="boxCount" style="display:none"><label for="acompCount">¿Cuántos acompañantes? (máx. 5)</label>
         <select id="acompCount" disabled>
           <option value="" selected>Seleccionar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
         </select>
       </div>
-
       <input type="hidden" id="selTable">
     </form>
     <div class="actions"><button class="btn btn--ghost" data-prev="1">Anterior</button><button class="btn btn--pri" data-next="3">Continuar</button></div>
@@ -222,7 +220,7 @@ function nextFrom(n){
     if(withComp){ const q=parseInt($('#acompCount').value||'1',10)||1; renderAcompanantes(Math.min(5,Math.max(1,q))); show(3); }
     else{ renderAcompanantes(0); show(4); paintHall(); refreshGuests(); startPoll(); applyHallMobileRotation(); }
   }else if(n===4){
-    if(withComp){ const bad=validateScope('#scr3',true); if(bad.length){ alert('Faltan datos:\n- '+bad.join('\n- ')); return; } }
+    if(withComp){ const badA=validateScope('#scr3',true); if(badA.length){ alert('Faltan datos:\n- '+badA.join('\n- ')); return; } }
     show(4); paintHall(); refreshGuests(); startPoll(); applyHallMobileRotation();
   }else show(n);
 }
@@ -604,8 +602,8 @@ window.addEventListener('beforeunload', stopPoll);
 // Boot
 (async function init(){
   try{
-    await loadConfig();             // config.json (si existe) tiene prioridad sobre DEFAULT_SCRIPT_URL  ← :contentReference[oaicite:3]{index=3}
-    applyUiSizes();                 // aplica tamaños del UI (mesas/asientos/zonas)                  ← :contentReference[oaicite:4]{index=4}
+    await loadConfig();             // config.json (si existe) tiene prioridad sobre DEFAULT_SCRIPT_URL
+    applyUiSizes();                 // aplica tamaños del UI (mesas/asientos/zonas)
     document.title = state.cfg?.siteTitle || document.title;
     paintHero(); show(1); updateAcompUI();
   }catch(e){ alert('No se pudo cargar config.json'); }
