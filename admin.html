@@ -107,7 +107,8 @@
       <button class="btn primary" id="vPing">Ping Apps Script</button>
       <button class="btn primary" id="vDebug">Debug (?debug=1)</button>
       <button class="btn primary" id="vCSV">Probar CSV</button>
-      <button class="btn ghost"   id="vWrite">Escribir fila de prueba</button>
+      <button class="btn primary" id="vPost">Probar POST (text/plain)</button>
+      <button class="btn ghost"   id="vWrite">Escribir fila de prueba (GET)</button>
     </div>
     <div id="vMsg" class="status"></div>
     <pre id="vLog" class="log"></pre>
@@ -279,6 +280,31 @@ $('#vCSV').addEventListener('click', async ()=>{
     show($('#vMsg'),'ok',`CSV accesible (${lines.length} filas)`); $('#vLog').textContent=lines.slice(0,5).join('\n'); }
   catch{ show($('#vMsg'),'err','No se pudo leer el CSV'); }
 });
+/* NUEVO: prueba de POST con text/plain (igual que hace el index) */
+$('#vPost').addEventListener('click', async ()=>{
+  $('#vMsg').style.display='none'; $('#vLog').textContent='';
+  const url=$('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
+  if(!url){ show($('#vMsg'),'err','Completa la URL /exec'); return; }
+  try{
+    const mesa=(cfg?.mesas?.[0]?.label)||'Mesa 1';
+    const payload={
+      submittedAt:new Date().toISOString(),
+      mesa, grado:'TEST', escalafon:'TEST',
+      nombre:'Prueba', apellido:'POST',
+      cedula:'0.000.000-0', correo:'admin@test.com',
+      menu:'normal', acompanante:'No', cantidadAcompanantes:0, acompanantes:[]
+    };
+    const r=await fetch(buster(url),{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    });
+    const t=await r.text();
+    if(r.ok){ show($('#vMsg'),'ok','POST OK'); } else { show($('#vMsg'),'err','POST no OK'); }
+    $('#vLog').textContent=t;
+  }catch{ show($('#vMsg'),'err','No se pudo enviar POST'); }
+});
+/* Escritura de prueba con GET (legacy) */
 $('#vWrite').addEventListener('click', async ()=>{
   $('#vMsg').style.display='none'; $('#vLog').textContent='';
   const url=$('#reservationScriptUrl').value.trim() || cfg?.reservationScriptUrl || '';
