@@ -53,6 +53,6 @@
     { "id": "dj",          "label": "DJ",             "className": "zone dj",       "position": { "x": 53, "y": 5 },  "scale": 0.95 },
     { "id": "dessertLeft", "label": "Barra",          "className": "zone dessert",  "position": { "x": 45, "y": 5 },  "scale": 0.95 }
   ],
-  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbzfkHm8S5OYuHlOOYZlQ-tYIvKvtMPhWca5pWBfZQ7J5J81ZkPdA-B-P8kdB0VKhkHwtA/exec",
+  "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbzdPl1xIo1OUS_FhWoNbAtnLr3N63H6FnCM5Kt6anYTqac2h-HdNoGQmuxHJCemF3eNhA/exec",
   "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGt4uAnH7cwhk9v65pslz61nasqZn9kE1GXQD-bO8PkYh9bNgu_XzXVyTuIk6d1-l4D_I-hm1mj_o8/pub?gid=795589434&single=true&output=csv"
 }
