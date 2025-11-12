@@ -152,10 +152,7 @@ textarea{min-height:84px;resize:vertical}
       </select></div>
       <div class="field"><label>Nombre</label><input id="nombre" required></div>
       <div class="field"><label>Apellido</label><input id="apellido" required></div>
-      <!-- CI: acepta con puntos (0.000.000-0) o corrida (0000000-0 / 00000000-0) -->
-      <div class="field"><label>Cédula (0.000.000-0)</label>
-        <input id="ci" required pattern="^(?:\d{6,8}-\d|\d{1,3}(?:\.\d{3}){2}-\d)$">
-      </div>
+      <div class="field"><label>Cédula (0.000.000-0)</label><input id="ci" required pattern="^\d(\.?\d{3}){2}-\d$"></div>
       <div class="field"><label>Menú</label><select id="menu" required>
         <option value="">Seleccionar</option><option>Normal</option><option>Vegetariano</option><option>Vegano</option><option>Celíaco</option>
       </select></div>
@@ -222,33 +219,7 @@ const state={cfg:null,guests:new Map(),poll:null};
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const norm=s=>(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
 const bust=u=>!u?'':u+(u.includes('?')?'&':'?')+'_='+Date.now();
-
-/* === util CI + búsqueda duplicados === */
-function normalizeCI(ci){ return String(ci||'').replace(/\D/g,''); }
-function findRegisteredByCI(ciDigits){
-  if(!ciDigits) return null;
-  for (const [mesa, rows] of (state.guests || new Map()).entries()){
-    for (const r of rows){
-      const ciRow = String(r['Cédula'] || r['Cedula'] || r['CI'] || '').replace(/\D/g,'');
-      if (ciRow && ciRow === ciDigits) return { mesa, tipo:'titular' };
-      try {
-        const j = JSON.parse(r['JSON original'] || '{}');
-        if (j.cedula && String(j.cedula).replace(/\D/g,'') === ciDigits) return { mesa, tipo:'titular' };
-        if (Array.isArray(j.acompanantes)) {
-          for (const a of j.acompanantes) {
-            if (String(a?.cedula||'').replace(/\D/g,'') === ciDigits) return { mesa, tipo:'acompanante' };
-          }
-        }
-      } catch {}
-    }
-  }
-  return null;
-}
-async function ensureGuestsLoaded(){
-  if(!state.guests || state.guests.size===0){
-    await refreshGuests(true);
-  }
-}
+const normCI=s=>String(s||'').replace(/\D/g,'');
 
 /* HERO */
 function paintHero(){
@@ -264,17 +235,6 @@ function paintHero(){
     </div>
     <img src="${state.cfg?.heroImage||'Imagen de bienvenida.png'}" alt="Imagen de portada">`;
 }
-
-/* ========= Mostrar/ocultar cantidad de acompañantes ========= */
-function toggleAcompUI(){
-  const sel=$('#acomp'), box=$('#boxCount'), cnt=$('#acompCount');
-  if(!sel||!box||!cnt) return;
-  const show = sel.value==='si';
-  box.style.display = show ? '' : 'none';
-  cnt.required = show;
-  if(!show){ cnt.value=''; }
-}
-document.getElementById('acomp')?.addEventListener('change', toggleAcompUI);
 
 /* NAVEGACIÓN */
 function show(n){ $$('.container').forEach(el=>el.classList.toggle('active', el.id===`scr${n}`)); }
@@ -294,63 +254,58 @@ function validateScope(rootSel,skip=false){
     }
   }); return bad;
 }
-
-/* AVANCE (con verificación de CI duplicado y cantidad cuando aplica) */
-async function nextFrom(n){
+function nextFrom(n){
   const acomp=$('#acomp')?.value||'';
   if(n===3){
     const bad=validateScope('#scr2'); if(bad.length){ alert('Completa:\n- '+bad.join('\n- ')); return; }
-
-    // Verificar CI ya registrado
-    await ensureGuestsLoaded();
-    const dup = findRegisteredByCI( normalizeCI($('#ci').value) );
-    if (dup) { alert(`Usted ya está registrado en la ${dup.mesa}.`); return; }
-
     if(acomp==='si'){
-      // Exigir cantidad antes de avanzar
-      if(!$('#acompCount').value){ toggleAcompUI(); alert('Selecciona cuántos acompañantes.'); $('#acompCount').focus(); return; }
-      const q=+($('#acompCount').value||0);
-      renderAcompanantes(Math.min(4,Math.max(1,q)));
-      show(3);
+      const q=+($('#acompCount').value||0) || 1;
+      renderAcompanantes(Math.min(4,Math.max(1,q))); show(3);
     }else{
-      renderAcompanantes(0); show(4); paintHall(); refreshGuests(); startPoll?.();
+      renderAcompanantes(0); show(4); paintHall(); refreshGuests(); startPoll();
     }
   }else if(n===4){
     if(acomp==='si'){ const bad=validateScope('#scr3',true); if(bad.length){ alert('Faltan datos:\n- '+bad.join('\n- ')); return; } }
-    show(4); paintHall(); refreshGuests(); startPoll?.();
+    show(4); paintHall(); refreshGuests(); startPoll();
   }else show(n);
 }
+/* mostrar/ocultar cantidad al cambiar la respuesta de acompañante */
+document.getElementById('acomp')?.addEventListener('change', (e)=>{
+  const yes = e.target.value === 'si';
+  $('#boxCount').style.display = yes ? '' : 'none';
+  const sel = $('#acompCount'); if (sel) sel.required = yes;
+});
 
-/* ======= Acompañantes: render + colección ======= */
+/* Acompañantes */
 function renderAcompanantes(n){
   const box=$('#formAcomp'); box.innerHTML='';
   for(let i=1;i<=n;i++){
     box.insertAdjacentHTML('beforeend',`
-      <div class="field"><label>Nombre (Acompañante ${i})</label><input required></div>
-      <div class="field"><label>Apellido</label><input></div>
-      <div class="field"><label>Cédula (0.000.000-0)</label><input required pattern="^(?:\\d{6,8}-\\d|\\d{1,3}(?:\\.\\d{3}){2}-\\d)$"></div>
-      <div class="field"><label>Menú</label>
-        <select><option value="">Seleccionar</option><option>Normal</option><option>Vegetariano</option><option>Vegano</option><option>Celíaco</option></select>
-      </div>
-      <div class="field" style="grid-column:1/-1"><label>Observaciones</label><textarea></textarea></div>
-    `);
+      <div class="acomp-group" data-i="${i}">
+        <div class="field"><label>Nombre (Acompañante ${i})</label><input required></div>
+        <div class="field"><label>Apellido</label><input></div>
+        <div class="field"><label>Cédula (0.000.000-0)</label><input required pattern="^\\d(\\.?\\d{3}){2}-\\d$"></div>
+        <div class="field"><label>Menú</label>
+          <select><option value="">Seleccionar</option><option>Normal</option><option>Vegetariano</option><option>Vegano</option><option>Celíaco</option></select>
+        </div>
+        <div class="field" style="grid-column:1/-1"><label>Observaciones</label><textarea></textarea></div>
+      </div>`);
   }
 }
+/* recolectar acompañantes desde la UI (nombre, apellido, cédula, menú, observaciones) */
 function collectAcompanantes(){
-  if ($('#acomp')?.value !== 'si') return [];
-  const fields = Array.from(document.querySelectorAll('#formAcomp .field'));
-  const out = [];
-  for (let i = 0; i < fields.length; ){
-    const nombre   = fields[i++]?.querySelector('input')?.value?.trim() || '';
-    const apellido = fields[i++]?.querySelector('input')?.value?.trim() || '';
-    const cedula   = fields[i++]?.querySelector('input')?.value?.trim() || '';
-    const menu     = fields[i++]?.querySelector('select')?.value || '';
-    const obs      = fields[i++]?.querySelector('textarea')?.value || '';
-    if (nombre || apellido || cedula || menu || obs) {
-      out.push({ nombre: `${nombre} ${apellido}`.trim(), cedula, menu, observaciones: obs });
+  const rows=[];
+  $$('#formAcomp .acomp-group').forEach(g=>{
+    const nombre = g.querySelector('.field:nth-of-type(1) input')?.value?.trim() || '';
+    const apellido = g.querySelector('.field:nth-of-type(2) input')?.value?.trim() || '';
+    const cedula = g.querySelector('.field:nth-of-type(3) input')?.value?.trim() || '';
+    const menu = g.querySelector('.field:nth-of-type(4) select')?.value?.trim() || '';
+    const observaciones = g.querySelector('.field:nth-of-type(5) textarea')?.value?.trim() || '';
+    if (nombre || apellido || cedula || menu || observaciones){
+      rows.push({ nombre, apellido, cedula, menu, observaciones });
     }
-  }
-  return out;
+  });
+  return rows;
 }
 
 /* SALÓN */
@@ -431,6 +386,10 @@ function paintGuestList(){
   });
 }
 
+/* Auto-actualización mientras estás en Mesas */
+function startPoll(){ stopPoll(); state.poll=setInterval(()=>refreshGuests(true), 8000); }
+function stopPoll(){ if(state.poll){ clearInterval(state.poll); state.poll=null; } }
+
 /* antiparpadeo / lectura */
 function snapFor(lbl,map){const rows=(map.get(lbl)||[]);try{return JSON.stringify(rows.map(r=>`${r['Nombre']||''}|${r['Apellido']||''}|${r['JSON original']||''}`))}catch{return''}}
 async function refreshGuests(silent=false){
@@ -467,20 +426,50 @@ function applyUiSizes(){
   if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
 }
 
-/* ===== Envío real ===== */
+/* Duplicado por CI */
+function findExistingByCI(ciRaw){
+  const ci=normCI(ciRaw); if(!ci) return null;
+  for(const [mesa,rows] of state.guests.entries()){
+    for(const r of rows){
+      const c1=normCI(r['Cédula']||'');
+      let c2=''; try{ const j=JSON.parse(r['JSON original']||'')||{}; c2=normCI(j.cedula||''); }catch{}
+      if(ci && (ci===c1 || ci===c2)){
+        const tit=((r['Nombre']||'')+' '+(r['Apellido']||'')).trim();
+        return { mesa, nombre: tit || 'Invitado' };
+      }
+    }
+  }
+  return null;
+}
+
+/* Eventos */
 document.getElementById('btnRefresh')?.addEventListener('click',()=>refreshGuests().then(()=>alert('Información actualizada')));
+
+/* Envío real (text/plain) + verificación de duplicado por CI */
 document.getElementById('btnSend')?.addEventListener('click', async (e) => {
   e.preventDefault();
   try {
-    const url = state.cfg?.reservationScriptUrl || '';
+    const url = state?.cfg?.reservationScriptUrl || '';
     if (!url) { alert('Falta reservationScriptUrl en config.json'); return; }
 
     const mesa = $('#selTable')?.value || '';
     if (!mesa) { alert('Selecciona una mesa antes de enviar.'); return; }
 
-    const acomp = $('#acomp')?.value || 'no';
-    const acompArr = collectAcompanantes();
-    const cantA = acomp === 'si' ? (Number($('#acompCount')?.value || 0) || acompArr.length) : 0;
+    // Relee por si hubo cambios y verifica CI duplicada
+    await refreshGuests(true);
+    const ciVal = $('#ci')?.value || '';
+    const dupe = findExistingByCI(ciVal);
+    if (dupe) {
+      $('#dupInfo').textContent = `Usted ya está registrado en la ${dupe.mesa}.`;
+      const m = $('#dupModal'); m.style.display='flex'; m.classList.add('active');
+      return;
+    }
+
+    const acompSel = $('#acomp')?.value || 'no';
+    const acompList = acompSel === 'si' ? collectAcompanantes() : [];
+    const cantA = acompSel === 'si'
+      ? (Number($('#acompCount')?.value || 0) || acompList.length || 1)
+      : 0;
 
     const payload = {
       submittedAt: new Date().toISOString(),
@@ -489,42 +478,43 @@ document.getElementById('btnSend')?.addEventListener('click', async (e) => {
       escalafon:  $('#escalafon')?.value || '',
       nombre:     $('#nombre')?.value || '',
       apellido:   $('#apellido')?.value || '',
-      cedula:     $('#ci')?.value || '',
+      cedula:     ciVal,
       correo:     $('#email')?.value || '',
       menu:       $('#menu')?.value || '',
       observaciones: $('#obs')?.value || '',
-      acompanante: acomp === 'si' ? 'Sí' : 'No',
+      acompanante: (acompSel === 'si') ? 'Sí' : 'No',
       cantidadAcompanantes: cantA,
-      acompanantes: acompArr
+      acompanantes: acompList
     };
 
     const resp = await fetch(url, {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
 
-    let json = {};
-    try { json = await resp.json(); } catch(_) {}
+    const txt = await resp.text().catch(()=> '');
+    let json = {}; try { json = JSON.parse(txt); } catch {}
 
-    if (resp.ok && json.ok !== false) {
-      document.getElementById('okMesa').textContent = mesa;
-      const m = document.getElementById('okModal'); m.style.display = 'flex'; m.classList.add('active');
+    if (resp.ok && (json.ok !== false)) {
+      $('#okMesa').textContent = mesa;
+      const m = $('#okModal'); m.style.display = 'flex'; m.classList.add('active');
     } else {
-      const text = json.error || (await resp.text().catch(()=>'')) || '—';
-      alert('No se pudo confirmar la escritura en la hoja.\n\nRespuesta del servidor:\n' + text);
+      alert('No se pudo confirmar la escritura en la hoja.\n\nRespuesta del servidor:\n' + (txt || '—'));
     }
   } catch (err) {
     alert('Error enviando: ' + (err && err.message || err));
   }
 });
+
 document.getElementById('btnOkClose')?.addEventListener('click',()=>{const m=document.getElementById('okModal'); m.classList.remove('active'); m.style.display='none'; location.reload();});
 document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=document.getElementById('dupModal'); m.classList.remove('active'); m.style.display='none';});
 
 /* Boot */
 (async function init(){
   try{
-    await loadConfig(); applyUiSizes(); paintHero(); toggleAcompUI(); show(1);
+    await loadConfig(); applyUiSizes(); paintHero(); show(1);
   }catch(e){ alert('No se pudo cargar config.json'); }
 })();
 </script>
