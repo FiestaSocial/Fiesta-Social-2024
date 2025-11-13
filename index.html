@@ -292,7 +292,6 @@ function renderAcompanantes(n){
       </div>`);
   }
 }
-/* recolectar acompañantes desde la UI (nombre, apellido, cédula, menú, observaciones) */
 function collectAcompanantes(){
   const rows=[];
   $$('#formAcomp .acomp-group').forEach(g=>{
@@ -370,7 +369,7 @@ function updateTablePreview(){
   });
 }
 
-/* LISTA invitados (mensaje si mesa vacía) */
+/* LISTA invitados (acompañantes en el mismo formato que el titular) */
 function paintGuestList(){
   const lbl=$('#selTable')?.value, box=$('#guestList'); if(!box) return; box.innerHTML='';
   if(!lbl){ box.textContent='Selecciona una mesa para ver los invitados.'; return; }
@@ -381,7 +380,8 @@ function paintGuestList(){
     try{
       const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
       A.forEach(a=>{ const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
-        box.insertAdjacentHTML('beforeend',`<div>• ${nm||'Acompañante'}</div>`);});
+        /* ÚNICO CAMBIO: acompañantes también en <strong> */
+        box.insertAdjacentHTML('beforeend',`<div>• <strong>${nm||'Acompañante'}</strong></div>`);});
     }catch{}
   });
 }
