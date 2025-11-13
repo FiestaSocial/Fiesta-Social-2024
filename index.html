@@ -351,20 +351,17 @@ function getMesaCapacity(lbl){
   return m?(m.capacity||state.cfg?.defaultCapacity||10):(state.cfg?.defaultCapacity||10);
 }
 
-/* >>> ÚNICO AJUSTE DE LÓGICA DE ASIENTOS PARA ACOMPAÑANTES <<< */
+/* >>> lógica de asientos (titular + acompañantes) <<< */
 function companionsCountFromRow(r){
-  // 1) JSON original (acompanantes[] o cantidadAcompanantes)
   let n = 0;
   try{
     const j = JSON.parse(r['JSON original']||'') || {};
     if (Array.isArray(j.acompanantes)) n = j.acompanantes.length;
     if (!n && (j.cantidadAcompanantes!=null)) n = Number(j.cantidadAcompanantes)||0;
   }catch{}
-  // 2) Columna “Cantidad de acompañantes” (si existe) como respaldo
   const col = Number(String(r['Cantidad de acompañantes']||'').replace(/[^\d]/g,''))||0;
   return Math.max(n, col);
 }
-
 function updateTablePreview(){
   const lbl=$('#selTable')?.value; const wrap=document.querySelector('.table-wrap'); if(!lbl){ if(wrap) wrap.style.display='none'; return; }
   if(wrap) wrap.style.display='block';
@@ -378,45 +375,62 @@ function updateTablePreview(){
     const a=(i/cap)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`;
     cont.appendChild(s);
   }
-  // Marcar asientos ocupados: titular + acompañantes
   let used=0; (state.guests.get(lbl)||[]).forEach(r=>{
-    const acomp = companionsCountFromRow(r); const total = 1 + (acomp||0);
+    const total = 1 + companionsCountFromRow(r);
     for(let i=0;i<total;i++){ const s=cont.querySelector(`.seat[data-pos="${++used}"]`); if(s) s.classList.add('full'); }
   });
 }
-
 function updateChairsFull(){
   $$('#map .chair').forEach(ch=>{
     const lbl=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(lbl)||[];
-    let used=0;
-    rows.forEach(r=>{ used += 1 + companionsCountFromRow(r); });
+    let used=0; rows.forEach(r=>{ used += 1 + companionsCountFromRow(r); });
     ch.classList.toggle('full', used>=cap);
   });
 }
 function updatePreviewSeatsOnly(){
-  const lbl=$('#selTable')?.value; if(!lbl) return;
-  $$('#seating .seat').forEach(s=>s.classList.remove('full'));
+  const lbl=$('#selTable')?.value; if(!lbl) return; $$('#seating .seat').forEach(s=>s.classList.remove('full'));
   const rows=state.guests.get(lbl)||[]; let used=0;
   rows.forEach(r=>{
     const total = 1 + companionsCountFromRow(r);
     for(let i=0;i<total;i++){ const s=$('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }
   });
 }
-/* <<< FIN DEL AJUSTE >>> */
+/* <<< fin lógica asientos >>> */
 
-/* LISTA invitados (acompañantes en el mismo formato que el titular) */
+/* LISTA invitados (incluye acompañantes; añade fallback a columnas del CSV) */
 function paintGuestList(){
   const lbl=$('#selTable')?.value, box=$('#guestList'); if(!box) return; box.innerHTML='';
   if(!lbl){ box.textContent='Selecciona una mesa para ver los invitados.'; return; }
   const rows=state.guests.get(lbl)||[]; if(!rows.length){ box.textContent='No hay invitados registrados en esta mesa.'; return; }
   rows.forEach(r=>{
+    // Titular
     const tit=((r['Nombre']||'')+' '+(r['Apellido']||'')).trim()||'Invitado';
     box.insertAdjacentHTML('beforeend',`<div>• <strong>${tit}</strong></div>`);
+
+    // Compilamos nombres de acompañantes desde JSON y, si falta, desde columnas "Acompañante n - Nombre/Apellido"
+    const compNames=[];
+
+    // 1) JSON original
     try{
-      const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
-      A.forEach(a=>{ const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
-        box.insertAdjacentHTML('beforeend',`<div>• <strong>${nm||'Acompañante'}</strong></div>`);});
+      const j=JSON.parse(r['JSON original']||'')||{}; 
+      const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
+      A.forEach(a=>{
+        const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
+        if(nm) compNames.push(nm);
+      });
     }catch{}
+
+    // 2) Columnas del CSV
+    for(let i=1;i<=5;i++){
+      const n=(r[`Acompañante ${i} - Nombre`]||'').trim();
+      const a=(r[`Acompañante ${i} - Apellido`]||'').trim();
+      const nm=[n,a].filter(Boolean).join(' ').trim();
+      if(nm) compNames.push(nm);
+    }
+
+    compNames.forEach(nm=>{
+      box.insertAdjacentHTML('beforeend',`<div>• <strong>${nm}</strong></div>`);
+    });
   });
 }
 
@@ -455,7 +469,7 @@ function applyUiSizes(){
   if(ui.zoneScale!=null) root.style.setProperty('--zone-scale', ui.zoneScale);
 }
 
-/* Duplicado por CI */
+/* Duplicado por CI + envío */
 function findExistingByCI(ciRaw){
   const ci=normCI(ciRaw); if(!ci) return null;
   for(const [mesa,rows] of state.guests.entries()){
@@ -470,11 +484,7 @@ function findExistingByCI(ciRaw){
   }
   return null;
 }
-
-/* Eventos */
 document.getElementById('btnRefresh')?.addEventListener('click',()=>refreshGuests().then(()=>alert('Información actualizada')));
-
-/* Envío real (text/plain) + verificación de duplicado por CI */
 document.getElementById('btnSend')?.addEventListener('click', async (e) => {
   e.preventDefault();
   try {
@@ -484,7 +494,6 @@ document.getElementById('btnSend')?.addEventListener('click', async (e) => {
     const mesa = $('#selTable')?.value || '';
     if (!mesa) { alert('Selecciona una mesa antes de enviar.'); return; }
 
-    // Relee por si hubo cambios y verifica CI duplicada
     await refreshGuests(true);
     const ciVal = $('#ci')?.value || '';
     const dupe = findExistingByCI(ciVal);
@@ -536,7 +545,6 @@ document.getElementById('btnSend')?.addEventListener('click', async (e) => {
     alert('Error enviando: ' + (err && err.message || err));
   }
 });
-
 document.getElementById('btnOkClose')?.addEventListener('click',()=>{const m=document.getElementById('okModal'); m.classList.remove('active'); m.style.display='none'; location.reload();});
 document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=document.getElementById('dupModal'); m.classList.remove('active'); m.style.display='none';});
 
