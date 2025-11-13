@@ -9,49 +9,334 @@
     "passwordHash": "63cfef90450991c8eeaaa737130616f8896992fcb3d1025416f7d367946718c1"
   },
   "ui": {
-    "mesaSize": 35,
-    "seatSize": 42,
-    "tableSize": 120,
+    "mesaSize": 33,
+    "seatSize": 40,
+    "tableSize": 115,
     "zoneScale": 1
   },
   "mesas": [
-    { "number": 1,  "label": "Mesa 1",  "capacity": 8, "position": { "x": 2,  "y": 20 } },
-    { "number": 2,  "label": "Mesa 2",  "capacity": 8, "position": { "x": 10, "y": 20 } },
-    { "number": 3,  "label": "Mesa 3",  "capacity": 8, "position": { "x": 18, "y": 20 } },
-    { "number": 4,  "label": "Mesa 4",  "capacity": 8, "position": { "x": 26, "y": 20 } },
-    { "number": 5,  "label": "Mesa 5",  "capacity": 8, "position": { "x": 34, "y": 20 } },
-    { "number": 6,  "label": "Mesa 6",  "capacity": 8, "position": { "x": 2,  "y": 45 } },
-    { "number": 7,  "label": "Mesa 7",  "capacity": 8, "position": { "x": 10, "y": 45 } },
-    { "number": 8,  "label": "Mesa 8",  "capacity": 8, "position": { "x": 18, "y": 45 } },
-    { "number": 9,  "label": "Mesa 9",  "capacity": 8, "position": { "x": 26, "y": 45 } },
-    { "number": 10, "label": "Mesa 10", "capacity": 8, "position": { "x": 34, "y": 45 } },
-    { "number": 11, "label": "Mesa 11", "capacity": 8, "position": { "x": 2,  "y": 70 } },
-    { "number": 12, "label": "Mesa 12", "capacity": 8, "position": { "x": 10, "y": 70 } },
-    { "number": 13, "label": "Mesa 13", "capacity": 8, "position": { "x": 18, "y": 70 } },
-    { "number": 14, "label": "Mesa 14", "capacity": 8, "position": { "x": 26, "y": 70 } },
-    { "number": 15, "label": "Mesa 15", "capacity": 8, "position": { "x": 34, "y": 70 } },
-    { "number": 16, "label": "Mesa 16", "capacity": 8, "position": { "x": 60, "y": 20 } },
-    { "number": 17, "label": "Mesa 17", "capacity": 8, "position": { "x": 68, "y": 20 } },
-    { "number": 18, "label": "Mesa 18", "capacity": 8, "position": { "x": 76, "y": 20 } },
-    { "number": 19, "label": "Mesa 19", "capacity": 8, "position": { "x": 84, "y": 20 } },
-    { "number": 20, "label": "Mesa 20", "capacity": 8, "position": { "x": 92, "y": 20 } },
-    { "number": 21, "label": "Mesa 21", "capacity": 8, "position": { "x": 60, "y": 45 } },
-    { "number": 22, "label": "Mesa 22", "capacity": 8, "position": { "x": 68, "y": 45 } },
-    { "number": 23, "label": "Mesa 23", "capacity": 8, "position": { "x": 76, "y": 45 } },
-    { "number": 24, "label": "Mesa 24", "capacity": 8, "position": { "x": 84, "y": 45 } },
-    { "number": 25, "label": "Mesa 25", "capacity": 8, "position": { "x": 92, "y": 45 } },
-    { "number": 26, "label": "Mesa 26", "capacity": 8, "position": { "x": 60, "y": 70 } },
-    { "number": 27, "label": "Mesa 27", "capacity": 8, "position": { "x": 68, "y": 70 } },
-    { "number": 28, "label": "Mesa 28", "capacity": 8, "position": { "x": 76, "y": 70 } },
-    { "number": 29, "label": "Mesa 29", "capacity": 8, "position": { "x": 84, "y": 70 } },
-    { "number": 30, "label": "Mesa 30", "capacity": 8, "position": { "x": 92, "y": 70 } }
+    {
+      "number": 1,
+      "label": "Mesa 1",
+      "capacity": 8,
+      "position": {
+        "x": 2,
+        "y": 20
+      }
+    },
+    {
+      "number": 2,
+      "label": "Mesa 2",
+      "capacity": 8,
+      "position": {
+        "x": 10,
+        "y": 20
+      }
+    },
+    {
+      "number": 3,
+      "label": "Mesa 3",
+      "capacity": 8,
+      "position": {
+        "x": 18,
+        "y": 20
+      }
+    },
+    {
+      "number": 4,
+      "label": "Mesa 4",
+      "capacity": 8,
+      "position": {
+        "x": 26,
+        "y": 20
+      }
+    },
+    {
+      "number": 5,
+      "label": "Mesa 5",
+      "capacity": 8,
+      "position": {
+        "x": 34,
+        "y": 20
+      }
+    },
+    {
+      "number": 6,
+      "label": "Mesa 6",
+      "capacity": 8,
+      "position": {
+        "x": 2,
+        "y": 45
+      }
+    },
+    {
+      "number": 7,
+      "label": "Mesa 7",
+      "capacity": 8,
+      "position": {
+        "x": 10,
+        "y": 45
+      }
+    },
+    {
+      "number": 8,
+      "label": "Mesa 8",
+      "capacity": 8,
+      "position": {
+        "x": 18,
+        "y": 45
+      }
+    },
+    {
+      "number": 9,
+      "label": "Mesa 9",
+      "capacity": 8,
+      "position": {
+        "x": 26,
+        "y": 45
+      }
+    },
+    {
+      "number": 10,
+      "label": "Mesa 10",
+      "capacity": 8,
+      "position": {
+        "x": 34,
+        "y": 45
+      }
+    },
+    {
+      "number": 11,
+      "label": "Mesa 11",
+      "capacity": 8,
+      "position": {
+        "x": 2,
+        "y": 70
+      }
+    },
+    {
+      "number": 12,
+      "label": "Mesa 12",
+      "capacity": 8,
+      "position": {
+        "x": 10,
+        "y": 70
+      }
+    },
+    {
+      "number": 13,
+      "label": "Mesa 13",
+      "capacity": 8,
+      "position": {
+        "x": 18,
+        "y": 70
+      }
+    },
+    {
+      "number": 14,
+      "label": "Mesa 14",
+      "capacity": 8,
+      "position": {
+        "x": 26,
+        "y": 70
+      }
+    },
+    {
+      "number": 15,
+      "label": "Mesa 15",
+      "capacity": 8,
+      "position": {
+        "x": 34,
+        "y": 70
+      }
+    },
+    {
+      "number": 16,
+      "label": "Mesa 16",
+      "capacity": 8,
+      "position": {
+        "x": 60,
+        "y": 20
+      }
+    },
+    {
+      "number": 17,
+      "label": "Mesa 17",
+      "capacity": 8,
+      "position": {
+        "x": 68,
+        "y": 20
+      }
+    },
+    {
+      "number": 18,
+      "label": "Mesa 18",
+      "capacity": 8,
+      "position": {
+        "x": 76,
+        "y": 20
+      }
+    },
+    {
+      "number": 19,
+      "label": "Mesa 19",
+      "capacity": 8,
+      "position": {
+        "x": 84,
+        "y": 20
+      }
+    },
+    {
+      "number": 20,
+      "label": "Mesa 20",
+      "capacity": 8,
+      "position": {
+        "x": 92,
+        "y": 20
+      }
+    },
+    {
+      "number": 21,
+      "label": "Mesa 21",
+      "capacity": 8,
+      "position": {
+        "x": 60,
+        "y": 45
+      }
+    },
+    {
+      "number": 22,
+      "label": "Mesa 22",
+      "capacity": 8,
+      "position": {
+        "x": 68,
+        "y": 45
+      }
+    },
+    {
+      "number": 23,
+      "label": "Mesa 23",
+      "capacity": 8,
+      "position": {
+        "x": 76,
+        "y": 45
+      }
+    },
+    {
+      "number": 24,
+      "label": "Mesa 24",
+      "capacity": 8,
+      "position": {
+        "x": 84,
+        "y": 45
+      }
+    },
+    {
+      "number": 25,
+      "label": "Mesa 25",
+      "capacity": 8,
+      "position": {
+        "x": 92,
+        "y": 45
+      }
+    },
+    {
+      "number": 26,
+      "label": "Mesa 26",
+      "capacity": 8,
+      "position": {
+        "x": 60,
+        "y": 70
+      }
+    },
+    {
+      "number": 27,
+      "label": "Mesa 27",
+      "capacity": 8,
+      "position": {
+        "x": 68,
+        "y": 70
+      }
+    },
+    {
+      "number": 28,
+      "label": "Mesa 28",
+      "capacity": 8,
+      "position": {
+        "x": 76,
+        "y": 70
+      }
+    },
+    {
+      "number": 29,
+      "label": "Mesa 29",
+      "capacity": 8,
+      "position": {
+        "x": 84,
+        "y": 70
+      }
+    },
+    {
+      "number": 30,
+      "label": "Mesa 30",
+      "capacity": 8,
+      "position": {
+        "x": 92,
+        "y": 70
+      }
+    }
   ],
   "zones": [
-    { "id": "stage",       "label": "Estado Mayor",   "className": "zone stage",    "position": { "x": 20, "y": 90 }, "scale": 1.5 },
-    { "id": "entrance",    "label": "Entrada / Lido", "className": "zone entrance", "position": { "x": 48, "y": 95 }, "scale": 1.1 },
-    { "id": "dance",       "label": "Pista de baile", "className": "zone dance",    "position": { "x": 48, "y": 45 }, "scale": 1 },
-    { "id": "dj",          "label": "DJ",             "className": "zone dj",       "position": { "x": 53, "y": 5 },  "scale": 0.95 },
-    { "id": "dessertLeft", "label": "Barra",          "className": "zone dessert",  "position": { "x": 45, "y": 5 },  "scale": 0.95 }
+    {
+      "id": "stage",
+      "label": "Estado Mayor",
+      "className": "zone stage",
+      "position": {
+        "x": 20,
+        "y": 85
+      },
+      "scale": 1.2
+    },
+    {
+      "id": "entrance",
+      "label": "Entrada / Lido",
+      "className": "zone entrance",
+      "position": {
+        "x": 48,
+        "y": 95
+      },
+      "scale": 1.1
+    },
+    {
+      "id": "dance",
+      "label": "Pista de baile",
+      "className": "zone dance",
+      "position": {
+        "x": 48,
+        "y": 35
+      },
+      "scale": 1
+    },
+    {
+      "id": "dj",
+      "label": "DJ",
+      "className": "zone dj",
+      "position": {
+        "x": 55,
+        "y": 5
+      },
+      "scale": 0.95
+    },
+    {
+      "id": "dessertLeft",
+      "label": "Barra",
+      "className": "zone dessert",
+      "position": {
+        "x": 43,
+        "y": 5
+      },
+      "scale": 0.95
+    }
   ],
   "reservationScriptUrl": "https://script.google.com/macros/s/AKfycbzdPl1xIo1OUS_FhWoNbAtnLr3N63H6FnCM5Kt6anYTqac2h-HdNoGQmuxHJCemF3eNhA/exec",
   "guestsSheetCsvUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGt4uAnH7cwhk9v65pslz61nasqZn9kE1GXQD-bO8PkYh9bNgu_XzXVyTuIk6d1-l4D_I-hm1mj_o8/pub?gid=795589434&single=true&output=csv"
