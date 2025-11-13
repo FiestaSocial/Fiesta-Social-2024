@@ -350,6 +350,21 @@ function getMesaCapacity(lbl){
   const m=(state.cfg?.mesas||[]).find(x=>(x.label||`Mesa ${x.number}`)===lbl);
   return m?(m.capacity||state.cfg?.defaultCapacity||10):(state.cfg?.defaultCapacity||10);
 }
+
+/* >>> ÚNICO AJUSTE DE LÓGICA DE ASIENTOS PARA ACOMPAÑANTES <<< */
+function companionsCountFromRow(r){
+  // 1) JSON original (acompanantes[] o cantidadAcompanantes)
+  let n = 0;
+  try{
+    const j = JSON.parse(r['JSON original']||'') || {};
+    if (Array.isArray(j.acompanantes)) n = j.acompanantes.length;
+    if (!n && (j.cantidadAcompanantes!=null)) n = Number(j.cantidadAcompanantes)||0;
+  }catch{}
+  // 2) Columna “Cantidad de acompañantes” (si existe) como respaldo
+  const col = Number(String(r['Cantidad de acompañantes']||'').replace(/[^\d]/g,''))||0;
+  return Math.max(n, col);
+}
+
 function updateTablePreview(){
   const lbl=$('#selTable')?.value; const wrap=document.querySelector('.table-wrap'); if(!lbl){ if(wrap) wrap.style.display='none'; return; }
   if(wrap) wrap.style.display='block';
@@ -363,11 +378,31 @@ function updateTablePreview(){
     const a=(i/cap)*2*Math.PI; s.style.left=`${CX+R*Math.cos(a)}%`; s.style.top=`${CY+R*Math.sin(a)}%`;
     cont.appendChild(s);
   }
+  // Marcar asientos ocupados: titular + acompañantes
   let used=0; (state.guests.get(lbl)||[]).forEach(r=>{
-    let n=1; try{const j=JSON.parse(r['JSON original']||'')||{}; n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{}
-    for(let i=0;i<n;i++){ const s=cont.querySelector(`.seat[data-pos="${++used}"]`); if(s) s.classList.add('full');}
+    const acomp = companionsCountFromRow(r); const total = 1 + (acomp||0);
+    for(let i=0;i<total;i++){ const s=cont.querySelector(`.seat[data-pos="${++used}"]`); if(s) s.classList.add('full'); }
   });
 }
+
+function updateChairsFull(){
+  $$('#map .chair').forEach(ch=>{
+    const lbl=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(lbl)||[];
+    let used=0;
+    rows.forEach(r=>{ used += 1 + companionsCountFromRow(r); });
+    ch.classList.toggle('full', used>=cap);
+  });
+}
+function updatePreviewSeatsOnly(){
+  const lbl=$('#selTable')?.value; if(!lbl) return;
+  $$('#seating .seat').forEach(s=>s.classList.remove('full'));
+  const rows=state.guests.get(lbl)||[]; let used=0;
+  rows.forEach(r=>{
+    const total = 1 + companionsCountFromRow(r);
+    for(let i=0;i<total;i++){ const s=$('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }
+  });
+}
+/* <<< FIN DEL AJUSTE >>> */
 
 /* LISTA invitados (acompañantes en el mismo formato que el titular) */
 function paintGuestList(){
@@ -380,7 +415,6 @@ function paintGuestList(){
     try{
       const j=JSON.parse(r['JSON original']||'')||{}; const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
       A.forEach(a=>{ const nm=[a?.nombre||'',a?.apellido||''].filter(Boolean).join(' ').trim();
-        /* ÚNICO CAMBIO: acompañantes también en <strong> */
         box.insertAdjacentHTML('beforeend',`<div>• <strong>${nm||'Acompañante'}</strong></div>`);});
     }catch{}
   });
@@ -401,11 +435,6 @@ async function refreshGuests(silent=false){
   state.guests=next; updateChairsFull();
   const nextSig=snapFor(sel,next); if(sel && prevSig!==nextSig){ paintGuestList(); updatePreviewSeatsOnly(); }
 }
-function updateChairsFull(){ $$('#map .chair').forEach(ch=>{ const lbl=ch.dataset.mesa; const cap=+ch.dataset.capacity; const rows=state.guests.get(lbl)||[]; let used=0;
-  rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} used+=n;});
-  ch.classList.toggle('full', used>=cap); }); }
-function updatePreviewSeatsOnly(){ const lbl=$('#selTable')?.value; if(!lbl) return; $$('#seating .seat').forEach(s=>s.classList.remove('full')); const rows=state.guests.get(lbl)||[]; let used=0;
-  rows.forEach(r=>{let n=1;try{const j=JSON.parse(r['JSON original']||'')||{};n=1+(Array.isArray(j.acompanantes)?j.acompanantes.length:0);}catch{} for(let i=0;i<n;i++){ const s=$('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }});}
 
 /* Parsers CSV/values */
 function parseCSVLine(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const ch=line[i];if(ch==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(ch===','&&!q){out.push(cur);cur='';}else{cur+=ch}}out.push(cur);return out;}
