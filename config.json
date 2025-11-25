@@ -275,15 +275,6 @@
         "x": 84,
         "y": 70
       }
-    },
-    {
-      "number": 30,
-      "label": "Mesa 30",
-      "capacity": 8,
-      "position": {
-        "x": 92,
-        "y": 70
-      }
     }
   ],
   "zones": [
