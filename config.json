@@ -50,8 +50,8 @@
       "id": "stage",
       "label": "Estado\nMayor",
       "className": "zone stage",
-      "position": { "x": 35, "y": 45 },
-      "scale": 1
+      "position": { "x": 40, "y": 45 },
+      "scale": 0.90
     },
     {
       "id": "entrance",
