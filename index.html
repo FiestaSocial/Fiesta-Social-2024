@@ -55,8 +55,10 @@ textarea{min-height:84px;resize:vertical}
 .zone{position:absolute;left:calc(var(--x,50)*1%);top:calc(var(--y,50)*1%);transform:translate(-50%,-50%);
   padding:calc(6px*var(--zone-scale)) calc(16px*var(--zone-scale));
   border-radius:999px;background:rgba(15,23,42,.8);color:#fff;font-size:calc(12px*var(--zone-scale));font-weight:600;
-  pointer-events:none; z-index:1 }
-  white-space: pre-line;  /* <-- agrega esta línea */
+  pointer-events:none; z-index:1;
+  /* clave para mostrar "Estado\nMayor" en dos líneas */
+  white-space: pre-line;
+}
 .zone.stage,.zone.entrance,.zone.dj,.zone.dessert{background:#3b82f6}.zone.dance{background:#22c55e}
 .chair{position:absolute;width:var(--mesa-size);height:var(--mesa-size);border-radius:calc(var(--mesa-size)/3);
   background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;
@@ -352,7 +354,7 @@ function getMesaCapacity(lbl){
   return m?(m.capacity||state.cfg?.defaultCapacity||10):(state.cfg?.defaultCapacity||10);
 }
 
-/* >>> lógica de asientos (titular + acompañantes) <<< */
+/* lógica de asientos (titular + acompañantes) */
 function companionsCountFromRow(r){
   let n = 0;
   try{
@@ -396,22 +398,16 @@ function updatePreviewSeatsOnly(){
     for(let i=0;i<total;i++){ const s=$('#seating .seat[data-pos="'+(++used)+'"]'); if(s) s.classList.add('full'); }
   });
 }
-/* <<< fin lógica asientos >>> */
 
-/* LISTA invitados (incluye acompañantes; añade fallback a columnas del CSV) */
+/* LISTA invitados (incluye acompañantes; JSON + columnas CSV) */
 function paintGuestList(){
   const lbl=$('#selTable')?.value, box=$('#guestList'); if(!box) return; box.innerHTML='';
   if(!lbl){ box.textContent='Selecciona una mesa para ver los invitados.'; return; }
   const rows=state.guests.get(lbl)||[]; if(!rows.length){ box.textContent='No hay invitados registrados en esta mesa.'; return; }
   rows.forEach(r=>{
-    // Titular
     const tit=((r['Nombre']||'')+' '+(r['Apellido']||'')).trim()||'Invitado';
     box.insertAdjacentHTML('beforeend',`<div>• <strong>${tit}</strong></div>`);
-
-    // Compilamos nombres de acompañantes desde JSON y, si falta, desde columnas "Acompañante n - Nombre/Apellido"
     const compNames=[];
-
-    // 1) JSON original
     try{
       const j=JSON.parse(r['JSON original']||'')||{}; 
       const A=Array.isArray(j.acompanantes)?j.acompanantes:[];
@@ -420,15 +416,12 @@ function paintGuestList(){
         if(nm) compNames.push(nm);
       });
     }catch{}
-
-    // 2) Columnas del CSV
     for(let i=1;i<=5;i++){
       const n=(r[`Acompañante ${i} - Nombre`]||'').trim();
       const a=(r[`Acompañante ${i} - Apellido`]||'').trim();
       const nm=[n,a].filter(Boolean).join(' ').trim();
       if(nm) compNames.push(nm);
     }
-
     compNames.forEach(nm=>{
       box.insertAdjacentHTML('beforeend',`<div>• <strong>${nm}</strong></div>`);
     });
@@ -558,5 +551,3 @@ document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=do
 </script>
 </body>
 </html>
-
-
