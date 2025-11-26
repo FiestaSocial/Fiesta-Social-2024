@@ -56,6 +56,7 @@ textarea{min-height:84px;resize:vertical}
   padding:calc(6px*var(--zone-scale)) calc(16px*var(--zone-scale));
   border-radius:999px;background:rgba(15,23,42,.8);color:#fff;font-size:calc(12px*var(--zone-scale));font-weight:600;
   pointer-events:none; z-index:1 }
+  white-space: pre-line;  /* <-- agrega esta línea */
 .zone.stage,.zone.entrance,.zone.dj,.zone.dessert{background:#3b82f6}.zone.dance{background:#22c55e}
 .chair{position:absolute;width:var(--mesa-size);height:var(--mesa-size);border-radius:calc(var(--mesa-size)/3);
   background:var(--c1);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;
@@ -104,7 +105,6 @@ textarea{min-height:84px;resize:vertical}
     max-width: 80%;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: pre-line;  /* <-- agrega esta línea */
   }
 
   :root {
@@ -558,4 +558,5 @@ document.getElementById('btnDupClose')?.addEventListener('click',()=>{const m=do
 </script>
 </body>
 </html>
+
 
