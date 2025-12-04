@@ -21,7 +21,7 @@
     { "number": 4,  "label": "Mesa 4",  "capacity": 8, "position": { "x": 26, "y": 20 } },
     { "number": 5,  "label": "Mesa 5",  "capacity": 8, "position": { "x": 34, "y": 20 } },
     { "number": 6,  "label": "Mesa 6",  "capacity": 8, "position": { "x": 2,  "y": 45 } },
-    { "number": 7,  "label": "Mesa 7",  "capacity": 8, "position": { "x": 10, "y": 45 } },
+    { "number": 7,  "label": "Mesa 7",  "capacity": 10, "position": { "x": 10, "y": 45 } },
     { "number": 8,  "label": "Mesa 8",  "capacity": 8, "position": { "x": 18, "y": 45 } },
     { "number": 9,  "label": "Mesa 9",  "capacity": 8, "position": { "x": 26, "y": 45 } },
     { "number": 10, "label": "Mesa 10", "capacity": 8, "position": { "x": 2,  "y": 70 } },
